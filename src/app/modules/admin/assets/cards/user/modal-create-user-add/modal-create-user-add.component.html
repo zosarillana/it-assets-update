@@ -1,0 +1,374 @@
+<div class="mt-3 mb-8 text-3xl font-bold">Accountability Form</div>
+
+<form
+    class="bg-card rounded overflow-hidden"
+    [formGroup]="horizontalStepperForm"
+    (ngSubmit)="submitForm()"
+>
+    <mat-horizontal-stepper [linear]="true" #horizontalStepper>
+        <mat-step
+            [formGroupName]="'step1'"
+            [stepControl]="horizontalStepperForm.get('step1')"
+            #horizontalStepperStep1
+        >
+            <ng-template matStepLabel>Basic information</ng-template>
+            <p class="my-6 font-medium">Fill in Employee Basic Information</p>
+            <div class="flex">
+                <mat-form-field class="flex-auto">
+                    <input
+                        matInput
+                        [formControlName]="'firstname'"
+                        [placeholder]="'Firstname'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:person'"
+                    ></mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col gt-xs:flex-row">
+                <mat-form-field class="flex-auto">
+                    <input
+                        [formControlName]="'lastname'"
+                        matInput
+                        [placeholder]="'Lastname'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:person'"
+                    ></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto">
+                    <input
+                        matInput
+                        [formControlName]="'position'"
+                        [placeholder]="'Position'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:face'"
+                    ></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto">
+                    <input
+                        matInput
+                        [formControlName]="'employee_id'"
+                        [placeholder]="'ID'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:info'"
+                    ></mat-icon>
+                    <span matPrefix>000-000/</span>
+                </mat-form-field>
+                <mat-form-field class="flex-auto">
+                    <input
+                        matInput
+                        [formControlName]="'contact_no'"
+                        [placeholder]="'Contact no.'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:local_phone'"
+                    ></mat-icon>
+                </mat-form-field>
+                
+            </div>
+            <div class="flex justify-end">
+                <button
+                    class="px-8"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="
+                        horizontalStepperStep1.stepControl.pristine ||
+                        horizontalStepperStep1.stepControl.invalid
+                    "
+                    type="button"
+                    matStepperNext
+                >
+                    Next
+                </button>
+            </div>
+        </mat-step>
+
+        <mat-step
+            [formGroupName]="'step2'"
+            [stepControl]="horizontalStepperForm.get('step2')"
+            #horizontalStepperStep2
+        >
+            <ng-template matStepLabel>Department Details</ng-template>
+            <p class="my-6 font-medium">Fill in Department Information</p>
+            <div class="flex flex-col gt-xs:flex-row">
+                <mat-form-field class="flex-auto gt-xs:pr-3">
+                    <input
+                        matInput
+                        [formControlName]="'department'"
+                        [placeholder]="'Department Name'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:business'"
+                    ></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto gt-xs:pl-3">
+                    <input
+                        matInput
+                        [formControlName]="'company'"
+                        [placeholder]="'Company Name'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:maps_home_work'"
+                    ></mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="flex">
+                <mat-form-field class="flex-auto">
+                    <input
+                        matInput
+                        [formControlName]="'location'"
+                        [placeholder]="'Location'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:location_on'"
+                    ></mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="flex">
+                <mat-form-field class="flex-auto">
+                    <input
+                        matInput
+                        [matDatepicker]="picker"
+                        [formControlName]="'date_assigned'"
+                        placeholder="Date Assigned"
+                        (click)="picker.open()"
+                        class="cursor-pointer"
+                        required
+                    />
+                    <mat-icon
+                        matPrefix
+                        class="icon-size-5 cursor-pointer"
+                        (click)="picker.open()"
+                    >
+                        calendar_today
+                    </mat-icon>
+                    <span matPrefix (click)="picker.open()" class="cursor-pointer">
+                        ex. 01/30/2024 /
+                    </span>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="flex justify-end">
+                <button
+                    class="px-8 mr-2"
+                    mat-flat-button
+                    [color]="'accent'"
+                    type="button"
+                    matStepperPrevious
+                >
+                    Back
+                </button>
+                <button
+                    class="px-8"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="
+                        horizontalStepperStep2.stepControl.pristine ||
+                        horizontalStepperStep2.stepControl.invalid
+                    "
+                    type="button"
+                    matStepperNext
+                >
+                    Next
+                </button>
+            </div>
+        </mat-step>
+
+        <mat-step
+            [formGroupName]="'step3'"
+            [stepControl]="horizontalStepperForm.get('step3')"
+        >
+            <ng-template matStepLabel>Assign Assets</ng-template>
+            <p class="my-6 font-medium">Select Assets to Assign</p>
+            <div class="flex flex-col gt-sm:flex-row">
+                <mat-form-field class="example-chip-list custom-chip-list">
+                    <mat-label>Assign PC / Laptop</mat-label>
+                    <mat-chip-list #chipList2 aria-label="PC selection">
+                        <mat-chip
+                            *ngFor="let pc of selectedPcs"
+                            (removed)="removePc(pc)"
+                        >
+                            {{ pc.asset_barcode }} {{ pc.id }}
+                            <button
+                                matChipRemove
+                                [attr.aria-label]="'remove ' + pc.asset_barcode"
+                            >
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </mat-chip>
+                    </mat-chip-list>
+                    <input
+                        [formControlName]="'assign_pc'"
+                        name="currentPc"
+                        placeholder="New PC..."
+                        #pcInput
+                        [matChipInputFor]="chipList2"
+                        [matAutocomplete]="pcAuto"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        (input)="filterPCs($event.target.value)"
+                        (matChipInputTokenEnd)="addPc($event)"
+                    />
+                    <mat-autocomplete
+                        #pcAuto="matAutocomplete"
+                        (optionSelected)="selectedPc($event)"
+                    >
+                        <mat-option
+                            *ngFor="let pc of filteredPcs"
+                            [value]="pc.asset_barcode"
+                        >
+                            {{ pc.asset_barcode }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <!-- Assign Peripherals -->
+                <div class="flex flex-col mt-8 gt-sm:mt-0 gt-sm:ml-16">
+                    <mat-form-field class="example-chip-list custom-chip-list">
+                        <mat-label>Assign Peripherals</mat-label>
+                        <mat-chip-list
+                            #chipList
+                            aria-label="Peripheral selection"
+                        >
+                            <mat-chip
+                                *ngFor="let fruit of selectedPeris"
+                                (removed)="remove(fruit)"
+                            >
+                                {{ fruit.id }}
+                                <button
+                                    matChipRemove
+                                    [attr.aria-label]="
+                                        'remove ' + fruit.asset_barcode
+                                    "
+                                >
+                                    <mat-icon>cancel</mat-icon>
+                                </button>
+                            </mat-chip>
+                        </mat-chip-list>
+                        <input
+                            [formControlName]="'assign_peripherals'"
+                            name="currentFruit"
+                            placeholder="New Peripheral..."
+                            #fruitInput
+                            [matChipInputFor]="chipList"
+                            [matAutocomplete]="fruitAuto"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            (input)="filterFruits($event.target.value)"
+                            (matChipInputTokenEnd)="add($event)"
+                        />
+                        <mat-autocomplete
+                            #fruitAuto="matAutocomplete"
+                            (optionSelected)="selectedPeripherals($event)"
+                        >
+                            <mat-option
+                                *ngFor="let fruit of filteredFruits"
+                                [value]="fruit.asset_barcode"
+                            >
+                                {{ fruit.asset_barcode }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="flex justify-end mt-8">
+                <button
+                    class="px-8 mr-2"
+                    mat-flat-button
+                    [color]="'accent'"
+                    type="button"
+                    matStepperPrevious
+                >
+                    Back
+                </button>
+                <button
+                    class="px-8"
+                    mat-flat-button
+                    [color]="'primary'"
+                    type="button"
+                    matStepperNext
+                >
+                    Next
+                </button>
+            </div>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>Done</ng-template>
+            <p class="my-6 font-medium">
+                Thank you for completing our form! You can reset the form if you
+                would like to change your information.
+            </p>
+            <div class="flex justify-end mt-8">
+                <button
+                    class="px-8 mr-2"
+                    mat-flat-button
+                    [color]="'accent'"
+                    type="button"
+                    matStepperPrevious
+                >
+                    Back
+                </button>
+                <button
+                    class="px-8"
+                    mat-flat-button
+                    [color]="'primary'"
+                    type="button"
+                    (click)="openConfirmationDialog()"
+                >
+                    Submit
+                </button>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+    <div *ngIf="errorVisible" @fadeInOut class="fixed top-5 right-5 z-50">
+        <fuse-alert [type]="'warn'">
+            <span fuseAlertTitle>Warn alert</span>
+            {{ errorMessage }}
+        </fuse-alert>
+    </div>
+    
+    <div *ngIf="successVisible" @fadeInOut class="fixed top-5 right-5 z-50">
+        <fuse-alert [type]="'success'">
+            <span fuseAlertTitle>Success alert</span>
+            {{ successMessage }}
+        </fuse-alert>
+    </div>
+    
+    <!-- Final submit button for form -->
+    <!-- <div class="flex justify-end mt-8">
+        <button
+            mat-raised-button
+            color="primary"
+            type="submit" 
+        >
+            Submit All Information
+        </button>
+    </div> -->
+</form>

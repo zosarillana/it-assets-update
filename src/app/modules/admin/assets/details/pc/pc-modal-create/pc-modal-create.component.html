@@ -1,0 +1,344 @@
+<div class="mt-3 mb-8 text-3xl font-bold">Create new PC</div>
+
+<form
+    class="bg-card rounded overflow-hidden"
+    [formGroup]="horizontalStepperForm"
+    (ngSubmit)="submitForm()"
+>
+    <mat-horizontal-stepper [linear]="true" #horizontalStepper>
+        <mat-step
+            [formGroupName]="'step1'"
+            [stepControl]="horizontalStepperForm.get('step1')"
+            #horizontalStepperStep1
+        >
+            <ng-template matStepLabel>Basic information</ng-template>
+            <p class="my-6 font-medium">Fill in Empsloyee Basic Information</p>
+            <div class="flex">
+                <mat-form-field class="flex-auto">
+                    <input
+                        matInput
+                        [formControlName]="'asset_barcode'"
+                        [placeholder]="'Asset Barcode'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:tag'"
+                    ></mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col gt-xs:flex-row">
+                <mat-form-field class="flex-auto">
+                    <input
+                        matInput
+                        [matDatepicker]="picker"
+                        [formControlName]="'date_acquired'"
+                        placeholder="Date Acquired"
+                        (click)="picker.open()"
+                        class="cursor-pointer"
+                        required
+                    />
+                    <mat-icon
+                        matPrefix
+                        class="icon-size-5 cursor-pointer"
+                        (click)="picker.open()"
+                    >
+                        calendar_today
+                    </mat-icon>
+                    <span matPrefix (click)="picker.open()" class="cursor-pointer">
+                        ex. 01/30/2024 /
+                    </span>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="flex-auto">
+                    <input
+                        matInput
+                        [formControlName]="'pc_type'"
+                        [placeholder]="'PC Type'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:computer'"
+                    ></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto">
+                    <input
+                        matInput
+                        [formControlName]="'brand'"
+                        [placeholder]="'Brand'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:info'"
+                    ></mat-icon>                    
+                </mat-form-field>
+                <mat-form-field class="flex-auto">
+                    <input
+                        matInput
+                        [formControlName]="'model'"
+                        [placeholder]="'Model'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:info'"
+                    ></mat-icon>
+                </mat-form-field>
+                
+            </div>
+            <div class="flex justify-end">
+                <button
+                    class="px-8"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="
+                        horizontalStepperStep1.stepControl.pristine ||
+                        horizontalStepperStep1.stepControl.invalid
+                    "
+                    type="button"
+                    matStepperNext
+                >
+                    Next
+                </button>
+            </div>
+        </mat-step>
+
+        <mat-step
+            [formGroupName]="'step2'"
+            [stepControl]="horizontalStepperForm.get('step2')"
+            #horizontalStepperStep2
+        >
+            <ng-template matStepLabel>Department Details</ng-template>
+            <p class="my-6 font-medium">Fill in Department Information</p>
+            <div class="flex flex-col gt-xs:flex-row">
+                <mat-form-field class="flex-auto gt-xs:pr-3">
+                    <input
+                        matInput
+                        [formControlName]="'processor'"
+                        [placeholder]="'Processor'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:business'"
+                    ></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto gt-xs:pl-3">
+                    <input
+                        matInput
+                        [formControlName]="'ram'"
+                        [placeholder]="'Ram'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:maps_home_work'"
+                    ></mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="flex">
+                <mat-form-field class="flex-auto">
+                    <input
+                        matInput
+                        [formControlName]="'storage_capacity'"
+                        [placeholder]="'Storage Capacity'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:info'"
+                    ></mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="flex">
+                <mat-form-field class="flex-auto">
+                    <input
+                        matInput
+                        [formControlName]="'operating_system'"
+                        [placeholder]="'Operating System'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:info'"
+                    ></mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="flex">
+                <mat-form-field class="flex-auto gt-xs:pl-3">
+                    <input
+                        matInput
+                        [formControlName]="'storage_type'"
+                        [placeholder]="'Storage Type'"
+                        required
+                    />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'mat_solid:info'"
+                    ></mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="flex justify-end">
+                <button
+                    class="px-8 mr-2"
+                    mat-flat-button
+                    [color]="'accent'"
+                    type="button"
+                    matStepperPrevious
+                >
+                    Back
+                </button>
+                <button
+                    class="px-8"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="
+                        horizontalStepperStep2.stepControl.pristine ||
+                        horizontalStepperStep2.stepControl.invalid
+                    "
+                    type="button"
+                    matStepperNext
+                >
+                    Next
+                </button>
+            </div>
+        </mat-step>
+
+        <mat-step
+            [formGroupName]="'step3'"
+            [stepControl]="horizontalStepperForm.get('step3')"
+        >
+            <ng-template matStepLabel>Assign Assets</ng-template>
+            <p class="my-6 font-medium">Select Assets to Assign</p>
+            <div class="flex flex-col gt-sm:flex-row">
+                <div class="flex">
+                    <mat-form-field class="flex-auto">
+                        <input
+                            matInput
+                            [formControlName]="'graphics'"
+                            [placeholder]="'Graphics'"
+                            required
+                        />
+                        <mat-icon
+                            class="icon-size-5"
+                            matPrefix
+                            [svgIcon]="'mat_solid:info'"
+                        ></mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <!-- Assign Peripherals -->
+              
+                    <div class="flex">
+                        <mat-form-field class="flex-auto">
+                            <input
+                                matInput
+                                [formControlName]="'size'"
+                                [placeholder]="'Size'"
+                                required
+                            />
+                            <mat-icon
+                                class="icon-size-5"
+                                matPrefix
+                                [svgIcon]="'mat_solid:info'"
+                            ></mat-icon>
+                        </mat-form-field>
+             
+                </div>
+                    <div class="flex">
+                        <mat-form-field class="flex-auto">
+                            <input
+                                matInput
+                                [formControlName]="'color'"
+                                [placeholder]="'Color'"
+                                required
+                            />
+                            <mat-icon
+                                class="icon-size-5"
+                                matPrefix
+                                [svgIcon]="'mat_solid:info'"
+                            ></mat-icon>
+                        </mat-form-field>
+             
+                </div>
+                    <div class="flex">
+                        <mat-form-field class="flex-auto">
+                            <input
+                                matInput
+                                [formControlName]="'serial_no'"
+                                [placeholder]="'Serial Number'"
+                                required
+                            />
+                            <mat-icon
+                                class="icon-size-5"
+                                matPrefix
+                                [svgIcon]="'mat_solid:info'"
+                            ></mat-icon>
+                        </mat-form-field>
+             
+                </div>
+            </div>
+
+            <div class="flex justify-end mt-8">
+                <button
+                    class="px-8 mr-2"
+                    mat-flat-button
+                    [color]="'accent'"
+                    type="button"
+                    matStepperPrevious
+                >
+                    Back
+                </button>
+                <button
+                    class="px-8"
+                    mat-flat-button
+                    [color]="'primary'"
+                    type="button"
+                    matStepperNext
+                >
+                    Next
+                </button>
+            </div>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>Done</ng-template>
+            <p class="my-6 font-medium">
+                Thank you for completing our form! You can reset the form if you
+                would like to change your information.
+            </p>
+            <div class="flex justify-end mt-8">
+                <button
+                    class="px-8 mr-2"
+                    mat-flat-button
+                    [color]="'accent'"
+                    type="button"
+                    matStepperPrevious
+                >
+                    Back
+                </button>
+                <button
+                    class="px-8"
+                    mat-flat-button
+                    [color]="'primary'"
+                    type="button"
+                    (click)="openConfirmationDialog()"
+                >
+                    Submit
+                </button>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+    
+</form>

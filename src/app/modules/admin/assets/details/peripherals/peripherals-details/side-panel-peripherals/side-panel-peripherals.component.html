@@ -1,0 +1,356 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav mode="over" position="end" [(opened)]="isSidenavOpen">
+        <div class="p-4" *ngIf="cardData">
+            <div class="flex items-center justify-end">
+                <button mat-icon-button (click)="closeSidenav()">
+                    <mat-icon [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                </button>
+            </div>
+
+            <div class="aspect-w-6 aspect-h-4 mt-8">
+                <div
+                    class="flex items-center justify-center border rounded-lg bg-gray-50 dark:bg-card"
+                >
+                    <ng-container>
+                        <mat-icon
+                            class="icon-size-14 text-hint"
+                            [svgIcon]="'feather:file-text'"
+                        ></mat-icon>
+                    </ng-container>
+                </div>
+            </div>
+
+            <div class="flex flex-row items-start mt-8">
+                <div class="text-xl font-medium">
+                    {{ cardData.asset_barcode }}
+                </div>
+                <!-- Always visible div without conditions -->
+                <div
+                    class="mt-1 ml-4 px-1.5 rounded text-sm font-semibold leading-5 text-white bg-indigo-600"
+                >
+                    File
+                </div>
+            </div>
+
+            <mat-divider class="m-6"></mat-divider>
+            <!-- Information -->
+            <div class="text-lg font-medium mt-8">Information</div>
+            <div
+                class="flex flex-col mt-4 border-t border-b divide-y font-medium"
+            >
+                <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">Date Acquired</div>
+                    <div>
+                        {{ cardData.date_acquired | date : "dd/MM/yyyy" }}
+                    </div>
+                </div>
+                <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">Brand</div>
+                    <div>
+                        {{ cardData.brand }}
+                    </div>
+                </div>
+                <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">model</div>
+                    <div>{{ cardData.model }}</div>
+                </div>
+                <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">Peripheral Type</div>
+                    <div>{{ cardData.peripheral_type }}</div>
+                </div>
+                <ng-container>
+                    <div class="flex items-center justify-between py-3">
+                        <div class="text-secondary">Size</div>
+                        <div>{{ cardData.size }}</div>
+                    </div>
+                </ng-container>
+                <ng-container>
+                    <div class="flex items-center justify-between py-3">
+                        <div class="text-secondary">Color</div>
+                        <div>{{ cardData.color }}</div>
+                    </div>
+                </ng-container>
+                <ng-container>
+                    <div class="flex items-center justify-between py-3">
+                        <div class="text-secondary">Seial Number</div>
+                        <div>{{ cardData.serial_no }}</div>
+                    </div>
+                </ng-container>
+                <ng-container>
+                    <div class="flex items-center justify-between py-3">
+                        <div class="text-secondary">Status</div>
+                        <!-- <div>{{ cardData.status }}</div> -->
+                        <span
+                            class="inline-flex items-center rounded-md bg-green-50 px-5 py-1.5 font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
+                            >{{ cardData.status }}</span
+                        >
+                    </div>
+                </ng-container>
+            </div>
+            <ng-container>
+                <div class="flex items-center justify-between py-3">
+                    <div class="text-secondary">Currently Assigned To</div>
+                    <div>{{ cardData.assigned }}</div>
+                </div>
+            </ng-container>
+            <!-- History -->
+            <div class="flex items-center justify-between mt-8">
+                <div class="text-lg font-medium">History</div>
+            </div>
+            <div class="flex mt-2 border-t">
+                <div class="py-3">
+                    <ng-container>
+                        <div>{{ cardData.history }}</div>
+                    </ng-container>
+                </div>
+            </div>
+            <!-- Description -->
+            <div class="flex items-center justify-between mt-8">
+                <div class="text-lg font-medium">Description</div>
+            </div>
+            <div class="flex mt-2 border-t">
+                <div class="py-3">
+                    <ng-container>
+                        <div>{{ cardData.li_description }}</div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </mat-sidenav>
+
+    <mat-sidenav #editSidenav mode="over" [(opened)]="isEditSidenavOpen">
+        <div class="p-4" *ngIf="editData">
+            <div class="flex items-center justify-end">
+                <button mat-icon-button (click)="closeEditSidenav()">
+                    <mat-icon [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                </button>
+            </div>
+            <div class="aspect-w-6 aspect-h-4 mt-8">
+                <div
+                    class="flex items-center justify-center border rounded-lg bg-gray-50 dark:bg-card"
+                >
+                    <ng-container>
+                        <mat-icon
+                            class="icon-size-14 text-hint"
+                            [svgIcon]="'feather:file-text'"
+                        ></mat-icon>
+                    </ng-container>
+                </div>
+            </div>
+
+            <div class="flex flex-row items-start mt-8">
+                <div class="text-xl font-medium">
+                    {{ editData.asset_barcode }}
+                </div>
+                <!-- Always visible div without conditions -->
+                <div
+                    class="mt-1 ml-4 px-1.5 rounded text-sm font-semibold leading-5 text-white bg-indigo-600"
+                >
+                    File
+                </div>
+            </div>
+
+            <mat-divider class="m-6"></mat-divider>
+            <form [formGroup]="myForm" (ngSubmit)="onUpdate()">
+                <div class="text-lg font-medium mt-8">Edit Information</div>
+                <div
+                    class="flex flex-col mt-4 border-t border-b divide-y font-medium"
+                >
+                    <!-- Date Acquired -->
+                    <div class="flex items-center justify-between py-3">
+                        <div class="text-secondary field-label">
+                            Date Acquired
+                        </div>
+                        <mat-form-field appearance="fill" class="w-1/2">
+                            <input
+                                matInput
+                                [matDatepicker]="picker"
+                                [formControlName]="'date_acquired'"
+                                placeholder="Date Acquired"
+                                (click)="picker.open()"
+                                required
+                            />
+                            <mat-icon
+                                matPrefix
+                                class="icon-size-5 cursor-pointer"
+                                (click)="picker.open()"
+                                >calendar_today</mat-icon
+                            >
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Brand -->
+                    <div class="flex items-center justify-between py-3">
+                        <div class="text-secondary field-label">Brand</div>
+                        <mat-form-field appearance="fill" class="w-1/2">
+                            <input
+                                matInput
+                                [formControlName]="'brand'"
+                                placeholder="Brand"
+                                required
+                            />
+                            <mat-icon
+                                matPrefix
+                                class="icon-size-5"
+                                svgIcon="mat_solid:help"
+                            ></mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Model -->
+                    <div class="flex items-center justify-between py-3">
+                        <div class="text-secondary field-label">Model</div>
+                        <mat-form-field appearance="fill" class="w-1/2">
+                            <input
+                                matInput
+                                [formControlName]="'model'"
+                                placeholder="Model"
+                                required
+                            />
+                            <mat-icon
+                                matPrefix
+                                class="icon-size-5"
+                                svgIcon="mat_solid:help"
+                            ></mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Peripheral Type -->
+                    <div class="flex items-center justify-between py-3">
+                        <div class="text-secondary field-label">
+                            Peripheral Type
+                        </div>
+                        <mat-form-field appearance="fill" class="w-1/2">
+                            <input
+                                matInput
+                                [formControlName]="'peripheral_type'"
+                                placeholder="Peripheral Type"
+                                required
+                            />
+                            <mat-icon
+                                matPrefix
+                                class="icon-size-5"
+                                svgIcon="mat_solid:laptop"
+                            ></mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Size -->
+                    <div class="flex items-center justify-between py-3">
+                        <div class="text-secondary field-label">Size</div>
+                        <mat-form-field appearance="fill" class="w-1/2">
+                            <input
+                                matInput
+                                [formControlName]="'size'"
+                                placeholder="Size"
+                                required
+                            />
+                            <mat-icon
+                                matPrefix
+                                class="icon-size-5"
+                                svgIcon="mat_solid:help"
+                            ></mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Color -->
+                    <div class="flex items-center justify-between py-3">
+                        <div class="text-secondary field-label">Color</div>
+                        <mat-form-field appearance="fill" class="w-1/2">
+                            <input
+                                matInput
+                                [formControlName]="'color'"
+                                placeholder="Color"
+                                required
+                            />
+                            <mat-icon
+                                matPrefix
+                                class="icon-size-5"
+                                svgIcon="mat_solid:help"
+                            ></mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Serial Number -->
+                    <div class="flex items-center justify-between py-3">
+                        <div class="text-secondary field-label">
+                            Serial Number
+                        </div>
+                        <mat-form-field appearance="fill" class="w-1/2">
+                            <input
+                                matInput
+                                [formControlName]="'serial_no'"
+                                placeholder="Serial Number"
+                                required
+                            />
+                            <mat-icon
+                                matPrefix
+                                class="icon-size-5"
+                                svgIcon="mat_solid:tag"
+                            ></mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="flex items-center justify-between py-3">
+                        <div class="text-secondary field-label">Status</div>
+                        <span
+                            class="inline-flex items-center rounded-md bg-green-50 px-5 py-1.5 font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
+                        >
+                            {{ editData.status }}
+                        </span>
+                    </div>
+
+                    <!-- Assigned To -->
+                    <div class="flex items-center justify-between py-3">
+                        <div class="text-secondary field-label">
+                            Currently Assigned To
+                        </div>
+                        <div>{{ editData.assigned }}</div>
+                    </div>
+                    <!-- History -->
+                    <div class="flex items-center justify-between mt-8">
+                        <div class="text-lg font-medium">History</div>
+                    </div>
+                    <div class="flex mt-2 border-t">
+                        <div class="py-3">
+                            <ng-container>
+                                <div>{{ editData.history }}</div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <!-- Description -->
+                    <div class="flex items-center justify-between mt-8">
+                        <div class="text-lg font-medium">Description</div>
+                    </div>
+                    <div class="flex mt-2 border-t">
+                        <div class="py-3">
+                            <ng-container>
+                                <div>{{ editData.li_description }}</div>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                    <!-- Confirm Action Button -->
+
+                    <div class="w-1/2">
+                        <button
+                            type="submit"
+                            [disabled]="myForm.invalid"
+                            class="w-full my-6"
+                            mat-flat-button
+                            color="primary"
+                        >
+                            Confirm
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <ng-content></ng-content>
+    </mat-sidenav-content>
+</mat-sidenav-container>

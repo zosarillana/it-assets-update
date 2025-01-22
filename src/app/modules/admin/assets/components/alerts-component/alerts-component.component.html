@@ -1,0 +1,20 @@
+<!-- Success Alert -->
+<div
+    *ngIf="successVisible"
+    @fadeInOut
+    class="fixed top-20 right-5 alert-success"
+>
+    <fuse-alert [type]="'primary'" [appearance]="'fill'">
+        <span fuseAlertTitle>Success alert</span>
+        {{ successMessage }}
+    </fuse-alert>
+</div>
+
+<!-- Error Alert -->
+<div *ngIf="errorVisible" @fadeInOut class="fixed top-20 right-5 alert-error">
+    <fuse-alert [type]="'warn'"
+    [appearance]="'fill'">
+        <span fuseAlertTitle>Error alert</span>
+        {{ errorMessage }}
+    </fuse-alert>
+</div>

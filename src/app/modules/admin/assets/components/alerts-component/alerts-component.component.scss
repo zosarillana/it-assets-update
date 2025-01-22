@@ -1,0 +1,17 @@
+// General Alert Styles
+.alert-success, .alert-error {
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    z-index: 99999;  // Ensure a high z-index to float above everything else
+  }
+  
+//   // Specific Alert Types (optional)
+//   .alert-success {
+//     // Add custom styles for success alert, if needed
+//   }
+  
+//   .alert-error {
+//     // Add custom styles for error alert, if needed
+//   }
+  

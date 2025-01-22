@@ -1,0 +1,302 @@
+<div
+    class="absolute inset-0 min-w-0 text-center overflow-auto print:overflow-visible"
+    cdkScrollable
+>
+    <!-- Main -->
+    <div class="inline-block p-6 sm:p-10 text-left print:p-0" *ngIf="cardData">
+        <!-- Invoice -->
+        <div
+            class="w-240 min-w-240 p-16 rounded-2xl shadow bg-card print:w-auto print:p-0 print:rounded-none print:shadow-none print:bg-transparent"
+        >
+            <div class="flex items-start">
+                <div class="grid grid-rows-2 place-items-start gap-y-12">
+                    <div class="grid auto-cols-max grid-flow-col gap-x-8">
+                        <div class="place-self-center w-24">
+                            <img
+                                class="w-24"
+                                src="assets/images/logo/abfilogo.png"
+                            />
+                        </div>
+                        <div class="flex flex-col gap-x-8 border-l pl-9">
+                            <!-- Asset ID -->
+                            <div class="flex items-center">
+                                <div
+                                    class="text-4xl tracking-tight text-secondary mr-4"
+                                >
+                                    PC ASSET ID
+                                </div>
+                                <div class="text-4xl">
+                                    # {{ cardData.pcs[0]?.asset_barcode }}
+                                </div>
+                            </div>
+
+                            <!-- Invoice Date -->
+                            <div class="flex items-center">
+                                <div
+                                    class="font-medium tracking-tight text-secondary mr-4"
+                                >
+                                    CARD DATE CREATED
+                                </div>
+                                <div class="font-medium uppercase">
+                                    {{
+                                        cardData.date_created
+                                            | date : "MMMM dd yyyy"
+                                    }}
+                                </div>
+                            </div>
+
+                            <!-- Due Date -->
+                            <div class="flex items-center">
+                                <div
+                                    class="font-medium tracking-tight text-secondary mr-4"
+                                >
+                                    DEPARTMENT
+                                </div>
+                                <div class="font-medium">
+                                    {{ cardData.dept_name }}
+                                </div>
+                            </div>
+
+                            <!-- Total Due -->
+                            <div class="flex items-center">
+                                <div
+                                    class="font-medium tracking-tight text-secondary mr-4"
+                                >
+                                    COMPANY
+                                </div>
+                                <div class="font-medium">
+                                    {{ cardData.company_name }}
+                                </div>
+                            </div>
+
+                            <div class="flex items-center">
+                                <div
+                                    class="font-medium tracking-tight text-secondary mr-4"
+                                >
+                                    LOCATION
+                                </div>
+                                <div class="font-medium uppercase">
+                                    {{ cardData.location }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid auto-cols-max grid-flow-col gap-x-8">
+                        <div
+                            class="place-self-center w-24 text-center text-2xl text-secondary"
+                        ></div>
+                        <div class="pl-10 border-l text-md">
+                            <!-- Employee Details Row -->
+                            <div
+                                class="grid auto-cols-max grid-flow-col gap-x-8"
+                            >
+                                <div class="flex flex-col gap-x-8">
+                                    <div
+                                        class="text-2xl font-medium mb-2 text-secondary"
+                                    >
+                                        CURRENTLY ASSIGNED TO
+                                    </div>
+
+                                    <!-- Employee Name -->
+                                    <div class="flex items-center">
+                                        <div
+                                            class="uppercase font-medium tracking-tight text-secondary mr-4"
+                                        >
+                                            Employee Name
+                                        </div>
+                                        <div class="uppercase font-medium">
+                                            {{ cardData.firstName }}
+                                            {{ cardData.lastName }}
+                                        </div>
+                                    </div>
+
+                                    <!-- Employee ID -->
+                                    <div class="flex items-center">
+                                        <div
+                                            class="uppercase font-medium tracking-tight text-secondary mr-4"
+                                        >
+                                            Employee ID
+                                        </div>
+                                        <div class="font-medium">
+                                            {{ cardData.emp_id }}
+                                        </div>
+                                    </div>
+
+                                    <!-- Contact No. -->
+                                    <div class="flex items-center">
+                                        <div
+                                            class="uppercase font-medium tracking-tight text-secondary mr-4"
+                                        >
+                                            Contact No
+                                        </div>
+                                        <div class="font-medium">
+                                            {{ cardData.contact_no }}
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Position No. -->
+                                    <div class="flex items-center">
+                                        <div
+                                            class="uppercase font-medium tracking-tight text-secondary mr-4"
+                                        >
+                                            Position
+                                        </div>
+                                        <div class="font-medium">
+                                            {{ cardData.position }}
+                                        </div>
+                                    </div>
+
+                                    <!-- Date Assigned -->
+                                    <div class="flex items-center">
+                                        <div
+                                            class="uppercase font-medium tracking-tight text-secondary mr-4"
+                                        >
+                                            Date Assigned
+                                        </div>
+                                        <div class="uppercase font-medium">
+                                            {{
+                                                cardData.date_created
+                                                    | date : "MMMM dd yyyy"
+                                            }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-x-1 mt-16">
+                <div class="col-span-6 font-medium text-md text-secondary">
+                    SPECIFICATION
+                </div>
+                <div class="font-medium text-md text-right text-secondary">
+                    STATUS
+                </div>
+                <div
+                    class="col-span-4 font-medium text-md text-right text-secondary"
+                >
+                    SRL NO
+                </div>
+
+                <div class="col-span-12 my-4 border-b"></div>
+
+                <div class="col-span-6">
+                    <div class="text-lg font-medium">
+                        PC Asset Specification
+                    </div>
+                    <div class="mt-2 text-md text-secondary">
+                        TYPE {{ cardData.pcs[0].pc_type }}, BRAND
+                        {{ cardData.pcs[0].brand }}, MODEL
+                        {{ cardData.pcs[0].model }}, PROCESSOR
+                        {{ cardData.pcs[0].processor }}, RAM
+                        {{ cardData.pcs[0].ram }}, STORAGE CAPACITY
+                        {{ cardData.pcs[0].storage_capacity }}, STORAGE TYPE
+                        {{ cardData.pcs[0].storage_type }}, GRAPHICS
+                        {{ cardData.pcs[0].graphics }}, SIZE
+                        {{ cardData.pcs[0].size }}, COLOR
+                        {{ cardData.pcs[0].color }} <br /><br />
+                        LONG ITEM DESCRIPTION
+                        {{ cardData.pcs[0].li_description }}
+                    </div>
+                </div>
+                <div class="self-center text-right">
+                    {{ cardData.pcs[0].status }}
+                </div>
+                <div class="col-span-4 self-center text-right">
+                    {{ cardData.pcs[0].serial_no }}
+                </div>
+
+                <div class="col-span-12 my-4 border-b"></div>
+
+                <div class="col-span-6">
+                    <div class="text-lg font-medium">
+                        Peripherals Under Asset
+                    </div>
+                    <div class="mt-2 text-md text-secondary">
+                        <div
+                            *ngIf="
+                                cardData.peripherals &&
+                                cardData.peripherals.length > 0
+                            "
+                        >
+                            <ul>
+                                <li
+                                    *ngFor="
+                                        let peripheral of cardData.peripherals
+                                    "
+                                >
+                                    # {{ peripheral.asset_barcode }},
+
+                                    {{ peripheral.li_description }}
+                                </li>
+                            </ul>
+                        </div>
+                        <div
+                            *ngIf="
+                                !cardData.peripherals ||
+                                cardData.peripherals.length === 0
+                            "
+                        >
+                            <p>No peripherals available.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-7 self-center text-right">
+                    <ul>
+                        <li *ngFor="let peripheral of cardData.peripherals">
+                            {{ peripheral.status }}
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-span-4 mt-7 self-center text-right">
+                    <ul>
+                        <li *ngFor="let peripheral of cardData.peripherals">
+                            {{ peripheral.serial_no }}
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-span-12 my-6 border-b"></div>
+
+                <div class="col-span-6">
+                    <div class="text-lg font-medium">
+                        Owner History of PC Asset
+                    </div>
+                    <div class="col-span-12 mt-2 text-secondary">
+                        {{ cardData.pcs[0].history }}
+                    </div>
+                </div>
+
+                <div class="col-span-12 my-6 border-b"></div>
+
+                <!-- <div class="col-span-12">
+                    <div class="mt-16">
+                        <div class="font-medium">
+                            Please pay within 15 days. Thank you for your
+                            business.
+                        </div>
+                        <div class="flex items-start mt-4">
+                            <img
+                                class="flex-0 w-10 mt-2"
+                                src="assets/images/logo/abfilogo.png"
+                            />
+                            <div class="ml-6 text-sm text-secondary">
+                                In condimentum malesuada efficitur. Mauris
+                                volutpat placerat auctor. Ut ac congue dolor.
+                                Quisque scelerisque lacus sed feugiat fermentum.
+                                Cras aliquet facilisis pellentesque. Nunc
+                                hendrerit quam at leo commodo, a suscipit tellus
+                                dapibus. Etiam at felis volutpat est mollis
+                                lacinia. Mauris placerat sem sit amet velit
+                                mollis, in porttitor ex finibus. Proin eu nibh
+                                id libero tincidunt lacinia et eget.
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>

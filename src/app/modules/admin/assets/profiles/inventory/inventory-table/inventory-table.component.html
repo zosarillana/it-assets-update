@@ -1,0 +1,354 @@
+<div class="flex flex-col flex-auto min-w-0">
+    
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
+    >
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div>
+                <div class="hidden sm:flex flex-wrap items-center font-medium">
+                    <div>
+                        <a class="whitespace-nowrap text-primary-500">Admin</a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-right'"
+                        ></mat-icon>
+                        <a class="ml-1 text-primary-500">Assets</a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-right'"
+                        ></mat-icon>
+                        <span class="ml-1 text-secondary">Assets table</span>
+                    </div>
+                </div>
+                <div class="flex sm:hidden">
+                    <a
+                        class="inline-flex items-center -ml-1.5 text-secondary font-medium"
+                        [routerLink]="'/dashboard'"
+                    >
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-left'"
+                        ></mat-icon>
+                        <span class="ml-1">Back</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-2">
+                <h2
+                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                >
+                    Assets table
+                </h2>
+            </div>
+        </div>
+        <mat-form-field
+            class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
+        >
+            <mat-icon
+                matPrefix
+                class="icon-size-5"
+                [svgIcon]="'heroicons_solid:search'"
+            ></mat-icon>
+            <input matInput placeholder="Search Inventory Tag" />
+        </mat-form-field>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+        <!-- CONTENT GOES HERE -->
+        <div class="flex flex-wrap items-start w-full max-w-400 -m-4">
+            <!-- Card #1 - Flippable card -->
+            <fuse-card
+                class="flex flex-col max-w-80 w-full filter-article filter-interactive m-1"
+                [flippable]="true"
+                [face]="'front'"
+                #flippableCard01="fuseCard"
+            >
+                <ng-container fuseCardFront>
+                    <img
+                        class="object-cover"
+                        style="height: 230px"
+                        src="https://images.unsplash.com/photo-1472396961693-142e6e269027?q=80&w=1904&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Card cover image"
+                    />
+                    <div class="m-8 mb-4">
+                        <div class="text-2xl font-semibold leading-tight">
+                            Most beautiful and quite places to see
+                        </div>
+                        <div class="mt-4">
+                            From rocky mountains to crystal clear lakes, there
+                            are the places you must see and enjoy.
+                        </div>
+                        <div class="mt-3 -mx-3">
+                            <button
+                                class="px-3"
+                                mat-button
+                                [color]="'primary'"
+                                (click)="
+                                    flippableCard01.face =
+                                        flippableCard01.face === 'front'
+                                            ? 'back'
+                                            : 'front'
+                                "
+                            >
+                                Read More
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container fuseCardBack>
+                    <div class="flex flex-col flex-auto m-4">
+                        <button
+                            class="ml-1.5"
+                            mat-icon-button
+                            (click)="
+                                flippableCard01.face =
+                                    flippableCard01.face === 'front'
+                                        ? 'back'
+                                        : 'front'
+                            "
+                        >
+                            <mat-icon
+                                [svgIcon]="
+                                    'heroicons_outline:arrow-narrow-left'
+                                "
+                            ></mat-icon>
+                        </button>
+                        <div class="m-4 mt-3">
+                            <div class="text-2xl font-semibold leading-tight">
+                                Most beautiful and quite places to see
+                            </div>
+                            <div class="mt-4">
+                                From rocky mountains to crystal clear lakes,
+                                these are the places you must see and enjoy. You
+                                can bring your own food and have a little picnic
+                                on top of the amazing grasslands.
+                            </div>
+                            <div class="mt-4">
+                                From rocky mountains to crystal clear lakes,
+                                these are the places you must see and enjoy. You
+                                can bring your own food and have a little picnic
+                                on top of the amazing grasslands.
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </fuse-card>
+
+            <!-- Card #2 - Flippable card -->
+            <fuse-card
+                class="flex flex-col max-w-80 w-full filter-article filter-interactive m-1"
+                [flippable]="true"
+                [face]="'front'"
+                #flippableCard02="fuseCard"
+            >
+                <ng-container fuseCardFront>
+                    <img
+                        class="object-cover"
+                        style="height: 230px"
+                        src="https://images.unsplash.com/photo-1416169607655-0c2b3ce2e1cc?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Card cover image"
+                    />
+                    <div class="m-8 mb-4">
+                        <div class="text-2xl font-semibold leading-tight">
+                            Most beautiful and quite places to see
+                        </div>
+                        <div class="mt-4">
+                            From rocky mountains to crystal clear lakes, there
+                            are the places you must see and enjoy.
+                        </div>
+                        <div class="mt-3 -mx-3">
+                            <button
+                                class="px-3"
+                                mat-button
+                                [color]="'primary'"
+                                (click)="
+                                    flippableCard02.face =
+                                        flippableCard02.face === 'front'
+                                            ? 'back'
+                                            : 'front'
+                                "
+                            >
+                                Read More
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container fuseCardBack>
+                    <div class="flex flex-col flex-auto m-4">
+                        <button
+                            class="ml-1.5"
+                            mat-icon-button
+                            (click)="
+                                flippableCard02.face =
+                                    flippableCard02.face === 'front'
+                                        ? 'back'
+                                        : 'front'
+                            "
+                        >
+                            <mat-icon
+                                [svgIcon]="
+                                    'heroicons_outline:arrow-narrow-left'
+                                "
+                            ></mat-icon>
+                        </button>
+                        <div class="m-4 mt-3">
+                            <div class="text-2xl font-semibold leading-tight">
+                                Most beautiful and quite places to see
+                            </div>
+                            <div class="mt-4">
+                                From rocky mountains to crystal clear lakes,
+                                these are the places you must see and enjoy. You
+                                can bring your own food and have a little picnic
+                                on top of the amazing grasslands.
+                            </div>
+                            <div class="mt-4">
+                                From rocky mountains to crystal clear lakes,
+                                these are the places you must see and enjoy. You
+                                can bring your own food and have a little picnic
+                                on top of the amazing grasslands.
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </fuse-card>
+
+            <fuse-card
+                class="flex flex-col max-w-80 w-full filter-article filter-interactive m-1"
+                #expandableCard01="fuseCard"
+            >
+                <img
+                    class="object-cover"
+                    style="height: 230px"
+                    src="https://images.unsplash.com/photo-1508138221679-760a23a2285b?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt="Card cover image"
+                />
+                <div class="m-8 mb-4">
+                    <div class="text-2xl font-semibold leading-tight">
+                        Rocky mountain tops
+                    </div>
+                    <div class="text-secondary text-md mt-1">
+                        Updated with 20 new locations
+                    </div>
+                    <div class="mt-4">
+                        From rocky mountains to crystal clear lakes, there are
+                        the places you must see and enjoy.
+                    </div>
+                    <div class="mt-3 -mx-3">
+                        <button
+                            class="px-3"
+                            mat-button
+                            [color]="'primary'"
+                            (click)="
+                                expandableCard01.expanded =
+                                    !expandableCard01.expanded
+                            "
+                        >
+                            <span class="mr-1">Details</span>
+                            <mat-icon
+                                class="icon-size-5 transform transition-transform ease-in-out duration-150 rotate-0"
+                                [ngClass]="{
+                                    'rotate-180': expandableCard01.expanded
+                                }"
+                                [svgIcon]="'heroicons_solid:chevron-down'"
+                            ></mat-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <ng-container fuseCardExpansion>
+                    <div class="m-8 mt-0">
+                        <div class="flex items-baseline">
+                            <div class="mr-2">Open now:</div>
+                            <div class="text-secondary">08:00AM - 09:00PM</div>
+                        </div>
+                        <div class="flex items-baseline mt-1">
+                            <div class="mr-2">Entrance fee:</div>
+                            <div class="text-secondary">$20 (USD)</div>
+                        </div>
+                        <div class="flex items-baseline">
+                            <div class="mr-2">Open now:</div>
+                            <div class="text-secondary">08:00AM - 09:00PM</div>
+                        </div>
+                        <div class="flex items-baseline mt-1">
+                            <div class="mr-2">Entrance fee:</div>
+                            <div class="text-secondary">$20 (USD)</div>
+                        </div>
+                    </div>
+                </ng-container>
+            </fuse-card>
+
+            <fuse-card
+                class="flex flex-col max-w-80 w-full filter-article filter-interactive m-1"
+                #expandableCard02="fuseCard"
+            >
+                <img
+                    class="object-cover"
+                    style="height: 230px"
+                    src="https://images.unsplash.com/photo-1508138221679-760a23a2285b?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt="Card cover image"
+                />
+                <div class="m-8 mb-4">
+                    <div class="text-2xl font-semibold leading-tight">
+                        Rocky mountain tops
+                    </div>
+                    <div class="text-secondary text-md mt-1">
+                        Updated with 20 new locations
+                    </div>
+                    <div class="mt-4">
+                        From rocky mountains to crystal clear lakes, there are
+                        the places you must see and enjoy.
+                    </div>
+                    <div class="mt-3 -mx-3">
+                        <button
+                            class="px-3"
+                            mat-button
+                            [color]="'primary'"
+                            (click)="
+                                expandableCard02.expanded =
+                                    !expandableCard02.expanded
+                            "
+                        >
+                            <span class="mr-1">Details</span>
+                            <mat-icon
+                                class="icon-size-5 transform transition-transform ease-in-out duration-150 rotate-0"
+                                [ngClass]="{
+                                    'rotate-180': expandableCard02.expanded
+                                }"
+                                [svgIcon]="'heroicons_solid:chevron-down'"
+                            ></mat-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <ng-container fuseCardExpansion>
+                    <div class="m-8 mt-0">
+                        <div class="flex items-baseline">
+                            <div class="mr-2">Open now:</div>
+                            <div class="text-secondary">08:00AM - 09:00PM</div>
+                        </div>
+                        <div class="flex items-baseline mt-1">
+                            <div class="mr-2">Entrance fee:</div>
+                            <div class="text-secondary">$20 (USD)</div>
+                        </div>
+                        <div class="flex items-baseline">
+                            <div class="mr-2">Open now:</div>
+                            <div class="text-secondary">08:00AM - 09:00PM</div>
+                        </div>
+                        <div class="flex items-baseline mt-1">
+                            <div class="mr-2">Entrance fee:</div>
+                            <div class="text-secondary">$20 (USD)</div>
+                        </div>
+                    </div>
+                </ng-container>
+            </fuse-card>
+        </div>
+    </div>
+</div>

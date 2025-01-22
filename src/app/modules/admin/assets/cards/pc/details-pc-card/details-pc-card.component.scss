@@ -1,0 +1,11 @@
+@media print {
+    /* Hide the header or elements showing date, time, and application name */
+    header,
+    .app-name, /* Add the class for the application name if applicable */
+    .date-time, /* Add the class for the date/time if applicable */
+    footer { /* If you have a footer displaying the route */
+        display: none !important;
+    }
+
+    /* Optionally, customize other print styles here */
+}

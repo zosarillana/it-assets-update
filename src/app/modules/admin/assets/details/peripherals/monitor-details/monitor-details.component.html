@@ -1,0 +1,320 @@
+<app-side-panel-monitor #sidePanel (updateSuccess)="loadItots()">
+    <div class="flex flex-col flex-auto min-w-0">
+        <!-- Header -->
+        <div
+            class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
+        >
+            <div class="flex-1 min-w-0">
+                <!-- Breadcrumbs -->
+                <div>
+                    <div
+                        class="hidden sm:flex flex-wrap items-center font-medium"
+                    >
+                        <div>
+                            <a class="whitespace-nowrap text-primary-500"
+                                >Admin</a
+                            >
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon
+                                class="icon-size-5 text-secondary"
+                                [svgIcon]="'heroicons_solid:chevron-right'"
+                            ></mat-icon>
+                            <a class="ml-1 text-primary-500">Assets</a>
+                        </div>
+                        <div class="flex items-center ml-1 whitespace-nowrap">
+                            <mat-icon
+                                class="icon-size-5 text-secondary"
+                                [svgIcon]="'heroicons_solid:chevron-right'"
+                            ></mat-icon>
+                            <span class="ml-1 text-secondary"
+                                >Monitor Details</span
+                            >
+                        </div>
+                    </div>
+                    <div class="flex sm:hidden">
+                        <a
+                            class="inline-flex items-center -ml-1.5 text-secondary font-medium"
+                            [routerLink]="'/dashboard'"
+                        >
+                            <mat-icon
+                                class="icon-size-5 text-secondary"
+                                [svgIcon]="'heroicons_solid:chevron-left'"
+                            ></mat-icon>
+                            <span class="ml-1">Back</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- Title -->
+                <div class="mt-2">
+                    <h2
+                        class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                    >
+                        Monitor Details
+                    </h2>
+                </div>
+            </div>
+            <div class="flex flex-flex items-center mt-6 sm:mt-0 sm:ml-4">
+                <button class="ml-4" mat-stroked-button (click)="openDialog()">
+                    <mat-icon [svgIcon]="'feather:plus'"></mat-icon>
+                    <span class="ml-2 mr-1">Add Peripheral</span>
+                </button>
+                <mat-form-field
+                    class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
+                >
+                    <mat-icon
+                        matPrefix
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:search'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        placeholder="Search Inventory Tag"
+                        (keyup)="applyInventoryTagFilter($event.target.value)"
+                    />
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div class="pt-0">
+            <!-- Use the sidenav component -->
+            <div class="mat-elevation-z8 overflow-x-auto overflow-y-auto">
+                <table
+                    mat-table
+                    [dataSource]="dataSource"
+                    matSort
+                    (matSortChange)="announceSortChange($event)"
+                    class="min-w-full bg-white rounded-lg shadow-md"
+                >
+                    <ng-container matColumnDef="asset_barcode">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            class="px-4 py-5 text-left text-gray-600 font-semibold inventory-tag-header"
+                        >
+                            <mat-icon
+                                class="icon-size-4 mr-4"
+                                svgIcon="feather:tag"
+                            ></mat-icon>
+                            Asset Barcode
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="border-b border-gray-200 px-4 py-2 text-sm font-semibold inventory-tag-cell"
+                        >
+                            {{ element.asset_barcode }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="date_acquired">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            class="px-4 py-2 text-left text-gray-600 font-semibold"
+                        >
+                            Date Acquired
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="border-b border-gray-200 text-sm px-4 py-2"
+                        >
+                            {{ element.acquired_date | date : "MM/dd/yyyy" }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="model">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            class="px-4 py-2 text-left text-gray-600 font-semibold"
+                        >
+                            Model
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="border-b border-gray-200 text-sm px-4 py-2"
+                        >
+                            {{ element.model }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="size">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            class="px-4 py-2 text-left text-gray-600 font-semibold"
+                        >
+                            Size
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="border-b border-gray-200 px-4 py-2"
+                        >
+                            {{ element.size }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="color">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            class="px-4 py-2 text-left text-gray-600 font-semibold"
+                        >
+                            Color
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="border-b border-gray-200 text-sm px-4 py-2"
+                        >
+                            {{ element.color }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="brand">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            class="px-4 py-2 text-left text-gray-600 font-semibold"
+                        >
+                            Brand
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="border-b border-gray-200 text-sm px-4 py-2 pr-12"
+                        >
+                            {{ element.brand }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            class="px-4 py-2 text-left text-gray-600 font-semibold"
+                        >
+                            Status
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="border-b border-gray-200 text-sm px-4 py-2"
+                        >
+                            {{ element.li_description }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="assigned">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            class="px-4 py-2 text-left text-gray-600 font-semibold"
+                        >
+                            Assigned
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="border-b border-gray-200 text-sm px-4 py-2"
+                        >
+                            {{
+                                element.assigned
+                                    ? element.assigned
+                                    : "Not Assigned"
+                            }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="action">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            class="px-4 py-2 text-left text-gray-600 font-semibold"
+                        >
+                            Action
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="border-b border-gray-200 px-4 py-2"
+                        >
+                            <button
+                                mat-icon-button
+                                [matMenuTriggerFor]="menu"
+                                aria-label="Example icon-button with a menu"
+                            >
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <!-- Button to trigger sidenav -->
+                                <button
+                                    mat-menu-item
+                                    (click)="openSidePanelWithId(element.id)"
+                                >
+                                    <mat-icon
+                                        class="icon-size-4 mr-4"
+                                        svgIcon="feather:eye"
+                                    ></mat-icon>
+                                    <span>View</span>
+                                </button>
+
+                                <button
+                                    mat-menu-item
+                                    (click)="openEditSidePanel(element)"
+                                >
+                                    <mat-icon
+                                        class="icon-size-4 mr-4"
+                                        svgIcon="feather:edit"
+                                    ></mat-icon>
+                                    <span>Edit</span>
+                                </button>
+
+                                <button
+                                    mat-menu-item
+                                    (click)="deletePeripheral(element.id)"
+                                    aria-label="Delete Peripheral"
+                                    role="menuitem"
+                                >
+                                    <mat-icon
+                                        class="icon-size-4 mr-4"
+                                        [svgIcon]="'feather:delete'"
+                                    ></mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </mat-menu>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr
+                        mat-row
+                        *matRowDef="let row; columns: displayedColumns"
+                    ></tr>
+                </table>
+            </div>
+            <!-- Paginator -->
+            <div>
+                <mat-paginator
+                    [pageSizeOptions]="[10, 15, 20, 50, 100]"
+                    [pageSize]="10"
+                    showFirstLastButtons
+                    aria-label="Select page of Assets PC"
+                ></mat-paginator>
+            </div>
+        </div>
+    </div>
+    <!-- <app-alerts-component></app-alerts-component> -->
+</app-side-panel-monitor>

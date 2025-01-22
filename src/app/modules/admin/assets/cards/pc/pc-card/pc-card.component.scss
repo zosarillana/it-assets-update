@@ -1,0 +1,75 @@
+.hover-effect {
+    width: 48px; // Ensure the button is square (adjust size as needed)
+    height: 48px;
+    @apply flex items-center justify-center rounded-full; // Flex to center the icon and ensure it's fully round
+    background-color: #ffffff00; // Light background for the button
+
+    &:hover {
+        @apply bg-blue-50 text-blue-500; // Hover background and text color
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+}
+
+.mat-table {
+    width: 100%;
+}
+
+.mat-header-cell, .mat-cell {
+    padding: 12px 16px; /* Adjust padding as needed */
+    text-align: left; /* Ensure text is aligned correctly */
+}
+
+.mat-header-cell {
+    background-color: rgb(243, 242, 242) !important; /* Change to your desired shade of grey */
+}
+
+.mat-paginator {
+    margin-top: 0px; /* Space between the table and paginator */
+    box-shadow: none !important; // Removes the shadow
+}
+
+/* Remove shadow from the parent container */
+::ng-deep .mat-elevation-z8 {
+    box-shadow: none !important; // Ensures no shadow is applied to the parent div
+}
+
+/* Additional targeting for the elevation classes */
+// ::ng-deep .mat-elevation-z2, 
+// ::ng-deep .mat-elevation-z4, 
+// ::ng-deep .mat-elevation-z6, 
+// ::ng-deep .mat-elevation-z8 {
+//     box-shadow: none !important; // Ensures removal of elevation shadows
+// }
+
+/* Ensure responsive design */
+@media (max-width: 600px) {
+    .mat-table {
+        display: block; /* Stacks table cells on smaller screens */
+    }
+}
+
+//Inventory Tag
+/* Set width and margins for the Inventory Tag column */
+.inventory-tag-header {
+    width: 200px; /* Set the width of the header cell */
+  }
+  
+  .inventory-tag-cell {
+    width: 200px; /* Set the width of the cell */
+    padding-right: 10px; /* Adjust right padding */
+  }
+  
+  /* Set different column widths for other columns */
+  .accountable-user-header {
+    width: 150px; /* Adjust width for Accountable User header */
+  }
+  
+  .accountable-user-cell {
+    width: 150px; /* Adjust width for Accountable User cell */
+  }
+  
+  /* Customize the whole table width */
+  table.mat-table {
+    width: 100%; /* Set the table width to 100% of its container */
+  }
+  

@@ -1,0 +1,17 @@
+<!-- modal-universal.component.html -->
+<h2 mat-dialog-title inert>Are you sure you want to continue?</h2>
+<mat-dialog-content inert>
+    <p class="my-6">This action is irreversible,</p>
+</mat-dialog-content>
+<mat-dialog-actions class="justify-end">
+    <button mat-button (click)="onNoClick()" >Cancel</button>
+    <button
+        mat-flat-button
+        [color]="'primary'"
+        type="button"
+        [mat-dialog-close]="true"
+        cdkFocusInitial
+    >
+        Confirm
+    </button>
+</mat-dialog-actions>

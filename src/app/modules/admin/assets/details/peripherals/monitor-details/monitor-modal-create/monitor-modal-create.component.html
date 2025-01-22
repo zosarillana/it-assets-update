@@ -1,0 +1,146 @@
+<div class="mt-3 mb-3 text-3xl font-bold">Create new Peripheral</div>
+
+<form
+    class="bg-card rounded overflow-hidden"
+    [formGroup]="peripheralForm"
+    (ngSubmit)="submitForm()"
+>
+    <p class="my-4 font-medium">Fill in Date Acquired and Asset Information</p>
+
+    <!-- Date Acquired -->
+    <div class="flex">
+        <mat-form-field class="flex-auto">
+            <input
+                matInput
+                [matDatepicker]="picker"
+                [formControlName]="'acquired_date'"
+                placeholder="Acquired Date"
+                (click)="picker.open()"
+                class="cursor-pointer"
+                required
+            />
+            <mat-icon
+                matPrefix
+                class="icon-size-5 cursor-pointer"
+                (click)="picker.open()"
+            >
+                calendar_today
+            </mat-icon>
+            <span matPrefix (click)="picker.open()" class="cursor-pointer">
+                ex. 01/30/2024 /
+            </span>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+
+    <!-- Asset Information -->
+    <div class="flex flex-col gt-xs:flex-row mb-4">
+       
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <!-- Peripheral Type Field 1 -->
+            <mat-form-field class="flex-auto">
+                <input
+                    matInput
+                    [formControlName]="'brand'"
+                    [placeholder]="'Brand'"
+                    required
+                />
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    [svgIcon]="'mat_outline:branding_watermark'"
+                ></mat-icon>
+            </mat-form-field>
+        
+            <!-- Peripheral Type Field 2 -->
+            <mat-form-field class="flex-auto">
+                <input
+                    matInput
+                    [formControlName]="'model'"
+                    [placeholder]="'Model'"
+                    required
+                />
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    [svgIcon]="'heroicons_solid:information-circle'"
+                ></mat-icon>
+            </mat-form-field>
+                  
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <!-- Peripheral Type Field 1 -->
+            <mat-form-field class="flex-auto">
+                <input
+                    matInput
+                    [formControlName]="'size'"
+                    [placeholder]="'Size'"
+                    required
+                />
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    [svgIcon]="'mat_outline:straighten'"
+                ></mat-icon>
+            </mat-form-field>
+        
+            <!-- Peripheral Type Field 2 -->
+            <mat-form-field class="flex-auto">
+                <input
+                    matInput
+                    [formControlName]="'color'"
+                    [placeholder]="'Color'"
+                    required
+                />
+                <mat-icon
+                    class="icon-size-5"
+                    matPrefix
+                    [svgIcon]="'mat_outline:palette'"
+                ></mat-icon>
+            </mat-form-field>
+                
+        </div>
+        
+        
+
+         <mat-form-field class="flex-auto">
+            <input
+                [formControlName]="'asset_barcode'"
+                matInput
+                [placeholder]="'Asset Barcode'"
+                required
+            />
+            <mat-icon
+                class="icon-size-5"
+                matPrefix
+                [svgIcon]="'mat_outline:qr_code'"
+            ></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="flex-auto">
+            <input
+                [formControlName]="'serial_no'"
+                matInput
+                [placeholder]="'Serial Number'"
+                required
+            />
+            <mat-icon
+                class="icon-size-5"
+                matPrefix
+                [svgIcon]="'heroicons_solid:tag'"
+            ></mat-icon>
+        </mat-form-field>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="flex justify-end">
+        <button
+            class="px-8"
+            mat-flat-button
+            [color]="'primary'"
+            [disabled]="peripheralForm.invalid"
+            type="submit"
+        >
+            Submit
+        </button>
+    </div>
+</form>

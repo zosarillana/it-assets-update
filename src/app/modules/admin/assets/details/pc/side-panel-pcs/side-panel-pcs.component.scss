@@ -1,0 +1,39 @@
+.mat-sidenav-backdrop {
+    display: none !important; /* Ensures that the backdrop is not displayed */
+  }
+  
+  
+  .sidenav-container {
+    height: 100%;
+    width: 100%; // Add this
+    position: relative; // Add this
+  }
+  
+  mat-sidenav {
+    width: 35%;
+  }
+  
+  mat-sidenav-content {
+    width: 100%; // Add this
+    display: block; // Add this
+  }
+  
+  /* Media query for small screens */
+  @media (max-width: 600px) {
+    mat-sidenav {
+      width: 90%;
+    }
+  }
+  
+  /* Media query for medium screens */
+  @media (min-width: 601px) and (max-width: 900px) {
+    mat-sidenav {
+      width: 50%;
+    }
+  }
+  
+  :host {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
