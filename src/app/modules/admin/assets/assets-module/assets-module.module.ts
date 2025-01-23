@@ -46,19 +46,20 @@ import { PcCardComponent } from '../cards/pc/pc-card/pc-card.component';
 import { UserCardComponent } from '../cards/user/user-card/user-card.component';
 import { PcModalCreateComponent } from '../details/pc/pc-modal-create/pc-modal-create.component';
 import { PeripheralModalCreateComponent } from '../details/peripherals/peripherals-details/peripheral-modal-create/peripheral-modal-create.component';
-import { AlertsComponentComponent } from '../components/alerts-component/alerts-component.component';
 import { MonitorDetailsComponent } from '../details/peripherals/monitor-details/monitor-details.component';
 import { MonitorModalCreateComponent } from '../details/peripherals/monitor-details/monitor-modal-create/monitor-modal-create.component';
 import { SidePanelMonitorComponent } from '../details/peripherals/monitor-details/side-panel-monitor/side-panel-monitor.component';
 import { ImportAssetsComponent } from '../profiles/import-assets/import-assets.component';
 import { ImportMasterdataComponent } from '../profiles/import/import-masterdata/import-masterdata.component';
+import { InventoryListComponent } from '../assets-inventory/inventory-list/inventory-list.component';
+import { AddInventoryComponent } from '../assets-inventory/add-inventory/add-inventory.component';
 
 
 const assetRoute: Route[] = [
-    {
-        path: 'inventory',
-        component: InventoryTableComponent,
-    },
+    // {
+    //     path: 'inventory',
+    //     component: InventoryTableComponent,
+    // },
     {
         path: 'import-assets',
         component: ImportAssetsComponent,
@@ -84,8 +85,12 @@ const assetRoute: Route[] = [
         component: PcCardComponent,
     },
     {
-        path: 'cards/pcs/details/:id',
-        component: DetailsPcCardComponent,
+        path: 'inventory',
+        component: InventoryListComponent,
+    },
+    {
+        path: 'inventory/add',
+        component: AddInventoryComponent,
     },
 ];
 
@@ -112,7 +117,9 @@ const assetRoute: Route[] = [
         MonitorDetailsComponent,
         MonitorModalCreateComponent,
         SidePanelMonitorComponent,
-        ImportMasterdataComponent
+        ImportMasterdataComponent,
+        InventoryListComponent,
+        AddInventoryComponent
         // AlertsComponentComponent,
     ],
     imports: [

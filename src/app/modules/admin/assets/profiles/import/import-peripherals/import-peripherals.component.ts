@@ -1,5 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, OnInit } from '@angular/core';
+import { AlertService } from 'app/services/alert.service';
 import { ITOTService } from 'app/services/itot.service';
 import * as XLSX from 'xlsx'; // Import the XLSX library for parsing Excel files
 
@@ -14,6 +15,7 @@ export class ImportPeripheralsComponent implements OnInit {
   selectedFileName: string = ""; // New property to track the selected file name
 
   constructor(
+    private alertService: AlertService,
     private _liveAnnouncer: LiveAnnouncer,
     private itotService: ITOTService
   ) {}
@@ -108,16 +110,16 @@ export class ImportPeripheralsComponent implements OnInit {
 
     console.log("Data to be uploaded:", JSON.stringify(formattedData, null, 2));
 
-    this.itotService.uploadExcelDataPeripherals(formattedData).subscribe(
+    this.itotService.uploadExcelData(formattedData).subscribe(
       (response) => {
         console.log("Upload successful:", response);
-        alert("Upload successful!");
+        this.alertService.triggerSuccess("Upload successful!"); // Trigger success alert
         this.fileSelected = false; // Reset file selection after upload
         this.selectedFileName = ""; // Reset selected file name
       },
       (error) => {
         console.error("Upload failed:", error);
-        alert("Upload failed. Please try again.");
+        this.alertService.triggerError("Upload failed. Please try again."); // Trigger error alert
       }
     );
   }

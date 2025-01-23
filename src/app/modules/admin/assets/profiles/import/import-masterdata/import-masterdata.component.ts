@@ -1,5 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, OnInit } from '@angular/core';
+import { AlertService } from 'app/services/alert.service';
 import { ITOTService } from 'app/services/itot.service';
 import * as XLSX from 'xlsx'; // Import the XLSX library for parsing Excel files
 
@@ -14,6 +15,7 @@ export class ImportMasterdataComponent implements OnInit {
   selectedFileName: string = ""; // New property to track the selected file name
 
   constructor(
+    private alertService: AlertService,
     private _liveAnnouncer: LiveAnnouncer,
     private itotService: ITOTService
   ) {}
@@ -87,44 +89,45 @@ export class ImportMasterdataComponent implements OnInit {
 
   uploadData() {
     if (this.data.length === 0) {
-      alert("No data to upload.");
-      return;
+        alert('No data to upload.');
+        return;
     }
 
-    const formattedData = this.data.slice(1).map((row: any[]) => ({
-      asset_barcode: String(row[0] || "N/A"),
-      date_acquired: String(this.excelDateToString(row[1])) || "N/A",
-      pc_type: String(row[2] || "N/A"),
-      brand: String(row[3] || "N/A"),
-      model: String(row[4] || "N/A"),
-      processor: String(row[5] || "N/A"),
-      ram: String(row[6] || "N/A"),
-      storage_capacity: String(row[7] || "N/A"),
-      storage_type: String(row[8] || "N/A"),
-      operating_system: String(row[9] || "N/A"),
-      graphics: String(row[10] || "N/A"),
-      size: String(row[11] || "N/A"),
-      color: String(row[12] || "N/A"),
-      li_description: String(row[13] || "N/A"),
-      serial_no: String(row[14] || "N/A"),
-      assigned: String(row[15] || "Not Assigned"),
-      status: String(row[16] || "Active"),
-      history: String(row[16] || " "),
+    // Format the data for upload
+    const formattedData = this.data.slice(2).map((row: any[]) => ({
+        asset_barcode: String(row[0] || "N/A"),
+        date_acquired: String(row[1] || "N/A"),
+        pc_type: String(row[2] || "N/A"),
+        brand: String(this.excelDateToString(row[3])) || "N/A",
+        model: String(row[4] || "N/A"),
+        processor: String(row[5] || "N/A"),
+        ram: String(row[6] || "N/A"),
+        storage_capacity: String(row[7] || "N/A"),
+        storage_type: String(row[8] || "N/A"),
+        operating_system: String(row[9] || "N/A"),
+        graphics: String(row[10] || "N/A"),
+        size: String(row[11] || "N/A"),
+        color: String(row[12] || "N/A"),
+        li_description: String(row[13] || "N/A"),
+        serial_no: String(row[14] || "N/A"),  
+      }));
 
-    }));
-
-    console.log("Data to be uploaded:", JSON.stringify(formattedData, null, 2));
+    // Check the final data structure
+    console.log(
+        'Data to be uploaded:',
+        JSON.stringify(formattedData, null, 2)
+    );
 
     this.itotService.uploadExcelData(formattedData).subscribe(
       (response) => {
         console.log("Upload successful:", response);
-        alert("Upload successful!");
+        this.alertService.triggerSuccess("Upload successful!"); // Trigger success alert
         this.fileSelected = false; // Reset file selection after upload
         this.selectedFileName = ""; // Reset selected file name
       },
       (error) => {
         console.error("Upload failed:", error);
-        alert("Upload failed. Please try again.");
+        this.alertService.triggerError("Upload failed. Please try again."); // Trigger error alert
       }
     );
   }

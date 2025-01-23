@@ -47,12 +47,28 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
         ],
     },
+    // {
+    //     id: 'assets.tables.pc',
+    //     title: 'Desktop Specifications',
+    //     type: 'basic',
+    //     icon: 'feather:monitor',
+    //     link: '/assets/pc',
+    // },
     {
-        id: 'assets.tables.pc',
-        title: 'Desktop Specifications',
-        type: 'basic',
-        icon: 'feather:monitor',
-        link: '/assets/pc',
+        id: 'assets',
+        title: 'Asset Inventory',
+        subtitle: 'Inventory asset list',
+        type: 'group',
+        icon: 'heroicons_outline:chart-pie',
+        children: [         
+            {
+                id: 'assets.equitpments.inventory',
+                title: 'Import Inventory',
+                type: 'basic',
+                icon: 'feather:monitor',
+                link: '/assets/inventory',
+            },
+        ],
     },
     // {
     //     id: 'assets.tables',
@@ -141,8 +157,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
 
     //     ],
     // },
-    //     ],
-    // },
+
     {
         id: 'data',
         title: 'Data Table',

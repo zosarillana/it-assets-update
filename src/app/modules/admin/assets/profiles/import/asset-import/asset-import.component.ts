@@ -1,5 +1,6 @@
 import { LiveAnnouncer } from "@angular/cdk/a11y";
 import { Component, OnInit } from "@angular/core";
+import { AlertService } from "app/services/alert.service";
 import { ITOTService } from "app/services/itot.service";
 import * as XLSX from 'xlsx'; // Import the XLSX library for parsing Excel files
 
@@ -14,6 +15,7 @@ export class AssetImportComponent implements OnInit {
   selectedFileName: string = ""; // New property to track the selected file name
 
   constructor(
+    private alertService: AlertService,
     private _liveAnnouncer: LiveAnnouncer,
     private itotService: ITOTService
   ) {}
@@ -87,10 +89,10 @@ export class AssetImportComponent implements OnInit {
 
   uploadData() {
     if (this.data.length === 0) {
-      alert("No data to upload.");
+      this.alertService.triggerError("No data to upload."); // Trigger error alert
       return;
     }
-
+  
     const formattedData = this.data.slice(1).map((row: any[]) => ({
       asset_barcode: String(row[0] || "N/A"),
       date_acquired: String(this.excelDateToString(row[1])) || "N/A",
@@ -110,22 +112,21 @@ export class AssetImportComponent implements OnInit {
       assigned: String(row[15] || "Not Assigned"),
       status: String(row[16] || "Active"),
       history: String(row[16] || " "),
-
     }));
-
+  
     console.log("Data to be uploaded:", JSON.stringify(formattedData, null, 2));
-
+  
     this.itotService.uploadExcelData(formattedData).subscribe(
       (response) => {
         console.log("Upload successful:", response);
-        alert("Upload successful!");
+        this.alertService.triggerSuccess("Upload successful!"); // Trigger success alert
         this.fileSelected = false; // Reset file selection after upload
         this.selectedFileName = ""; // Reset selected file name
       },
       (error) => {
         console.error("Upload failed:", error);
-        alert("Upload failed. Please try again.");
+        this.alertService.triggerError("Upload failed. Please try again."); // Trigger error alert
       }
     );
-  }
+  }  
 }
