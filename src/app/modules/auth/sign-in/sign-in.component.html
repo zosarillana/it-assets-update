@@ -2,22 +2,18 @@
     <div class="md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/2 py-8 px-4 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
         <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
             <!-- Logo -->
-            <div class="w-12">
+            <div class="-ml-2">
                 <img 
-                style=" height: 60px; width: 80px;" 
-                src="assets/images/logo/wc3orc.png" 
-                alt="WC3 Orc Logo">
+                style="height: 75px; width: 190px;" 
+                src="assets/images/logo/it-assets-black.png" 
+                alt="it-assets-logo">
             </div>
 
             <!-- Title -->
-            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign in</div>
-            <div class="flex items-baseline mt-0.5 font-medium">
-                <div>Don't have an account?</div>
-                <a class="ml-1 text-primary-500 hover:underline" [routerLink]="['/sign-up']">Sign up</a>
-            </div>
-
+            <div class="mt-2 text-4xl font-bold tracking-tight leading-tight">Sign in</div>
+           
             <!-- Alert -->
-            <fuse-alert class="mt-8 -mb-4" *ngIf="showAlert" [appearance]="'outline'" [showIcon]="false" [type]="alert.type" [@shake]="alert.type === 'error'">
+            <fuse-alert class="mt-6 -mb-4" *ngIf="showAlert" [appearance]="'outline'" [showIcon]="false" [type]="alert.type" [@shake]="alert.type === 'error'">
                 {{alert.message}}
             </fuse-alert>
 
@@ -26,13 +22,13 @@
 
                 <!-- Email field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Email address</mat-label>
+                    <mat-label>Username</mat-label>
                     <input id="email" matInput [formControlName]="'email'">
                     <mat-error *ngIf="signInForm.get('email').hasError('required')">
-                        Email address is required
+                        Username is required
                     </mat-error>
                     <mat-error *ngIf="signInForm.get('email').hasError('email')">
-                        Please enter a valid email address
+                        Password is required
                     </mat-error>
                 </mat-form-field>
 
@@ -50,7 +46,7 @@
                 <!-- Actions -->
                 <div class="inline-flex items-end justify-between w-full mt-1.5">
                     <mat-checkbox [color]="'primary'" [formControlName]="'rememberMe'">Remember me</mat-checkbox>
-                    <a class="text-md font-medium text-primary-500 hover:underline" [routerLink]="['/forgot-password']">Forgot password?</a>
+                    <!-- <a class="text-md font-medium text-primary-500 hover:underline" [routerLink]="['/forgot-password']">Forgot password?</a> -->
                 </div>
 
                 <!-- Submit button -->
@@ -58,32 +54,13 @@
                     <span *ngIf="!signInForm.disabled">Sign in</span>
                     <mat-progress-spinner *ngIf="signInForm.disabled" [diameter]="24" [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
-
-                <!-- Separator -->
-                <div class="flex items-center mt-8">
-                    <div class="flex-auto mt-px border-t"></div>
-                    <div class="mx-2 text-secondary">Or continue with</div>
-                    <div class="flex-auto mt-px border-t"></div>
-                </div>
-
-                <!-- Single sign-on buttons -->
-                <div class="flex items-center mt-8 space-x-4">
-                    <button class="flex-auto" type="button" mat-stroked-button>
-                        <mat-icon class="icon-size-5" [svgIcon]="'feather:facebook'"></mat-icon>
-                    </button>
-                    <!-- <button class="flex-auto" type="button" mat-stroked-button>
-                        <mat-icon class="icon-size-5" [svgIcon]="'feather:twitter'"></mat-icon>
-                    </button> -->
-                    <button class="flex-auto" type="button" mat-stroked-button>
-                        <mat-icon class="icon-size-5" [svgIcon]="'feather:github'"></mat-icon>
-                    </button>
-                </div>
+            
             </form>
         </div>
     </div>
     <div class="relative hidden md:flex flex-auto items-center justify-center w-1/2 h-full p-16 lg:px-28 overflow-hidden bg-gray-800 dark:border-l">
         <!-- Background Image -->
-        <img src="https://images3.alphacoders.com/592/thumb-1920-592651.jpg" alt="Background Image" class="absolute inset-0 object-cover w-full h-full opacity-50">
+        <img src="https://t4.ftcdn.net/jpg/01/71/82/19/360_F_171821959_y9CMVlyU7kLEcIaVhouBruQcHjpIyq5n.jpg" alt="Background Image" class="absolute inset-0 object-cover w-full h-full opacity-50">
         <!-- Content -->
         <div class="z-10 relative w-full max-w-2xl">
             <div class="text-7xl font-bold leading-none text-gray-100">

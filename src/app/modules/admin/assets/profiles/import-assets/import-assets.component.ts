@@ -15,7 +15,7 @@ export class ImportAssetsComponent implements OnInit, OnDestroy {
     drawerMode: 'over' | 'side' = 'side';
     drawerOpened: boolean = true;
     panels: any[] = [];
-    selectedPanel: string = 'import';
+    selectedPanel: string = 'import.masterdata';
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
@@ -28,22 +28,28 @@ export class ImportAssetsComponent implements OnInit, OnDestroy {
        // Setup available panels
        this.panels = [
         {
+            id         : 'import.masterdata',
+            icon       : 'feather:download',
+            title      : 'Import Masterdata',
+            description: 'Import masterdata from excel to asset inventory, accountability form.'
+        },
+        {
             id         : 'import',
             icon       : 'feather:download',
             title      : 'Import Assets',
-            description: 'Import data from excell files to assets table'
+            description: 'Import data from excel files to assets table'
         },
         {
             id         : 'import.peripherals',
             icon       : 'feather:download',
             title      : 'Import Peripherals',
-            description: 'Import data from excell files to peripherals table'
+            description: 'Import data from excel files to peripherals table'
         },
         {
             id         : 'export',
             icon       : 'feather:paperclip',
             title      : 'Export Assets',
-            description: 'Export data from excell files to assets table'
+            description: 'Export data from excel files to assets table'
         },      
     ];
 

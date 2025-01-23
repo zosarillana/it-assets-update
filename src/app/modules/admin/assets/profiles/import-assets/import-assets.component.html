@@ -10,7 +10,7 @@
             #drawer>
             <!-- Drawer Header -->
             <div class="flex items-center justify-between m-8 mr-6 sm:my-10">
-                <h3 class="text-4xl font-extrabold tracking-tight leading-none">Management (for import)</h3>
+                <h3 class="text-4xl font-extrabold tracking-tight leading-none">Import management</h3>
                 <!-- Close button -->
                 <button
                     mat-icon-button
@@ -75,6 +75,9 @@
                 <!-- Load settings panel -->
                 <section class="mt-8">
                     <ng-container [ngSwitch]="selectedPanel">
+                        <ng-container *ngSwitchCase="'import.masterdata'">
+                            <app-import-masterdata></app-import-masterdata>
+                        </ng-container>
                         <ng-container *ngSwitchCase="'import'">
                             <app-asset-import></app-asset-import>
                         </ng-container>

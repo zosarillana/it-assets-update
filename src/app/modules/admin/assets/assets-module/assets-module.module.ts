@@ -51,6 +51,7 @@ import { MonitorDetailsComponent } from '../details/peripherals/monitor-details/
 import { MonitorModalCreateComponent } from '../details/peripherals/monitor-details/monitor-modal-create/monitor-modal-create.component';
 import { SidePanelMonitorComponent } from '../details/peripherals/monitor-details/side-panel-monitor/side-panel-monitor.component';
 import { ImportAssetsComponent } from '../profiles/import-assets/import-assets.component';
+import { ImportMasterdataComponent } from '../profiles/import/import-masterdata/import-masterdata.component';
 
 
 const assetRoute: Route[] = [
@@ -111,6 +112,7 @@ const assetRoute: Route[] = [
         MonitorDetailsComponent,
         MonitorModalCreateComponent,
         SidePanelMonitorComponent,
+        ImportMasterdataComponent
         // AlertsComponentComponent,
     ],
     imports: [
