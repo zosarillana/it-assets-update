@@ -8,10 +8,10 @@
 
 <!-- Shortcuts panel -->
 <ng-template #shortcutsPanel>
-    <div class="fixed inset-0 sm:static sm:inset-auto flex flex-col sm:min-w-90 sm:w-90 sm:rounded-2xl overflow-hidden shadow-lg">
+    <div class="fixed inset-0 sm:static sm:inset-auto flex flex-col sm:min-w-90 sm:w-90 sm:rounded-xl  overflow-hidden shadow-lg">
 
         <!-- Header -->
-        <div class="flex flex-shrink-0 items-center py-4 pr-4 pl-6 bg-primary text-on-primary">
+        <div class="flex flex-shrink-0 items-center py-4 pr-4 pl-6 bg-gray-900 text-on-primary">
             <div class="sm:hidden -ml-1 mr-3">
                 <button
                     mat-icon-button
@@ -35,23 +35,23 @@
                 <!-- View mode -->
                 <ng-container *ngIf="mode === 'view'">
                     <!-- Enter 'modify' mode -->
-                    <button
+                    <!-- <button
                         mat-icon-button
                         (click)="changeMode('modify')"
                         [matTooltip]="'Enter edit mode'">
                         <mat-icon
                             class="icon-size-5 text-current"
                             [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
-                    </button>
+                    </button> -->
                     <!-- Enter 'add' mode -->
-                    <button
+                    <!-- <button
                         mat-icon-button
                         (click)="newShortcut()"
                         [matTooltip]="'Add shortcut'">
                         <mat-icon
                             class="icon-size-5 text-current"
                             [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
-                    </button>
+                    </button> -->
                 </ng-container>
 
                 <!-- Modify mode -->
@@ -119,13 +119,13 @@
                                 <ng-container *ngTemplateOutlet="linkContent"></ng-container>
                             </a>
                             <!-- Router links -->
-                            <a
+                            <!-- <a
                                 class="flex flex-col items-center justify-center w-full h-full py-6 no-underline"
                                 *ngIf="shortcut.useRouter"
                                 [ngClass]="{'pointer-events-none': mode === 'modify'}"
                                 [routerLink]="shortcut.link">
                                 <ng-container *ngTemplateOutlet="linkContent"></ng-container>
-                            </a>
+                            </a> -->
                             <a
                                 class="flex flex-col items-center justify-center w-full h-full py-6 no-underline"
                                 *ngIf="shortcut.useRouter"
