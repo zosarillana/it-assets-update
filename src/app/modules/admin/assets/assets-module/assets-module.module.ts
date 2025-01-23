@@ -2,7 +2,7 @@ import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InventoryTableComponent } from '../profiles/inventory/inventory-table/inventory-table.component';
 import { Route, RouterModule } from '@angular/router';
-import { ImportAssetsComponent } from '../profiles/import/import-assets/import-assets.component';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -50,6 +50,8 @@ import { AlertsComponentComponent } from '../components/alerts-component/alerts-
 import { MonitorDetailsComponent } from '../details/peripherals/monitor-details/monitor-details.component';
 import { MonitorModalCreateComponent } from '../details/peripherals/monitor-details/monitor-modal-create/monitor-modal-create.component';
 import { SidePanelMonitorComponent } from '../details/peripherals/monitor-details/side-panel-monitor/side-panel-monitor.component';
+import { ImportAssetsComponent } from '../profiles/import-assets/import-assets.component';
+
 
 const assetRoute: Route[] = [
     {
