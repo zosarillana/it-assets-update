@@ -53,6 +53,9 @@ import { ImportAssetsComponent } from '../profiles/import-assets/import-assets.c
 import { ImportMasterdataComponent } from '../profiles/import/import-masterdata/import-masterdata.component';
 import { InventoryListComponent } from '../assets-inventory/inventory-list/inventory-list.component';
 import { AddInventoryComponent } from '../assets-inventory/add-inventory/add-inventory.component';
+import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
+import { EditInventoryComponent } from '../assets-inventory/edit-inventory/edit-inventory.component';
+import { ViewInventoryComponent } from '../assets-inventory/view-inventory/view-inventory.component';
 
 
 const assetRoute: Route[] = [
@@ -92,6 +95,14 @@ const assetRoute: Route[] = [
         path: 'inventory/add',
         component: AddInventoryComponent,
     },
+    {
+        path: 'inventory/edit',
+        component: EditInventoryComponent,
+    },
+    {
+        path: 'inventory/view',
+        component: ViewInventoryComponent,
+    },
 ];
 
 @NgModule({
@@ -119,7 +130,9 @@ const assetRoute: Route[] = [
         SidePanelMonitorComponent,
         ImportMasterdataComponent,
         InventoryListComponent,
-        AddInventoryComponent
+        AddInventoryComponent,
+        EditInventoryComponent,
+        ViewInventoryComponent
         // AlertsComponentComponent,
     ],
     imports: [
@@ -156,6 +169,7 @@ const assetRoute: Route[] = [
         MatSelectModule,
         MatInputModule,
         MatMenuModule,
+        FuseScrollbarModule,
         RouterModule.forChild(assetRoute),
     ],
     // schemas: [NO_ERRORS_SCHEMA] // Add this line

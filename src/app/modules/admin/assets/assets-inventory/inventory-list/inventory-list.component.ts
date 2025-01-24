@@ -14,9 +14,9 @@ import { SidePanelPcsComponent } from '../../details/pc/side-panel-pcs/side-pane
 import * as XLSX from 'xlsx'; // Keep this for XLSX handling
 
 @Component({
-  selector: 'app-inventory-list',
-  templateUrl: './inventory-list.component.html',
-  styleUrls: ['./inventory-list.component.scss']
+    selector: 'app-inventory-list',
+    templateUrl: './inventory-list.component.html',
+    styleUrls: ['./inventory-list.component.scss'],
 })
 export class InventoryListComponent implements OnInit {
     displayedColumns: string[] = [
@@ -25,11 +25,11 @@ export class InventoryListComponent implements OnInit {
         'date_acquired',
         'pc_type',
         'brand',
-        'model',        
+        'model',
         'li_description',
-        'serial_no',      
-        'action',      
+        'serial_no',
     ];
+
     dataSource = new MatTableDataSource<any>([]); // Initialize with an empty array
     data: any[] = [];
 
@@ -132,22 +132,22 @@ export class InventoryListComponent implements OnInit {
 
         // Format the data for upload
         const formattedData = this.data.slice(2).map((row: any[]) => ({
-            asset_barcode: String(row[0] || "N/A"),
-            date_acquired: String(row[1] || "N/A"),
-            pc_type: String(row[2] || "N/A"),
-            brand: String(this.excelDateToString(row[3])) || "N/A",
-            model: String(row[4] || "N/A"),
-            processor: String(row[5] || "N/A"),
-            ram: String(row[6] || "N/A"),
-            storage_capacity: String(row[7] || "N/A"),
-            storage_type: String(row[8] || "N/A"),
-            operating_system: String(row[9] || "N/A"),
-            graphics: String(row[10] || "N/A"),
-            size: String(row[11] || "N/A"),
-            color: String(row[12] || "N/A"),
-            li_description: String(row[13] || "N/A"),
-            serial_no: String(row[14] || "N/A"),  
-          }));
+            asset_barcode: String(row[0] || 'N/A'),
+            date_acquired: String(row[1] || 'N/A'),
+            pc_type: String(row[2] || 'N/A'),
+            brand: String(this.excelDateToString(row[3])) || 'N/A',
+            model: String(row[4] || 'N/A'),
+            processor: String(row[5] || 'N/A'),
+            ram: String(row[6] || 'N/A'),
+            storage_capacity: String(row[7] || 'N/A'),
+            storage_type: String(row[8] || 'N/A'),
+            operating_system: String(row[9] || 'N/A'),
+            graphics: String(row[10] || 'N/A'),
+            size: String(row[11] || 'N/A'),
+            color: String(row[12] || 'N/A'),
+            li_description: String(row[13] || 'N/A'),
+            serial_no: String(row[14] || 'N/A'),
+        }));
 
         // Check the final data structure
         console.log(
@@ -174,10 +174,10 @@ export class InventoryListComponent implements OnInit {
             height: '60%',
             width: '50%',
         });
-  
+
         dialogRef.afterClosed().subscribe((result) => {
             console.log('Dialog closed, result:', result);
-    
+
             // Check if the result indicates success
             if (result && result.success) {
                 console.log('Peripheral created successfully.');
@@ -192,7 +192,7 @@ export class InventoryListComponent implements OnInit {
         this.sidePanel.elementId = id; // Pass the ID
         this.sidePanel.openSidenav(); // Open the side panel
     }
-    
+
     openEditSidePanel(element: any) {
         this.sidePanel.elementId = element; // Pass the element data to the edit side panel
         this.sidePanel.openEditSidePanel(element); // Open the sidenav
@@ -204,7 +204,42 @@ export class InventoryListComponent implements OnInit {
 
     ngOnInit(): void {
         // Any initialization logic can be added here
-        this.loadItots();
+        // this.loadItots();
+
+        const dummyData = [
+            {
+                asset_barcode: 'ABC123',
+                type: 'Laptop',
+                date_acquired: '2022-01-15',
+                pc_type: 'Portable',
+                brand: 'Dell',
+                model: 'Inspiron 15',
+                li_description: '15-inch display, 8GB RAM',
+                serial_no: 'SN123456789',
+            },
+            {
+                asset_barcode: 'XYZ456',
+                type: 'Desktop',
+                date_acquired: '2021-05-20',
+                pc_type: 'Workstation',
+                brand: 'HP',
+                model: 'Pavilion 27',
+                li_description: '27-inch display, 16GB RAM',
+                serial_no: 'SN987654321',
+            },
+            {
+                asset_barcode: 'LMN789',
+                type: 'Monitor',
+                date_acquired: '2023-03-10',
+                pc_type: 'Peripheral',
+                brand: 'Samsung',
+                model: 'Smart Monitor M8',
+                li_description: '32-inch UHD monitor',
+                serial_no: 'SN1122334455',
+            },
+        ];
+
+        this.dataSource.data = dummyData; // Assign data to the dataSource
     }
 
     ngAfterViewInit() {
@@ -236,23 +271,28 @@ export class InventoryListComponent implements OnInit {
     deletePc(id: number): void {
         const dialogRef = this.dialog.open(ModalUniversalComponent, {
             width: '400px',
-            data: { name: 'Delete Confirmation' }
+            data: { name: 'Delete Confirmation' },
         });
-    
-        dialogRef.afterClosed().subscribe(result => {
+
+        dialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 console.log(`Deleting peripheral with ID ${id}`);
                 this.itotService.DeletePc(id).subscribe({
                     next: () => {
-                        console.log(`Peripheral with ID ${id} deleted successfully.`);
-                        this.alertService.triggerSuccess('Peripheral deleted successfully.'); // Show success alert
+                        console.log(
+                            `Peripheral with ID ${id} deleted successfully.`
+                        );
+                        this.alertService.triggerSuccess(
+                            'Peripheral deleted successfully.'
+                        ); // Show success alert
                         this.loadItots(); // Reload the list after deletion
-                        
                     },
                     error: (err) => {
                         console.error('Error deleting peripheral:', err);
-                        this.alertService.triggerError('Error deleting peripheral.'); // Show error alert
-                    }
+                        this.alertService.triggerError(
+                            'Error deleting peripheral.'
+                        ); // Show error alert
+                    },
                 });
             } else {
                 console.log('Deletion cancelled by the user.');
@@ -260,11 +300,11 @@ export class InventoryListComponent implements OnInit {
                 // Example: this.alertService.triggerInfo('Deletion cancelled');
             }
         });
-    }  
-    
+    }
+
     //For matselect types
 
-    types: string[] = [ 'All', 'Mouse', 'Computer', 'Laptop',];
+    types: string[] = ['All', 'Mouse', 'Computer', 'Laptop'];
     selectedTypes: string = 'All';
 
     onCategoryChange(selectedValue: string): void {
@@ -272,4 +312,3 @@ export class InventoryListComponent implements OnInit {
         // Add your logic here
     }
 }
-

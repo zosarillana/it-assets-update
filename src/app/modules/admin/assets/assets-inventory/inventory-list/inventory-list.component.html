@@ -23,18 +23,6 @@
                             >
                         </div>
                     </div>
-                    <div class="flex sm:hidden">
-                        <a
-                            class="inline-flex items-center -ml-1.5 text-secondary font-medium"
-                            [routerLink]="'/dashboard'"
-                        >
-                            <mat-icon
-                                class="icon-size-5 text-secondary"
-                                [svgIcon]="'heroicons_solid:chevron-left'"
-                            ></mat-icon>
-                            <span class="ml-1">Back</span>
-                        </a>
-                    </div>
                 </div>
                 <!-- Title -->
                 <div class="mt-2">
@@ -45,9 +33,10 @@
                     </h2>
                 </div>
             </div>
-            <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <div class="flex flex-wrap items-center mt-6 sm:mt-0">
+                <!-- Add Inventory Button -->
                 <button
-                    class="ml-4"
+                    class="w-full sm:w-auto mt-4 sm:mt-0 sm:ml-4 flex items-center justify-center"
                     mat-stroked-button
                     [routerLink]="'/assets/inventory/add'"
                 >
@@ -55,11 +44,11 @@
                     <span class="ml-2 mr-1">Add Inventory</span>
                 </button>
 
+                <!-- Select Category -->
                 <mat-form-field
                     class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
                 >
-                    <!-- <mat-label>Select Category</mat-label> -->
-                    <mat-select
+                    <mat-select                        
                         [(value)]="selectedTypes"
                         (selectionChange)="onCategoryChange($event.value)"
                     >
@@ -69,6 +58,7 @@
                     </mat-select>
                 </mat-form-field>
 
+                <!-- Search Inventory Tag -->
                 <mat-form-field
                     class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
                 >
@@ -101,7 +91,7 @@
                             mat-header-cell
                             *matHeaderCellDef
                             mat-sort-header
-                            class="px-6 py-4 text-left text-gray-600 font-semibold inventory-tag-header custom-left-align"
+                            class="py-4 text-left text-gray-600 font-semibold inventory-tag-header custom-left-align"
                         >
                             <mat-icon
                                 class="icon-size-4 mr-4"
@@ -111,10 +101,10 @@
                         </th>
                         <td
                             mat-cell
-                            *matCellDef="let element"
-                            class="border-b border-gray-200 px-4 py-4 text-sm font-semibold inventory-tag-cell"
+                            *matCellDef="let element"                            
+                            class="ml-4 border-b border-gray-200 py-4 text-sm font-semibold inventory-tag-cell"
                         >
-                            {{ element.type }}
+                            # {{ element.asset_barcode }}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="type">
@@ -131,7 +121,7 @@
                             *matCellDef="let element"
                             class="border-b border-gray-200 px-4 py-4 text-sm font-semibold inventory-tag-cell"
                         >
-                            # {{ element.asset_barcode }}
+                            {{ element.type }}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="date_acquired">
@@ -243,68 +233,13 @@
                     </ng-container>
 
                     <!-- Action Column -->
-                    <ng-container matColumnDef="action">
-                        <th
-                            mat-header-cell
-                            *matHeaderCellDef
-                            class="px-4 py-2 text-left text-gray-600 font-semibold"
-                        >
-                            Action
-                        </th>
-                        <td
-                            mat-cell
-                            *matCellDef="let element"
-                            class="border-b border-gray-200 px-4 py-2"
-                        >
-                            <button mat-icon-button [matMenuTriggerFor]="menu">
-                                <mat-icon>more_vert</mat-icon>
-                            </button>
-                            <mat-menu #menu="matMenu">
-                                <button
-                                    mat-menu-item
-                                    (click)="openSidePanelWithId(element.id)"
-                                >
-                                    <mat-icon
-                                        class="icon-size-4 mr-4"
-                                        svgIcon="feather:eye"
-                                    ></mat-icon>
-                                    <span>View</span>
-                                </button>
-                                <button
-                                    mat-menu-item
-                                    (click)="openEditSidePanel(element)"
-                                >
-                                    <mat-icon
-                                        class="icon-size-4 mr-4"
-                                        svgIcon="feather:edit"
-                                    ></mat-icon>
-                                    <span>Edit</span>
-                                </button>
-                                <!-- <button mat-menu-item>
-                                    <mat-icon
-                                        class="icon-size-4 mr-4"
-                                        svgIcon="feather:delete"
-                                    ></mat-icon>
-                                    <span>Delete</span>
-                                </button> -->
-                                <button
-                                    mat-menu-item
-                                    (click)="deletePc(element.id)"
-                                    role="menuitem"
-                                >
-                                    <mat-icon
-                                        class="icon-size-4 mr-4"
-                                        [svgIcon]="'feather:delete'"
-                                    ></mat-icon>
-                                    <span>Delete</span>
-                                </button>
-                            </mat-menu>
-                        </td>
-                    </ng-container>
+                  
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr
                         mat-row
+                        [routerLink]="'/assets/inventory/view'"
+                        class="cursor-pointer hover:bg-gray-100"
                         *matRowDef="let row; columns: displayedColumns"
                     ></tr>
                 </table>
