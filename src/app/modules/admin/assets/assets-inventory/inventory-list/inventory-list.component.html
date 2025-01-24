@@ -48,7 +48,7 @@
                 <mat-form-field
                     class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
                 >
-                    <mat-select                        
+                    <mat-select
                         [(value)]="selectedTypes"
                         (selectionChange)="onCategoryChange($event.value)"
                     >
@@ -86,6 +86,29 @@
                     (matSortChange)="announceSortChange($event)"
                     class="min-w-full bg-white rounded-lg shadow-md"
                 >
+                    <ng-container matColumnDef="asset_img">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            class="py-4 text-left text-gray-600 font-semibold inventory-tag-header custom-left-align"
+                        >
+                            <mat-icon
+                                class="icon-size-4 mr-4"                             
+                            ></mat-icon>
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="ml-4 border-b border-gray-200 py-4 text-sm font-semibold inventory-tag-cell"
+                        >
+                            <img
+                                src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/inspiron-notebooks/14-2-in-1-7440-intel/media-gallery/notebook-inspiron-14-7440-t-ice-blue-gallery-17.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=1336&qlt=100,1&resMode=sharp2&size=1336,804&chrss=full"
+                                alt="Sample Image"
+                                class="h-12 w-14 border border-gray-300 rounded-sm p-2"
+                            />
+                        </td>
+                    </ng-container>
                     <ng-container matColumnDef="asset_barcode">
                         <th
                             mat-header-cell
@@ -101,7 +124,7 @@
                         </th>
                         <td
                             mat-cell
-                            *matCellDef="let element"                            
+                            *matCellDef="let element"
                             class="ml-4 border-b border-gray-200 py-4 text-sm font-semibold inventory-tag-cell"
                         >
                             # {{ element.asset_barcode }}
@@ -233,7 +256,6 @@
                     </ng-container>
 
                     <!-- Action Column -->
-                  
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr

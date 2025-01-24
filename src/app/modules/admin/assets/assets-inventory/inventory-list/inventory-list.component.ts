@@ -20,6 +20,7 @@ import * as XLSX from 'xlsx'; // Keep this for XLSX handling
 })
 export class InventoryListComponent implements OnInit {
     displayedColumns: string[] = [
+        'asset_img',
         'asset_barcode',
         'type',
         'date_acquired',
