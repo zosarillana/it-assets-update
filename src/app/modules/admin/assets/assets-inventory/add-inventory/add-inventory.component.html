@@ -63,179 +63,237 @@
         </div>
     </div>
 
-    <div class="flex flex-row mx-6 my-4 gap-6">
-        <div class="max-w-3xl">
-            <!-- <div class="prose prose-sm max-w-3xl">
-                <h2 class="mt-3">Add Inventory</h2>
-                <p>
-                    This sectioned form example uses dividers to separate the different sections of the form. Form fields uses <em>placeholders</em> and don't have separate labels
-                    for more compact look.
-                </p>
-            </div> -->
-
-            <form
-                class="flex flex-col px-8 pt-10 bg-card shadow rounded overflow-hidden"
+    <div class="flex flex-col h-full sm:mx-4 md:mx-20 lg:mx-64">
+        <form
+            class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
+        >
+            <p class="text-lg font-bold text-2xl">New Asset Form</p>
+            <mat-divider class="mt-6 mb-4"></mat-divider>
+            <div class="flex flex-row mt-2 gap-4">
+                <label
+                for="select-image"
+                class="cursor-pointer flex flex-col items-center"
             >
-                <p class="text-lg font-medium">Basic information</p>
-                <p class="text-secondary mb-6">
-                    Set your login preferences, help us personalize your
-                    experience and make big account changes here
-                </p>
-                <div class="flex">
-                    <mat-form-field class="flex-auto">
-                        <input matInput [placeholder]="'Email Address'" />
-                        <mat-icon
-                            class="icon-size-5"
-                            matPrefix
-                            [svgIcon]="'heroicons_solid:mail'"
-                        ></mat-icon>
-                    </mat-form-field>
-                </div>
-                <div class="flex flex-col gt-xs:flex-row">
-                    <mat-form-field class="flex-auto gt-xs:pr-3">
-                        <mat-select [placeholder]="'Country / Region'">
-                            <mat-option value="country-1">Country 1</mat-option>
-                            <mat-option value="country-2">Country 2</mat-option>
-                            <mat-option value="country-3">Country 3</mat-option>
-                        </mat-select>
-                        <mat-icon
-                            class="icon-size-5"
-                            matPrefix
-                            [svgIcon]="'heroicons_solid:location-marker'"
-                        ></mat-icon>
-                    </mat-form-field>
-                    <mat-form-field class="flex-auto gt-xs:pl-3">
-                        <mat-select [placeholder]="'Language'">
-                            <mat-option value="language-1"
-                                >Language 1</mat-option
-                            >
-                            <mat-option value="language-2"
-                                >Language 2</mat-option
-                            >
-                            <mat-option value="language-3"
-                                >Language 3</mat-option
-                            >
-                        </mat-select>
-                        <mat-icon
-                            class="icon-size-5"
-                            matPrefix
-                            [svgIcon]="'heroicons_solid:translate'"
-                        ></mat-icon>
-                    </mat-form-field>
-                </div>
-
-                <mat-divider class="mt-6 mb-10"></mat-divider>
-
-                <p class="text-lg font-medium">Profile</p>
-                <p class="text-secondary mb-6">
-                    People here will get to know you with this information
-                </p>
-                <div class="flex flex-col gt-xs:flex-row">
-                    <mat-form-field class="flex-auto gt-xs:pr-3">
-                        <input matInput [placeholder]="'First name'" />
-                        <mat-icon
-                            class="icon-size-5"
-                            matPrefix
-                            [svgIcon]="'heroicons_solid:user-circle'"
-                        ></mat-icon>
-                    </mat-form-field>
-                    <mat-form-field class="flex-auto gt-xs:pl-3">
-                        <input matInput [placeholder]="'Last name'" />
-                        <mat-icon
-                            class="icon-size-5"
-                            matPrefix
-                            [svgIcon]="'heroicons_solid:user-circle'"
-                        ></mat-icon>
-                    </mat-form-field>
-                </div>
-                <div class="flex">
-                    <mat-form-field class="flex-auto">
-                        <input matInput [placeholder]="'Username'" />
-                        <span matPrefix>www.example.com/</span>
-                    </mat-form-field>
-                </div>
-                <div class="flex">
-                    <mat-form-field class="fuse-mat-textarea flex-auto">
-                        <textarea
-                            matInput
-                            [placeholder]="'About'"
-                            [rows]="3"
-                        ></textarea>
-                        <mat-icon
-                            class="icon-size-5"
-                            matPrefix
-                            [svgIcon]="'heroicons_solid:menu-alt-2'"
-                        ></mat-icon>
-                    </mat-form-field>
-                </div>
-
-                <mat-divider class="mt-6 mb-10"></mat-divider>
-
-                <p class="text-lg font-medium">Notifications</p>
-                <p class="text-secondary mb-6">
-                    We'll always let you know about important changes, but you
-                    pick what else you want to hear about.
-                </p>
-                <div class="flex flex-col gt-sm:flex-row">
-                    <div class="flex flex-col">
-                        <span class="font-semibold mb-2">By Email</span>
-                        <div class="flex flex-col">
-                            <mat-checkbox
-                                class="mb-2"
-                                [checked]="true"
-                                [color]="'primary'"
-                            >
-                                Company News
-                            </mat-checkbox>
-                            <mat-checkbox class="mb-2" [color]="'primary'">
-                                Featured Products
-                            </mat-checkbox>
-                            <mat-checkbox [checked]="true" [color]="'primary'">
-                                Messages
-                            </mat-checkbox>
-                        </div>
-                    </div>
-                    <div class="flex flex-col mt-8 gt-sm:mt-0 gt-sm:ml-16">
-                        <span class="font-semibold mb-2"
-                            >Push Notifications</span
-                        >
-                        <mat-radio-group
-                            class="flex flex-col"
-                            [color]="'primary'"
-                            [value]="'just-good'"
-                        >
-                            <mat-radio-button
-                                class="mb-2"
-                                [value]="'everything'"
-                            >
-                                Everything
-                            </mat-radio-button>
-                            <mat-radio-button
-                                class="mb-2"
-                                [value]="'just-good'"
-                            >
-                                Just the good stuff
-                            </mat-radio-button>
-                            <mat-radio-button [value]="'no-push'">
-                                No push notifications
-                            </mat-radio-button>
-                        </mat-radio-group>
-                    </div>
-                </div>
-
-                <div
-                    class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
+                <img
+                    id="preview-image"
+                    src="https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg"
+                    alt="Select Image"
+                    class="h-32 w-32 object-contain border border-gray-300 rounded-md"
+                />
+                <span class="text-secondary text-regular mt-2">
+                    <mat-icon
+                        class="icon-size-4 mt-1 text-secondary"
+                        [svgIcon]="'feather:edit'"
+                    ></mat-icon>
+                    Select new image</span
                 >
-                    <button mat-stroked-button>Reset Form</button>
-                    <button
-                        class="px-6 ml-3"
-                        mat-flat-button
-                        [color]="'primary'"
-                    >
-                        Save
-                    </button>
+            </label>
+            <input
+                id="select-image"
+                type="file"
+                accept="image/*"
+                class="hidden"
+                onchange="previewSelectedImage(event)"
+            />
+                <div class="flex flex-col sm:flex-row justify-between gap-2">
+                    <div class="flex flex-col" style="width: 100%;"> <!-- Make this div take full width -->
+                      <mat-form-field appearance="fill" style="width: 100%;"> <!-- Make mat-form-field take full width -->
+                        <mat-label class="text-primary font-bold text-lg">Serial Number</mat-label>
+                        <mat-icon svgIcon="feather:hash" class="icon-size-5"></mat-icon>
+                        <input matInput id="serial_number" />
+                      </mat-form-field>
+                    </div>
+                    <mat-divider class="mx-12" vertical></mat-divider>
+                    <div class="flex flex-col">
+                      <p class="text-primary font-bold text-lg">
+                        Long Item Description
+                      </p>
+                      <p class="text-secondary">
+                        ACER TRAVELMATE LAPTOP INTEL CORE i5 10TH GEN 8GB 256GB SSD BLACK
+                      </p>
+                    </div>
+                  </div>
+            </div>
+
+            <mat-divider class="mt-6 mb-10"></mat-divider>
+            <p class="text-lg font-medium mb-3">Details</p>
+
+            <div class="flex flex-row gap-4">
+                <div class="flex flex-col flex-grow gap-1">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Serial Number</mat-label>
+                        <mat-icon svgIcon="feather:hash" class="icon-size-5"></mat-icon>
+                        <input matInput id="serial_number" />
+                      </mat-form-field>
+                      
+                      <mat-form-field appearance="fill">
+                        <mat-label>Type</mat-label>
+                        <mat-icon svgIcon="feather:cpu" class="icon-size-5"></mat-icon>
+                        <input matInput id="type" />
+                      </mat-form-field>
+                      
+                      <mat-form-field appearance="fill">
+                        <mat-label>Date Acquired</mat-label>
+                        <mat-icon svgIcon="feather:calendar" class="icon-size-5"></mat-icon>
+                        <input matInput id="date_acquired" />
+                      </mat-form-field>
+                      
+                      <mat-form-field appearance="fill">
+                        <mat-label>Brand</mat-label>
+                        <mat-icon svgIcon="feather:box" class="icon-size-5"></mat-icon>
+                        <input matInput id="brand" />
+                      </mat-form-field>
+                      
+                      <mat-form-field appearance="fill">
+                        <mat-label>Model</mat-label>
+                        <mat-icon svgIcon="feather:smartphone" class="icon-size-5"></mat-icon>
+                        <input matInput id="model" />
+                      </mat-form-field>
+                      
+                      <mat-form-field appearance="fill">
+                        <mat-label>Ram</mat-label>
+                        <mat-icon svgIcon="feather:server" class="icon-size-5"></mat-icon>
+                        <input matInput id="ram" />
+                      </mat-form-field>
+                      
+                      <mat-form-field appearance="fill">
+                        <mat-label>Storage</mat-label>
+                        <mat-icon svgIcon="feather:hard-drive" class="icon-size-5"></mat-icon>
+                        <input matInput id="storage" />
+                      </mat-form-field>
+                      
+                      <mat-form-field appearance="fill">
+                        <mat-label>GPU</mat-label>
+                        <mat-icon svgIcon="feather:monitor" class="icon-size-5"></mat-icon>
+                        <input matInput id="gpu" />
+                      </mat-form-field>
+                                 
                 </div>
-            </form>
-        </div>
+                <div class="flex flex-col flex-grow gap-1">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Size</mat-label>
+                        <mat-icon svgIcon="feather:info" class="icon-size-5"></mat-icon>
+                        <input matInput id="size" />
+                      </mat-form-field>
+                      
+                      <mat-form-field appearance="fill">
+                        <mat-label>Color</mat-label>
+                        <mat-icon svgIcon="feather:info" class="icon-size-5"></mat-icon>
+                        <input matInput id="color" />
+                      </mat-form-field>
+                      
+                      <mat-form-field appearance="fill">
+                        <mat-label>Po #</mat-label>
+                        <mat-icon svgIcon="feather:tag" class="icon-size-5"></mat-icon>
+                        <input matInput id="po_number" />
+                      </mat-form-field>
+                      
+                      <mat-form-field appearance="fill">
+                        <mat-label>Warranty</mat-label>
+                        <mat-icon svgIcon="feather:shield" class="icon-size-5"></mat-icon>
+                        <input matInput id="warranty" />
+                      </mat-form-field>
+                      
+                      <mat-form-field appearance="fill">
+                        <mat-label>Cost</mat-label>
+                        <mat-icon svgIcon="feather:dollar-sign" class="icon-size-5"></mat-icon>
+                        <input matInput id="cost" />
+                      </mat-form-field>
+                      
+                      <mat-form-field appearance="fill">
+                        <mat-label>History</mat-label>
+                        <mat-icon svgIcon="feather:file-text" class="icon-size-5"></mat-icon>
+                        <input matInput id="history" readonly />
+                      </mat-form-field>
+                                          
+                </div>
+            </div>
+
+            <mat-divider class="mt-6 mb-10"></mat-divider>
+
+            <p class="text-lg font-medium">Current Owner Details</p>
+            <p class="text-secondary mb-6">
+                Current owner of the asset details.
+            </p>
+
+            <div class="flex flex-row gap-4">
+                <div class="flex flex-col flex-grow gap-4">
+                    <p class="flex flex-col font-medium text-medium">
+                        Owner name
+                        <span class="text-secondary text-medium">
+                       N/A
+                        </span>
+                    </p>
+                    <p class="flex flex-col font-medium text-medium">
+                        Company
+                        <span class="text-secondary text-medium"> N/A </span>
+                    </p>
+                    <p class="flex flex-col font-medium text-medium">
+                        Department
+                        <span class="text-secondary text-medium">
+                           N/A
+                        </span>
+                    </p>
+                </div>
+                <div class="flex flex-col flex-grow gap-4">
+                    <p class="flex flex-col font-medium text-medium">
+                        Employee Id
+                        <span class="text-secondary text-medium">
+                          N/A
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <!-- <mat-form-field class="flex-grow gt-xs:pr-3">
+                    <input matInput [placeholder]="'First name'" />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-grow gt-xs:pl-3">
+                    <input matInput [placeholder]="'Last name'" />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                </mat-form-field> -->
+
+            <mat-divider class="mt-6 mb-10"></mat-divider>
+            <!-- <div
+                class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
+            > -->
+            <!-- <button mat-stroked-button>Reset Form</button> -->
+            <!-- <button class="px-6 ml-3" mat-flat-button [color]="'primary'">
+                    Edit Details
+                </button>
+            </div> -->
+        </form>
     </div>
 </div>
+<!-- <mat-form-field class="flex-grow gt-xs:pr-3">
+                    <input matInput [placeholder]="'First name'" />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-grow gt-xs:pl-3">
+                    <input matInput [placeholder]="'Last name'" />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                </mat-form-field> -->
+<!-- <div
+                class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
+            > -->
+<!-- <button mat-stroked-button>Reset Form</button> -->
+<!-- <button class="px-6 ml-3" mat-flat-button [color]="'primary'">
+                    Edit Details
+                </button>
+            </div> -->
