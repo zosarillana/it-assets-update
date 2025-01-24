@@ -63,9 +63,9 @@ export const defaultNavigation: FuseNavigationItem[] = [
         children: [         
             {
                 id: 'assets.equitpments.inventory',
-                title: 'Import Inventory',
+                title: 'Inventory',
                 type: 'basic',
-                icon: 'feather:monitor',
+                icon: 'feather:box',
                 link: '/assets/inventory',
             },
         ],
