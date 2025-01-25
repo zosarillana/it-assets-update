@@ -56,6 +56,9 @@ import { AddInventoryComponent } from '../assets-inventory/add-inventory/add-inv
 import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
 import { EditInventoryComponent } from '../assets-inventory/edit-inventory/edit-inventory.component';
 import { ViewInventoryComponent } from '../assets-inventory/view-inventory/view-inventory.component';
+import { AccountabilityListComponent } from '../assets-accountability/accountability-list/accountability-list.component';
+import { AccountabilityFormComponent } from '../assets-accountability/forms/accountability-form/accountability-form.component';
+import { AddAccountabilityComponent } from '../assets-accountability/create-accountability/add-accountability.component';
 
 
 const assetRoute: Route[] = [
@@ -103,6 +106,18 @@ const assetRoute: Route[] = [
         path: 'inventory/view',
         component: ViewInventoryComponent,
     },
+    {
+        path: 'list',
+        component: AccountabilityListComponent,
+    },
+    {
+        path: 'accountability/view',
+        component: AccountabilityFormComponent,
+    },
+    {
+        path: 'accountability/add',
+        component: AddAccountabilityComponent,
+    },
 ];
 
 @NgModule({
@@ -132,7 +147,10 @@ const assetRoute: Route[] = [
         InventoryListComponent,
         AddInventoryComponent,
         EditInventoryComponent,
-        ViewInventoryComponent
+        ViewInventoryComponent,
+        AccountabilityListComponent,
+        AccountabilityFormComponent,
+        AddAccountabilityComponent
         // AlertsComponentComponent,
     ],
     imports: [

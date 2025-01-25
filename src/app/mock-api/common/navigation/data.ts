@@ -68,6 +68,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'feather:box',
                 link: '/assets/inventory',
             },
+            {
+                id: 'assets.equitpments.inventory',
+                title: 'Accountability',
+                type: 'basic',
+                icon: 'feather:file',
+                link: '/assets/list',
+            },
         ],
     },
     // {

@@ -12,8 +12,7 @@ import { mockApiServices } from 'app/mock-api';
 import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
-import { ViewInventoryComponent } from './modules/admin/assets/assets-inventory/view-inventory/view-inventory.component';
-import { EditInventoryComponent } from './modules/admin/assets/assets-inventory/edit-inventory/edit-inventory.component';
+import { AddAccountabilityComponent } from './modules/admin/assets/assets-accountability/create-accountability/add-accountability.component';
 
 
 const routerConfig: ExtraOptions = {
