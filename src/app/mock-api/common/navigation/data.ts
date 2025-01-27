@@ -57,7 +57,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
     {
         id: 'assets',
         title: 'Asset Inventory',
-        subtitle: 'Inventory asset list',
+        subtitle: 'Asset list and masterdata',
         type: 'group',
         icon: 'heroicons_outline:chart-pie',
         children: [         
@@ -75,6 +75,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'feather:file',
                 link: '/assets/list',
             },
+        ],
+    },
+    {
+        id: 'users',
+        title: 'Users',
+        subtitle: 'Userlist and masterdata',
+        type: 'group',      
+        children: [         
+            {
+                id: 'assets.equitpments.inventory',
+                title: 'Inventory',
+                type: 'basic',
+                icon: 'feather:user',
+                link: '/users/list',
+            },           
         ],
     },
     // {

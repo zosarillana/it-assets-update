@@ -12,7 +12,6 @@ import { mockApiServices } from 'app/mock-api';
 import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
-import { AddAccountabilityComponent } from './modules/admin/assets/assets-accountability/create-accountability/add-accountability.component';
 
 
 const routerConfig: ExtraOptions = {

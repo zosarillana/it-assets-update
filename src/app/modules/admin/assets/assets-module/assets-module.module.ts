@@ -2,7 +2,6 @@ import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InventoryTableComponent } from '../profiles/inventory/inventory-table/inventory-table.component';
 import { Route, RouterModule } from '@angular/router';
-
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -52,13 +51,13 @@ import { SidePanelMonitorComponent } from '../details/peripherals/monitor-detail
 import { ImportAssetsComponent } from '../profiles/import-assets/import-assets.component';
 import { ImportMasterdataComponent } from '../profiles/import/import-masterdata/import-masterdata.component';
 import { InventoryListComponent } from '../assets-inventory/inventory-list/inventory-list.component';
-import { AddInventoryComponent } from '../assets-inventory/add-inventory/add-inventory.component';
+import { InventoryAddComponent } from '../assets-inventory/inventory-add/inventory-add.component';
 import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
-import { EditInventoryComponent } from '../assets-inventory/edit-inventory/edit-inventory.component';
-import { ViewInventoryComponent } from '../assets-inventory/view-inventory/view-inventory.component';
+import { InventoryViewComponent } from '../assets-inventory/inventory-view/inventory-view.component';
 import { AccountabilityListComponent } from '../assets-accountability/accountability-list/accountability-list.component';
 import { AccountabilityFormComponent } from '../assets-accountability/forms/accountability-form/accountability-form.component';
-import { AddAccountabilityComponent } from '../assets-accountability/create-accountability/add-accountability.component';
+import { AccoundabilityAddComponent } from '../assets-accountability/create-accountability/accountability-add.component';
+import { InventoryEditComponent } from '../assets-inventory/inventory-edit/inventory-edit.component';
 
 
 const assetRoute: Route[] = [
@@ -96,15 +95,15 @@ const assetRoute: Route[] = [
     },
     {
         path: 'inventory/add',
-        component: AddInventoryComponent,
+        component: InventoryAddComponent,
     },
     {
         path: 'inventory/edit',
-        component: EditInventoryComponent,
+        component: InventoryEditComponent,
     },
     {
         path: 'inventory/view',
-        component: ViewInventoryComponent,
+        component: InventoryViewComponent,
     },
     {
         path: 'list',
@@ -116,7 +115,7 @@ const assetRoute: Route[] = [
     },
     {
         path: 'accountability/add',
-        component: AddAccountabilityComponent,
+        component: AccoundabilityAddComponent,
     },
 ];
 
@@ -145,12 +144,12 @@ const assetRoute: Route[] = [
         SidePanelMonitorComponent,
         ImportMasterdataComponent,
         InventoryListComponent,
-        AddInventoryComponent,
-        EditInventoryComponent,
-        ViewInventoryComponent,
+        InventoryAddComponent,
+        InventoryEditComponent,
+        InventoryViewComponent,
         AccountabilityListComponent,
         AccountabilityFormComponent,
-        AddAccountabilityComponent
+        AccoundabilityAddComponent
         // AlertsComponentComponent,
     ],
     imports: [
