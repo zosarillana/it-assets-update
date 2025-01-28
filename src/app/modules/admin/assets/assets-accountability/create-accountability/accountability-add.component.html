@@ -1,1 +1,277 @@
-<p>add-accountability works!</p>
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
+    >
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div>
+                <div class="hidden sm:flex flex-wrap items-center font-medium">
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <a class="ml-1 text-primary-500">Assets</a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-right'"
+                        ></mat-icon>
+                        <a
+                            class="ml-1 text-primary-500 cursor-pointer"
+                            [routerLink]="'/assets/inventory'"
+                            >Inventory List</a
+                        >
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-right'"
+                        ></mat-icon>
+                        <span class="ml-1 text-secondary">Add</span>
+                    </div>
+                </div>
+                <div class="flex sm:hidden">
+                    <a
+                        class="inline-flex items-center -ml-1.5 text-secondary font-medium"
+                        [routerLink]="'/assets/inventory'"
+                    >
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-left'"
+                        ></mat-icon>
+                        <span class="ml-1">Back</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-2">
+                <h2
+                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                >
+                    Add Accountability
+                </h2>
+            </div>
+        </div>
+        <div
+            class="hidden sm:flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4"
+        >
+            <button
+                class="ml-4"
+                mat-icon-button
+                [routerLink]="'/assets/inventory'"
+            >
+                <mat-icon [svgIcon]="'close'"></mat-icon>
+                <!-- <span class="ml-2 mr-1">Go back</span> -->
+            </button>
+        </div>
+    </div>
+
+    <div class="flex flex-col h-full sm:mx-4 md:mx-20 lg:mx-64 lg:my-4">
+        <form
+            class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
+        >
+            <p class="text-lg font-bold text-2xl">New Accountability Form</p>
+            <mat-divider class="mt-6 mb-4"></mat-divider>
+            <div class="flex flex-row mt-2 gap-4">
+                <label
+                    for="select-image"
+                    class="cursor-pointer flex flex-col items-center"
+                >
+                    <img
+                        id="preview-image"
+                        src="https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg"
+                        alt="Select Image"
+                        class="h-32 w-32 object-contain border border-gray-300 rounded-md"
+                    />
+                    <span class="text-secondary text-regular mt-2">
+                        <mat-icon
+                            class="icon-size-4 mt-1 text-secondary"
+                            [svgIcon]="'feather:edit'"
+                        ></mat-icon>
+                        Select new image</span
+                    >
+                </label>
+                <input
+                    id="select-image"
+                    type="file"
+                    accept="image/*"
+                    class="hidden"
+                    onchange="previewSelectedImage(event)"
+                />
+                <div
+                    class="flex flex-col flex-grow sm:flex-row justify-between gap-2"
+                >
+                    <div class="flex flex-col" style="width: 100%">
+                        <!-- Make this div take full width -->
+                        <mat-form-field appearance="fill" style="width: 100%">
+                            <!-- Make mat-form-field take full width -->
+                            <mat-label class="text-primary font-bold text-lg"
+                                >Serial Number</mat-label
+                            >
+                            <mat-icon
+                                svgIcon="feather:hash"
+                                class="icon-size-5"
+                            ></mat-icon>
+                            <input matInput id="serial_number" />
+                        </mat-form-field>
+                    </div>
+                    <!-- <mat-divider class="mx-12" vertical></mat-divider>
+                    <div class="flex flex-col">
+                        <p class="text-primary font-bold text-lg">
+                            Long Item Description
+                        </p>
+                        <p class="text-secondary">
+                            ACER TRAVELMATE LAPTOP INTEL CORE i5 10TH GEN 8GB
+                            256GB SSD BLACK
+                        </p>
+                    </div> -->
+                </div>
+            </div>
+
+            <mat-divider class="mt-6 mb-10"></mat-divider>
+            <!-- <p class="text-lg font-medium mb-3">Assign available computers</p> -->
+            <!-- <ng-template matStepLabel>Assign Assets</ng-template> -->
+            <div class="flex flex-col gt-sm:flex-row">
+                <mat-form-field class="example-chip-list custom-chip-list">
+                    <mat-label>Assign PC / Laptop</mat-label>
+                    <mat-chip-list #chipList2 aria-label="PC selection">
+                        <mat-chip
+                            *ngFor="let pc of selectedPcs"
+                            (removed)="removePc(pc)"
+                        >
+                            {{ pc.asset_barcode }} {{ pc.id }}
+                            <button
+                                matChipRemove
+                                [attr.aria-label]="'remove ' + pc.asset_barcode"
+                            >
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </mat-chip>
+                    </mat-chip-list>
+                    <input
+                        [formControlName]="'assign_pc'"
+                        name="currentPc"
+                        placeholder="New PC..."
+                        #pcInput
+                        [matChipInputFor]="chipList2"
+                        [matAutocomplete]="pcAuto"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        (input)="filterPCs($event.target.value)"
+                        (matChipInputTokenEnd)="addPc($event)"
+                    />
+                    <mat-autocomplete
+                        #pcAuto="matAutocomplete"
+                        (optionSelected)="selectedPc($event)"
+                    >
+                        <mat-option
+                            *ngFor="let pc of filteredPcs"
+                            [value]="pc.asset_barcode"
+                        >
+                            {{ pc.asset_barcode }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <!-- Assign Peripherals -->
+                <div class="flex flex-col mt-8 gt-sm:mt-0 gt-sm:ml-16">
+                    <mat-form-field class="example-chip-list custom-chip-list">
+                        <mat-label>Assign Peripherals</mat-label>
+                        <mat-chip-list
+                            #chipList
+                            aria-label="Peripheral selection"
+                        >
+                            <mat-chip
+                                *ngFor="let fruit of selectedPeris"
+                                (removed)="remove(fruit)"
+                            >
+                                {{ fruit.id }}
+                                <button
+                                    matChipRemove
+                                    [attr.aria-label]="
+                                        'remove ' + fruit.asset_barcode
+                                    "
+                                >
+                                    <mat-icon>cancel</mat-icon>
+                                </button>
+                            </mat-chip>
+                        </mat-chip-list>
+                        <input
+                            [formControlName]="'assign_peripherals'"
+                            name="currentFruit"
+                            placeholder="New Peripheral..."
+                            #fruitInput
+                            [matChipInputFor]="chipList"
+                            [matAutocomplete]="fruitAuto"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            (input)="filterFruits($event.target.value)"
+                            (matChipInputTokenEnd)="add($event)"
+                        />
+                        <mat-autocomplete
+                            #fruitAuto="matAutocomplete"
+                            (optionSelected)="selectedPeripherals($event)"
+                        >
+                            <mat-option
+                                *ngFor="let fruit of filteredFruits"
+                                [value]="fruit.asset_barcode"
+                            >
+                                {{ fruit.asset_barcode }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+            </div>
+            <mat-divider class="mt-6 mb-10"></mat-divider>
+
+            <p class="text-lg font-medium">Current Owner Details</p>
+            <p class="text-secondary mb-6">
+                Current owner of the asset details.
+            </p>
+
+            <div class="flex flex-row gap-4">
+                <div class="flex flex-col flex-grow gap-4">
+                    <p class="flex flex-col font-medium text-medium">
+                        Owner name
+                        <span class="text-secondary text-medium"> N/A </span>
+                    </p>
+                    <p class="flex flex-col font-medium text-medium">
+                        Company
+                        <span class="text-secondary text-medium"> N/A </span>
+                    </p>
+                    <p class="flex flex-col font-medium text-medium">
+                        Department
+                        <span class="text-secondary text-medium"> N/A </span>
+                    </p>
+                </div>
+                <div class="flex flex-col flex-grow gap-4">
+                    <p class="flex flex-col font-medium text-medium">
+                        Employee Id
+                        <span class="text-secondary text-medium"> N/A </span>
+                    </p>
+                </div>
+            </div>
+            <!-- <mat-form-field class="flex-grow gt-xs:pr-3">
+                    <input matInput [placeholder]="'First name'" />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-grow gt-xs:pl-3">
+                    <input matInput [placeholder]="'Last name'" />
+                    <mat-icon
+                        class="icon-size-5"
+                        matPrefix
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                </mat-form-field> -->
+            <div
+                class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
+            >
+                <button mat-stroked-button>Reset Form</button>
+                <button class="px-6 ml-3" mat-flat-button [color]="'primary'">
+                    Create Form
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

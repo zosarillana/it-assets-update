@@ -1,4 +1,4 @@
-<div class="flex flex-col flex-auto min-w-0">
+<div class="flex flex-col flex-auto min-w-0 overflow-hidden">
     <!-- Header -->
     <div
         class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
@@ -61,16 +61,17 @@
                         </p>
                         <div class="flex flex-row gap-2">
                             <button
-                            class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center"
-                            (click)="printForm()"
-                          >
-                            <mat-icon
-                              class="icon-size-4 text-blue-600"
-                              [svgIcon]="'feather:printer'"
-                            ></mat-icon>
-                            <span class="ml-1 mr-1 text-sm text-blue-600">Print</span>
-                          </button>
-                                            
+                                class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center"
+                                (click)="printForm()"
+                            >
+                                <mat-icon
+                                    class="icon-size-4 text-blue-600"
+                                    [svgIcon]="'feather:printer'"
+                                ></mat-icon>
+                                <span class="ml-1 mr-1 text-sm text-blue-600"
+                                    >Print</span
+                                >
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -92,176 +93,321 @@
         </div>
     </div>
     <div id="printableArea">
-    <div class="flex flex-col h-full sm:mx-4 md:mx-20 lg:mx-12 lg:my-4">
-        
-        <form
-            class="flex flex-col flex-grow px-8 pt-10 bg-card rounded w-full overflow-hidden"
-        >
-            <p class="text-lg font-bold text-2xl">Asset Information</p>
-            <mat-divider class="mt-6 mb-4"></mat-divider>
-            <div class="flex flex-row mt-2 gap-4">
-                <img
-                    src="https://media.licdn.com/dms/image/v2/C560BAQHWJD_zzL0r7g/company-logo_200_200/company-logo_200_200/0/1630654266817/ana_s_breeders_farms_inc_and_affiliates_logo?e=2147483647&v=beta&t=LI_9i14ZJBmpdCtpPVSd5G1uePtoZ4AwzDx3djID7qA"
-                    alt="Sample QR"
-                    class="h-32 w-32"
-                />
-                <div class="flex flex-col sm:flex-row justify-between">
-                    <div class="flex flex-col gap-2">
-                        <p class="text-primary font-bold text-2xl">
-                            Accountability Id:
-                            <span class="text-secondary text-lg"
-                                >SS3410001</span
-                            >
-                        </p>
-                        <p class="text-secondary">Status: Active</p>
-                    </div>
-                    <mat-divider class="mx-12" vertical></mat-divider>
-                    <div class="flex flex-col gap-4">
-                        <div class="flex flex-row gap-12">
-                            <div>
-                                <p class="text-primary font-bold text-lg">
-                                    Accountable to:
-                                </p>
-                                <p class="text-secondary">
-                                    Lorem Ipsum Dolom 222-111
-                                </p>
-                            </div>
-                            <!-- <mat-divider class="mx-12" vertical></mat-divider> -->
-                            
-                            
-                            <div>
-                                <p class="text-primary font-bold text-lg">
-                                    Department
-                                </p>
-                                <p class="text-secondary">CISDEVO</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-row gap-12">
-                            <div>
-                                <p class="text-primary font-bold text-lg">
-                                    Company:
-                                </p>
-                                <p class="text-secondary">Abfi</p>
-                            </div>
-                          
-        
-                        </div>
-                      
-
-                        <div>
-                            <p class="text-primary font-bold text-lg">
-                                Accountability created:
+        <div class="flex flex-col h-full sm:mx-4 md:mx-20 lg:mx-12 lg:my-4">
+            <form
+                class="flex flex-col flex-grow px-8 pt-10 bg-card rounded w-full overflow-hidden"
+            >
+                <p class="text-lg font-bold text-2xl">Asset Information</p>
+                <mat-divider class="mt-6 mb-4"></mat-divider>
+                <div class="flex flex-row mt-2 gap-4">
+                    <img
+                        src="https://media.licdn.com/dms/image/v2/C560BAQHWJD_zzL0r7g/company-logo_200_200/company-logo_200_200/0/1630654266817/ana_s_breeders_farms_inc_and_affiliates_logo?e=2147483647&v=beta&t=LI_9i14ZJBmpdCtpPVSd5G1uePtoZ4AwzDx3djID7qA"
+                        alt="Sample QR"
+                        class="h-32 w-32"
+                    />
+                    <div class="flex flex-col sm:flex-row justify-between">
+                        <div class="flex flex-col gap-2">
+                            <p class="text-primary font-bold text-2xl">
+                                Accountability Id:
+                                <span class="text-secondary text-lg"
+                                    >SS3410001</span
+                                >
                             </p>
-                            <p class="text-secondary">Junuary 25, 2021</p>
+                            <p class="text-secondary">Status: Active</p>
+                        </div>
+                        <mat-divider class="mx-12" vertical></mat-divider>
+                        <div class="flex flex-col gap-4">
+                            <div class="flex flex-row gap-12">
+                                <div>
+                                    <p class="text-primary font-bold text-lg">
+                                        Accountable to:
+                                    </p>
+                                    <p class="text-secondary">
+                                        Lorem Ipsum Dolom 222-111
+                                    </p>
+                                </div>
+                                <!-- <mat-divider class="mx-12" vertical></mat-divider> -->
+
+                                <div>
+                                    <p class="text-primary font-bold text-lg">
+                                        Department
+                                    </p>
+                                    <p class="text-secondary">CISDEVO</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-row gap-12">
+                                <div>
+                                    <p class="text-primary font-bold text-lg">
+                                        Company:
+                                    </p>
+                                    <p class="text-secondary">Abfi</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p class="text-primary font-bold text-lg">
+                                    Accountability created:
+                                </p>
+                                <p class="text-secondary">Junuary 25, 2021</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <mat-divider class="mt-6 mb-10"></mat-divider>
-            <p class="text-lg font-medium mb-3">Assets under accountability</p>
-            <div class="overflow-x-auto">
-                <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-
-                    <!-- Type Column -->
-                    <ng-container matColumnDef="type">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
-                      <mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
-                    </ng-container>
-                  
-                    <!-- Date Acquired Column -->
-                    <ng-container matColumnDef="dateAcquired">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header> Date Acquired </mat-header-cell>
-                      <mat-cell *matCellDef="let element"> {{element.dateAcquired}} </mat-cell>
-                    </ng-container>
-                  
-                    <!-- Asset Barcode Column -->
-                    <ng-container matColumnDef="assetBarcode">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header> Asset Barcode </mat-header-cell>
-                      <mat-cell *matCellDef="let element"> {{element.assetBarcode}} </mat-cell>
-                    </ng-container>
-                  
-                    <!-- Brand Column -->
-                    <ng-container matColumnDef="brand">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header> Brand </mat-header-cell>
-                      <mat-cell *matCellDef="let element"> {{element.brand}} </mat-cell>
-                    </ng-container>
-                  
-                    <!-- Model Column -->
-                    <ng-container matColumnDef="model">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header> Model </mat-header-cell>
-                      <mat-cell *matCellDef="let element"> {{element.model}} </mat-cell>
-                    </ng-container>                                  
-                  
-                    <!-- Asset Personal History Column -->
-                    <ng-container matColumnDef="personalHistory">
-                        <mat-header-cell class="mx-12" *matHeaderCellDef mat-sort-header style="width: 600px; white-space: normal;"> 
-                          Asset Personal History 
-                        </mat-header-cell>
-                        <mat-cell class="mx-12" *matCellDef="let element" style="width: 600px; white-space: normal;"> 
-                          {{element.personalHistory}} 
-                        </mat-cell>
-                      </ng-container>
-                      
-                      
-                      
-                  
-                    <!-- Status Column -->
-                    <ng-container matColumnDef="status">
-                      <mat-header-cell *matHeaderCellDef mat-sort-header > Status </mat-header-cell>
-                      <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
-                    </ng-container>
-                  
-                    <!-- Header and Rows -->
-                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                    <mat-row *matRowDef="let row; columns: displayedColumns;" class="hover:bg-gray-100 cursor-pointer" [routerLink]="'/assets/inventory/view'"></mat-row>
-                  </mat-table>
-                        
-                  
+                <mat-divider class="mt-6 mb-3"></mat-divider>
+                
+                <div class="flex flex-col my-4">
+                    <p class="text-lg font-medium mt-5 ">
+                        Computer under  accountability
+                    </p>
+                    <span class="text-secondary text-sm">
+                        (Desktop, Laptops, etc..)</span
+                    >
                 </div>
 
-            <div class="flex flex-row gap-4">
-               
-            </div>
+                <div class="overflow-x-auto">
+                    <mat-table
+                        [dataSource]="dataSource2"
+                        matSort
+                        class="mat-elevation-z8"
+                    >
+                        <!-- Type Column -->
+                        <ng-container matColumnDef="type">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Type
+                            </mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">
+                                {{ element.type }}
+                            </mat-cell>
+                        </ng-container>
 
-            <!-- <mat-divider class="mt-6 mb-10"></mat-divider> -->
+                        <!-- Date Acquired Column -->
+                        <ng-container matColumnDef="dateAcquired">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Date Acquired
+                            </mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">
+                                {{ element.dateAcquired }}
+                            </mat-cell>
+                        </ng-container>
 
-            <p class="text-lg font-medium mt-10">Current Owner Details</p>
-            <p class="text-secondary mb-6">
-                Current owner of the asset details.
-            </p>
+                        <!-- Asset Barcode Column -->
+                        <ng-container matColumnDef="assetBarcode">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Asset Barcode
+                            </mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">
+                                {{ element.assetBarcode }}
+                            </mat-cell>
+                        </ng-container>
 
-            <div class="flex flex-row gap-4">
-                <div class="flex flex-col flex-grow gap-4">
-                    <p class="flex flex-col font-medium text-medium">
-                        Owner name
-                        <span class="text-secondary text-medium">
-                            Jefferson Arnado
-                        </span>
-                    </p>
-                    <p class="flex flex-col font-medium text-medium">
-                        Company
-                        <span class="text-secondary text-medium"> ABFI </span>
-                    </p>
-                    <p class="flex flex-col font-medium text-medium">
-                        Department
-                        <span class="text-secondary text-medium">
-                            CISDEVO
-                        </span>
-                    </p>
+                        <!-- Brand Column -->
+                        <ng-container matColumnDef="brand">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Brand
+                            </mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">
+                                {{ element.brand }}
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Model Column -->
+                        <ng-container matColumnDef="model">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Model
+                            </mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">
+                                {{ element.model }}
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Asset Personal History Column -->
+                        <ng-container matColumnDef="personalHistory">
+                            <mat-header-cell
+                                class="mx-12"
+                                *matHeaderCellDef
+                                mat-sort-header
+                                style="width: 600px; white-space: normal"
+                            >
+                                Asset Personal History
+                            </mat-header-cell>
+                            <mat-cell
+                                class="mx-12 text-sm"
+                                *matCellDef="let element"
+                                style="width: 600px; white-space: normal"
+                            >
+                                {{ element.personalHistory }}
+                            </mat-cell>
+                        </ng-container>
+                        <!-- Status Column -->
+                        <ng-container matColumnDef="status">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Status
+                            </mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">
+                                {{ element.status }}
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Header and Rows -->
+                        <mat-header-row
+                            *matHeaderRowDef="displayedColumns"
+                        ></mat-header-row>
+                        <mat-row
+                            *matRowDef="let row; columns: displayedColumns"
+                            class="hover:bg-gray-100 cursor-pointer"
+                            [routerLink]="'/assets/inventory/view'"
+                        ></mat-row>
+                    </mat-table>
                 </div>
-                <div class="flex flex-col flex-grow gap-4">
-                    <p class="flex flex-col font-medium text-medium">
-                        Employee Id
-                        <span class="text-secondary text-medium">
-                            220-120
-                        </span>
-                    </p>
-                </div>
-            </div>
 
-            <mat-divider class="mt-6 mb-10"></mat-divider>
-        </form>
-    </div>
+                <div class="flex flex-col my-4">
+                    <p class="text-lg font-medium mt-5 ">
+                        Assets under accountability
+                    </p>
+                    <span class="text-secondary text-sm">
+                        (Mouse, Keyboards, Monitors, Speakers etc..)</span
+                    >
+                </div>
+
+                <div class="overflow-x-auto">
+                    <mat-table
+                        [dataSource]="dataSource"
+                        matSort
+                        class="mat-elevation-z8"
+                    >
+                        <!-- Type Column -->
+                        <ng-container matColumnDef="type">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Type
+                            </mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">
+                                {{ element.type }}
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Date Acquired Column -->
+                        <ng-container matColumnDef="dateAcquired">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Date Acquired
+                            </mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">
+                                {{ element.dateAcquired }}
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Asset Barcode Column -->
+                        <ng-container matColumnDef="assetBarcode">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Asset Barcode
+                            </mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">
+                                {{ element.assetBarcode }}
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Brand Column -->
+                        <ng-container matColumnDef="brand">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Brand
+                            </mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">
+                                {{ element.brand }}
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Model Column -->
+                        <ng-container matColumnDef="model">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Model
+                            </mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">
+                                {{ element.model }}
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Asset Personal History Column -->
+                        <ng-container matColumnDef="personalHistory">
+                            <mat-header-cell
+                                class="mx-12"
+                                *matHeaderCellDef
+                                mat-sort-header
+                                style="width: 600px; white-space: normal"
+                            >
+                                Asset Personal History
+                            </mat-header-cell>
+                            <mat-cell
+                                class="mx-12 text-sm"
+                                *matCellDef="let element"
+                                style="width: 600px; white-space: normal"
+                            >
+                                {{ element.personalHistory }}
+                            </mat-cell>
+                        </ng-container>
+                        <!-- Status Column -->
+                        <ng-container matColumnDef="status">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Status
+                            </mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">
+                                {{ element.status }}
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Header and Rows -->
+                        <mat-header-row
+                            *matHeaderRowDef="displayedColumns"
+                        ></mat-header-row>
+                        <mat-row
+                            *matRowDef="let row; columns: displayedColumns"
+                            class="hover:bg-gray-100 cursor-pointer"
+                            [routerLink]="'/assets/inventory/view'"
+                        ></mat-row>
+                    </mat-table>
+                </div>
+
+                <div class="flex flex-row gap-4"></div>
+
+                <!-- <mat-divider class="mt-6 mb-10"></mat-divider> -->
+
+                <p class="text-lg font-medium mt-10">Current Owner Details</p>
+                <p class="text-secondary mb-6">
+                    Current owner of the asset details.
+                </p>
+
+                <div class="flex flex-row gap-4">
+                    <div class="flex flex-col flex-grow gap-4">
+                        <p class="flex flex-col font-medium text-medium">
+                            Owner name
+                            <span class="text-secondary text-medium">
+                                Jefferson Arnado
+                            </span>
+                        </p>
+                        <p class="flex flex-col font-medium text-medium">
+                            Company
+                            <span class="text-secondary text-medium">
+                                ABFI
+                            </span>
+                        </p>
+                        <p class="flex flex-col font-medium text-medium">
+                            Department
+                            <span class="text-secondary text-medium">
+                                CISDEVO
+                            </span>
+                        </p>
+                    </div>
+                    <div class="flex flex-col flex-grow gap-4">
+                        <p class="flex flex-col font-medium text-medium">
+                            Employee Id
+                            <span class="text-secondary text-medium">
+                                220-120
+                            </span>
+                        </p>
+                    </div>
+                </div>
+
+                <mat-divider class="mt-6 mb-10"></mat-divider>
+            </form>
+        </div>
     </div>
 </div>

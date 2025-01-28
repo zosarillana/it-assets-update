@@ -25,9 +25,7 @@ export class InventoryListComponent implements OnInit {
         'type',
         'date_acquired',
         'pc_type',
-        'brand',
-        'model',
-        'li_description',
+        'brand',         
         'serial_no',
     ];
 

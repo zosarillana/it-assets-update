@@ -92,27 +92,27 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },           
         ],
     },
-    // {
-    //     id: 'assets.tables',
-    //     title: 'Asset Details',
-    //     type: 'collapsable',
-    //     icon: 'feather:tag',
-    //     children: [
-    //         {
-    //             id: 'assets.cards.details',
-    //             title: 'Accountability',
-    //             type: 'collapsable',
-    //             icon: 'mat_outline:article',
-    //             children:[
-    //                 {
-    //                     id: 'assets.cards.details.pc',
-    //                     title: 'Accountability Form',
-    //                     type: 'basic',
-    //                     //  icon: 'feather:monitor',
-    //                     link: '/assets/cards/pcs',
-    //                 },
-    //             ]
-    //         },
+    {
+        id: 'assets.tables',
+        title: 'Asset Details',
+        type: 'collapsable',
+        icon: 'feather:tag',
+        children: [
+            {
+                id: 'assets.cards.details',
+                title: 'Accountability',
+                type: 'collapsable',
+                icon: 'mat_outline:article',
+                children:[
+                    {
+                        id: 'assets.cards.details.pc',
+                        title: 'Accountability Form',
+                        type: 'basic',
+                        //  icon: 'feather:monitor',
+                        link: '/assets/cards/pcs',
+                    },
+                ]
+            },
     //         {
     //             id: 'assets.cards.details',
     //             title: 'Desktop',
@@ -177,8 +177,8 @@ export const defaultNavigation: FuseNavigationItem[] = [
     //             ]
     //         },
 
-    //     ],
-    // },
+        ],
+    },
 
     {
         id: 'data',

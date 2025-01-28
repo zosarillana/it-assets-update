@@ -26,7 +26,7 @@ export class AccountabilityListComponent implements OnInit {
         'date_acquired',
         'owner',
         'brand',
-        'owner_id',       
+        // 'owner_id',       
         'serial_no',
     ];
 

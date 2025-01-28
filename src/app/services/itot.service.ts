@@ -8,7 +8,7 @@ import { ItotPeripheral } from 'app/models/ItotPeripheral';
     providedIn: 'root',
 })
 export class ITOTService {
-    private url = 'https://localhost:7233';
+    private url = 'https://localhost:5299';
     constructor(private http: HttpClient) {}
 
     public getItots(): Observable<ItotPc[]> {
