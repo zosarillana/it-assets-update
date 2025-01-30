@@ -1,70 +1,57 @@
 <div class="flex flex-col flex-auto min-w-0">
     <!-- Header -->
-    <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
-    >
-    <div class="flex-1 min-w-0">
-        <!-- Breadcrumbs -->
-        <div>
-            <div class="hidden sm:flex flex-wrap items-center font-medium">
-                <div class="flex items-center ml-1 whitespace-nowrap truncate">
-                    <a class="ml-1 text-primary-500 truncate">Users</a>
-                </div>
-                <div class="flex items-center ml-1 whitespace-nowrap truncate">
-                    <mat-icon
-                        class="icon-size-5 text-secondary"
-                        [svgIcon]="'heroicons_solid:chevron-right'"
-                    ></mat-icon>
-                    <span class="ml-1 text-secondary truncate">Users List</span>
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-4 sm:p-6 lg:p-8 border-b bg-card dark:bg-transparent">
+        <!-- Left Section -->
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div>
+                <div class="hidden sm:flex flex-wrap items-center font-medium">
+                    <div class="flex items-center ml-1 whitespace-nowrap truncate">
+                        <a class="ml-1 text-primary-500 truncate">Computers</a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap truncate">
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-right'"
+                        ></mat-icon>
+                        <span class="ml-1 text-secondary truncate">Computers List</span>
+                    </div>
                 </div>
             </div>
+        
+            <!-- Title -->
+            <div class="mt-2 truncate">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    Computers List
+                </h2>
+            </div>
         </div>
-        <!-- Title -->
-        <div class="mt-2 truncate">
-            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                Users List
-            </h2>
-        </div>
-    </div>
-        <div class="flex flex-wrap items-center mt-6 sm:mt-0">
+    
+        <!-- Right Section -->
+        <div class="flex flex-wrap items-center mt-4 sm:mt-0">
             <!-- Add Inventory Button -->
             <button
-                class="w-full sm:w-auto mt-4 sm:mt-0 sm:ml-4 flex items-center justify-center"
+                class="w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2 md:ml-4 flex items-center justify-center"
                 mat-stroked-button
-                [routerLink]="'/users/list/add'"
+                [routerLink]="'/assets/accountability/add'"
             >
                 <mat-icon [svgIcon]="'feather:plus'"></mat-icon>
-                <span class="ml-2 mr-1">Add Users</span>
+                <span class="ml-2 mr-1">Add Accountability</span>
             </button>
-
+    
             <!-- Select Category -->
-            <mat-form-field
-                class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
-            >
-                <mat-select
-                    [(value)]="selectedTypes"
-                    (selectionChange)="onCategoryChange($event.value)"
-                >
+            <mat-form-field class="fuse-mat-no-subscript w-full sm:w-48 md:w-56 lg:w-72 mt-2 sm:mt-0 sm:ml-2 md:ml-4">
+                <mat-select [(value)]="selectedTypes" (selectionChange)="onCategoryChange($event.value)">
                     <mat-option *ngFor="let type of types" [value]="type">
                         {{ type }}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-
+    
             <!-- Search Inventory Tag -->
-            <mat-form-field
-                class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
-            >
-                <mat-icon
-                    matPrefix
-                    class="icon-size-5"
-                    [svgIcon]="'heroicons_solid:search'"
-                ></mat-icon>
-                <input
-                    matInput
-                    placeholder="Search Inventory Tag"
-                    (keyup)="applyInventoryTagFilter($event.target.value)"
-                />
+            <mat-form-field class="fuse-mat-no-subscript w-full sm:w-48 md:w-56 lg:w-72 mt-2 sm:mt-0 sm:ml-2 md:ml-4">
+                <mat-icon matPrefix class="icon-size-5" [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                <input matInput placeholder="Search Inventory Tag" (keyup)="applyInventoryTagFilter($event.target.value)" />
             </mat-form-field>
         </div>
     </div>
@@ -100,7 +87,7 @@
                         />
                     </td>
                 </ng-container>
-                <ng-container matColumnDef="employee_id">
+                <ng-container matColumnDef="asset_barcode">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
@@ -111,111 +98,127 @@
                             class="icon-size-4 mr-4"
                             svgIcon="feather:tag"
                         ></mat-icon>
-                        Employee Id
+                        Asset Barcode
                     </th>
                     <td
                         mat-cell
                         *matCellDef="let element"
                         class="ml-4 border-b border-gray-200 py-4 text-sm font-semibold inventory-tag-cell"
                     >
-                        # {{ element.employee_id }}
+                        # {{ element.asset_barcode }}
                     </td>
-                </ng-container>        
-                <ng-container matColumnDef="name">
+                </ng-container>
+                <ng-container matColumnDef="type">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="py-4 text-left text-gray-600 font-semibold inventory-tag-header custom-left-align"
+                    >
+                        Type
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-b border-gray-200 px-4 py-4 text-sm font-semibold inventory-tag-cell"
+                    >
+                        {{ element.type }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="date_acquired">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
                         class="px-4 py-2 text-left text-gray-600 font-semibold"
                     >
-                        Name
+                        Date Acquired
                     </th>
                     <td
                         mat-cell
                         *matCellDef="let element"
                         class="border-b border-gray-200 text-sm px-4 py-2"
                     >
-                        {{ element.name }}
-                        <!-- {{ element.date_acquired | date : "MM/dd/yyyy" }} -->
+                        {{ element.date_acquired | date : "MM/dd/yyyy" }}
                     </td>
                 </ng-container>
 
-                <ng-container matColumnDef="company">
+                <ng-container matColumnDef="brand">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
                         class="px-4 py-2 text-left text-gray-600 font-semibold"
                     >
-                        Company
+                        Brand
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-b border-gray-200 text-sm px-4 py-2"
+                    >
+                        {{ element.brand }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="serial_no">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                    >
+                        Serial Number
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-b border-gray-200 text-sm px-4 py-2"
+                    >
+                        {{ element.serial_no }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="owner">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                    >
+                        Owner
                     </th>
                     <td
                         mat-cell
                         *matCellDef="let element"
                         class="border-b border-gray-200 text-sm px-4 py-2 pr-12"
                     >
-                        {{ element.company }}
+                        {{ element.owner }}
                     </td>
                 </ng-container>
-
-                <ng-container matColumnDef="department">
+                <!-- <ng-container matColumnDef="owner_id">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
                         class="px-4 py-2 text-left text-gray-600 font-semibold"
                     >
-                        Department
+                        Owner Id
                     </th>
                     <td
                         mat-cell
                         *matCellDef="let element"
                         class="border-b border-gray-200 text-sm px-4 py-2"
                     >
-                        {{ element.department }}
+                        {{ element.owner_id }}
                     </td>
-                </ng-container>
+                </ng-container> -->
+                <!-- Action Column -->
 
-                <ng-container matColumnDef="status">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        class="px-4 py-2 text-left text-gray-600 font-semibold"
-                    >
-                        status
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let element"
-                        class="border-b border-gray-200 text-sm px-4 py-2"
-                    >
-                        {{ element.status }}
-                    </td>
-                </ng-container>
-
-                <ng-container matColumnDef="date_created">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        class="px-4 py-2 text-left text-gray-600 font-semibold"
-                    >
-                        Long Item Description
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let element"
-                        class="border-b border-gray-200 text-sm px-4 py-2"
-                    >
-                        {{ element.date_created | date: "MM/dd/yyyy" }}
-                    </td>
-                </ng-container>
-            
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr
                     mat-row
-                    [routerLink]="'/assets/inventory/view'"
+                    [routerLink]="'/assets/accountability/view'"
                     class="cursor-pointer hover:bg-gray-100"
                     *matRowDef="let row; columns: displayedColumns"
                 ></tr>

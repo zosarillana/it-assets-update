@@ -62,10 +62,24 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon: 'heroicons_outline:chart-pie',
         children: [         
             {
-                id: 'assets.equitpments.inventory',
-                title: 'Inventory',
+                id: 'assets.equipments.inventory',
+                title: 'Computer Inventory',
                 type: 'basic',
-                icon: 'feather:box',
+                icon: 'feather:server', // Represents a collection of computers or systems
+                link: '/assets/computers',
+            },
+            {
+                id: 'assets.equipments.inventory',
+                title: 'Computer Components',
+                type: 'basic',
+                icon: 'feather:cpu', // Represents internal components like CPU, RAM, etc.
+                link: '/assets/components',
+            },
+            {
+                id: 'assets.equipments.inventory',
+                title: 'Peripheral Inventory',
+                type: 'basic',
+                icon: 'feather:printer', // Represents peripherals like printers, keyboards, etc.
                 link: '/assets/inventory',
             },
             {
@@ -73,7 +87,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Accountability',
                 type: 'basic',
                 icon: 'feather:file',
-                link: '/assets/list',
+                link: '/assets/accountability',
             },
         ],
     },
@@ -85,7 +99,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         children: [         
             {
                 id: 'assets.equitpments.inventory',
-                title: 'Inventory',
+                title: 'Users',
                 type: 'basic',
                 icon: 'feather:user',
                 link: '/users/list',

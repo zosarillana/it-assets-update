@@ -21,7 +21,7 @@
                             >Inventory List</a
                         >
                     </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
+                    <div class=" items-center ml-1 whitespace-nowrap">
                         <mat-icon
                             class="icon-size-5 text-secondary"
                             [svgIcon]="'heroicons_solid:chevron-right'"
@@ -32,7 +32,7 @@
                 <div class="flex sm:hidden">
                     <a
                         class="inline-flex items-center -ml-1.5 text-secondary font-medium"
-                        [routerLink]="'/assets/inventory'"
+                        [routerLink]="'/assets/accountability'"
                     >
                         <mat-icon
                             class="icon-size-5 text-secondary"
@@ -65,7 +65,7 @@
         </div>
     </div>
 
-    <div class="flex flex-col h-full sm:mx-4 md:mx-20 lg:mx-64 lg:my-4">
+    <div class="flex flex-col h-full sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
         <form
             class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
         >
@@ -130,93 +130,101 @@
             <mat-divider class="mt-6 mb-10"></mat-divider>
             <!-- <p class="text-lg font-medium mb-3">Assign available computers</p> -->
             <!-- <ng-template matStepLabel>Assign Assets</ng-template> -->
-            <div class="flex flex-col gt-sm:flex-row">
-                <mat-form-field class="example-chip-list custom-chip-list">
-                    <mat-label>Assign PC / Laptop</mat-label>
-                    <mat-chip-list #chipList2 aria-label="PC selection">
-                        <mat-chip
-                            *ngFor="let pc of selectedPcs"
-                            (removed)="removePc(pc)"
-                        >
-                            {{ pc.asset_barcode }} {{ pc.id }}
-                            <button
-                                matChipRemove
-                                [attr.aria-label]="'remove ' + pc.asset_barcode"
-                            >
-                                <mat-icon>cancel</mat-icon>
-                            </button>
-                        </mat-chip>
-                    </mat-chip-list>
-                    <input
-                        [formControlName]="'assign_pc'"
-                        name="currentPc"
-                        placeholder="New PC..."
-                        #pcInput
-                        [matChipInputFor]="chipList2"
-                        [matAutocomplete]="pcAuto"
-                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                        (input)="filterPCs($event.target.value)"
-                        (matChipInputTokenEnd)="addPc($event)"
-                    />
-                    <mat-autocomplete
-                        #pcAuto="matAutocomplete"
-                        (optionSelected)="selectedPc($event)"
-                    >
-                        <mat-option
-                            *ngFor="let pc of filteredPcs"
-                            [value]="pc.asset_barcode"
-                        >
-                            {{ pc.asset_barcode }}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-
-                <!-- Assign Peripherals -->
-                <div class="flex flex-col mt-8 gt-sm:mt-0 gt-sm:ml-16">
+            <div [formGroup]="accountabilityForm">
+                <div class="flex flex-col gt-sm:flex-row">
                     <mat-form-field class="example-chip-list custom-chip-list">
-                        <mat-label>Assign Peripherals</mat-label>
-                        <mat-chip-list
-                            #chipList
-                            aria-label="Peripheral selection"
-                        >
+                        <mat-label>Assign PC / Laptop</mat-label>
+                        <mat-chip-list #chipList2 aria-label="PC selection">
                             <mat-chip
-                                *ngFor="let fruit of selectedPeris"
-                                (removed)="remove(fruit)"
+                                *ngFor="let pc of selectedPcs"
+                                (removed)="removePc(pc)"
                             >
-                                {{ fruit.id }}
+                                {{ pc.assetBarcode }} {{ pc.id }}
                                 <button
                                     matChipRemove
                                     [attr.aria-label]="
-                                        'remove ' + fruit.asset_barcode
+                                        'remove ' + pc.assetBarcode
                                     "
                                 >
-                                    <mat-icon>cancel</mat-icon>
+                                    <mat-icon class="icon-size-4 mt-0.5" svgIcon="mat_outline:close"></mat-icon>
                                 </button>
                             </mat-chip>
                         </mat-chip-list>
                         <input
-                            [formControlName]="'assign_peripherals'"
-                            name="currentFruit"
-                            placeholder="New Peripheral..."
-                            #fruitInput
-                            [matChipInputFor]="chipList"
-                            [matAutocomplete]="fruitAuto"
+                            formControlName="assign_pc"
+                            name="currentPc"
+                            placeholder="New PC..."
+                            #pcInput
+                            [matChipInputFor]="chipList2"
+                            [matAutocomplete]="pcAuto"
                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                            (input)="filterFruits($event.target.value)"
-                            (matChipInputTokenEnd)="add($event)"
+                            (input)="filterPCs($event.target.value)"
+                            (matChipInputTokenEnd)="addPc($event)"
                         />
                         <mat-autocomplete
-                            #fruitAuto="matAutocomplete"
-                            (optionSelected)="selectedPeripherals($event)"
+                            #pcAuto="matAutocomplete"
+                            (optionSelected)="selectedPc($event)"
                         >
                             <mat-option
-                                *ngFor="let fruit of filteredFruits"
-                                [value]="fruit.asset_barcode"
+                                *ngFor="let pc of filteredPcs"
+                                [value]="pc.assetBarcode"
                             >
-                                {{ fruit.asset_barcode }}
+                                {{ pc.assetBarcode }}
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
+
+                    <!-- Assign Peripherals -->
+                    <div class="flex flex-col mt-8 gt-sm:mt-0 gt-sm:ml-16">
+                        <mat-form-field
+                            class="example-chip-list custom-chip-list"
+                        >
+                            <mat-label>Assign Peripherals</mat-label>
+                            <mat-chip-list
+                                #chipList
+                                aria-label="Peripheral selection"
+                            >
+                                <mat-chip
+                                    *ngFor="let fruit of selectedPeris"
+                                    (removed)="remove(fruit)"
+                                >
+                                    {{ fruit.id }}
+                                    <button
+                                        matChipRemove
+                                        [attr.aria-label]="
+                                            'remove ' + fruit.assetBarcode
+                                        "
+                                    >
+                                    <mat-icon class="icon-size-4 mt-0.5" svgIcon="mat_outline:close"></mat-icon>
+                                    </button>
+                                </mat-chip>
+                            </mat-chip-list>
+                            <input
+                                formControlName="assign_peripherals"
+                                name="currentFruit"
+                                placeholder="New Peripheral..."
+                                #fruitInput
+                                [matChipInputFor]="chipList"
+                                [matAutocomplete]="fruitAuto"
+                                [matChipInputSeparatorKeyCodes]="
+                                    separatorKeysCodes
+                                "
+                                (input)="filterFruits($event.target.value)"
+                                (matChipInputTokenEnd)="add($event)"
+                            />
+                            <mat-autocomplete
+                                #fruitAuto="matAutocomplete"
+                                (optionSelected)="selectedPeripherals($event)"
+                            >
+                                <mat-option
+                                    *ngFor="let fruit of filteredFruits"
+                                    [value]="fruit.assetBarcode"
+                                >
+                                    {{ fruit.assetBarcode }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
                 </div>
             </div>
             <mat-divider class="mt-6 mb-10"></mat-divider>

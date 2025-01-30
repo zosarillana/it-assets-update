@@ -58,6 +58,14 @@ import { AccountabilityListComponent } from '../assets-accountability/accountabi
 import { AccountabilityFormComponent } from '../assets-accountability/forms/accountability-form/accountability-form.component';
 import { AccoundabilityAddComponent } from '../assets-accountability/create-accountability/accountability-add.component';
 import { InventoryEditComponent } from '../assets-inventory/inventory-edit/inventory-edit.component';
+import { ComputersListComponent } from '../assets-computers/computers-list/computers-list.component';
+import { ComputersViewComponent } from '../assets-computers/computers-view/computers-view.component';
+import { ComputersEditComponent } from '../assets-computers/computers-edit/computers-edit.component';
+import { ComputersAddComponent } from '../assets-computers/computers-add/computers-add.component';
+import { ComponentsViewComponent } from '../assets-components/components-view/components-view.component';
+import { ComponentsAddComponent } from '../assets-components/components-add/components-add.component';
+import { ComponentsEditComponent } from '../assets-components/components-edit/components-edit.component';
+import { ComponentsListComponent } from '../assets-components/components-list/components-list.component';
 
 
 const assetRoute: Route[] = [
@@ -106,7 +114,7 @@ const assetRoute: Route[] = [
         component: InventoryViewComponent,
     },
     {
-        path: 'list',
+        path: 'accountability',
         component: AccountabilityListComponent,
     },
     {
@@ -116,6 +124,38 @@ const assetRoute: Route[] = [
     {
         path: 'accountability/add',
         component: AccoundabilityAddComponent,
+    },
+    {
+        path: 'computers',
+        component: ComputersListComponent,
+    },
+    {
+        path: 'computers/view',
+        component: ComputersViewComponent,
+    },
+    {
+        path: 'computers/add',
+        component: ComputersAddComponent,
+    },
+    {
+        path: 'computers/edit',
+        component: ComputersEditComponent,
+    },
+    {
+        path: 'components',
+        component: ComponentsListComponent,
+    },
+    {
+        path: 'components/view',
+        component: ComponentsViewComponent,
+    },
+    {
+        path: 'components/add',
+        component: ComponentsAddComponent,
+    },
+    {
+        path: 'components/edit',
+        component: ComponentsEditComponent,
     },
 ];
 
@@ -149,7 +189,15 @@ const assetRoute: Route[] = [
         InventoryViewComponent,
         AccountabilityListComponent,
         AccountabilityFormComponent,
-        AccoundabilityAddComponent
+        AccoundabilityAddComponent,
+        ComponentsListComponent,
+        ComponentsAddComponent,
+        ComponentsViewComponent,
+        ComponentsEditComponent,
+        ComputersListComponent,
+        ComputersEditComponent,
+        ComputersAddComponent,
+        ComputersViewComponent
         // AlertsComponentComponent,
     ],
     imports: [

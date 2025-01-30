@@ -1,4 +1,4 @@
-export class ItotPc {
+export class Assets {
     id?: number;
     type: '';
     asset_barcode = '';
