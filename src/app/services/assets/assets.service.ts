@@ -26,6 +26,6 @@ export class AssetsService {
       params = params.set('searchTerm', searchTerm);
     }
 
-    return this.http.get<AssetResponse>(`${this.url}/api/Assets`, { params });
+    return this.http.get<AssetResponse>(`${this.url}/api/Assets/AssetItems`, { params });
   }
 }

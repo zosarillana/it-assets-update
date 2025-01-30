@@ -1,33 +1,28 @@
-export class Assets {
-    id?: number;
-    type: '';
-    asset_barcode = '';
-    date_acquired = '';
-    pc_type = '';    
-    brand = '';
-    model = '';
-    processor = '';
-    ram = '';
-    ssd: '';
-    hdd: '';
-    gpu: '';
-    storage_type = '';
-    operating_system = '';
-    graphics = '';
-    size = '';
-    color = '';
-    po = '';
-    warranty = '';
-    cost = '';
-    remarks = '';
-    asset_image = '';
-    owner_id = '';
-    is_deleted = '';
-    li_description = '';    
-    serial_no = '';     
-    status = '';
-    assigned = '';
-    history = ''; 
-    date_created = '';
-    date_updated = '';   
-  }
+export interface Assets {
+    id: number;
+    type: string;
+    date_acquired: string;
+    asset_barcode: string;
+    brand: string;
+    model: string;
+    ram: string | null;
+    ssd: string | null;
+    hdd: string | null;
+    gpu: string | null;
+    size: string | null;
+    color: string;
+    serial_no: string | null;
+    po: string | null;
+    warranty: string | null;
+    cost: number;
+    remarks: string | null;
+    li_description: string;
+    history: {
+        $values: string[];
+    };
+    asset_image: string | null;
+    owner_id: number;
+    is_deleted: boolean;
+    date_created: string;
+    date_modified: string | null;
+}
