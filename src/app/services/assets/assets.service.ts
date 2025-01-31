@@ -42,4 +42,8 @@ export class AssetsService {
         return this.http.get<string[]>(url);
     }
     
+    getAssetById(id: number): Observable<Assets> {
+        return this.http.get<Assets>(`${this.url}/api/Assets/AssetItems/${id}`);
+    }
+    
 }

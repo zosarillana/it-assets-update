@@ -5,30 +5,29 @@
     >
         <div class="flex-1 min-w-0">
             <!-- Breadcrumbs -->
-            <div>
-                <div class="hidden sm:flex flex-wrap items-center font-medium">
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <a class="ml-1 text-primary-500">Assets</a>
-                    </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon
-                            class="icon-size-5 text-secondary"
-                            [svgIcon]="'heroicons_solid:chevron-right'"
-                        ></mat-icon>
-                        <a
-                            class="ml-1 text-primary-500 cursor-pointer"
-                            [routerLink]="'/assets/inventory'"
-                            >Inventory List</a
-                        >
-                    </div>
-                    <div class=" items-center ml-1 whitespace-nowrap">
-                        <mat-icon
-                            class="icon-size-5 text-secondary"
-                            [svgIcon]="'heroicons_solid:chevron-right'"
-                        ></mat-icon>
-                        <span class="ml-1 text-secondary">Add</span>
-                    </div>
+            <div class="hidden sm:flex flex-wrap items-center font-medium">
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <a class="ml-1 text-primary-500">Assets</a>
                 </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon
+                        class="icon-size-5 text-secondary"
+                        [svgIcon]="'heroicons_solid:chevron-right'"
+                    ></mat-icon>
+                    <a
+                        class="ml-1 text-primary-500 cursor-pointer"
+                        [routerLink]="'/assets/accountability'"
+                        >Accountability List</a
+                    >
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon
+                        class="icon-size-5 text-secondary"
+                        [svgIcon]="'heroicons_solid:chevron-right'"
+                    ></mat-icon>
+                    <span class="ml-1 text-secondary">Add</span>
+                </div>
+            
                 <div class="flex sm:hidden">
                     <a
                         class="inline-flex items-center -ml-1.5 text-secondary font-medium"
@@ -57,7 +56,7 @@
             <button
                 class="ml-4"
                 mat-icon-button
-                [routerLink]="'/assets/inventory'"
+                [routerLink]="'/assets/accountability'"
             >
                 <mat-icon [svgIcon]="'close'"></mat-icon>
                 <!-- <span class="ml-2 mr-1">Go back</span> -->

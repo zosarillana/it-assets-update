@@ -33,10 +33,10 @@
             <button
                 class="w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2 md:ml-4 flex items-center justify-center"
                 mat-stroked-button
-                [routerLink]="'/assets/accountability/add'"
+                [routerLink]="'/assets/computers/add'"
             >
                 <mat-icon [svgIcon]="'feather:plus'"></mat-icon>
-                <span class="ml-2 mr-1">Add Accountability</span>
+                <span class="ml-2 mr-1">Add Computers</span>
             </button>
     
             <!-- Select Category -->
@@ -229,11 +229,11 @@
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr
-                    mat-row
-                    [routerLink]="'/assets/accountability/view'"
-                    class="cursor-pointer hover:bg-gray-100"
-                    *matRowDef="let row; columns: displayedColumns"
-                ></tr>
+                mat-row
+                [routerLink]="['/assets/computers/view', row.id]"
+                class="cursor-pointer hover:bg-gray-100"
+                *matRowDef="let row; columns: displayedColumns"
+            ></tr>
             </table>
         </div>
         <!-- Paginator -->

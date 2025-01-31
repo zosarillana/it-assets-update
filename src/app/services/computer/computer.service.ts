@@ -1,13 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Assets } from 'app/models/Inventory/Asset';
 import { AssetResponse } from 'app/models/Inventory/AssetResponse';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class ComputerService {
-private url = 'https://localhost:7062';
+    private url = 'https://localhost:7062';
 
     constructor(private http: HttpClient) {}
 
@@ -38,5 +39,9 @@ private url = 'https://localhost:7062';
     getAllTypes(): Observable<string[]> {
         const url = `${this.url}/assets/types`;
         return this.http.get<string[]>(url);
+    }
+
+    getComputersById(id: number): Observable<Assets> {
+        return this.http.get<Assets>(`${this.url}/api/Assets/Computers/${id}`);
     }
 }

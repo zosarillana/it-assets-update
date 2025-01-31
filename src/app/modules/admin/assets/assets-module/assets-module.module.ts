@@ -67,7 +67,6 @@ import { ComponentsAddComponent } from '../assets-components/components-add/comp
 import { ComponentsEditComponent } from '../assets-components/components-edit/components-edit.component';
 import { ComponentsListComponent } from '../assets-components/components-list/components-list.component';
 
-
 const assetRoute: Route[] = [
     // {
     //     path: 'inventory',
@@ -106,13 +105,14 @@ const assetRoute: Route[] = [
         component: InventoryAddComponent,
     },
     {
-        path: 'inventory/edit',
+        path: 'inventory/edit/:id',
         component: InventoryEditComponent,
     },
     {
-        path: 'inventory/view',
+        path: 'inventory/view/:id',
         component: InventoryViewComponent,
     },
+
     {
         path: 'accountability',
         component: AccountabilityListComponent,
@@ -130,7 +130,7 @@ const assetRoute: Route[] = [
         component: ComputersListComponent,
     },
     {
-        path: 'computers/view',
+        path: 'computers/view/:id',
         component: ComputersViewComponent,
     },
     {
@@ -138,7 +138,7 @@ const assetRoute: Route[] = [
         component: ComputersAddComponent,
     },
     {
-        path: 'computers/edit',
+        path: 'computers/edit/:id',
         component: ComputersEditComponent,
     },
     {
@@ -197,7 +197,7 @@ const assetRoute: Route[] = [
         ComputersListComponent,
         ComputersEditComponent,
         ComputersAddComponent,
-        ComputersViewComponent
+        ComputersViewComponent,
         // AlertsComponentComponent,
     ],
     imports: [
