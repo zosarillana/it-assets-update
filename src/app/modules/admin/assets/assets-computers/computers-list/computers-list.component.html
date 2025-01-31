@@ -40,18 +40,28 @@
             </button>
     
             <!-- Select Category -->
-            <mat-form-field class="fuse-mat-no-subscript w-full sm:w-48 md:w-56 lg:w-72 mt-2 sm:mt-0 sm:ml-2 md:ml-4">
+            <!-- <mat-form-field class="fuse-mat-no-subscript w-full sm:w-48 md:w-56 lg:w-72 mt-2 sm:mt-0 sm:ml-2 md:ml-4">
                 <mat-select [(value)]="selectedTypes" (selectionChange)="onCategoryChange($event.value)">
                     <mat-option *ngFor="let type of types" [value]="type">
                         {{ type }}
                     </mat-option>
                 </mat-select>
-            </mat-form-field>
+            </mat-form-field> -->
     
             <!-- Search Inventory Tag -->
-            <mat-form-field class="fuse-mat-no-subscript w-full sm:w-48 md:w-56 lg:w-72 mt-2 sm:mt-0 sm:ml-2 md:ml-4">
+            <mat-form-field class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4">
                 <mat-icon matPrefix class="icon-size-5" [svgIcon]="'heroicons_solid:search'"></mat-icon>
-                <input matInput placeholder="Search Inventory Tag" (keyup)="applyInventoryTagFilter($event.target.value)" />
+                <input
+                    matInput
+                    placeholder="Search by Type"
+                    [formControl]="typeFilterControl"
+                    [matAutocomplete]="auto"
+                />
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTypeSelected($event.option.value)">
+                    <mat-option *ngFor="let option of filteredTypeOptions | async" [value]="option">
+                        {{ option }}
+                    </mat-option>
+                </mat-autocomplete>
             </mat-form-field>
         </div>
     </div>
@@ -139,7 +149,9 @@
                         *matCellDef="let element"
                         class="border-b border-gray-200 text-sm px-4 py-2"
                     >
-                        {{ element.date_acquired | date : "MM/dd/yyyy" }}
+                    {{ element.date_acquired && isValidDate(element.date_acquired) ? (element.date_acquired | date : "MM/dd/yyyy") : 'N/A' }}
+
+                      
                     </td>
                 </ng-container>
 

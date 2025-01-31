@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,13 +7,14 @@ import { Assets } from 'app/models/Inventory/Asset';
 import { AssetResponse } from 'app/models/Inventory/AssetResponse';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
     selector: 'app-inventory-list',
     templateUrl: './inventory-list.component.html',
     styleUrls: ['./inventory-list.component.scss'],
 })
-export class InventoryListComponent implements OnInit {
+export class InventoryListComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
         'asset_img',
         'asset_barcode',
@@ -23,7 +24,6 @@ export class InventoryListComponent implements OnInit {
         'brand',
         'serial_no',
     ];
-    
 
     dataSource = new MatTableDataSource<Assets>();
     pageSize = 10;
@@ -32,12 +32,11 @@ export class InventoryListComponent implements OnInit {
     totalItems = 0;
     pageSizeOptions = [5, 10, 25, 50];
     isLoading = false;
-    
-    //filter
-    typeFilterControl = new FormControl('');
-    filteredTypeOptions: Observable<string[]> = new Observable();
-    allTypes: string[] = []; // Store unique type values
 
+    // Auto-complete
+    typeFilterControl = new FormControl('');
+    filteredTypeOptions: Observable<string[]>;
+    allTypes: string[] = []; // Store unique type values
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
@@ -47,41 +46,64 @@ export class InventoryListComponent implements OnInit {
     ngOnInit(): void {
         console.log(this.dataSource.data);
         this.loadAssets(1, this.pageSize);
+    
+        // Set up the autocomplete filter
+        this.filteredTypeOptions = this.typeFilterControl.valueChanges.pipe(
+            startWith(''),
+            map(value => this.filterTypes(value))
+        );
+
+        // Subscribe to valueChanges to dynamically filter the table
+        this.typeFilterControl.valueChanges.subscribe(value => {
+            this.applyTypeFilter(value);
+        });
+    }
+
+    private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        return this.allTypes.filter(option => option.toLowerCase().includes(filterValue));
+    }
+
+    loadAllTypes(): void {
+        this.assetService.getAllTypes().subscribe({
+            next: (types: string[]) => {
+                this.allTypes = types;
+            },
+            error: (error) => {
+                console.error('Error fetching types:', error);
+            },
+        });
     }
 
     ngAfterViewInit(): void {
-        // Remove paginator and sort assignments since the API handles pagination
-        // this.dataSource.paginator = this.paginator;  ❌ REMOVE
-        // this.dataSource.sort = this.sort; ❌ REMOVE
-    
-        // Setup paginator event listener
         this.paginator.page.subscribe((event) => {
             this.loadAssets(event.pageIndex + 1, event.pageSize);
         });
-    
-        // Setup sort event listener
+
         this.sort.sortChange.subscribe(() => {
             this.sortOrder = this.sort.direction;
             this.paginator.pageIndex = 0;
             this.loadAssets(1, this.pageSize);
         });
     }
-    
-    
+
     loadAssets(pageIndex: number, pageSize: number): void {
         this.isLoading = true;
-    
+
         this.assetService.getAssets(pageIndex, pageSize, this.sortOrder, this.searchTerm).subscribe({
             next: (response: AssetResponse) => {
                 console.log('API Response:', response);
-    
+
                 // Extract $values safely
                 this.dataSource.data = (response.items as any)?.$values ?? (response.items as Assets[]);
-    
+
                 // Update total items for paginator
                 this.totalItems = response.totalItems;
-                this.paginator.length = this.totalItems; 
-    
+                this.paginator.length = this.totalItems;
+
+                // Extract unique types from the assets
+                this.allTypes = [...new Set(this.dataSource.data.map(asset => asset.type))];
+
                 this.isLoading = false;
             },
             error: (error) => {
@@ -90,7 +112,7 @@ export class InventoryListComponent implements OnInit {
             },
         });
     }
-    
+
     onSearch(): void {
         if (this.paginator) {
             this.paginator.pageIndex = 0;
@@ -116,13 +138,22 @@ export class InventoryListComponent implements OnInit {
     }
 
     applyTypeFilter(searchValue: string): void {
-        this.searchTerm = searchValue.trim().toLowerCase(); // Trim and convert to lowercase
-    
+        this.searchTerm = searchValue.trim().toLowerCase();
+
         if (this.paginator) {
-            this.paginator.pageIndex = 0; // Reset pagination on new search
+            this.paginator.pageIndex = 0;
         }
-    
-        this.loadAssets(1, this.pageSize); // Reload assets with search filter
+
+        this.loadAssets(1, this.pageSize);
     }
-    
+
+    filterTypes(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        return this.allTypes.filter(type => type.toLowerCase().includes(filterValue));
+    }
+
+    // New method to handle selection from autocomplete
+    onTypeSelected(selectedType: string): void {
+        this.applyTypeFilter(selectedType);
+    }
 }

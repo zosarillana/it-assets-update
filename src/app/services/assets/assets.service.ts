@@ -9,23 +9,37 @@ import { Observable } from 'rxjs';
     providedIn: 'root',
 })
 export class AssetsService {
-  private url = 'https://localhost:7062';
+    private url = 'https://localhost:7062';
 
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
-  public getAssets(pageNumber: number, pageSize: number, sortOrder: string, searchTerm?: string): Observable<any> {
-    // Ensure pageNumber is never less than 1
-    pageNumber = Math.max(1, pageNumber);
-    
-    let params = new HttpParams()
-      .set('pageNumber', pageNumber.toString())
-      .set('pageSize', pageSize.toString())
-      .set('sortOrder', sortOrder);
+    public getAssets(
+        pageNumber: number,
+        pageSize: number,
+        sortOrder: string,
+        searchTerm?: string
+    ): Observable<any> {
+        // Ensure pageNumber is never less than 1
+        pageNumber = Math.max(1, pageNumber);
 
-    if (searchTerm) {
-      params = params.set('searchTerm', searchTerm);
+        let params = new HttpParams()
+            .set('pageNumber', pageNumber.toString())
+            .set('pageSize', pageSize.toString())
+            .set('sortOrder', sortOrder);
+
+        if (searchTerm) {
+            params = params.set('searchTerm', searchTerm);
+        }
+
+        return this.http.get<AssetResponse>(
+            `${this.url}/api/Assets/AssetItems`,
+            { params }
+        );
     }
 
-    return this.http.get<AssetResponse>(`${this.url}/api/Assets/AssetItems`, { params });
-  }
+    getAllTypes(): Observable<string[]> {
+        const url = `${this.url}/assets/types`;
+        return this.http.get<string[]>(url);
+    }
+    
 }

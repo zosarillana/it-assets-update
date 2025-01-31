@@ -65,9 +65,15 @@
                 <input
                     matInput
                     placeholder="Search by Type"
-                    (keyup)="applyTypeFilter($event.target.value)"
+                    [formControl]="typeFilterControl"
+                    [matAutocomplete]="auto"
                 />
-            </mat-form-field>            
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTypeSelected($event.option.value)">
+                    <mat-option *ngFor="let option of filteredTypeOptions | async" [value]="option">
+                        {{ option }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
         </div>
     </div>
 

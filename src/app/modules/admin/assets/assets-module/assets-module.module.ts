@@ -235,6 +235,7 @@ const assetRoute: Route[] = [
         MatInputModule,
         MatMenuModule,
         FuseScrollbarModule,
+        MatAutocompleteModule,
         RouterModule.forChild(assetRoute),
     ],
     // schemas: [NO_ERRORS_SCHEMA] // Add this line
