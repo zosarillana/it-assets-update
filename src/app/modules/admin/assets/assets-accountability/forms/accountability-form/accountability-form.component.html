@@ -1,4 +1,4 @@
-<div class="flex flex-col flex-auto min-w-0 overflow-hidden">
+<div *ngIf="asset" class="flex flex-col flex-auto min-w-0 overflow-hidden">
     <!-- Header -->
     <div
         class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
@@ -17,7 +17,7 @@
                         ></mat-icon>
                         <a
                             class="ml-1 text-primary-500 cursor-pointer"
-                            [routerLink]="'/assets/list'"
+                            [routerLink]="'/assets/accountability'"
                             >Accountability List</a
                         >
                     </div>
@@ -32,7 +32,7 @@
                 <div class="flex sm:hidden">
                     <a
                         class="inline-flex items-center -ml-1.5 text-secondary font-medium"
-                        [routerLink]="'/assets/inventory'"
+                        [routerLink]="'/assets/accountability'"
                     >
                         <mat-icon
                             class="icon-size-5 text-secondary"
@@ -53,11 +53,16 @@
                     />
                     <div class="flex flex-col gap-2">
                         <p class="font-semibold text-2xl">
-                            Accountability Id: SS3410001
+                            Accountability Id:
+                            {{
+                                asset.userAccountabilityList.accountability_code
+                            }}
                         </p>
                         <p class="text-secondary font-semibold">
                             Tracking Id:
-                            <span class="text-secondary font-medium">0001</span>
+                            <span class="text-secondary font-medium">{{
+                                asset.userAccountabilityList.tracking_code
+                            }}</span>
                         </p>
                         <div class="flex flex-row gap-2">
                             <button
@@ -109,9 +114,10 @@
                         <div class="flex flex-col gap-2">
                             <p class="text-primary font-bold text-2xl">
                                 Accountability Id:
-                                <span class="text-secondary text-lg"
-                                    >SS3410001</span
-                                >
+                                <span class="text-secondary text-lg">{{
+                                    asset.userAccountabilityList
+                                        .accountability_code
+                                }}</span>
                             </p>
                             <p class="text-secondary">Status: Active</p>
                         </div>
@@ -123,7 +129,7 @@
                                         Accountable to:
                                     </p>
                                     <p class="text-secondary">
-                                        Lorem Ipsum Dolom 222-111
+                                        {{ asset.owner.name || "N/A" }}
                                     </p>
                                 </div>
                                 <!-- <mat-divider class="mx-12" vertical></mat-divider> -->
@@ -132,7 +138,9 @@
                                     <p class="text-primary font-bold text-lg">
                                         Department
                                     </p>
-                                    <p class="text-secondary">CISDEVO</p>
+                                    <p class="text-secondary">
+                                        {{ asset.owner.department || "N/A" }}
+                                    </p>
                                 </div>
                             </div>
                             <div class="flex flex-row gap-12">
@@ -140,7 +148,9 @@
                                     <p class="text-primary font-bold text-lg">
                                         Company:
                                     </p>
-                                    <p class="text-secondary">Abfi</p>
+                                    <p class="text-secondary">
+                                        {{ asset.owner.company || "N/A" }}
+                                    </p>
                                 </div>
                             </div>
 
@@ -148,17 +158,19 @@
                                 <p class="text-primary font-bold text-lg">
                                     Accountability created:
                                 </p>
-                                <p class="text-secondary">Junuary 25, 2021</p>
+                                <p class="text-secondary">
+                                    {{ asset.owner.date_created || "N/A" }}
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <mat-divider class="mt-6 mb-3"></mat-divider>
-                
+
                 <div class="flex flex-col my-4">
-                    <p class="text-lg font-medium mt-5 ">
-                        Computer under  accountability
+                    <p class="text-lg font-medium mt-5">
+                        Computer under accountability
                     </p>
                     <span class="text-secondary text-sm">
                         (Desktop, Laptops, etc..)</span
@@ -177,7 +189,7 @@
                                 Type
                             </mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.type }}
+                                {{ element.type || "N/A" }}
                             </mat-cell>
                         </ng-container>
 
@@ -187,7 +199,7 @@
                                 Date Acquired
                             </mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.dateAcquired }}
+                                {{ element.dateAcquired || "N/A" }}
                             </mat-cell>
                         </ng-container>
 
@@ -197,7 +209,7 @@
                                 Asset Barcode
                             </mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.assetBarcode }}
+                                {{ element.assetBarcode || "N/A" }}
                             </mat-cell>
                         </ng-container>
 
@@ -207,7 +219,7 @@
                                 Brand
                             </mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.brand }}
+                                {{ element.brand || "N/A" }}
                             </mat-cell>
                         </ng-container>
 
@@ -217,7 +229,7 @@
                                 Model
                             </mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.model }}
+                                {{ element.model || "N/A" }}
                             </mat-cell>
                         </ng-container>
 
@@ -232,11 +244,11 @@
                                 Asset Personal History
                             </mat-header-cell>
                             <mat-cell
-                                class="mx-12 text-sm"
+                                class="mx-12 text-sm truncate"
                                 *matCellDef="let element"
                                 style="width: 600px; white-space: normal"
                             >
-                                {{ element.personalHistory }}
+                                {{ element.history.$values || "N/A" }}
                             </mat-cell>
                         </ng-container>
                         <!-- Status Column -->
@@ -245,7 +257,7 @@
                                 Status
                             </mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.status }}
+                                {{ element.status || "N/A" }}
                             </mat-cell>
                         </ng-container>
 
@@ -256,13 +268,13 @@
                         <mat-row
                             *matRowDef="let row; columns: displayedColumns"
                             class="hover:bg-gray-100 cursor-pointer"
-                            [routerLink]="'/assets/inventory/view'"
+                            [routerLink]="'/assets/computers/view/' + row.id"
                         ></mat-row>
                     </mat-table>
                 </div>
 
                 <div class="flex flex-col my-4">
-                    <p class="text-lg font-medium mt-5 ">
+                    <p class="text-lg font-medium mt-5">
                         Assets under accountability
                     </p>
                     <span class="text-secondary text-sm">
@@ -282,7 +294,7 @@
                                 Type
                             </mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.type }}
+                                {{ element.type || "N/A" }}
                             </mat-cell>
                         </ng-container>
 
@@ -292,7 +304,7 @@
                                 Date Acquired
                             </mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.dateAcquired }}
+                                {{ element.date_acquired || "N/A" }}
                             </mat-cell>
                         </ng-container>
 
@@ -302,7 +314,7 @@
                                 Asset Barcode
                             </mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.assetBarcode }}
+                                {{ element.asset_barcode || "N/A" }}
                             </mat-cell>
                         </ng-container>
 
@@ -312,7 +324,7 @@
                                 Brand
                             </mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.brand }}
+                                {{ element.brand || "N/A" }}
                             </mat-cell>
                         </ng-container>
 
@@ -322,7 +334,7 @@
                                 Model
                             </mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.model }}
+                                {{ element.model || "N/A" }}
                             </mat-cell>
                         </ng-container>
 
@@ -337,11 +349,11 @@
                                 Asset Personal History
                             </mat-header-cell>
                             <mat-cell
-                                class="mx-12 text-sm"
+                                class="mx-12 text-sm truncate"
                                 *matCellDef="let element"
                                 style="width: 600px; white-space: normal"
                             >
-                                {{ element.personalHistory }}
+                                {{ element.history.$values || "N/A" }}
                             </mat-cell>
                         </ng-container>
                         <!-- Status Column -->
@@ -350,7 +362,7 @@
                                 Status
                             </mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.status }}
+                                {{ element.status || "N/A" }}
                             </mat-cell>
                         </ng-container>
 
@@ -361,7 +373,7 @@
                         <mat-row
                             *matRowDef="let row; columns: displayedColumns"
                             class="hover:bg-gray-100 cursor-pointer"
-                            [routerLink]="'/assets/inventory/view'"
+                            [routerLink]="'/assets/inventory/view/' + row.id"
                         ></mat-row>
                     </mat-table>
                 </div>
@@ -370,43 +382,43 @@
 
                 <!-- <mat-divider class="mt-6 mb-10"></mat-divider> -->
 
-                <p class="text-lg font-medium mt-10">Current Owner Details</p>
-                <p class="text-secondary mb-6">
+                <p class="text-sm font-medium mt-10">Current Owner Details</p>
+                <p class="text-sm text-secondary mb-6">
                     Current owner of the asset details.
                 </p>
 
                 <div class="flex flex-row gap-4">
                     <div class="flex flex-col flex-grow gap-4">
-                        <p class="flex flex-col font-medium text-medium">
+                        <p class="flex flex-col font-medium text-sm">
                             Owner name
-                            <span class="text-secondary text-medium">
-                                Jefferson Arnado
+                            <span class="text-secondary text-sm">
+                                {{ asset.owner.name || "N/A" }}
                             </span>
                         </p>
-                        <p class="flex flex-col font-medium text-medium">
+                        <p class="flex flex-col font-medium text-sm">
                             Company
-                            <span class="text-secondary text-medium">
-                                ABFI
+                            <span class="text-secondary text-sm">
+                                {{ asset.owner.company || "N/A" }}
                             </span>
                         </p>
-                        <p class="flex flex-col font-medium text-medium">
+                        <p class="flex flex-col font-medium text-sm">
                             Department
-                            <span class="text-secondary text-medium">
-                                CISDEVO
+                            <span class="text-secondary text-sm">
+                                {{ asset.owner.department || "N/A" }}
                             </span>
                         </p>
                     </div>
                     <div class="flex flex-col flex-grow gap-4">
-                        <p class="flex flex-col font-medium text-medium">
+                        <p class="flex flex-col font-medium text-sm">
                             Employee Id
-                            <span class="text-secondary text-medium">
-                                220-120
+                            <span class="text-secondary text-sm">
+                                {{ asset.owner.employee_id || "N/A" }}
                             </span>
                         </p>
                     </div>
                 </div>
 
-                <mat-divider class="mt-6 mb-10"></mat-divider>
+                <!-- <mat-divider class="mt-10 mb-10"></mat-divider>  -->
             </form>
         </div>
     </div>

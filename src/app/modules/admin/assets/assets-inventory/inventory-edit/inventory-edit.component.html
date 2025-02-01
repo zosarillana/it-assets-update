@@ -397,7 +397,7 @@
                     <p class="flex flex-col font-medium text-medium">
                         Owner Name
                         <span class="text-secondary text-medium">
-                            Jefferson Arnado
+                            {{ asset.owner.name || 'N/A' }}
                         </span>
                     </p>
                     <p class="flex flex-col font-medium text-medium">
@@ -407,7 +407,7 @@
                     <p class="flex flex-col font-medium text-medium">
                         Department
                         <span class="text-secondary text-medium">
-                            CISDEVO
+                            {{ asset.owner.department || 'N/A' }}
                         </span>
                     </p>
                 </div>
@@ -415,7 +415,7 @@
                     <p class="flex flex-col font-medium text-medium">
                         Employee ID
                         <span class="text-secondary text-medium">
-                            220-120
+                            {{asset.owner.employee_id || 'N/A'}}
                         </span>
                     </p>
                 </div>

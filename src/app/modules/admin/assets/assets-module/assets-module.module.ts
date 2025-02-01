@@ -118,7 +118,7 @@ const assetRoute: Route[] = [
         component: AccountabilityListComponent,
     },
     {
-        path: 'accountability/view',
+        path: 'accountability/view/:id',
         component: AccountabilityFormComponent,
     },
     {

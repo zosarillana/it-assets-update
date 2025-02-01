@@ -12,6 +12,7 @@ import { ModalUniversalComponent } from '../../components/modal/modal-universal/
 import { PcModalCreateComponent } from '../../details/pc/pc-modal-create/pc-modal-create.component';
 import { SidePanelPcsComponent } from '../../details/pc/side-panel-pcs/side-panel-pcs.component';
 import * as XLSX from 'xlsx'; // Keep this for XLSX handling
+import { AccountabilityService } from 'app/services/accountability/accountability.service';
 
 @Component({
   selector: 'app-accountability-list',
@@ -19,296 +20,38 @@ import * as XLSX from 'xlsx'; // Keep this for XLSX handling
   styleUrls: ['./accountability-list.component.scss']
 })
 export class AccountabilityListComponent implements OnInit {
-    displayedColumns: string[] = [
-        'asset_img',
-        'asset_barcode',
-        'type',
-        'date_acquired',
+    displayedColumns: string[] = [        
+        'accountability_code',
+        'tracking_code',
         'owner',
-        'brand',
-        // 'owner_id',       
-        'serial_no',
+        // 'owner',
+        // 'brand',
+        // // 'owner_id',       
+        // 'serial_no',
     ];
 
     dataSource = new MatTableDataSource<any>([]); // Initialize with an empty array
     data: any[] = [];
 
-    constructor(
-        private _liveAnnouncer: LiveAnnouncer,
-        private itotService: ITOTService,
-        public dialog: MatDialog,
-        private _fuseConfirmationService: FuseConfirmationService,
-        private alertService: AlertService
-    ) {}
-
-    // Helper function to convert Excel date serial to a string
-    private excelDateToString(excelDate: number): string {
-        // Check if the value is a valid date
-        if (typeof excelDate === 'number') {
-            // Adjust for Excel's date system (subtract 25569 to convert to Unix time)
-            const date = new Date((excelDate - 25569) * 86400 * 1000);
-            return date.toLocaleDateString(); // Format the date as needed (you can customize this)
-        }
-        return excelDate; // If not a number, return the original value
-    }
-
-    // Helper function to replace missing values with 'N/A'
-    private replaceMissingValues(row: any[]): any[] {
-        return row.map((value) =>
-            value === undefined || value === null || value === ''
-                ? 'N/A'
-                : value
-        );
-    }
-
-    loadItots(): void {
-        this.itotService.getItots().subscribe((result: ItotPc[]) => {
-            // After receiving data, assign it to the MatTableDataSource
-            this.dataSource = new MatTableDataSource(result);
-
-            // Assign the paginator and sort after data is loaded
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-        });
-    }
-
-    onFileChange(event: any) {
-        const target: DataTransfer = <DataTransfer>event.target;
-        if (target.files.length !== 1)
-            throw new Error('Cannot use multiple files');
-
-        const reader: FileReader = new FileReader();
-        reader.onload = (e: any) => {
-            const binaryData: string = e.target.result;
-            const workbook: XLSX.WorkBook = XLSX.read(binaryData, {
-                type: 'binary',
-            });
-            const firstSheetName: string = workbook.SheetNames[0];
-            const worksheet: XLSX.WorkSheet = workbook.Sheets[firstSheetName];
-
-            // Get the entire sheet data including headers
-            this.data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-            // Process the data to convert Excel date to string for the "ACQ. DATE" column
-            this.data = this.data.map((row: any[]) => {
-                // Ensure we handle the ACQ. DATE, which is assumed to be at index 3
-                row[0] = row[0];
-                row[1] = row[1];
-                row[2] = row[2];
-                row[3] = this.excelDateToString(row[3]); // Convert the Excel date
-                row[4] = row[4];
-                row[5] = row[5];
-                row[6] = row[6];
-                row[7] = row[7];
-                row[8] = row[8];
-                row[9] = row[9];
-                row[10] = row[10];
-                row[11] = row[11];
-                row[12] = row[12];
-                row[13] = row[13];
-                row[14] = row[14];
-                row[15] = row[15];
-                row[16] = row[16];
-                row[17] = row[17];
-                // Replace missing values with 'N/A'
-                row = this.replaceMissingValues(row);
-                return row;
-            });
-
-            // Remove the first row (header row) and update dataSource
-            this.dataSource.data = this.data
-                .slice(1)
-                .map((row: any[]) => this.replaceMissingValues(row)); // Update dataSource, skipping the header
-        };
-
-        reader.readAsBinaryString(target.files[0]); // Read XLSX as binary string
-    }
-
-    uploadData() {
-        if (this.data.length === 0) {
-            alert('No data to upload.');
-            return;
-        }
-
-        // Format the data for upload
-        const formattedData = this.data.slice(2).map((row: any[]) => ({
-            asset_barcode: String(row[0] || 'N/A'),
-            date_acquired: String(row[1] || 'N/A'),
-            pc_type: String(row[2] || 'N/A'),
-            brand: String(this.excelDateToString(row[3])) || 'N/A',
-            model: String(row[4] || 'N/A'),
-            processor: String(row[5] || 'N/A'),
-            ram: String(row[6] || 'N/A'),
-            storage_capacity: String(row[7] || 'N/A'),
-            storage_type: String(row[8] || 'N/A'),
-            operating_system: String(row[9] || 'N/A'),
-            graphics: String(row[10] || 'N/A'),
-            size: String(row[11] || 'N/A'),
-            color: String(row[12] || 'N/A'),
-            li_description: String(row[13] || 'N/A'),
-            serial_no: String(row[14] || 'N/A'),
-        }));
-
-        // Check the final data structure
-        console.log(
-            'Data to be uploaded:',
-            JSON.stringify(formattedData, null, 2)
-        );
-
-        // Send the formatted data to your backend
-        this.itotService.uploadExcelData(formattedData).subscribe(
-            (response) => {
-                console.log('Upload successful:', response);
-                alert('Upload successful!');
-            },
-            (error) => {
-                console.error('Upload failed:', error);
-                alert('Upload failed. Please try again.');
-            }
-        );
-    }
-
-    openDialog(): void {
-        const dialogRef = this.dialog.open(PcModalCreateComponent, {
-            //data: { name: 'User Name' }, // You can pass any data here to the modal
-            height: '60%',
-            width: '50%',
-        });
-
-        dialogRef.afterClosed().subscribe((result) => {
-            console.log('Dialog closed, result:', result);
-
-            // Check if the result indicates success
-            if (result && result.success) {
-                console.log('Peripheral created successfully.');
-                this.loadItots(); // Reload the peripherals list after creation
-            } else {
-                console.log('Peripheral creation was cancelled or failed.');
-            }
-        });
-    }
-
-    openSidePanelWithId(id: string) {
-        this.sidePanel.elementId = id; // Pass the ID
-        this.sidePanel.openSidenav(); // Open the side panel
-    }
-
-    openEditSidePanel(element: any) {
-        this.sidePanel.elementId = element; // Pass the element data to the edit side panel
-        this.sidePanel.openEditSidePanel(element); // Open the sidenav
-    }
-
-    @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild(MatSort) sort: MatSort;
-    @ViewChild('sidePanel') sidePanel!: SidePanelPcsComponent;
+    constructor(private _service: AccountabilityService) {} // Inject your service
 
     ngOnInit(): void {
-        // Any initialization logic can be added here
-        // this.loadItots();
-
-        const dummyData = [
-            {
-                asset_barcode: 'ABC123',
-                type: 'Laptop',
-                date_acquired: '2022-01-15',
-                owner: 'Lloyd',
-                brand: 'Dell',
-                owner_id: '100-100',
-                li_description: '15-inch display, 8GB RAM',
-                serial_no: 'SN123456789',
-            },
-            {
-                asset_barcode: 'XYZ456',
-                type: 'Desktop',
-                date_acquired: '2021-05-20',
-                owner: 'James',
-                brand: 'HP',
-                owner_id: '099-111',
-                li_description: '27-inch display, 16GB RAM',
-                serial_no: 'SN987654321',
-            },
-            {
-                asset_barcode: 'LMN789',
-                type: 'Monitor',
-                date_acquired: '2023-03-10',
-                owner: 'Jerecho',
-                brand: 'Samsung',
-                owner_id: '100-200',
-                li_description: '32-inch UHD monitor',
-                serial_no: 'SN1122334455',
-            },
-        ];
-
-        this.dataSource.data = dummyData; // Assign data to the dataSource
+      this.loadAccountabilityData();
     }
-
-    ngAfterViewInit() {
-        // Ensure paginator is assigned after view initialization
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-    }
-
-    // Method to filter based on Inventory Tag
-    applyInventoryTagFilter(filterValue: string) {
-        this.dataSource.filterPredicate = (data: any, filter: string) => {
-            return data.asset_barcode
-                .toLowerCase()
-                .includes(filter.toLowerCase());
-        };
-
-        this.dataSource.filter = filterValue.trim().toLowerCase();
-    }
-
-    /** Announce the change in sort state for assistive technology. */
-    announceSortChange(sortState: Sort) {
-        if (sortState.direction) {
-            this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-        } else {
-            this._liveAnnouncer.announce('Sorting cleared');
-        }
-    }
-
-    deletePc(id: number): void {
-        const dialogRef = this.dialog.open(ModalUniversalComponent, {
-            width: '400px',
-            data: { name: 'Delete Confirmation' },
-        });
-
-        dialogRef.afterClosed().subscribe((result) => {
-            if (result) {
-                console.log(`Deleting peripheral with ID ${id}`);
-                this.itotService.DeletePc(id).subscribe({
-                    next: () => {
-                        console.log(
-                            `Peripheral with ID ${id} deleted successfully.`
-                        );
-                        this.alertService.triggerSuccess(
-                            'Peripheral deleted successfully.'
-                        ); // Show success alert
-                        this.loadItots(); // Reload the list after deletion
-                    },
-                    error: (err) => {
-                        console.error('Error deleting peripheral:', err);
-                        this.alertService.triggerError(
-                            'Error deleting peripheral.'
-                        ); // Show error alert
-                    },
-                });
-            } else {
-                console.log('Deletion cancelled by the user.');
-                // Optionally, you can show an alert if you want to notify that deletion was cancelled.
-                // Example: this.alertService.triggerInfo('Deletion cancelled');
+    
+    accountabilityData: string[] = []; // Variable to store the data
+    loadAccountabilityData(): void {
+        this._service.getAllAccountability().subscribe(
+          (response: any) => {
+            // Assuming the API response has a property "$values" that holds the array of data
+            if (response && response.$values) {
+              this.dataSource.data = response.$values; // Assign data to MatTableDataSource
             }
-        });
-    }
-
-    //For matselect types
-
-    types: string[] = ['All', 'Mouse', 'Computer', 'Laptop'];
-    selectedTypes: string = 'All';
-
-    onCategoryChange(selectedValue: string): void {
-        console.log('Selected category:', selectedValue);
-        // Add your logic here
-    }
-}
+          },
+          (error) => {
+            console.error('Error fetching accountability data', error);
+          }
+        );
+      }
+      
+  }

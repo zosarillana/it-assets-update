@@ -250,7 +250,7 @@
                         </span>
                       </p>                      
                 </div>
-            </div>
+            </div> 
 
             <mat-divider class="mt-6 mb-10"></mat-divider>
 
@@ -259,12 +259,13 @@
                 Current owner of the asset details.
             </p>
 
-            <div class="flex flex-row gap-4">
+            <!-- Responsive Owner Details Section -->
+            <div class="flex flex-col sm:flex-row gap-4">
                 <div class="flex flex-col flex-grow gap-4">
                     <p class="flex flex-col font-medium text-medium">
-                        Owner name
+                        Owner Name
                         <span class="text-secondary text-medium">
-                            Jefferson Arnado
+                            {{ asset.owner.name || 'N/A' }}
                         </span>
                     </p>
                     <p class="flex flex-col font-medium text-medium">
@@ -274,15 +275,15 @@
                     <p class="flex flex-col font-medium text-medium">
                         Department
                         <span class="text-secondary text-medium">
-                            CISDEVO
+                            {{ asset.owner.department || 'N/A' }}
                         </span>
                     </p>
                 </div>
                 <div class="flex flex-col flex-grow gap-4">
                     <p class="flex flex-col font-medium text-medium">
-                        Employee Id
+                        Employee ID
                         <span class="text-secondary text-medium">
-                            220-120
+                            {{asset.owner.employee_id || 'N/A'}}
                         </span>
                     </p>
                 </div>

@@ -100,7 +100,10 @@
             <mat-divider class="mt-6 mb-4"></mat-divider>
             <div class="flex flex-row mt-2 gap-4">
                 <div class="flex flex-col items-center">
-                    <label for="select-image" class="cursor-pointer flex flex-col items-center">
+                    <label
+                        for="select-image"
+                        class="cursor-pointer flex flex-col items-center"
+                    >
                         <img
                             id="preview-image"
                             src="https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg"
@@ -108,7 +111,10 @@
                             class="h-32 w-32 object-contain border border-gray-300 rounded-md"
                         />
                         <span class="text-secondary text-regular mt-2">
-                            <mat-icon class="icon-size-4 mt-1 text-secondary" [svgIcon]="'feather:edit'"></mat-icon>
+                            <mat-icon
+                                class="icon-size-4 mt-1 text-secondary"
+                                [svgIcon]="'feather:edit'"
+                            ></mat-icon>
                             Select new image
                         </span>
                     </label>
@@ -119,7 +125,7 @@
                         class="hidden"
                         (change)="previewSelectedImage($event)"
                     />
-                </div>                            
+                </div>
                 <div
                     class="flex flex-col sm:flex-row gap-4"
                     style="width: 100%"
@@ -351,7 +357,7 @@
                             matInput
                             id="cost"
                             [placeholder]="asset.cost || 'N/A'"
-                            [value]="asset.cost ||  'N/A'"
+                            [value]="asset.cost || 'N/A'"
                         />
                     </mat-form-field>
 
@@ -376,7 +382,11 @@
                                 svgIcon="feather:file-text"
                                 class="icon-size-3 mr-2"
                             ></mat-icon>
-                            {{ asset.history?.$values?.length ? asset.history.$values : 'N/A' }}
+                            {{
+                                asset.history?.$values?.length
+                                    ? asset.history.$values
+                                    : "N/A"
+                            }}
                         </span>
                     </p>
                 </div>
@@ -392,12 +402,13 @@
             </p>
 
             <!-- Responsive Owner Details Section -->
+
             <div class="flex flex-col sm:flex-row gap-4">
                 <div class="flex flex-col flex-grow gap-4">
                     <p class="flex flex-col font-medium text-medium">
                         Owner Name
                         <span class="text-secondary text-medium">
-                            Jefferson Arnado
+                            {{ asset.owner.name || "N/A" }}
                         </span>
                     </p>
                     <p class="flex flex-col font-medium text-medium">
@@ -407,7 +418,7 @@
                     <p class="flex flex-col font-medium text-medium">
                         Department
                         <span class="text-secondary text-medium">
-                            CISDEVO
+                            {{ asset.owner.department || "N/A" }}
                         </span>
                     </p>
                 </div>
@@ -415,12 +426,12 @@
                     <p class="flex flex-col font-medium text-medium">
                         Employee ID
                         <span class="text-secondary text-medium">
-                            220-120
+                            {{ asset.owner.employee_id || "N/A" }}
                         </span>
                     </p>
                 </div>
             </div>
-                    
+
             <!-- <mat-form-field class="flex-grow gt-xs:pr-3">
                     <input matInput [placeholder]="'First name'" />
                     <mat-icon
