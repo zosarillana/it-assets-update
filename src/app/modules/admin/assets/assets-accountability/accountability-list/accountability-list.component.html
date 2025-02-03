@@ -106,9 +106,9 @@
                             *matCellDef="let element"
                             class="ml-4 border-b border-gray-200 py-4 text-sm font-semibold inventory-tag-cell"
                         >
-                            # {{ element.accountability_code }}
+                            # {{ element.accountability_code || 'N/A'}}
                         </td>
-                    </ng-container>
+                    </ng-container>                
                     <ng-container matColumnDef="tracking_code">
                         <th
                             mat-header-cell
@@ -116,14 +116,14 @@
                             mat-sort-header
                             class="py-4 text-left text-gray-600 font-semibold inventory-tag-header custom-left-align"
                         >
-                            Type
+                            Tracking ID
                         </th>
                         <td
                             mat-cell
                             *matCellDef="let element"
                             class="border-b border-gray-200 px-4 py-4 text-sm font-semibold inventory-tag-cell"
                         >
-                            {{ element.tracking_code }}
+                            {{ element.tracking_code || 'N/A'}}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="owner">
@@ -140,7 +140,7 @@
                             *matCellDef="let element"
                             class="border-b border-gray-200 text-sm px-4 py-2"
                         >
-                            {{ element.owner_details?.name }}
+                            {{ element.owner_details?.name || 'N/A'}}
                         </td>
                     </ng-container>
                     

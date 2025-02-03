@@ -138,9 +138,10 @@
                         *matCellDef="let element"
                         class="ml-4 border-b border-gray-200 py-4 text-sm font-semibold inventory-tag-cell"
                     >
-                        # {{ element.asset_barcode }}
-                    </td>
-                </ng-container>
+                        # {{ element.asset_barcode || "N/A" }}
+                    </td></ng-container
+                >
+
                 <ng-container matColumnDef="type">
                     <th
                         mat-header-cell
@@ -155,7 +156,7 @@
                         *matCellDef="let element"
                         class="border-b border-gray-200 px-4 py-4 text-sm font-semibold inventory-tag-cell"
                     >
-                        {{ element.type }}
+                        {{ element.type || "N/A" }}
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="date_acquired">
@@ -172,7 +173,11 @@
                         *matCellDef="let element"
                         class="border-b border-gray-200 text-sm px-4 py-2"
                     >
-                        {{ element.date_acquired | date : "MM/dd/yyyy" }}
+                        {{
+                            element.date_acquired
+                                ? (element.date_acquired | date : "MM/dd/yyyy")
+                                : "N/A"
+                        }}
                     </td>
                 </ng-container>
 
@@ -190,7 +195,7 @@
                         *matCellDef="let element"
                         class="border-b border-gray-200 text-sm px-4 py-2 pr-12"
                     >
-                        {{ element.type }}
+                        {{ element.type || "N/A" }}
                     </td>
                 </ng-container>
 
@@ -208,7 +213,7 @@
                         *matCellDef="let element"
                         class="border-b border-gray-200 text-sm px-4 py-2"
                     >
-                        {{ element.brand }}
+                        {{ element.brand || "N/A" }}
                     </td>
                 </ng-container>
 
@@ -226,7 +231,7 @@
                         *matCellDef="let element"
                         class="border-b border-gray-200 text-sm px-4 py-2"
                     >
-                        {{ element.serial_no }}
+                        {{ element.serial_no || "N/A" }}
                     </td>
                 </ng-container>
 

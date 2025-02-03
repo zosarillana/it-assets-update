@@ -15,19 +15,18 @@ import * as XLSX from 'xlsx'; // Keep this for XLSX handling
 import { AccountabilityService } from 'app/services/accountability/accountability.service';
 
 @Component({
-  selector: 'app-accountability-list',
-  templateUrl: './accountability-list.component.html',
-  styleUrls: ['./accountability-list.component.scss']
+    selector: 'app-accountability-list',
+    templateUrl: './accountability-list.component.html',
+    styleUrls: ['./accountability-list.component.scss'],
 })
 export class AccountabilityListComponent implements OnInit {
-    displayedColumns: string[] = [        
-        'accountability_code',
+    displayedColumns: string[] = [
+        'accountability_code',        
         'tracking_code',
         'owner',
         // 'owner',
         // 'brand',
-        // // 'owner_id',       
-        // 'serial_no',
+        // // 'owner_id',
     ];
 
     dataSource = new MatTableDataSource<any>([]); // Initialize with an empty array
@@ -36,22 +35,21 @@ export class AccountabilityListComponent implements OnInit {
     constructor(private _service: AccountabilityService) {} // Inject your service
 
     ngOnInit(): void {
-      this.loadAccountabilityData();
+        this.loadAccountabilityData();
     }
-    
+
     accountabilityData: string[] = []; // Variable to store the data
     loadAccountabilityData(): void {
         this._service.getAllAccountability().subscribe(
-          (response: any) => {
-            // Assuming the API response has a property "$values" that holds the array of data
-            if (response && response.$values) {
-              this.dataSource.data = response.$values; // Assign data to MatTableDataSource
+            (response: any) => {
+                // Assuming the API response has a property "$values" that holds the array of data
+                if (response && response.$values) {
+                    this.dataSource.data = response.$values; // Assign data to MatTableDataSource
+                }
+            },
+            (error) => {
+                console.error('Error fetching accountability data', error);
             }
-          },
-          (error) => {
-            console.error('Error fetching accountability data', error);
-          }
         );
-      }
-      
-  }
+    }
+}
