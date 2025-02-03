@@ -53,7 +53,7 @@
                     />
                     <div class="flex flex-col gap-2">
                         <p class="font-semibold text-2xl">
-                           {{asset.model}} ({{asset.type}})
+                            {{ asset.model || "N/A" }} ({{ asset.type || "N/A" }})
                         </p>
                         <p class="text-secondary font-semibold">
                             Asset barcode:

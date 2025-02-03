@@ -53,7 +53,7 @@
                     />
                     <div class="flex flex-col gap-2">
                         <p class="font-semibold text-2xl">
-                            {{ asset.model }} ({{ asset.type }})
+                            {{ asset.model || "N/A" }} ({{ asset.type || "N/A" }})
                         </p>
                         <p class="text-secondary font-semibold">
                             Asset barcode:
@@ -123,7 +123,7 @@
                 <div class="flex flex-col sm:flex-row justify-between gap-2">
                     <div class="flex flex-col">
                         <p class="text-primary font-bold text-2xl">
-                            {{ asset.asset_barcode }}
+                            {{ asset.asset_barcode || "N/A" }}
                         </p>
                         <p class="text-secondary">
                             Serial number: {{ asset.serial_no || "N/A" }}
