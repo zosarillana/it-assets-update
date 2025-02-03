@@ -151,28 +151,28 @@
                         Type
                         <span class="text-secondary text-medium">
                           <mat-icon svgIcon="feather:cpu" class="icon-size-3"></mat-icon>
-                          {{asset.type}}
+                          {{asset.type || 'N/A'}}
                         </span>
                       </p>
                       <p class="flex flex-col font-medium text-medium">
                         Date Acquired
                         <span class="text-secondary text-medium">
                           <mat-icon svgIcon="feather:calendar" class="icon-size-3"></mat-icon>
-                          {{asset.date_acquired}}
+                          {{asset.date_acquired || 'N/A'}}
                         </span>
                       </p>
                       <p class="flex flex-col font-medium text-medium">
                         Brand
                         <span class="text-secondary text-medium">
                           <mat-icon svgIcon="feather:box" class="icon-size-3"></mat-icon>
-                          {{asset.brand}}
+                          {{asset.brand || 'N/A'}}
                         </span>
                       </p>
                       <p class="flex flex-col font-medium text-medium">
                         Model
                         <span class="text-secondary text-medium">
                           <mat-icon svgIcon="feather:smartphone" class="icon-size-3"></mat-icon>
-                          {{asset.model}}
+                          {{asset.model || 'N/A'}}
                         </span>
                       </p>
                       <p class="flex flex-col font-medium text-medium">
@@ -182,13 +182,23 @@
                           {{asset.ram || 'N/A'}}
                         </span>
                       </p>
-                      <p class="flex flex-col font-medium text-medium">
-                        Storage
-                        <span class="text-secondary text-medium">
-                          <mat-icon svgIcon="feather:hard-drive" class="icon-size-3"></mat-icon>
-                         {{asset.storage || 'N/A'}}
-                        </span>
-                      </p>
+                      <div class="flex flex-row gap-5">
+                        <p class="flex flex-col font-medium text-medium">
+                            SSD
+                            <span class="text-secondary text-medium">
+                              <mat-icon svgIcon="feather:hard-drive" class="icon-size-3"></mat-icon>
+                             {{asset.ssd || 'N/A'}}
+                            </span>
+                          </p>  
+                          <mat-divider class="mx-2" vertical></mat-divider>
+                          <p class="flex flex-col font-medium text-medium">
+                            HDD
+                            <span class="text-secondary text-medium">
+                              <mat-icon svgIcon="feather:hard-drive" class="icon-size-3"></mat-icon>
+                             {{asset.hhd || 'N/A'}}
+                            </span>
+                          </p>
+                      </div>
                       <p class="flex flex-col font-medium text-medium">
                         GPU
                         <span class="text-secondary text-medium">

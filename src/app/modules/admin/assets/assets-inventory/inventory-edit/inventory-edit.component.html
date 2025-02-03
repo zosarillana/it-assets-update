@@ -246,20 +246,35 @@
                             [value]="asset.ram || 'N/A'"
                         />
                     </mat-form-field>
+                    <div class="flex flex-row gap-4">
+                        <mat-form-field appearance="fill" class="w-full">
+                            <mat-label>SSD</mat-label>
+                            <mat-icon
+                                svgIcon="feather:hard-drive"
+                                class="icon-size-5 mr-2"
+                            ></mat-icon>
+                            <input
+                                matInput
+                                id="ssd"
+                                [placeholder]="asset.storage || 'N/A'"
+                                [value]="asset.storage || 'N/A'"
+                            />
+                        </mat-form-field>
 
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Storage</mat-label>
-                        <mat-icon
-                            svgIcon="feather:hard-drive"
-                            class="icon-size-5 mr-2"
-                        ></mat-icon>
-                        <input
-                            matInput
-                            id="storage"
-                            [placeholder]="asset.storage || 'N/A'"
-                            [value]="asset.storage || 'N/A'"
-                        />
-                    </mat-form-field>
+                        <mat-form-field appearance="fill" class="w-full">
+                            <mat-label>HHD</mat-label>
+                            <mat-icon
+                                svgIcon="feather:hard-drive"
+                                class="icon-size-5 mr-2"
+                            ></mat-icon>
+                            <input
+                                matInput
+                                id="hhd"
+                                [placeholder]="asset.storage || 'N/A'"
+                                [value]="asset.storage || 'N/A'"
+                            />
+                        </mat-form-field>
+                    </div>                   
 
                     <mat-form-field appearance="fill" class="w-full">
                         <mat-label>GPU</mat-label>
