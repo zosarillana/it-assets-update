@@ -12,7 +12,7 @@ export class AccountabilityService {
     constructor(private http: HttpClient) {}
 
     getAllAccountability(): Observable<string[]> {
-        const url = `${this.url}/api/UserAccountabilityList`;
+        const url = `${this.url}/api/UserAccountabilityList/get-all`;
         return this.http.get<string[]>(url);
     }
 

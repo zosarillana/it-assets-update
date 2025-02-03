@@ -31,7 +31,7 @@ export class ComputerService {
         }
 
         return this.http.get<AssetResponse>(
-            `${this.url}/api/Assets/ComputerItems`,
+            `${this.url}/api/Computer/ComputerItems`,
             { params }
         );
     }
@@ -42,6 +42,6 @@ export class ComputerService {
     }
 
     getComputersById(id: number): Observable<Assets> {
-        return this.http.get<Assets>(`${this.url}/api/Assets/Computers/${id}`);
+        return this.http.get<Assets>(`${this.url}/api/Computer/Computers/${id}`);
     }
 }
