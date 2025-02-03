@@ -90,7 +90,7 @@
             <button
                 class="ml-4"
                 mat-icon-button
-                [routerLink]="'/assets/inventory'"
+                [routerLink]="'/assets/accountability'"
             >
                 <mat-icon [svgIcon]="'close'"></mat-icon>
                 <!-- <span class="ml-2 mr-1">Go back</span> -->
@@ -248,7 +248,7 @@
                                 *matCellDef="let element"
                                 style="width: 600px; white-space: normal"
                             >
-                                {{ element.history.$values || "N/A" }}
+                                {{ element.history.$values?.length ? element.history.$values : 'N/A' }}
                             </mat-cell>
                         </ng-container>
                         <!-- Status Column -->
@@ -353,7 +353,7 @@
                                 *matCellDef="let element"
                                 style="width: 600px; white-space: normal"
                             >
-                                {{ element.history.$values || "N/A" }}
+                            {{ element.history.$values?.length ? element.history.$values : 'N/A' }}
                             </mat-cell>
                         </ng-container>
                         <!-- Status Column -->
