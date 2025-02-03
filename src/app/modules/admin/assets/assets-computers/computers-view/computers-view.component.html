@@ -204,16 +204,21 @@
                                 svgIcon="feather:server"
                                 class="icon-size-3 mt-1"
                             ></mat-icon>
-                            <span
-                                class="text-blue-600 text-medium underline cursor-pointer"
-                                [routerLink]="['/assets/components/view', asset?.ram?.uid]"
-                            >
-                                {{ asset?.ram?.description || "N/A" }}
-                                <mat-icon
-                                    svgIcon="mat_outline:open_in_new"
-                                    class="icon-size-3 text-blue-700"
-                                ></mat-icon>
-                            </span>
+                            <ng-container *ngIf="asset?.ram?.description; else noRam">
+                                <span
+                                    class="text-blue-600 text-medium underline cursor-pointer"
+                                    [routerLink]="['/assets/components/view', asset?.ram?.uid]"
+                                >
+                                    {{ asset?.ram?.description }}
+                                    <mat-icon
+                                        svgIcon="mat_outline:open_in_new"
+                                        class="icon-size-3 text-blue-700"
+                                    ></mat-icon>
+                                </span>
+                            </ng-container>
+                            <ng-template #noRam>
+                                <span class="text-secondary text-medium">N/A</span>
+                            </ng-template>                            
                         </div>
                     </div>
                     <div class="flex flex-col">
@@ -230,15 +235,22 @@
                                         svgIcon="feather:hard-drive"
                                         class="icon-size-3 mt-1"
                                     ></mat-icon>
-                                    <span
-                                        class="text-blue-600 text-medium underline cursor-pointer"
-                                    >
-                                        {{ asset?.ssd?.description || "N/A" }}
-                                        <mat-icon
-                                            svgIcon="mat_outline:open_in_new"
-                                            class="icon-size-3 text-blue-700"
-                                        ></mat-icon>
-                                    </span>
+                                    <ng-container *ngIf="asset?.ssd?.description; else noSsd">
+                                        <span
+                                            class="text-blue-600 text-medium underline cursor-pointer"
+                                            [routerLink]="['/assets/components/view', asset?.ssd?.uid]"
+                                        >
+                                            {{ asset?.ssd?.description }}
+                                            <mat-icon
+                                                svgIcon="mat_outline:open_in_new"
+                                                class="icon-size-3 text-blue-700"
+                                            ></mat-icon>
+                                        </span>
+                                    </ng-container>
+                                    <ng-template #noSsd>
+                                        <span class="text-secondary text-medium">N/A</span>
+                                    </ng-template>
+                                    
                                 </div>
                             </div>
                             <div>
@@ -253,15 +265,22 @@
                                         svgIcon="feather:hard-drive"
                                         class="icon-size-3 mt-1"
                                     ></mat-icon>
-                                    <span
-                                        class="text-blue-600 text-medium underline cursor-pointer"
-                                    >
-                                    {{ asset?.hhd?.description || "N/A" }}
-                                        <mat-icon
-                                            svgIcon="mat_outline:open_in_new"
-                                            class="icon-size-3 text-blue-700"
-                                        ></mat-icon>
-                                    </span>
+                                    <ng-container *ngIf="asset?.hhd?.description; else noHhd">
+                                        <span
+                                            class="text-blue-600 text-medium underline cursor-pointer"
+                                            [routerLink]="['/assets/components/view', asset?.hhd?.uid]"
+                                        >
+                                            {{ asset?.hhd?.description }}
+                                            <mat-icon
+                                                svgIcon="mat_outline:open_in_new"
+                                                class="icon-size-3 text-blue-700"
+                                            ></mat-icon>
+                                        </span>
+                                    </ng-container>
+                                    <ng-template #noHhd>
+                                        <span class="text-secondary text-medium">N/A</span>
+                                    </ng-template>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -274,15 +293,21 @@
                                 svgIcon="feather:monitor"
                                 class="icon-size-3 mt-1"
                             ></mat-icon>
-                            <span
-                                class="text-blue-600 text-medium underline cursor-pointer"
-                            >
-                            {{ asset?.gpu?.description || "N/A" }}
-                                <mat-icon
-                                    svgIcon="mat_outline:open_in_new"
-                                    class="icon-size-3 text-blue-700"
-                                ></mat-icon>
-                            </span>
+                            <ng-container *ngIf="asset?.gpu?.description; else noGpu">
+                                <span
+                                    class="text-blue-600 text-medium underline cursor-pointer"
+                                    [routerLink]="['/assets/components/view', asset?.gpu?.uid]"
+                                >
+                                    {{ asset?.gpu?.description }}
+                                    <mat-icon
+                                        svgIcon="mat_outline:open_in_new"
+                                        class="icon-size-3 text-blue-700"
+                                    ></mat-icon>
+                                </span>
+                            </ng-container>
+                            <ng-template #noGpu>
+                                <span class="text-secondary text-medium">N/A</span>
+                            </ng-template>
                         </div>
                     </div>                               
                 </div>
