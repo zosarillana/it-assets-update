@@ -9,6 +9,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ComputerService } from 'app/services/computer/computer.service';
+import { ComponentsService } from 'app/services/components/components.service';
 
 @Component({
   selector: 'app-components-list',
@@ -20,10 +21,10 @@ export class ComponentsListComponent implements OnInit {
           'asset_img',
           'asset_barcode',
           'type',
-          'date_acquired',
-          // 'pc_type',
-          'brand',
-          'serial_no',
+          'uid',          
+          'status',
+          // 'pc_type',          
+        //   'serial_no',
       ];
   
       dataSource = new MatTableDataSource<Assets>();
@@ -42,7 +43,7 @@ export class ComponentsListComponent implements OnInit {
       @ViewChild(MatPaginator) paginator!: MatPaginator;
       @ViewChild(MatSort) sort!: MatSort;
   
-      constructor(private assetService: ComputerService) {}
+      constructor(private assetService: ComponentsService) {}
   
       ngOnInit(): void {
           console.log(this.dataSource.data);
@@ -65,16 +66,16 @@ export class ComponentsListComponent implements OnInit {
           return this.allTypes.filter(option => option.toLowerCase().includes(filterValue));
       }
   
-      loadAllTypes(): void {
-          this.assetService.getAllTypes().subscribe({
-              next: (types: string[]) => {
-                  this.allTypes = types;
-              },
-              error: (error) => {
-                  console.error('Error fetching types:', error);
-              },
-          });
-      }
+    //   loadAllTypes(): void {
+    //       this.assetService.getAllTypes().subscribe({
+    //           next: (types: string[]) => {
+    //               this.allTypes = types;
+    //           },
+    //           error: (error) => {
+    //               console.error('Error fetching types:', error);
+    //           },
+    //       });
+    //   }
   
       ngAfterViewInit(): void {
           this.paginator.page.subscribe((event) => {
@@ -91,7 +92,7 @@ export class ComponentsListComponent implements OnInit {
       loadAssets(pageIndex: number, pageSize: number): void {
           this.isLoading = true;
   
-          this.assetService.getAssets(pageIndex, pageSize, this.sortOrder, this.searchTerm).subscribe({
+          this.assetService.getComponents(pageIndex, pageSize, this.sortOrder, this.searchTerm).subscribe({
               next: (response: AssetResponse) => {
                   console.log('API Response:', response);
   

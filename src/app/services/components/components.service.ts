@@ -12,7 +12,7 @@ export class ComponentsService {
 
     constructor(private http: HttpClient) {}
 
-    public getAssets(
+    public getComponents(
         pageNumber: number,
         pageSize: number,
         sortOrder: string,
@@ -41,7 +41,7 @@ export class ComponentsService {
     //     return this.http.get<string[]>(url);
     // }
     
-    getAssetById(id: number): Observable<Assets> {
+    getComponentsById(id: number): Observable<Assets> {
         return this.http.get<Assets>(`${this.url}/api/ComputerComponents/${id}`);
     }
     
