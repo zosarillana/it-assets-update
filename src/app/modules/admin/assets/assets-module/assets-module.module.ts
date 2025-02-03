@@ -146,6 +146,10 @@ const assetRoute: Route[] = [
         component: ComponentsListComponent,
     },
     {
+        path: 'components/view/:uid',
+        component: ComponentsViewComponent,
+    },
+    {
         path: 'components/view/:id',
         component: ComponentsViewComponent,
     },
@@ -154,7 +158,7 @@ const assetRoute: Route[] = [
         component: ComponentsAddComponent,
     },
     {
-        path: 'components/edit/:id',
+        path: 'components/edit/:uid',
         component: ComponentsEditComponent,
     },
 ];

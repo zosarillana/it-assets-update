@@ -18,9 +18,10 @@ export class ComponentsViewComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        const id = Number(this.route.snapshot.paramMap.get('id'));
-        if (id) {
-            this.assetsService.getComponentsById(id).subscribe({
+      const uid = this.route.snapshot.paramMap.get('uid');
+
+        if (uid) {
+            this.assetsService.getComponentsById(uid).subscribe({
                 next: (data) => (this.asset = data),
                 error: (err) => console.error('Error fetching asset', err),
             });

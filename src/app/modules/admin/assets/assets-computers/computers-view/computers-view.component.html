@@ -206,6 +206,7 @@
                             ></mat-icon>
                             <span
                                 class="text-blue-600 text-medium underline cursor-pointer"
+                                [routerLink]="['/assets/components/view', asset?.ram?.uid]"
                             >
                                 {{ asset?.ram?.description || "N/A" }}
                                 <mat-icon

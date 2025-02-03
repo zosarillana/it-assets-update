@@ -41,8 +41,8 @@ export class ComponentsService {
     //     return this.http.get<string[]>(url);
     // }
     
-    getComponentsById(id: number): Observable<Assets> {
-        return this.http.get<Assets>(`${this.url}/api/ComputerComponents/${id}`);
+    getComponentsById(uid: string): Observable<Assets> {
+        return this.http.get<Assets>(`${this.url}/api/ComputerComponents/${uid}`);
     }
     
 }
