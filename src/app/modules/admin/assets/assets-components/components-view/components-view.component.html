@@ -145,7 +145,7 @@
                                 <p class="text-primary font-bold text-lg">
                                     Parent Assent Barcode
                                 </p>
-                                <p class="text-secondary underline cursor-pointer text-blue-600">
+                                <p class="text-secondary underline cursor-pointer text-blue-600" [routerLink]="'/assets/computers/view/' + asset.computer.id">
                                     # {{ asset.asset_barcode }}
                                     <mat-icon svgIcon="mat_outline:open_in_new" class="icon-size-3 underline text-blue-600" ></mat-icon>
                                 </p>
