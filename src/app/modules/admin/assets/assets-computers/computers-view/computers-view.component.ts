@@ -10,8 +10,10 @@ import { ComputerService } from 'app/services/computer/computer.service';
   styleUrls: ['./computers-view.component.scss']
 })
 export class ComputersViewComponent implements OnInit {
- asset!: Assets;
-
+//  asset!: Assets;
+asset: any;
+ displayedColumns: string[] = ['component', 'description', 'uid', 'history'];
+ dataSource: any[] = [];
     constructor(
         private route: ActivatedRoute,
         private assetsService: ComputerService
@@ -21,7 +23,15 @@ export class ComputersViewComponent implements OnInit {
         const id = Number(this.route.snapshot.paramMap.get('id'));
         if (id) {
             this.assetsService.getComputersById(id).subscribe({
-                next: (data) => (this.asset = data),
+                next: (data) => {
+                    this.asset = data;
+                    this.dataSource = [
+                        { name: 'Ram', icon: 'feather:server', description: this.asset?.ram?.description || null, uid: this.asset?.ram?.uid || null, history: this.asset?.ram?.history || null },
+                        { name: 'SSD', icon: 'feather:hard-drive', description: this.asset?.ssd?.description || null, uid: this.asset?.ssd?.uid || null, history: this.asset?.ssd?.history || null },
+                        { name: 'HDD', icon: 'feather:hard-drive', description: this.asset?.hhd?.description || null, uid: this.asset?.hhd?.uid || null, history: this.asset?.hhd?.history || null },
+                        { name: 'GPU', icon: 'feather:monitor', description: this.asset?.gpu?.description || null, uid: this.asset?.gpu?.uid || null, history: this.asset?.gpu?.history || null }
+                    ];
+                },
                 error: (err) => console.error('Error fetching asset', err),
             });
         }

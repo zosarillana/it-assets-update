@@ -53,7 +53,9 @@
                     />
                     <div class="flex flex-col gap-2">
                         <p class="font-semibold text-2xl">
-                            {{ asset.model || "N/A" }} ({{ asset.type || "N/A" }})
+                            {{ asset.model || "N/A" }} ({{
+                                asset.type || "N/A"
+                            }})
                         </p>
                         <p class="text-secondary font-semibold">
                             Asset barcode:
@@ -144,7 +146,7 @@
             <mat-divider class="mt-6 mb-10"></mat-divider>
             <p class="text-lg font-medium mb-3">Details</p>
 
-            <div class="flex flex-row gap-4">
+            <div class="flex flex-col gap-2 lg:flex-row lg:gap-4">
                 <div class="flex flex-col flex-grow gap-4">
                     <p class="flex flex-col font-medium text-medium">
                         Serial number
@@ -196,123 +198,6 @@
                             {{ asset.model || "N/A" }}
                         </span>
                     </p>
-                    <div class="flex flex-col">
-                        <p class="flex flex-col font-medium text-medium">Ram</p>
-
-                        <div class="flex flex-row gap-1">
-                            <mat-icon
-                                svgIcon="feather:server"
-                                class="icon-size-3 mt-1"
-                            ></mat-icon>
-                            <ng-container *ngIf="asset?.ram?.description; else noRam">
-                                <span
-                                    class="text-blue-600 text-medium underline cursor-pointer"
-                                    [routerLink]="['/assets/components/view', asset?.ram?.uid]"
-                                >
-                                    {{ asset?.ram?.description }}
-                                    <mat-icon
-                                        svgIcon="mat_outline:open_in_new"
-                                        class="icon-size-3 text-blue-700"
-                                    ></mat-icon>
-                                </span>
-                            </ng-container>
-                            <ng-template #noRam>
-                                <span class="text-secondary text-medium">N/A</span>
-                            </ng-template>                            
-                        </div>
-                    </div>
-                    <div class="flex flex-col">
-                        <div class="flex flex-row gap-5">
-                            <div>
-                                <p
-                                    class="flex flex-col font-medium text-medium"
-                                >
-                                    SSD
-                                </p>
-
-                                <div class="flex flex-row gap-1">
-                                    <mat-icon
-                                        svgIcon="feather:hard-drive"
-                                        class="icon-size-3 mt-1"
-                                    ></mat-icon>
-                                    <ng-container *ngIf="asset?.ssd?.description; else noSsd">
-                                        <span
-                                            class="text-blue-600 text-medium underline cursor-pointer"
-                                            [routerLink]="['/assets/components/view', asset?.ssd?.uid]"
-                                        >
-                                            {{ asset?.ssd?.description }}
-                                            <mat-icon
-                                                svgIcon="mat_outline:open_in_new"
-                                                class="icon-size-3 text-blue-700"
-                                            ></mat-icon>
-                                        </span>
-                                    </ng-container>
-                                    <ng-template #noSsd>
-                                        <span class="text-secondary text-medium">N/A</span>
-                                    </ng-template>
-                                    
-                                </div>
-                            </div>
-                            <div>
-                                <p
-                                    class="flex flex-col font-medium text-medium"
-                                >
-                                HDD
-                                </p>
-
-                                <div class="flex flex-row gap-1">
-                                    <mat-icon
-                                        svgIcon="feather:hard-drive"
-                                        class="icon-size-3 mt-1"
-                                    ></mat-icon>
-                                    <ng-container *ngIf="asset?.hhd?.description; else noHhd">
-                                        <span
-                                            class="text-blue-600 text-medium underline cursor-pointer"
-                                            [routerLink]="['/assets/components/view', asset?.hhd?.uid]"
-                                        >
-                                            {{ asset?.hhd?.description }}
-                                            <mat-icon
-                                                svgIcon="mat_outline:open_in_new"
-                                                class="icon-size-3 text-blue-700"
-                                            ></mat-icon>
-                                        </span>
-                                    </ng-container>
-                                    <ng-template #noHhd>
-                                        <span class="text-secondary text-medium">N/A</span>
-                                    </ng-template>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>    
-                    <div class="flex flex-col">
-                        <p class="flex flex-col font-medium text-medium">GPU</p>
-
-                        <div class="flex flex-row gap-1">
-                            <mat-icon
-                                svgIcon="feather:monitor"
-                                class="icon-size-3 mt-1"
-                            ></mat-icon>
-                            <ng-container *ngIf="asset?.gpu?.description; else noGpu">
-                                <span
-                                    class="text-blue-600 text-medium underline cursor-pointer"
-                                    [routerLink]="['/assets/components/view', asset?.gpu?.uid]"
-                                >
-                                    {{ asset?.gpu?.description }}
-                                    <mat-icon
-                                        svgIcon="mat_outline:open_in_new"
-                                        class="icon-size-3 text-blue-700"
-                                    ></mat-icon>
-                                </span>
-                            </ng-container>
-                            <ng-template #noGpu>
-                                <span class="text-secondary text-medium">N/A</span>
-                            </ng-template>
-                        </div>
-                    </div>                               
-                </div>
-                <mat-divider class="mx-2 md:mx-6 lg:mx-12" vertical></mat-divider>
-                <div class="flex flex-col flex-grow gap-4">
                     <p class="flex flex-col font-medium text-medium">
                         Size
                         <span class="text-secondary text-medium">
@@ -323,6 +208,12 @@
                             {{ asset.size || "N/A" }}
                         </span>
                     </p>
+                </div>
+                <mat-divider
+                    class="mx-2 md:mx-6 lg:mx-12"
+                    vertical
+                ></mat-divider>
+                <div class="flex flex-col flex-grow gap-4">
                     <p class="flex flex-col font-medium text-medium">
                         Color
                         <span class="text-secondary text-medium">
@@ -389,7 +280,61 @@
                     </p>
                 </div>
             </div>
-
+            
+            <mat-divider class="mt-6 mb-10"></mat-divider>
+            <p class="text-sm font-medium">Current Owner Details</p>
+            <p class="text-sm text-secondary mb-6">
+                Current owner of the asset details.
+            </p>
+            <div class="overflow-x-auto">
+                <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-full">
+                    <ng-container matColumnDef="component">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Component</mat-header-cell>
+                        <mat-cell *matCellDef="let element" class="text-sm">
+                            <mat-icon [svgIcon]="element.icon" class="icon-size-3 mr-1"></mat-icon>
+                            {{ element.name }}
+                        </mat-cell>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="description">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                            <ng-container *ngIf="element.description; else noDescription">
+                                <span class="text-blue-600 underline cursor-pointer text-sm" >
+                                    {{ element.description }}
+                                    <mat-icon svgIcon="mat_outline:open_in_new" class="icon-size-3 text-blue-700"></mat-icon>
+                                </span>
+                            </ng-container>
+                            <ng-template #noDescription>
+                                <span class="text-secondary" class="text-sm">N/A</span>
+                            </ng-template>
+                        </mat-cell>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="uid">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>UID</mat-header-cell>
+                        <mat-cell *matCellDef="let element" class="text-sm">
+                            {{ element.uid || 'N/A' }}
+                        </mat-cell>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="history">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>History</mat-header-cell>
+                        <mat-cell *matCellDef="let element" class="text-sm">
+                            {{ element.history || 'N/A' }}
+                        </mat-cell>
+                    </ng-container>
+            
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns" 
+                            class="hover:bg-gray-100 cursor-pointer"
+                            [routerLink]="['/assets/components/view', row.uid]">
+                    </mat-row>
+                </mat-table>
+            </div>
+            
+            
+            
             <mat-divider class="mt-6 mb-10"></mat-divider>
 
             <p class="text-lg font-medium">Current Owner Details</p>
