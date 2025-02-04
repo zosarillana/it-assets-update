@@ -34,58 +34,84 @@
                 </h2>
             </div>
         </div>
-        <div class="flex flex-wrap items-center mt-6 sm:mt-0">
-            <!-- Add Inventory Button -->
-            <button
-                class="w-full sm:w-auto mt-4 sm:mt-0 sm:ml-4 flex items-center justify-center"
-                mat-stroked-button
-                [routerLink]="'/assets/inventory/add'"
-            >
-                <mat-icon [svgIcon]="'feather:plus'"></mat-icon>
-                <span class="ml-2 mr-1">Add Inventory</span>
-            </button>
 
-            <!-- Select Category -->
-            <!-- <mat-form-field
+        <div class="flex flex-col gap-3">
+            <div class="flex justify-end flex-wrap items-center mt-6 sm:mt-0">
+                <!-- Add Inventory Button -->
+                <button
+                    class="w-full sm:w-auto mt-4 sm:mt-0 sm:ml-4 flex items-center justify-center"
+                    mat-stroked-button
+                    [routerLink]="'/assets/inventory/add'"
+                >
+                    <mat-icon [svgIcon]="'feather:plus'"></mat-icon>
+                    <span class="ml-2 mr-1">Add Inventory</span>
+                </button>
+
+                <!-- Select Category -->
+                <!-- <mat-form-field
+                        class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
+                    >
+                        <mat-select
+                            [(value)]="selectedTypes"
+                            (selectionChange)="onCategoryChange($event.value)"
+                        >
+                            <mat-option *ngFor="let type of types" [value]="type">
+                                {{ type }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+
+                <!-- Search Inventory Tag -->
+                <mat-form-field
                     class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
                 >
-                    <mat-select
-                        [(value)]="selectedTypes"
-                        (selectionChange)="onCategoryChange($event.value)"
+                    <mat-icon
+                        matPrefix
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:search'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        placeholder="Search by Type"
+                        [formControl]="typeFilterControl"
+                        [matAutocomplete]="auto"
+                    />
+                    <mat-autocomplete
+                        #auto="matAutocomplete"
+                        (optionSelected)="onTypeSelected($event.option.value)"
                     >
-                        <mat-option *ngFor="let type of types" [value]="type">
-                            {{ type }}
+                        <mat-option
+                            *ngFor="let option of filteredTypeOptions | async"
+                            [value]="option"
+                        >
+                            {{ option }}
                         </mat-option>
-                    </mat-select>
-                </mat-form-field> -->
-
-            <!-- Search Inventory Tag -->
-            <mat-form-field
-                class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
-            >
-                <mat-icon
-                    matPrefix
-                    class="icon-size-5"
-                    [svgIcon]="'heroicons_solid:search'"
-                ></mat-icon>
-                <input
-                    matInput
-                    placeholder="Search by Type"
-                    [formControl]="typeFilterControl"
-                    [matAutocomplete]="auto"
-                />
-                <mat-autocomplete
-                    #auto="matAutocomplete"
-                    (optionSelected)="onTypeSelected($event.option.value)"
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="justify-end flex flex-wrap items-center mt-4 sm:mt-0">
+                <mat-button-toggle-group
+                    class="gap-3"
+                    name="typeFilter"
+                    aria-label="Type Filter"
+                    [(ngModel)]="selectedTypeToggle"
+                    (change)="onTypeSelected()"
+                    multiple
                 >
-                    <mat-option
-                        *ngFor="let option of filteredTypeOptions | async"
-                        [value]="option"
+                    <mat-button-toggle
+                        *ngFor="let type of allTypes"
+                        class="bg-gray-50 text-gray-800"
+                        [value]="type"
                     >
-                        {{ option }}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
+                        <mat-icon
+                            *ngIf="selectedTypeToggle.includes(type)"
+                            class="ml-2 icon-size-3 text-gray-900"
+                            svgIcon="mat_outline:check"
+                        ></mat-icon>
+                        {{ type }}
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
         </div>
     </div>
 

@@ -33,8 +33,8 @@ export class ComputersListComponent  implements OnInit, AfterViewInit {
     totalItems = 0;
     pageSizeOptions = [5, 10, 25, 50];
     isLoading = false;
-    selectedFontStyle: string = '';
-    
+    selectedTypeToggle: string[] = [];
+
     // Auto-complete
     typeFilterControl = new FormControl('');
     filteredTypeOptions: Observable<string[]>;
@@ -47,6 +47,7 @@ export class ComputersListComponent  implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
         console.log(this.dataSource.data);
+        this.loadAllTypes(); // Load types dynamically
         this.loadAssets(1, this.pageSize);
     
         // Set up the autocomplete filter
@@ -139,15 +140,30 @@ export class ComputersListComponent  implements OnInit, AfterViewInit {
         this.loadAssets(1, this.pageSize);
     }
 
-    applyTypeFilter(searchValue: string): void {
-        this.searchTerm = searchValue.trim().toLowerCase();
+    // applyTypeFilter(searchValue: string): void {
+    //     this.searchTerm = searchValue.trim().toLowerCase();
 
-        if (this.paginator) {
-            this.paginator.pageIndex = 0;
-        }
+    //     if (this.paginator) {
+    //         this.paginator.pageIndex = 0;
+    //     }
 
-        this.loadAssets(1, this.pageSize);
+    //     this.loadAssets(1, this.pageSize);
+    // }
+
+    // In your component
+applyTypeFilter(searchValue: string): void {
+    this.searchTerm = searchValue.trim().toLowerCase();
+
+    if (this.paginator) {
+        this.paginator.pageIndex = 0;
     }
+
+    // Optional: You could add client-side filtering as a fallback
+    this.dataSource.filter = this.searchTerm;
+    
+    // Keep your server-side pagination/filtering
+    this.loadAssets(1, this.pageSize);
+}
 
     filterTypes(value: string): string[] {
         const filterValue = value.toLowerCase();
@@ -155,11 +171,28 @@ export class ComputersListComponent  implements OnInit, AfterViewInit {
     }
 
     // New method to handle selection from autocomplete
-    onTypeSelected(selectedType: string): void {
-        this.applyTypeFilter(selectedType);
+    onTypeSelected(selectedType?: string): void {
+        // If selectedType is provided from autocomplete, use it
+        if (selectedType) {
+            this.selectedTypeToggle = [selectedType]; // Set it in the toggle buttons
+        }
+    
+        // Create a filter predicate that checks for the selected types
+        this.dataSource.filterPredicate = (data: Assets) => {
+            // If no filters are selected, show all data
+            if (this.selectedTypeToggle.length === 0) {
+                return true;
+            }
+            // Filter the table based on selected types
+            return this.selectedTypeToggle.includes(data.type);
+        };
+    
+        // Apply the filter
+        this.dataSource.filter = 'applyFilter'; // Triggers filtering
     }
-
     isValidDate(date: any): boolean {
       return date && !isNaN(new Date(date).getTime());
     }
+
+    
 }

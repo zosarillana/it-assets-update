@@ -36,101 +36,79 @@
                 </h2>
             </div>
         </div>
-
         <!-- Right Section -->
-        <div class="flex flex-wrap items-center mt-4 sm:mt-0">
-            <mat-button-toggle-group
-                class="gap-3"
-                name="fontStyle"
-                aria-label="Font Style"
-                [(ngModel)]="selectedFontStyle"
-            >
-                <mat-button-toggle
-                    class="bg-gray-50 text-gray-800"
-                    value="bold"
+        <div class="flex flex-col gap-3">
+            <div class="justify-end flex flex-wrap items-center mt-4 sm:mt-0">
+                <!-- Add Inventory Button -->
+                <button
+                    class="w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2 md:ml-4 flex items-center justify-center"
+                    mat-stroked-button
+                    [routerLink]="'/assets/computers/add'"
+                >
+                    <mat-icon [svgIcon]="'feather:plus'"></mat-icon>
+                    <span class="ml-2 mr-1">Add Computers</span>
+                </button>
+
+                <!-- Select Category -->
+                <!-- <mat-form-field class="fuse-mat-no-subscript w-full sm:w-48 md:w-56 lg:w-72 mt-2 sm:mt-0 sm:ml-2 md:ml-4">
+                    <mat-select [(value)]="selectedTypes" (selectionChange)="onCategoryChange($event.value)">
+                        <mat-option *ngFor="let type of types" [value]="type">
+                            {{ type }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field> -->
+
+                <!-- Search Inventory Tag -->
+                <mat-form-field
+                    class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
                 >
                     <mat-icon
-                        *ngIf="selectedFontStyle === 'bold'"
-                        class="ml-2"
-                        class="icon-size-3 text-gray-900"
-                        svgIcon="mat_outline:check"
+                        matPrefix
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:search'"
                     ></mat-icon>
-                    Bold
-                </mat-button-toggle>
-
-                <mat-button-toggle
-                    class="bg-gray-50 text-gray-800"
-                    value="italic"
-                >
-                    <mat-icon
-                        *ngIf="selectedFontStyle === 'italic'"
-                        class="ml-2"
-                        class="icon-size-3 text-gray-900"
-                        svgIcon="mat_outline:check"
-                    ></mat-icon>
-                    Italic
-                </mat-button-toggle>
-
-                <mat-button-toggle
-                    class="bg-gray-50 text-gray-800"
-                    value="underline"
-                >
-                    <mat-icon
-                        *ngIf="selectedFontStyle === 'underline'"
-                        class="ml-2"
-                        class="icon-size-3 text-gray-900"
-                        svgIcon="mat_outline:check"
-                    ></mat-icon>
-                    Underline
-                </mat-button-toggle>
-            </mat-button-toggle-group>
-
-            <!-- Add Inventory Button -->
-            <button
-                class="w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2 md:ml-4 flex items-center justify-center"
-                mat-stroked-button
-                [routerLink]="'/assets/computers/add'"
-            >
-                <mat-icon [svgIcon]="'feather:plus'"></mat-icon>
-                <span class="ml-2 mr-1">Add Computers</span>
-            </button>
-
-            <!-- Select Category -->
-            <!-- <mat-form-field class="fuse-mat-no-subscript w-full sm:w-48 md:w-56 lg:w-72 mt-2 sm:mt-0 sm:ml-2 md:ml-4">
-                <mat-select [(value)]="selectedTypes" (selectionChange)="onCategoryChange($event.value)">
-                    <mat-option *ngFor="let type of types" [value]="type">
-                        {{ type }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field> -->
-
-            <!-- Search Inventory Tag -->
-            <mat-form-field
-                class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
-            >
-                <mat-icon
-                    matPrefix
-                    class="icon-size-5"
-                    [svgIcon]="'heroicons_solid:search'"
-                ></mat-icon>
-                <input
-                    matInput
-                    placeholder="Search by Type"
-                    [formControl]="typeFilterControl"
-                    [matAutocomplete]="auto"
-                />
-                <mat-autocomplete
-                    #auto="matAutocomplete"
-                    (optionSelected)="onTypeSelected($event.option.value)"
-                >
-                    <mat-option
-                        *ngFor="let option of filteredTypeOptions | async"
-                        [value]="option"
+                    <input
+                        matInput
+                        placeholder="Search by Type"
+                        [formControl]="typeFilterControl"
+                        [matAutocomplete]="auto"
+                    />
+                    <mat-autocomplete
+                        #auto="matAutocomplete"
+                        (optionSelected)="onTypeSelected($event.option.value)"
                     >
-                        {{ option }}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
+                        <mat-option
+                            *ngFor="let option of filteredTypeOptions | async"
+                            [value]="option"
+                        >
+                            {{ option }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="justify-end flex flex-wrap items-center mt-4 sm:mt-0">
+                <mat-button-toggle-group
+                    class="gap-3"
+                    name="typeFilter"
+                    aria-label="Type Filter"
+                    [(ngModel)]="selectedTypeToggle"
+                    (change)="onTypeSelected()"
+                    multiple
+                >
+                    <mat-button-toggle
+                        *ngFor="let type of allTypes"
+                        class="bg-gray-50 text-gray-800"
+                        [value]="type"
+                    >
+                        <mat-icon
+                            *ngIf="selectedTypeToggle.includes(type)"
+                            class="ml-2 icon-size-3 text-gray-900"
+                            svgIcon="mat_outline:check"
+                        ></mat-icon>
+                        {{ type }}
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
         </div>
     </div>
 
