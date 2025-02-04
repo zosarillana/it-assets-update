@@ -66,6 +66,7 @@ import { ComponentsViewComponent } from '../assets-components/components-view/co
 import { ComponentsAddComponent } from '../assets-components/components-add/components-add.component';
 import { ComponentsEditComponent } from '../assets-components/components-edit/components-edit.component';
 import { ComponentsListComponent } from '../assets-components/components-list/components-list.component';
+import { ErrorPageComponent } from '../error-page/error-page.component';
 
 const assetRoute: Route[] = [
     // {
@@ -75,6 +76,10 @@ const assetRoute: Route[] = [
     {
         path: 'import-assets',
         component: ImportAssetsComponent,
+    },
+    {
+        path: 'error',
+        component: ErrorPageComponent,
     },
     {
         path: 'pc',
