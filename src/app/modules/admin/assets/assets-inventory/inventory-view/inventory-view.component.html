@@ -139,160 +139,173 @@
             <p class="text-lg font-medium mb-3">Details</p>
 
             <div class="flex flex-row gap-4">
-                <div class="flex flex-col flex-grow gap-4">
-                    <p class="flex flex-col font-medium text-medium">
-                        Serial number
-                        <span class="text-secondary text-medium">
-                          <mat-icon svgIcon="feather:hash" class="icon-size-3"></mat-icon>
-                          S4412315
-                        </span>
-                      </p>
-                      <p class="flex flex-col font-medium text-medium">
-                        Type
-                        <span class="text-secondary text-medium">
-                          <mat-icon svgIcon="feather:cpu" class="icon-size-3"></mat-icon>
-                          {{asset.type || 'N/A'}}
-                        </span>
-                      </p>
-                      <p class="flex flex-col font-medium text-medium">
-                        Date Acquired
-                        <span class="text-secondary text-medium">
-                          <mat-icon svgIcon="feather:calendar" class="icon-size-3"></mat-icon>
-                          {{asset.date_acquired || 'N/A'}}
-                        </span>
-                      </p>
-                      <p class="flex flex-col font-medium text-medium">
-                        Brand
-                        <span class="text-secondary text-medium">
-                          <mat-icon svgIcon="feather:box" class="icon-size-3"></mat-icon>
-                          {{asset.brand || 'N/A'}}
-                        </span>
-                      </p>
-                      <p class="flex flex-col font-medium text-medium">
-                        Model
-                        <span class="text-secondary text-medium">
-                          <mat-icon svgIcon="feather:smartphone" class="icon-size-3"></mat-icon>
-                          {{asset.model || 'N/A'}}
-                        </span>
-                      </p>
-                      <p class="flex flex-col font-medium text-medium">
-                        Ram
-                        <span class="text-secondary text-medium">
-                          <mat-icon svgIcon="feather:server" class="icon-size-3"></mat-icon>
-                          {{asset.ram || 'N/A'}}
-                        </span>
-                      </p>
-                      <div class="flex flex-row gap-5">
+                <div class="flex flex-col gap-2 lg:flex-row lg:gap-4">
+                    <div class="flex flex-col flex-grow gap-4">
                         <p class="flex flex-col font-medium text-medium">
-                            SSD
+                            Serial number
                             <span class="text-secondary text-medium">
-                              <mat-icon svgIcon="feather:hard-drive" class="icon-size-3"></mat-icon>
-                             {{asset.ssd || 'N/A'}}
+                                <mat-icon
+                                    svgIcon="feather:hash"
+                                    class="icon-size-3"
+                                ></mat-icon>
+                                {{ asset.serial_no || "N/A" }}
                             </span>
-                          </p>  
-                          <mat-divider class="mx-2" vertical></mat-divider>
-                          <p class="flex flex-col font-medium text-medium">
-                            HDD
+                        </p>
+                        <p class="flex flex-col font-medium text-medium">
+                            Type
                             <span class="text-secondary text-medium">
-                              <mat-icon svgIcon="feather:hard-drive" class="icon-size-3"></mat-icon>
-                             {{asset.hhd || 'N/A'}}
+                                <mat-icon
+                                    svgIcon="feather:cpu"
+                                    class="icon-size-3"
+                                ></mat-icon>
+                                {{ asset.type || "N/A" }}
                             </span>
-                          </p>
-                      </div>
-                      <p class="flex flex-col font-medium text-medium">
-                        GPU
-                        <span class="text-secondary text-medium">
-                          <mat-icon svgIcon="feather:monitor" class="icon-size-3"></mat-icon>
-                          {{asset.gpu || 'N/A'}}
-                        </span>
-                      </p>
-                      
-                </div>
-                <mat-divider class="mx-12" vertical></mat-divider>
-                <div class="flex flex-col flex-grow gap-4">
-                    <p class="flex flex-col font-medium text-medium">
-                        Size
-                        <span class="text-secondary text-medium">
-                          <mat-icon svgIcon="feather:info" class="icon-size-3"></mat-icon>
-                         {{asset.size || 'N/A'}}
-                        </span>
-                      </p>
-                      <p class="flex flex-col font-medium text-medium">
-                        Color
-                        <span class="text-secondary text-medium">
-                          <mat-icon svgIcon="feather:info" class="icon-size-3"></mat-icon>
-                        {{asset.color || 'N/A'}}
-                        </span>
-                      </p>
-                      <p class="flex flex-col font-medium text-medium">
-                        Po #
-                        <span class="text-secondary text-medium">
-                          <mat-icon svgIcon="feather:tag" class="icon-size-3"></mat-icon>
-                         {{asset.po_number || 'N/A'}}
-                        </span>
-                      </p>
-                      <p class="flex flex-col font-medium text-medium">
-                        Warranty
-                        <span class="text-secondary text-medium">
-                          <mat-icon svgIcon="feather:shield" class="icon-size-3"></mat-icon>
-                        {{asset.warranty || 'N/A'}}
-                        </span>
-                      </p>
-                      <p class="flex flex-col font-medium text-medium">
-                        Cost
-                        <span class="text-secondary text-medium">
-                          <mat-icon svgIcon="feather:dollar-sign" class="icon-size-3"></mat-icon>
-                          {{asset.cost || 'N/A'}}
-                        </span>
-                      </p>
-                      <p class="flex flex-col font-medium text-medium">
-                        Remarks
-                        <span class="text-secondary text-medium">
-                          <mat-icon svgIcon="feather:file-text" class="icon-size-3"></mat-icon>
-                       {{asset.remarks || 'N/A'}}
-                        </span>
-                      </p>                      
-                      <p class="flex flex-col font-medium text-medium">
-                        History
-                        <span class="text-secondary text-medium">
-                          <mat-icon svgIcon="feather:file-text" class="icon-size-3"></mat-icon>
-                          {{ asset.history?.$values?.length ? asset.history.$values : 'N/A' }}
-                        </span>
-                      </p>                      
+                        </p>
+                        <p class="flex flex-col font-medium text-medium">
+                            Date Acquired
+                            <span class="text-secondary text-medium">
+                                <mat-icon
+                                    svgIcon="feather:calendar"
+                                    class="icon-size-3"
+                                ></mat-icon>
+                                {{ asset.date_acquired || "N/A" }}
+                            </span>
+                        </p>
+                        <p class="flex flex-col font-medium text-medium">
+                            Brand
+                            <span class="text-secondary text-medium">
+                                <mat-icon
+                                    svgIcon="feather:box"
+                                    class="icon-size-3"
+                                ></mat-icon>
+                                {{ asset.brand || "N/A" }}
+                            </span>
+                        </p>
+                        <p class="flex flex-col font-medium text-medium">
+                            Model
+                            <span class="text-secondary text-medium">
+                                <mat-icon
+                                    svgIcon="feather:smartphone"
+                                    class="icon-size-3"
+                                ></mat-icon>
+                                {{ asset.model || "N/A" }}
+                            </span>
+                        </p>
+                        <p class="flex flex-col font-medium text-medium">
+                            Size
+                            <span class="text-secondary text-medium">
+                                <mat-icon
+                                    svgIcon="feather:info"
+                                    class="icon-size-3"
+                                ></mat-icon>
+                                {{ asset.size || "N/A" }}
+                            </span>
+                        </p>
+                    </div>
+                    <mat-divider
+                        class="mx-2 md:mx-6 lg:mx-12"
+                        vertical
+                    ></mat-divider>
+                    <div class="flex flex-col flex-grow gap-4">
+                        <p class="flex flex-col font-medium text-medium">
+                            Color
+                            <span class="text-secondary text-medium">
+                                <mat-icon
+                                    svgIcon="feather:info"
+                                    class="icon-size-3"
+                                ></mat-icon>
+                                {{ asset.color || "N/A" }}
+                            </span>
+                        </p>
+                        <p class="flex flex-col font-medium text-medium">
+                            Po #
+                            <span class="text-secondary text-medium">
+                                <mat-icon
+                                    svgIcon="feather:tag"
+                                    class="icon-size-3"
+                                ></mat-icon>
+                                {{ asset.po_number || "N/A" }}
+                            </span>
+                        </p>
+                        <p class="flex flex-col font-medium text-medium">
+                            Warranty
+                            <span class="text-secondary text-medium">
+                                <mat-icon
+                                    svgIcon="feather:shield"
+                                    class="icon-size-3"
+                                ></mat-icon>
+                                {{ asset.warranty || "N/A" }}
+                            </span>
+                        </p>
+                        <p class="flex flex-col font-medium text-medium">
+                            Cost
+                            <span class="text-secondary text-medium">
+                                <mat-icon
+                                    svgIcon="feather:dollar-sign"
+                                    class="icon-size-3"
+                                ></mat-icon>
+                                {{ asset.cost || "N/A" }}
+                            </span>
+                        </p>
+                        <p class="flex flex-col font-medium text-medium">
+                            Remarks
+                            <span class="text-secondary text-medium">
+                                <mat-icon
+                                    svgIcon="feather:file-text"
+                                    class="icon-size-3"
+                                ></mat-icon>
+                                {{ asset.remarks || "N/A" }}
+                            </span>
+                        </p>
+                        <p class="flex flex-col font-medium text-medium">
+                            History
+                            <span class="text-secondary text-medium">
+                                <mat-icon
+                                    svgIcon="feather:file-text"
+                                    class="icon-size-3"
+                                ></mat-icon>
+                                {{
+                                    asset.history?.$values?.length
+                                        ? asset.history.$values
+                                        : "N/A"
+                                }}
+                            </span>
+                        </p>
+                    </div>
                 </div>
             </div> 
 
             <mat-divider class="mt-6 mb-10"></mat-divider>
 
-            <p class="text-lg font-medium">Current Owner Details</p>
-            <p class="text-secondary mb-6">
+            <p class="text-sm font-medium">Current Owner Details</p>
+            <p class="text-sm text-secondary mb-6">
                 Current owner of the asset details.
             </p>
 
             <!-- Responsive Owner Details Section -->
             <div class="flex flex-col sm:flex-row gap-4">
                 <div class="flex flex-col flex-grow gap-4">
-                    <p class="flex flex-col font-medium text-medium">
+                    <p class="text-sm flex flex-col font-medium text-medium">
                         Owner Name
-                        <span class="text-secondary text-medium">
+                        <span class="text-sm text-secondary text-medium">
                             {{ asset.owner.name || 'N/A' }}
                         </span>
                     </p>
-                    <p class="flex flex-col font-medium text-medium">
+                    <p class="text-sm flex flex-col font-medium text-medium">
                         Company
-                        <span class="text-secondary text-medium"> ABFI </span>
+                        <span class="text-sm text-secondary text-medium"> ABFI </span>
                     </p>
-                    <p class="flex flex-col font-medium text-medium">
+                    <p class="text-sm flex flex-col font-medium text-medium">
                         Department
-                        <span class="text-secondary text-medium">
+                        <span class="text-sm text-secondary text-medium">
                             {{ asset.owner.department || 'N/A' }}
                         </span>
                     </p>
                 </div>
                 <div class="flex flex-col flex-grow gap-4">
-                    <p class="flex flex-col font-medium text-medium">
+                    <p class="text-sm flex flex-col font-medium text-medium">
                         Employee ID
-                        <span class="text-secondary text-medium">
+                        <span class="text-sm text-secondary text-medium">
                             {{asset.owner.employee_id || 'N/A'}}
                         </span>
                     </p>

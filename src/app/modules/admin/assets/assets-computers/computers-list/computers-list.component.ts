@@ -33,7 +33,8 @@ export class ComputersListComponent  implements OnInit, AfterViewInit {
     totalItems = 0;
     pageSizeOptions = [5, 10, 25, 50];
     isLoading = false;
-
+    selectedFontStyle: string = '';
+    
     // Auto-complete
     typeFilterControl = new FormControl('');
     filteredTypeOptions: Observable<string[]>;

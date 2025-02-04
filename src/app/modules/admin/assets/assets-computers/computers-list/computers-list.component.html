@@ -1,34 +1,90 @@
 <div class="flex flex-col flex-auto min-w-0">
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-4 sm:p-6 lg:p-8 border-b bg-card dark:bg-transparent">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-4 sm:p-6 lg:p-8 border-b bg-card dark:bg-transparent"
+    >
         <!-- Left Section -->
         <div class="flex-1 min-w-0">
             <!-- Breadcrumbs -->
             <div>
                 <div class="hidden sm:flex flex-wrap items-center font-medium">
-                    <div class="flex items-center ml-1 whitespace-nowrap truncate">
+                    <div
+                        class="flex items-center ml-1 whitespace-nowrap truncate"
+                    >
                         <a class="ml-1 text-primary-500 truncate">Computers</a>
                     </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap truncate">
+                    <div
+                        class="flex items-center ml-1 whitespace-nowrap truncate"
+                    >
                         <mat-icon
                             class="icon-size-5 text-secondary"
                             [svgIcon]="'heroicons_solid:chevron-right'"
                         ></mat-icon>
-                        <span class="ml-1 text-secondary truncate">Computers List</span>
+                        <span class="ml-1 text-secondary truncate"
+                            >Computers List</span
+                        >
                     </div>
                 </div>
             </div>
-        
+
             <!-- Title -->
             <div class="mt-2 truncate">
-                <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                <h2
+                    class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                >
                     Computers List
                 </h2>
             </div>
         </div>
-    
+
         <!-- Right Section -->
         <div class="flex flex-wrap items-center mt-4 sm:mt-0">
+            <mat-button-toggle-group
+                class="gap-3"
+                name="fontStyle"
+                aria-label="Font Style"
+                [(ngModel)]="selectedFontStyle"
+            >
+                <mat-button-toggle
+                    class="bg-gray-50 text-gray-800"
+                    value="bold"
+                >
+                    <mat-icon
+                        *ngIf="selectedFontStyle === 'bold'"
+                        class="ml-2"
+                        class="icon-size-3 text-gray-900"
+                        svgIcon="mat_outline:check"
+                    ></mat-icon>
+                    Bold
+                </mat-button-toggle>
+
+                <mat-button-toggle
+                    class="bg-gray-50 text-gray-800"
+                    value="italic"
+                >
+                    <mat-icon
+                        *ngIf="selectedFontStyle === 'italic'"
+                        class="ml-2"
+                        class="icon-size-3 text-gray-900"
+                        svgIcon="mat_outline:check"
+                    ></mat-icon>
+                    Italic
+                </mat-button-toggle>
+
+                <mat-button-toggle
+                    class="bg-gray-50 text-gray-800"
+                    value="underline"
+                >
+                    <mat-icon
+                        *ngIf="selectedFontStyle === 'underline'"
+                        class="ml-2"
+                        class="icon-size-3 text-gray-900"
+                        svgIcon="mat_outline:check"
+                    ></mat-icon>
+                    Underline
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+
             <!-- Add Inventory Button -->
             <button
                 class="w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2 md:ml-4 flex items-center justify-center"
@@ -38,7 +94,7 @@
                 <mat-icon [svgIcon]="'feather:plus'"></mat-icon>
                 <span class="ml-2 mr-1">Add Computers</span>
             </button>
-    
+
             <!-- Select Category -->
             <!-- <mat-form-field class="fuse-mat-no-subscript w-full sm:w-48 md:w-56 lg:w-72 mt-2 sm:mt-0 sm:ml-2 md:ml-4">
                 <mat-select [(value)]="selectedTypes" (selectionChange)="onCategoryChange($event.value)">
@@ -47,18 +103,30 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field> -->
-    
+
             <!-- Search Inventory Tag -->
-            <mat-form-field class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4">
-                <mat-icon matPrefix class="icon-size-5" [svgIcon]="'heroicons_solid:search'"></mat-icon>
+            <mat-form-field
+                class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
+            >
+                <mat-icon
+                    matPrefix
+                    class="icon-size-5"
+                    [svgIcon]="'heroicons_solid:search'"
+                ></mat-icon>
                 <input
                     matInput
                     placeholder="Search by Type"
                     [formControl]="typeFilterControl"
                     [matAutocomplete]="auto"
                 />
-                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTypeSelected($event.option.value)">
-                    <mat-option *ngFor="let option of filteredTypeOptions | async" [value]="option">
+                <mat-autocomplete
+                    #auto="matAutocomplete"
+                    (optionSelected)="onTypeSelected($event.option.value)"
+                >
+                    <mat-option
+                        *ngFor="let option of filteredTypeOptions | async"
+                        [value]="option"
+                    >
                         {{ option }}
                     </mat-option>
                 </mat-autocomplete>
@@ -115,7 +183,7 @@
                         *matCellDef="let element"
                         class="ml-4 border-b border-gray-200 py-4 text-sm font-semibold inventory-tag-cell"
                     >
-                        # {{ element.asset_barcode || 'N/A'}}
+                        # {{ element.asset_barcode || "N/A" }}
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="type">
@@ -132,7 +200,7 @@
                         *matCellDef="let element"
                         class="border-b border-gray-200 px-4 py-4 text-sm font-semibold inventory-tag-cell"
                     >
-                        {{ element.type || 'N/A'}}
+                        {{ element.type || "N/A" }}
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="date_acquired">
@@ -149,9 +217,12 @@
                         *matCellDef="let element"
                         class="border-b border-gray-200 text-sm px-4 py-2"
                     >
-                    {{ element.date_acquired && isValidDate(element.date_acquired) ? (element.date_acquired | date : "MM/dd/yyyy") : 'N/A' }}
-
-                      
+                        {{
+                            element.date_acquired &&
+                            isValidDate(element.date_acquired)
+                                ? (element.date_acquired | date : "MM/dd/yyyy")
+                                : "N/A"
+                        }}
                     </td>
                 </ng-container>
 
@@ -169,7 +240,7 @@
                         *matCellDef="let element"
                         class="border-b border-gray-200 text-sm px-4 py-2"
                     >
-                        {{ element.brand|| 'N/A'}}
+                        {{ element.brand || "N/A" }}
                     </td>
                 </ng-container>
 
@@ -187,7 +258,7 @@
                         *matCellDef="let element"
                         class="border-b border-gray-200 text-sm px-4 py-2"
                     >
-                        {{ element.serial_no || 'N/A'}}
+                        {{ element.serial_no || "N/A" }}
                     </td>
                 </ng-container>
 
@@ -205,7 +276,7 @@
                         *matCellDef="let element"
                         class="border-b border-gray-200 text-sm px-4 py-2 pr-12"
                     >
-                        {{ element.owner|| 'N/A'}}
+                        {{ element.owner || "N/A" }}
                     </td>
                 </ng-container>
                 <!-- <ng-container matColumnDef="owner_id">
@@ -229,11 +300,11 @@
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr
-                mat-row
-                [routerLink]="['/assets/computers/view', row.id]"
-                class="cursor-pointer hover:bg-gray-100"
-                *matRowDef="let row; columns: displayedColumns"
-            ></tr>
+                    mat-row
+                    [routerLink]="['/assets/computers/view', row.id]"
+                    class="cursor-pointer hover:bg-gray-100"
+                    *matRowDef="let row; columns: displayedColumns"
+                ></tr>
             </table>
         </div>
         <!-- Paginator -->
