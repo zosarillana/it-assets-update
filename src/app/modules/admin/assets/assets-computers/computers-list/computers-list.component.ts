@@ -19,11 +19,11 @@ export class ComputersListComponent  implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
         'asset_img',
         'asset_barcode',
-        'type',
-        'date_acquired',
+        'type',        
         // 'pc_type',
         'brand',
         'serial_no',
+        'status',
     ];
 
     dataSource = new MatTableDataSource<Assets>();
