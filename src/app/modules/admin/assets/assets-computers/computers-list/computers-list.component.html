@@ -122,7 +122,7 @@
                 (matSortChange)="announceSortChange($event)"
                 class="min-w-full bg-white rounded-lg shadow-md"
             >
-                <ng-container matColumnDef="asset_img">
+                <!-- <ng-container matColumnDef="asset_img">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
@@ -134,18 +134,18 @@
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-r border-gray-200  text-sm font-semibold inventory-tag-cell py-3"
+                        class="border-r border-gray-200  text-sm font-semibold inventory-tag-cell "
                     >
                     <div class="flex items-center justify-center ">
                             <img
                             src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/inspiron-notebooks/14-2-in-1-7440-intel/media-gallery/notebook-inspiron-14-7440-t-ice-blue-gallery-17.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=1336&qlt=100,1&resMode=sharp2&size=1336,804&chrss=full"
                             alt="Sample Image"
-                            class="h-10 w-12 border border-gray-300 rounded-sm p-1"
+                            class="h-8 w-10 border border-gray-300 rounded-sm p-1"
                         />
                     </div>
                        
                     </td>
-                </ng-container>
+                </ng-container> -->
 
                 <ng-container matColumnDef="asset_barcode">
                     <th
@@ -165,7 +165,7 @@
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="justify-center border-b ml-4 border-r border-gray-200 text-sm text-gray-900 font-bold inventory-tag-cell"
+                        class="justify-center border-b ml-4 border-r border-gray-200 text-sm text-gray-900 font-bold inventory-tag-cell w-48"
                     >
                         <div class="flex items-center ml-4 ">
                             # {{ element.asset_barcode || "N/A" }}
@@ -177,7 +177,7 @@
                         mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
-                        class="text-left text-gray-600 font-semibold inventory-tag-header custom-left-align"
+                        class="text-left text-gray-600 font-semibold inventory-tag-header custom-left-align w-36"
                     >
                         <div class="flex ml-4">Type</div>
                     </th>
@@ -194,14 +194,14 @@
                         mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
-                        class="text-left  text-gray-900 font-semibold inventory-tag-header custom-left-align"
+                        class="text-left  text-gray-900 font-semibold inventory-tag-header custom-left-align w-36"
                     >
                         <div class="flex ml-4">Status</div>
                     </th>
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-r border-gray-200 text-sm px-4 py-2"
+                        class="border-r border-gray-200 text-sm px-4 py-0"
                     >
                     <div class="flex ml-4">
                         <div class="rounded-md bg-green-600 py-0.5 px-2.5 border border-transparent text-sm text-white transition-all shadow-sm">
@@ -216,14 +216,14 @@
                         mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
-                        class="text-left text-gray-900 font-semibold inventory-tag-header custom-left-align"
+                        class="text-left text-gray-900 font-semibold inventory-tag-header custom-left-align w-36"
                     >
                         <div class="flex ml-4">Brand</div>
                     </th>
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-r border-gray-200 text-sm px-4 py-2"
+                        class="border-r border-gray-200 text-sm px-4 py-0"
                     >
                         {{ element.brand || "N/A" }}
                     </td>
@@ -234,36 +234,87 @@
                         mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
-                        class="text-left text-gray-900 font-semibold inventory-tag-header custom-left-align"
+                        class="text-left text-gray-900 font-semibold inventory-tag-header custom-left-align w-24"
                     >
                         <div class="flex ml-4">Serial Number</div>
                     </th>
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-r border-gray-200 text-sm px-4 py-2"
+                        class="border-r border-gray-200 text-sm px-4 py-0"
                     >
                         {{ element.serial_no || "N/A" }}
                     </td>
                 </ng-container>
 
-                <!-- <ng-container matColumnDef="owner">
+                <ng-container matColumnDef="model">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
-                        class="px-4 py-2 text-left text-gray-900 font-semibold"
+                        class="px-4 py-0 text-left text-gray-900 font-semibold w-12"
+                    >
+                        Model
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-r border-gray-200 text-sm px-4 py-0 "
+                    >
+                        <p class="truncate">{{ element.model || "N/A" }}</p>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="serial_number">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-0 text-left text-gray-900 font-semibold  w-36"
                     >
                         Owner
                     </th>
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-b border-gray-200 text-sm px-4 py-2 pr-12"
+                        class="border-b border-gray-200 text-sm px-4 py-0"
                     >
                         {{ element.owner || "N/A" }}
                     </td>
-                </ng-container> -->
+                </ng-container>
+                <ng-container matColumnDef="active_user">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 0 text-left text-gray-900 font-semibold w-48"
+                    >
+                        Active User
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-r border-gray-200 text-sm px-4 py-0"
+                    >
+                        {{ element.owner.name || "N/A" }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="bu">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-900 font-semibold  w-36"
+                    >
+                        Business Unit
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-r border-gray-200 text-sm px-4 py-0 w-12"
+                    >
+                        {{ element.owner.bu || "N/A" }}
+                    </td>
+                </ng-container>
                 <!-- <ng-container matColumnDef="owner_id">
                     <th
                         mat-header-cell

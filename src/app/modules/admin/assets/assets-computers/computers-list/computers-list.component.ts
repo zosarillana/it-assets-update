@@ -17,12 +17,15 @@ import { ComputerService } from 'app/services/computer/computer.service';
 })
 export class ComputersListComponent  implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
-        'asset_img',
+        // 'asset_img',
         'asset_barcode',
         'type',        
         // 'pc_type',
         'brand',
+        'model',        
         'serial_no',
+        'active_user',
+        'bu',
         'status',
     ];
 
@@ -47,7 +50,7 @@ export class ComputersListComponent  implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
         console.log(this.dataSource.data);
-        this.loadAllTypes(); // Load types dynamically
+        // this.loadAllTypes(); // Load types dynamically
         this.loadAssets(1, this.pageSize);
     
         // Set up the autocomplete filter
