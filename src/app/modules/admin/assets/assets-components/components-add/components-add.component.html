@@ -1,1 +1,211 @@
-<p>components-add works!</p>
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
+    >
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div>
+                <div class="hidden sm:flex flex-wrap items-center font-medium">
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <a class="ml-1 text-primary-500">Assets</a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-right'"
+                        ></mat-icon>
+                        <a
+                            class="ml-1 text-primary-500 cursor-pointer"
+                            [routerLink]="'/assets/Components'"
+                            >Components List</a
+                        >
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-right'"
+                        ></mat-icon>
+                        <span class="ml-1 text-secondary">Add</span>
+                    </div>
+                </div>
+                <div class="flex sm:hidden">
+                    <a
+                        class="inline-flex items-center -ml-1.5 text-secondary font-medium"
+                        [routerLink]="'/assets/computers'"
+                    >
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-left'"
+                        ></mat-icon>
+                        <span class="ml-1">Back</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-2">
+                <h2
+                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                >
+                    Add Computers
+                </h2>
+            </div>
+        </div>
+        <div
+            class="hidden sm:flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4"
+        >
+            <button
+                class="ml-4"
+                mat-icon-button
+                [routerLink]="'/assets/components'"
+            >
+                <mat-icon [svgIcon]="'close'"></mat-icon>
+                <!-- <span class="ml-2 mr-1">Go back</span> -->
+            </button>
+        </div>
+    </div>
+
+    <div class="flex flex-col h-full sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
+        <form
+            class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
+        >
+            <p class="text-sm md:text-md font-bold md:text-xl">
+                New Computer Form
+            </p>
+            <mat-divider class="mt-4 md:mt-6 mb-3 md:mb-4"></mat-divider>
+
+            <div class="flex flex-row mt-2 gap-3 md:gap-4">
+                <div class="flex flex-col items-center">
+                    <label
+                        for="select-image"
+                        class="cursor-pointer flex flex-col items-center"
+                    >
+                        <img
+                            id="preview-image"
+                            src="https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg"
+                            alt="Select Image"
+                            class="h-24 w-24 md:h-32 md:w-32 object-contain border border-gray-300 rounded-md"
+                        />
+                        <span
+                            class="text-secondary text-xs md:text-sm mt-1 md:mt-2"
+                        >
+                            <mat-icon
+                                class="icon-size-3 md:icon-size-4 text-secondary"
+                                [svgIcon]="'feather:edit'"
+                            ></mat-icon>
+                            Select new image
+                        </span>
+                    </label>
+                    <input
+                        id="select-image"
+                        type="file"
+                        accept="image/*"
+                        class="hidden"
+                        (change)="previewSelectedImage($event)"
+                    />
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-between gap-2">
+                    <div class="flex flex-col w-full">
+                        <mat-form-field appearance="fill" class="w-full">
+                            <mat-label
+                                class="text-xs md:text-sm font-bold text-primary"
+                                >Serial Number</mat-label
+                            >
+                            <mat-icon
+                                svgIcon="feather:hash"
+                                class="icon-size-3 md:icon-size-3"
+                            ></mat-icon>
+                            <input
+                                matInput
+                                id="serial_number"
+                                class="text-xs md:text-sm"
+                            />
+                        </mat-form-field>
+                    </div>
+                    <mat-divider class="mx-6 md:mx-12" vertical></mat-divider>
+                    <div class="flex flex-col">
+                        <p class="text-xs md:text-sm font-bold text-primary">
+                            Long Item Description
+                        </p>
+                        <p class="text-secondary text-xs md:text-sm">
+                         N/A
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-sm md:text-md font-medium mb-2">Details</p>
+
+            <div class="flex flex-col lg:flex-row">
+                <div class="flex flex-col flex-grow">
+                    <mat-label class="text-xs md:text-sm mb-1">Type</mat-label>
+                    <mat-form-field appearance="fill">
+                        <mat-icon
+                            svgIcon="feather:cpu"
+                            class="icon-size-3 md:icon-size-4 mr-2"
+                        ></mat-icon>
+                        <mat-select
+                            id="type"
+                            class="text-xs md:text-sm"
+                            placeholder="Select Type..."
+                        >
+                            <mat-option value="computer">Computer</mat-option>
+                            <mat-option value="desktop_cpu"
+                                >Desktop/CPU</mat-option
+                            >
+                        </mat-select>
+                    </mat-form-field>            
+                    <mat-label class="text-xs md:text-sm mb-1"
+                        >Date Acquired</mat-label
+                    >
+                    <mat-form-field appearance="fill">
+                        <mat-icon
+                            svgIcon="feather:calendar"
+                            class="icon-size-3 md:icon-size-4 mr-2"
+                        ></mat-icon>
+
+                        <input
+                            matInput
+                            [matDatepicker]="picker"
+                            id="date_acquired"
+                            placeholder="dd-mm-yyyy"
+                            class="text-xs md:text-sm"
+                        />
+                        <mat-datepicker-toggle
+                            matSuffix
+                            [for]="picker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>                   
+                </div>
+                <mat-divider class="mx-12" vertical></mat-divider>
+                <div class="flex flex-col flex-grow">
+                    <mat-label class="text-xs md:text-sm mb-1">Size</mat-label>
+                    <mat-form-field appearance="fill">
+                        <mat-icon
+                            svgIcon="feather:info"
+                            class="icon-size-3 md:icon-size-4 mr-2"
+                        ></mat-icon>
+                        <input
+                            matInput
+                            id="size"
+                            placeholder="Enter size..."
+                            class="text-xs md:text-sm"
+                        />
+                    </mat-form-field>
+                            
+                </div>
+            </div>
+          
+            <div
+                class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
+            >
+                <button mat-stroked-button>Reset Form</button>
+                <button class="px-6 ml-3" mat-flat-button [color]="'primary'">
+                    Create Form
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

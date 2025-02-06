@@ -36,33 +36,58 @@
                 </h2>
             </div>
         </div>
+        <div class="flex flex-col gap-3">
+            <!-- Right Section -->
+            <div class="flex flex-wrap items-center mt-4 sm:mt-0">
+                <!-- Add Inventory Button -->
+                <button
+                    class="w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2 md:ml-4 flex items-center justify-center"
+                    mat-stroked-button
+                    [routerLink]="'/assets/components/add'"
+                >
+                    <mat-icon [svgIcon]="'feather:plus'"></mat-icon>
+                    <span class="ml-2 mr-1">Add Accountability</span>
+                </button>
 
-        <!-- Right Section -->
-        <div class="flex flex-wrap items-center mt-4 sm:mt-0">
-            <!-- Add Inventory Button -->
-            <!-- <button
-                class="w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2 md:ml-4 flex items-center justify-center"
-                mat-stroked-button
-                [routerLink]="'/assets/accountability/add'"
-            >
-                <mat-icon [svgIcon]="'feather:plus'"></mat-icon>
-                <span class="ml-2 mr-1">Add Accountability</span>
-            </button> -->
-
-            <!-- Select Category -->
-            <!-- <mat-form-field class="fuse-mat-no-subscript w-full sm:w-48 md:w-56 lg:w-72 mt-2 sm:mt-0 sm:ml-2 md:ml-4">
-                <mat-select [(value)]="selectedTypes" (selectionChange)="onCategoryChange($event.value)">
-                    <mat-option *ngFor="let type of types" [value]="type">
+                <!-- Search Inventory Tag -->
+                <mat-form-field
+                    class="fuse-mat-no-subscript w-full sm:w-48 md:w-56 lg:w-72 mt-2 sm:mt-0 sm:ml-2 md:ml-4"
+                >
+                    <mat-icon
+                        matPrefix
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:search'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        placeholder="Search Inventory Tag"
+                        (keyup)="applyTypeFilter($event.target.value)"
+                    />
+                </mat-form-field>
+            </div>
+            <div class="justify-end flex flex-wrap items-center mt-4 sm:mt-0">
+                <mat-button-toggle-group
+                    class="gap-3 text-gray-900"
+                    name="typeFilter"
+                    aria-label="Type Filter"
+                    [(ngModel)]="selectedTypeToggle"
+                    (change)="onTypeSelected()"
+                    multiple
+                >
+                    <mat-button-toggle
+                        *ngFor="let type of allTypes"
+                        class="bg-gray-50 text-gray-900"
+                        [value]="type"
+                    >
+                        <mat-icon
+                            *ngIf="selectedTypeToggle.includes(type)"
+                            class="ml-2 icon-size-3 text-gray-900"
+                            svgIcon="mat_outline:check"
+                        ></mat-icon>
                         {{ type }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field> -->
-
-            <!-- Search Inventory Tag -->
-            <!-- <mat-form-field class="fuse-mat-no-subscript w-full sm:w-48 md:w-56 lg:w-72 mt-2 sm:mt-0 sm:ml-2 md:ml-4">
-                <mat-icon matPrefix class="icon-size-5" [svgIcon]="'heroicons_solid:search'"></mat-icon>
-                <input matInput placeholder="Search Inventory Tag" (keyup)="applyInventoryTagFilter($event.target.value)" />
-            </mat-form-field> -->
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
         </div>
     </div>
 
@@ -157,10 +182,12 @@
                     >
                         <!-- {{ element.date_acquired && isValidDate(element.date_acquired) ? (element.date_acquired | date : "MM/dd/yyyy") : 'N/A' }} -->
                         <div class="flex ml-4">
-                            <div class="rounded-md bg-green-600 py-0.5 px-2.5 border border-transparent text-sm text-white transition-all shadow-sm">
+                            <div
+                                class="rounded-md bg-green-600 py-0.5 px-2.5 border border-transparent text-sm text-white transition-all shadow-sm"
+                            >
                                 Active
-                              </div>
-                        </div>     
+                            </div>
+                        </div>
                     </td>
                 </ng-container>
 
@@ -178,10 +205,9 @@
                         *matCellDef="let element"
                         class="border-r border-gray-200 text-sm px-0 py-0"
                     >
-                    <div class="ml-3">
-                        {{ element.uid || "N/A" }}
-                    </div>
-                        
+                        <div class="ml-3">
+                            {{ element.uid || "N/A" }}
+                        </div>
                     </td>
                 </ng-container>
 
