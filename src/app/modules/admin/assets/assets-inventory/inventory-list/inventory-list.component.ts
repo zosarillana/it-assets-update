@@ -16,13 +16,14 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class InventoryListComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
-        'asset_img',
+        // 'asset_img',
         'asset_barcode',
         'type',
         'date_acquired',
         'pc_type',
         'brand',
         'serial_no',
+        'status'
     ];
 
     dataSource = new MatTableDataSource<Assets>();

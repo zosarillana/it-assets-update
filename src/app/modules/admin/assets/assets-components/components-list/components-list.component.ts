@@ -18,11 +18,12 @@ import { ComponentsService } from 'app/services/components/components.service';
 })
 export class ComponentsListComponent implements OnInit {
      displayedColumns: string[] = [
-          'asset_img',
+        //   'asset_img',
           'asset_barcode',
           'type',
           'uid',          
           'status',
+          
           // 'pc_type',          
         //   'serial_no',
       ];

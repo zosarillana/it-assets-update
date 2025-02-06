@@ -32,7 +32,7 @@
                 <div class="flex sm:hidden">
                     <a
                         class="inline-flex items-center -ml-1.5 text-secondary font-medium"
-                        [routerLink]="'/assets/inventory'"
+                        [routerLink]="'/assets/computers'"
                     >
                         <mat-icon
                             class="icon-size-5 text-secondary"
@@ -139,7 +139,7 @@
             <mat-divider class="mt-4 mb-4"></mat-divider>
             <p class="text-sm md:text-md font-medium mb-2">Details</p>
 
-            <div class="flex flex-row">
+            <div class="flex flex-col lg:flex-row">
                 <div class="flex flex-col flex-grow">
                     <mat-label class="text-xs md:text-sm mb-1">Type</mat-label>
                     <mat-form-field appearance="fill">
@@ -321,107 +321,109 @@
                 </div>
             </div>
 
-            <div class="flex">
-                <table
-                    class="min-w-full table-auto border-collapse border border-gray-300"
-                >
-                    <thead>
-                        <tr class="bg-gray-50">
-                            <th
-                                class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm w-32"
-                            >
-                                Item
-                            </th>
-                            <th
-                                class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
-                            >
-                                Item Code
-                            </th>
-                            <th
-                                class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
-                            >
-                                Description
-                            </th>
-                            <th
-                                class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
-                            >
-                                Remarks
-                            </th>
-                            <th
-                                class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
-                            >
-                                Actions
-                            </th>
-                        </tr>
-                    </thead>
+            <div class="w-full overflow-x-auto">
+                <div class="min-w-max">
+                    <table
+                        class="min-w-full table-auto border-collapse border border-gray-300"
+                    >
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th
+                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm w-32"
+                                >
+                                    Item
+                                </th>
+                                <th
+                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
+                                >
+                                    Item Code
+                                </th>
+                                <th
+                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
+                                >
+                                    Description
+                                </th>
+                                <th
+                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
+                                >
+                                    Remarks
+                                </th>
+                                <th
+                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
+                                >
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        <tr
-                            *ngFor="let item of items; let i = index"
-                            class="odd:bg-gray-50"
-                        >
-                            <td
-                                class="border border-gray-300 px-4 py-2 text-sm"
+                        <tbody>
+                            <tr
+                                *ngFor="let item of items; let i = index"
+                                class="odd:bg-gray-50"
                             >
-                                <select
-                                    [(ngModel)]="item.itemType"
-                                    name="itemType-{{ i }}"
-                                    class="w-full p-1 border-b border-gray-300"
+                                <td
+                                    class="border border-gray-300 px-4 py-2 text-sm"
                                 >
-                                    <option
-                                        *ngFor="let option of itemTypes"
-                                        [value]="option"
+                                    <select
+                                        [(ngModel)]="item.itemType"
+                                        name="itemType-{{ i }}"
+                                        class="w-full p-1 border-b border-gray-300"
                                     >
-                                        {{ option }}
-                                    </option>
-                                </select>
-                            </td>
-                            <td
-                                class="border border-gray-300 px-4 py-2 text-sm w-72"
-                            >
-                                <input
-                                    type="text"
-                                    [(ngModel)]="item.itemCode"
-                                    name="itemCode-{{ i }}"
-                                    class="w-full p-1 border-b border-gray-300"
-                                    placeholder="Enter item code..."
-                                />
-                            </td>
-                            <td
-                                class="border border-gray-300 px-4 py-2 text-sm w-72"
-                            >
-                                <input
-                                    type="text"
-                                    [(ngModel)]="item.description"
-                                    name="description-{{ i }}"
-                                    class="w-full p-1 border-b border-gray-300"
-                                    placeholder="Enter description..."
-                                />
-                            </td>
-                            <td
-                                class="border border-gray-300 px-4 py-2 text-sm w-72"
-                            >
-                                <input
-                                    type="text"
-                                    [(ngModel)]="item.remarks"
-                                    name="remarks-{{ i }}"
-                                    class="w-full p-1 border-b border-gray-300"
-                                    placeholder="Enter remarks..."
-                                />
-                            </td>
-                            <td
-                                class="border border-gray-300 px-4 py-2 text-sm"
-                            >
-                                <button
-                                    class="px-2 py-1 text-white bg-red-600 border border-red-500 rounded transition-colors duration-[1000ms] hover:bg-red-800 hover:border-red-800"
-                                    (click)="removeRow(i)"
+                                        <option
+                                            *ngFor="let option of itemTypes"
+                                            [value]="option"
+                                        >
+                                            {{ option }}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td
+                                    class="border border-gray-300 px-4 py-2 text-sm w-72"
                                 >
-                                    Remove
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                    <input
+                                        type="text"
+                                        [(ngModel)]="item.itemCode"
+                                        name="itemCode-{{ i }}"
+                                        class="w-full p-1 border-b border-gray-300"
+                                        placeholder="Enter item code..."
+                                    />
+                                </td>
+                                <td
+                                    class="border border-gray-300 px-4 py-2 text-sm w-72"
+                                >
+                                    <input
+                                        type="text"
+                                        [(ngModel)]="item.description"
+                                        name="description-{{ i }}"
+                                        class="w-full p-1 border-b border-gray-300"
+                                        placeholder="Enter description..."
+                                    />
+                                </td>
+                                <td
+                                    class="border border-gray-300 px-4 py-2 text-sm w-72"
+                                >
+                                    <input
+                                        type="text"
+                                        [(ngModel)]="item.remarks"
+                                        name="remarks-{{ i }}"
+                                        class="w-full p-1 border-b border-gray-300"
+                                        placeholder="Enter remarks..."
+                                    />
+                                </td>
+                                <td
+                                    class="border border-gray-300 px-4 py-2 text-sm"
+                                >
+                                    <button
+                                        class="px-2 py-1 text-white bg-red-600 border border-red-500 rounded transition-colors duration-[1000ms] hover:bg-red-800 hover:border-red-800"
+                                        (click)="removeRow(i)"
+                                    >
+                                        Remove
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <mat-divider class="my-6"></mat-divider>
 
@@ -451,134 +453,145 @@
                 </div>
             </div>
 
-            <div class="flex">
-                
-                <table
-                
-                    class="min-w-full table-auto border-collapse border border-gray-300"
-                >
-                    <thead>
-                        <tr class="bg-gray-50">
-                            <th
-                                class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm w-32"
-                            >
-                                Asset
-                            </th>
-                            <th
-                                class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
-                            >
-                                Date Acquired
-                            </th>
-                            <th
-                                class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
-                            >
-                                Asset Barcode
-                            </th>
-                            <th
-                                class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
-                            >
-                                Brand
-                            </th>
-                            <th
-                                class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
-                            >
-                                Model
-                            </th>
-                            <th
-                                class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
-                            >
-                                Actions
-                            </th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr
-                            *ngFor="let accessory of assets; let i = index"
-                            class="odd:bg-gray-50"
-                        >
-                            <td
-                                class="border border-gray-300 px-4 py-2 text-sm"
-                            >
-                                <select
-                                    [(ngModel)]="assets[i].assetId"
-                                    name="asset-{{ i }}"
-                                    class="w-full p-1 border border-gray-300 bg-white rounded"
-                                    (change)="
-                                        onAssetSelect($event.target.value, i)
-                                    "
+            <div class="w-full overflow-x-auto">
+                <div class="min-w-max">
+                    <table
+                        class="min-w-full table-auto border-collapse border border-gray-300"
+                    >
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th
+                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm w-32"
                                 >
-                                    <option value="">Select Asset...</option>
-                                    <option
-                                        *ngFor="let asset of assetList"
-                                        [value]="asset.id"
+                                    Asset
+                                </th>
+                                <th
+                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
+                                >
+                                    Date Acquired
+                                </th>
+                                <th
+                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
+                                >
+                                    Asset Barcode
+                                </th>
+                                <th
+                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
+                                >
+                                    Brand
+                                </th>
+                                <th
+                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
+                                >
+                                    Model
+                                </th>
+                                <th
+                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
+                                >
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr
+                                *ngFor="let accessory of assets; let i = index"
+                                class="odd:bg-gray-50"
+                            >
+                                <td
+                                    class="border border-gray-300 px-4 py-2 text-sm"
+                                >
+                                    <select
+                                        [(ngModel)]="assets[i].assetId"
+                                        name="asset-{{ i }}"
+                                        class="w-full p-1 border border-gray-300 bg-white rounded"
+                                        (change)="
+                                            onAssetSelect(
+                                                $event.target.value,
+                                                i
+                                            )
+                                        "
                                     >
-                                        {{ asset.type }}
-                                    </option>
-                                </select>
-                            </td>
+                                        <option value="">
+                                            Select Asset...
+                                        </option>
+                                        <option
+                                            *ngFor="let asset of assetList"
+                                            [value]="asset.id"
+                                        >
+                                            {{ asset.type }}
+                                        </option>
+                                    </select>
+                                </td>
 
-                            <!-- Date Acquired -->
-                            <td
-                                class="border border-gray-300 px-4 py-2 text-sm"
-                            >
-                                <input
-                                    type="date"
-                                    [ngModel]="assets[i].date_acquired"
-                                    readonly
-                                    class="w-full p-1 border-b border-gray-300"
-                                />
-                            </td>
-
-                           <!-- Asset Barcode -->
-<td class="border border-gray-300 px-4 py-2 text-sm">
-    <input
-        type="text"
-        [ngModel]="assets[i].asset_barcode"
-        name="asset_barcode_{{i}}"
-        readonly
-        class="w-full p-1 border-b border-gray-300"
-    />
-</td>
-
-<!-- Brand -->
-<td class="border border-gray-300 px-4 py-2 text-sm">
-    <input
-        type="text"
-        [ngModel]="assets[i].brand"
-        name="brand_{{i}}"
-        readonly
-        class="w-full p-1 border-b border-gray-300"
-    />
-</td>
-
-<!-- Model -->
-<td class="border border-gray-300 px-4 py-2 text-sm">
-    <input
-        type="text"
-        [ngModel]="assets[i].model"
-        name="model_{{i}}"
-        readonly
-        class="w-full p-1 border-b border-gray-300"
-    />
-</td>
-
-                            <!-- Remove Button -->
-                            <td
-                                class="border border-gray-300 px-4 py-2 text-sm"
-                            >
-                                <button
-                                    class="px-2 py-1 text-white bg-red-600 border border-red-500 rounded transition-colors duration-[1000ms] hover:bg-red-800 hover:border-red-800"
-                                    (click)="removeAccessoryRow(i)"
+                                <!-- Date Acquired -->
+                                <td
+                                    class="border border-gray-300 px-4 py-2 text-sm"
                                 >
-                                    Remove
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                                    <input
+                                        type="date"
+                                        [ngModel]="assets[i].date_acquired"
+                                        name="date_acquired_{{ i }}"
+                                        readonly
+                                        class="w-full p-1 border-b border-gray-300"
+                                    />
+                                </td>
 
+                                <!-- Asset Barcode -->
+                                <td
+                                    class="border border-gray-300 px-4 py-2 text-sm"
+                                >
+                                    <input
+                                        type="text"
+                                        [ngModel]="assets[i].asset_barcode"
+                                        name="asset_barcode_{{ i }}"
+                                        readonly
+                                        class="w-full p-1 border-b border-gray-300"
+                                    />
+                                </td>
+
+                                <!-- Brand -->
+                                <td
+                                    class="border border-gray-300 px-4 py-2 text-sm"
+                                >
+                                    <input
+                                        type="text"
+                                        [ngModel]="assets[i].brand"
+                                        name="brand_{{ i }}"
+                                        readonly
+                                        class="w-full p-1 border-b border-gray-300"
+                                    />
+                                </td>
+
+                                <!-- Model -->
+                                <td
+                                    class="border border-gray-300 px-4 py-2 text-sm"
+                                >
+                                    <input
+                                        type="text"
+                                        [ngModel]="assets[i].model"
+                                        name="model_{{ i }}"
+                                        readonly
+                                        class="w-full p-1 border-b border-gray-300"
+                                    />
+                                </td>
+
+                                <!-- Remove Button -->
+                                <td
+                                    class="border border-gray-300 px-4 py-2 text-sm"
+                                >
+                                    <button
+                                        class="px-2 py-1 text-white bg-red-600 border border-red-500 rounded transition-colors duration-[1000ms] hover:bg-red-800 hover:border-red-800"
+                                        (click)="removeAccessoryRow(i)"
+                                    >
+                                        Remove
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <div
                 class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
             >

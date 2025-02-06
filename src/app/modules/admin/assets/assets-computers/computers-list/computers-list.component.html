@@ -263,24 +263,7 @@
                     >
                         <p class="truncate">{{ element.model || "N/A" }}</p>
                     </td>
-                </ng-container>
-                <ng-container matColumnDef="serial_number">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        class="px-4 py-0 text-left text-gray-900 font-semibold  w-36"
-                    >
-                        Owner
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let element"
-                        class="border-b border-gray-200 text-sm px-4 py-0"
-                    >
-                        {{ element.owner || "N/A" }}
-                    </td>
-                </ng-container>
+                </ng-container>               
                 <ng-container matColumnDef="active_user">
                     <th
                         mat-header-cell

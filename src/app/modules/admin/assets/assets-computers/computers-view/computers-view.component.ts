@@ -5,15 +5,17 @@ import { AssetsService } from 'app/services/assets/assets.service';
 import { ComputerService } from 'app/services/computer/computer.service';
 
 @Component({
-  selector: 'app-computers-view',
-  templateUrl: './computers-view.component.html',
-  styleUrls: ['./computers-view.component.scss']
+    selector: 'app-computers-view',
+    templateUrl: './computers-view.component.html',
+    styleUrls: ['./computers-view.component.scss'],
 })
 export class ComputersViewComponent implements OnInit {
-//  asset!: Assets;
-asset: any;
- displayedColumns: string[] = ['component', 'description', 'uid', 'history'];
- dataSource: any[] = [];
+    //  asset!: Assets;
+    asset: any;
+    displayedColumns: string[] = ['component', 'description', 'uid', 'history'];
+    dataSourceAssignedAssets: any[] = [];
+    dataSourceHistory: any[] = [];    
+    dataSource: any[] = [];
     constructor(
         private route: ActivatedRoute,
         private assetsService: ComputerService
@@ -26,11 +28,72 @@ asset: any;
                 next: (data) => {
                     this.asset = data;
                     this.dataSource = [
-                        { name: 'Ram', icon: 'feather:server', description: this.asset?.ram?.description || null, uid: this.asset?.ram?.uid || null, history: this.asset?.ram?.history || null },
-                        { name: 'SSD', icon: 'feather:hard-drive', description: this.asset?.ssd?.description || null, uid: this.asset?.ssd?.uid || null, history: this.asset?.ssd?.history || null },
-                        { name: 'HDD', icon: 'feather:hard-drive', description: this.asset?.hhd?.description || null, uid: this.asset?.hhd?.uid || null, history: this.asset?.hhd?.history || null },
-                        { name: 'GPU', icon: 'feather:monitor', description: this.asset?.gpu?.description || null, uid: this.asset?.gpu?.uid || null, history: this.asset?.gpu?.history || null }
+                        {
+                            name: 'Ram',
+                            icon: 'feather:server',
+                            description:
+                                this.asset?.ram?.values?.$values?.[0]
+                                    ?.description || null,
+                            uid:
+                                this.asset?.ram?.values?.$values?.[0]?.uid ||
+                                null,
+                            history: this.asset?.ram?.history || null,
+                        },
+                        {
+                            name: 'SSD',
+                            icon: 'feather:hard-drive',
+                            description:
+                                this.asset?.ssd?.values?.$values?.[0]
+                                    ?.description || null,
+                            uid:
+                                this.asset?.ssd?.values?.$values?.[0]?.uid ||
+                                null,
+                            history: this.asset?.ssd?.history || null,
+                        },
+                        {
+                            name: 'HDD',
+                            icon: 'feather:hard-drive',
+                            description:
+                                this.asset?.hdd?.values?.$values?.[0]
+                                    ?.description || null,
+                            uid:
+                                this.asset?.hdd?.values?.$values?.[0]?.uid ||
+                                null,
+                            history: this.asset?.hdd?.history || null,
+                        },
+                        {
+                            name: 'GPU',
+                            icon: 'feather:monitor',
+                            description:
+                                this.asset?.gpu?.values?.$values?.[0]
+                                    ?.description || null,
+                            uid:
+                                this.asset?.gpu?.values?.$values?.[0]?.uid ||
+                                null,
+                            history: this.asset?.gpu?.history || null,
+                        },
                     ];
+                    // Assigned Assets DataSource
+                    this.dataSourceAssignedAssets =
+                        this.asset?.assigned_assets?.values?.$values?.map(
+                            (asset) => ({
+                                name: `${asset.type}`,
+                                icon: 'feather:package',
+                                description: `${asset.asset_barcode}`,
+                                brand: asset.brand,
+                                id: asset.id,
+                                serial_no: asset.serial_no || 'N/A',
+                            })
+                        ) || [];
+
+                        // History DataSource
+                        this.dataSourceHistory =
+                        this.asset?.history?.values?.$values?.map((name, index) => ({
+                            id: index + 1,
+                            name: name, // The name is the only available data
+                            department: this.asset?.owner?.department || "N/A",
+                            company: this.asset?.owner?.company || "N/A"
+                        })) || [];                                        
                 },
                 error: (err) => console.error('Error fetching asset', err),
             });
@@ -55,4 +118,13 @@ asset: any;
             reader.readAsDataURL(file);
         }
     }
-  }
+    getOrdinal(n: number): string {
+        if (n > 0) {
+          let suffix = ['th owner', 'st owner', 'nd owner', 'rd owner'],
+            v = n % 100;
+          return n + (suffix[(v - 20) % 10] || suffix[v] || suffix[0]);
+        }
+        return n.toString();
+      }
+      
+}

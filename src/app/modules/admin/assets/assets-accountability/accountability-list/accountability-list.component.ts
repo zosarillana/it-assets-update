@@ -21,9 +21,13 @@ import { AccountabilityService } from 'app/services/accountability/accountabilit
 })
 export class AccountabilityListComponent implements OnInit {
     displayedColumns: string[] = [
-        'accountability_code',        
+        'accountability_code',
         'tracking_code',
+        'computer',
+        'assets',
         'owner',
+        'department',
+        'status',
         // 'owner',
         // 'brand',
         // // 'owner_id',
