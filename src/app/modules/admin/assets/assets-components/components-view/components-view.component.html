@@ -154,7 +154,7 @@
                                 <p class="text-secondary underline cursor-pointer text-blue-600"
                                 *ngIf="asset?.computer"
                                 [routerLink]="'/assets/computers/view/' + asset?.computer?.id">
-                                 # {{ asset?.computer?.id || "N/A" }}
+                                 # {{ asset?.computer?.asset_barcode || "N/A" }}
                                  <mat-icon svgIcon="mat_outline:open_in_new" class="icon-size-3 underline text-blue-600"></mat-icon>
                              </p>
                              <p *ngIf="!asset?.computer" class="text-secondary">N/A</p>
