@@ -334,7 +334,7 @@
                                     Item
                                 </th>
                                 <th
-                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm "
+                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
                                 >
                                     Item Code
                                 </th>
@@ -346,7 +346,7 @@
                                 <th
                                     class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
                                 >
-                                    Remarks
+                                    Date Acquired
                                 </th>
                                 <th
                                     class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
@@ -357,62 +357,60 @@
                         </thead>
 
                         <tbody>
-                            <tr
-                                *ngFor="let item of items; let i = index"
-                                class="odd:bg-gray-50"
-                            >
-                                <td
-                                    class="border border-gray-300 px-4 py-2 text-sm"
-                                >
+                            <tr *ngFor="let component of components; let i = index" class="odd:bg-gray-50">
+                                <!-- Dropdown Selection -->
+                                <td class="border border-gray-300 px-4 py-2 text-sm">
                                     <select
-                                        [(ngModel)]="item.itemType"
-                                        name="itemType-{{ i }}"
-                                        class="w-full p-1 border-b border-gray-300"
+                                        [(ngModel)]="components[i].componentId"
+                                        name="asset-{{ i }}"
+                                        class="w-full p-1 border border-gray-300 bg-white rounded"
+                                        (change)="onComponentSelect($event.target.value, i)"
                                     >
-                                        <option
-                                            *ngFor="let option of itemTypes"
-                                            [value]="option"
+                                        <option value="">Select components...</option>
+                                        <option 
+                                            *ngFor="let asset of getFilteredComponents(i, components[i]?.componentId)" 
+                                            [value]="asset.id"
                                         >
-                                            {{ option }}
+                                            {{ asset.type }}
                                         </option>
                                     </select>
                                 </td>
-                                <td
-                                    class="border border-gray-300 px-4 py-2 text-sm w-42"
-                                >
+                        
+                                <!-- UID Input -->
+                                <td class="border border-gray-300 px-4 py-2 text-sm w-42">
                                     <input
                                         type="text"
-                                        [(ngModel)]="item.itemCode"
+                                        [(ngModel)]="components[i].uid"
                                         name="itemCode-{{ i }}"
                                         class="w-full p-1 border-b border-gray-300"
                                         placeholder="Enter item code..."
                                     />
                                 </td>
-                                <td
-                                    class="border border-gray-300 px-4 py-2 text-sm w-42"
-                                >
+                        
+                                <!-- Description Input -->
+                                <td class="border border-gray-300 px-4 py-2 text-sm w-42">
                                     <input
                                         type="text"
-                                        [(ngModel)]="item.description"
+                                        [(ngModel)]="components[i].description"
                                         name="description-{{ i }}"
                                         class="w-full p-1 border-b border-gray-300"
                                         placeholder="Enter description..."
                                     />
                                 </td>
-                                <td
-                                    class="border border-gray-300 px-4 py-2 text-sm w-42"
-                                >
+                        
+                                <!-- Date Acquired -->
+                                <td class="border border-gray-300 px-4 py-2 text-sm w-42">
                                     <input
-                                        type="text"
-                                        [(ngModel)]="item.remarks"
-                                        name="remarks-{{ i }}"
+                                        type="date"
+                                        [(ngModel)]="components[i].date_acquired"
+                                        name="date-acquired-{{ i }}"
                                         class="w-full p-1 border-b border-gray-300"
-                                        placeholder="Enter remarks..."
+                                        placeholder="Enter date acquired..."
                                     />
                                 </td>
-                                <td
-                                    class="border border-gray-300 px-4 py-2 text-sm"
-                                >
+                        
+                                <!-- Remove Button -->
+                                <td class="border border-gray-300 px-4 py-2 text-sm">
                                     <button
                                         class="px-2 py-1 text-white bg-red-600 border border-red-500 rounded transition-colors duration-[1000ms] hover:bg-red-800 hover:border-red-800"
                                         (click)="removeRow(i)"
@@ -422,6 +420,7 @@
                                 </td>
                             </tr>
                         </tbody>
+                        
                     </table>
                 </div>
             </div>
@@ -498,31 +497,24 @@
                                 *ngFor="let accessory of assets; let i = index"
                                 class="odd:bg-gray-50"
                             >
-                                <td
-                                    class="border border-gray-300 px-4 py-2 text-sm"
+                            <td class="border border-gray-300 px-4 py-2 text-sm">
+                                <select
+                                    [(ngModel)]="assets[i].assetId"
+                                    name="asset-{{ i }}"
+                                    class="w-full p-1 border border-gray-300 bg-white rounded"
+                                    (change)="onAssetSelect($event.target.value, i)"
                                 >
-                                    <select
-                                        [(ngModel)]="assets[i].assetId"
-                                        name="asset-{{ i }}"
-                                        class="w-full p-1 border border-gray-300 bg-white rounded"
-                                        (change)="
-                                            onAssetSelect(
-                                                $event.target.value,
-                                                i
-                                            )
-                                        "
+                                    <option value="">Select Asset...</option>
+                                    <option 
+                                        *ngFor="let asset of getFilteredAssets(i, assets[i].assetId)" 
+                                        [value]="asset.id"
                                     >
-                                        <option value="">
-                                            Select Asset...
-                                        </option>
-                                        <option
-                                            *ngFor="let asset of assetList"
-                                            [value]="asset.id"
-                                        >
-                                            {{ asset.type }}
-                                        </option>
-                                    </select>
-                                </td>
+                                        {{ asset.type }}
+                                    </option>
+                                </select>
+                            </td>
+                            
+                            
 
                                 <!-- Date Acquired -->
                                 <td
@@ -530,7 +522,7 @@
                                 >
                                     <input
                                         type="date"
-                                        [ngModel]="assets[i].date_acquired"
+                                        [ngModel]="assets[i].date_acquired | date:'yyyy-MM-dd'"
                                         name="date_acquired_{{ i }}"
                                         readonly
                                         class="w-full p-1 border-b border-gray-300"

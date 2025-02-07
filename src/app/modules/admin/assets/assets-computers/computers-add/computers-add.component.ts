@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AssetsService } from 'app/services/assets/assets.service';
+import { ComponentsService } from 'app/services/components/components.service';
 
 interface Asset {
     id: number;
@@ -14,12 +16,37 @@ interface Asset {
     styleUrls: ['./computers-add.component.scss'],
 })
 export class ComputersAddComponent implements OnInit {
-    items: any[] = []; // Stores rows
+    // items: any[] = []; // Stores rows
+    sortOrder = 'desc'; // Sort order (can be changed dynamically)
 
-    itemTypes: string[] = ['RAM', 'BOARD', 'SSD', 'HDD', 'GPU'];
-    constructor() {}
+    constructor(
+        private getServiceComponents: ComponentsService,
+        private getService: AssetsService,
+        private cdr: ChangeDetectorRef
+    ) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.getAllComponents();      
+        // Example: Fetch the first page with a page size of 10, sorted by date in descending order
+        this.getAllAssets();
+        this.assets = [
+            {
+                assetId: 0,
+                date_acquired: '',
+                asset_barcode: '',
+                brand: '',
+                model: '',
+            },
+        ];
+    }
+
+    getFilteredAssets(index: number, selectedAssetId: number) {
+        return this.assetList.filter(
+            (asset) =>
+                asset.id === selectedAssetId || // Include the currently selected asset
+                !this.assets.some((selected) => selected.assetId === asset.id) // Filter out already selected ones
+        );
+    }
 
     previewSelectedImage(event: Event): void {
         const input = event.target as HTMLInputElement;
@@ -40,18 +67,6 @@ export class ComputersAddComponent implements OnInit {
             reader.readAsDataURL(file);
         }
     }
-    addRow() {
-        this.items.push({
-            itemType: 'RAM', // Default selection
-            itemCode: '',
-            description: '',
-            remarks: '',
-        });
-    }
-
-    removeRow(index: number) {
-        this.items.splice(index, 1);
-    }
 
     assets: Array<{
         assetId: number;
@@ -61,73 +76,148 @@ export class ComputersAddComponent implements OnInit {
         model: string;
     }> = [];
 
-    assetList = [
-        {
-            id : 1,
-            type: 'USB-C ADAPTER',
-            date_acquired: '2021-06-02',
-            asset_barcode: '000163',
-            brand: 'APPLE',
-            model: 'A2164',
-        },
-        {
-            id: 2,
-            type: 'KEYBOARD USB',
-            date_acquired: '2014-01-11',
-            asset_barcode: '01-01-03-000075-03',
-            brand: 'DELL',
-            model: 'KB216T',
-        },
-        {
-            id: 3,
-            type: 'MOUSE USB',
-            date_acquired: '2014-01-11',
-            asset_barcode: '01-01-03-000075-04',
-            brand: 'DELL',
-            model: 'MSIII-T',
-        },
-        {
-            id: 4,
-            type: 'MONITOR',
-            date_acquired: '2023-02-14',
-            asset_barcode: '01-01-09-004268-02',
-            brand: 'N-VISION',
-            model: 'N2755',
-        },
-        {
-            id: 5,
-            type: 'UPS',
-            date_acquired: '2018-06-21',
-            asset_barcode: '01-26-13-000025-01',
-            brand: 'APC',
-            model: 'BX625CI-MS',
-        },     
-    ];
+    assetList = [];
 
-    // Update fields when asset is selected
+    // Method to fetch all assets with a large page size
+    getAllAssets(searchTerm: string = ''): void {
+        const pageSize = 10000;
+        let pageNumber = 1;
+
+        this.getService
+            .getAssets(pageNumber, pageSize, this.sortOrder, searchTerm)
+            .subscribe(
+                (response) => {
+                    if (response && response.items && response.items.$values) {
+                        this.assetList = response.items.$values.filter(
+                            (asset) => asset.status === 'INACTIVE'
+                        );
+                        this.cdr.detectChanges();
+                        console.log('Filtered Assets:', this.assetList);
+                    }
+                },
+                (error) => {
+                    console.error('Error fetching assets:', error);
+                }
+            );
+    }
+
+    // getFilteredAssets(index: number, selectedAssetId: number) {
+    //     return this.assetList.filter(
+    //         (asset) =>
+    //             asset.id === selectedAssetId || // Include the currently selected asset
+    //             !this.assets.some((selected) => selected.assetId === asset.id) // Filter out already selected ones
+    //     );
+    // }
+
     onAssetSelect(selectedId: string, index: number) {
-        const selectedAsset = this.assetList.find(asset => asset.id === Number(selectedId));
+        const selectedAsset = this.assetList.find(
+            (asset) => asset.id === Number(selectedId)
+        );
         if (selectedAsset) {
             this.assets[index] = {
                 assetId: selectedAsset.id,
                 date_acquired: selectedAsset.date_acquired,
                 asset_barcode: selectedAsset.asset_barcode,
                 brand: selectedAsset.brand,
-                model: selectedAsset.model
+                model: selectedAsset.model,
             };
         }
     }
+
     addAccessoryRow() {
         this.assets.push({
             assetId: 0,
             date_acquired: '',
             asset_barcode: '',
             brand: '',
-            model: ''
+            model: '',
         });
     }
 
     removeAccessoryRow(index: number) {
         this.assets.splice(index, 1);
+    }
+
+    //components select
+    components: Array<{
+        componentId: number;
+        asset_barcode: number;
+        type: string;
+        description: string;
+        uid: string;
+        status: string;
+        date_acquired?: string; // Optional       
+    }> = [];
+
+    componentList: any[] = []; // Stores all components fetched from API    
+
+    getAllComponents(searchTerm: string = ''): void {
+        const pageSize = 10000;
+        let pageNumber = 1;
+
+        this.getServiceComponents
+            .getComponents(pageNumber, pageSize, this.sortOrder, searchTerm)
+            .subscribe(
+                (response) => {
+                    if (response && response.items && response.items.$values) {
+                        this.componentList = response.items.$values.filter(
+                            (component) => component.status === 'INACTIVE'
+                        );
+                        this.cdr.detectChanges();
+                        console.log('Filtered Components:', this.componentList);
+                    }
+                },
+                (error) => {
+                    console.error('Error fetching Components:', error);
+                }
+            );
+    }
+
+    onComponentSelect(selectedId: string, index: number) {
+        if (!this.components[index]) {
+            this.components[index] = {} as any; // Ensure it's initialized
+        }
+
+        const selectedComponent = this.componentList.find(
+            (component) => component.id === Number(selectedId)
+        );
+
+        if (selectedComponent) {
+            this.components[index] = {
+                componentId: selectedComponent.id,
+                type: selectedComponent.type,
+                description: selectedComponent.description,
+                asset_barcode: selectedComponent.asset_barcode,
+                uid: selectedComponent.uid,
+                status: selectedComponent.status,
+                date_acquired: selectedComponent.date_acquired || 'Unknown',               
+            };
+        }
+    }
+
+    getFilteredComponents(index: number, selectedComponentId: number) {
+        return this.componentList.filter(
+            (component) =>
+                component.id === selectedComponentId || // Keep selected component
+                !this.components.some(
+                    (selected) => selected.componentId === component.id
+                ) // Exclude already selected ones
+        );
+    }
+
+    addRow() {
+        this.components.push({
+            componentId: 0,
+            asset_barcode: 0,
+            type: '',
+            description: '',
+            uid: '',
+            status: '',
+            date_acquired: ''        
+        });
+    }
+
+    removeRow(index: number) {
+        this.componentList.splice(index, 1);
     }
 }
