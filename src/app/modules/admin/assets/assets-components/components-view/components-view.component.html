@@ -127,7 +127,7 @@
                         </div>
                     <div class="flex flex-col">
                         <p class="text-primary font-bold text-2xl">
-                            {{ asset.asset_barcode }}
+                            {{ asset.asset_barcode || 'N/A' }}
                         </p>
                         <p class="text-secondary">
                             Serial number: {{ asset.serial_no || "N/A" }}
@@ -151,10 +151,13 @@
                                 <p class="text-primary font-bold text-lg">
                                     Parent Assent Barcode
                                 </p>
-                                <p class="text-secondary underline cursor-pointer text-blue-600" [routerLink]="'/assets/computers/view/' + asset.computer.id">
-                                    # {{ asset.asset_barcode }}
-                                    <mat-icon svgIcon="mat_outline:open_in_new" class="icon-size-3 underline text-blue-600" ></mat-icon>
-                                </p>
+                                <p class="text-secondary underline cursor-pointer text-blue-600"
+                                *ngIf="asset?.computer"
+                                [routerLink]="'/assets/computers/view/' + asset?.computer?.id">
+                                 # {{ asset?.computer?.id || "N/A" }}
+                                 <mat-icon svgIcon="mat_outline:open_in_new" class="icon-size-3 underline text-blue-600"></mat-icon>
+                             </p>
+                             <p *ngIf="!asset?.computer" class="text-secondary">N/A</p>
                             </div>
                         </div>
                         <div>
@@ -180,7 +183,7 @@
                     <p class="flex flex-col font-medium text-medium">
                         Owner Name
                         <span class="text-secondary text-medium">
-                            {{ asset.owner.name || "N/A" }}
+                            {{ asset?.owner?.name || "N/A" }}
                         </span>
                     </p>
                     <p class="flex flex-col font-medium text-medium">
@@ -190,7 +193,7 @@
                     <p class="flex flex-col font-medium text-medium">
                         Department
                         <span class="text-secondary text-medium">
-                            {{ asset.owner.department || "N/A" }}
+                            {{ asset?.owner?.department || "N/A" }}
                         </span>
                     </p>
                 </div>
@@ -198,7 +201,7 @@
                     <p class="flex flex-col font-medium text-medium">
                         Employee ID
                         <span class="text-secondary text-medium">
-                            {{ asset.owner.employee_id || "N/A" }}
+                            {{ asset?.owner?.employee_id || "N/A" }}
                         </span>
                     </p>
                 </div>

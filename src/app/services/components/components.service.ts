@@ -36,13 +36,12 @@ export class ComponentsService {
         );
     }
 
-    // getAllTypes(): Observable<string[]> {
-    //     const url = `${this.url}/assets/types`;
-    //     return this.http.get<string[]>(url);
-    // }
-    
     getComponentsById(uid: string): Observable<Assets> {
         return this.http.get<Assets>(`${this.url}/api/ComputerComponents/${uid}`);
+    }
+    
+    public postEvent(data: any): Observable<any> {
+        return this.http.post(`${this.url}/api/ComputerComponents`, data);
     }
     
 }

@@ -166,6 +166,25 @@
                         </div>
                     </td>
                 </ng-container>
+                <ng-container matColumnDef="description">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="text-left text-gray-600 font-semibold inventory-tag-header custom-left-align w-36"
+                    >
+                        <div class="ml-3">Description</div>
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-r border-gray-200 px-0 py-0 text-sm inventory-tag-cell"
+                    >
+                        <div class="ml-3">
+                            {{ element.description || "N/A" }}
+                        </div>
+                    </td>
+                </ng-container>
                 <ng-container matColumnDef="status">
                     <th
                         mat-header-cell
@@ -182,11 +201,13 @@
                     >
                         <!-- {{ element.date_acquired && isValidDate(element.date_acquired) ? (element.date_acquired | date : "MM/dd/yyyy") : 'N/A' }} -->
                         <div class="flex ml-4">
-                            <div
-                                class="rounded-md bg-green-600 py-0.5 px-2.5 border border-transparent text-sm text-white transition-all shadow-sm"
-                            >
-                                Active
+                            <div class="flex flex-row">
+                                <span class="flex w-2 h-2 mt-1.5 me-3 bg-green-500 rounded-full"></span>
+                                <p class="ml-2 text-md">
+                                    Active
+                                </p>
                             </div>
+                           
                         </div>
                     </td>
                 </ng-container>

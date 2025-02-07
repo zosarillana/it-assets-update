@@ -21,6 +21,7 @@ export class ComponentsListComponent implements OnInit {
         //   'asset_img',
         'asset_barcode',
         'type',
+        'description',
         'uid',
         'status',
 

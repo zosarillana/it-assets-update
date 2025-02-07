@@ -10,8 +10,8 @@ import { ComputerService } from 'app/services/computer/computer.service';
     styleUrls: ['./components-view.component.scss'],
 })
 export class ComponentsViewComponent implements OnInit {
-    asset!: Assets;
-
+    // asset!: Assets;
+    asset: Assets | null = null;
     constructor(
         private route: ActivatedRoute,
         private assetsService: ComponentsService
