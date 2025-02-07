@@ -29,15 +29,7 @@ export class ComputersAddComponent implements OnInit {
         this.getAllComponents();      
         // Example: Fetch the first page with a page size of 10, sorted by date in descending order
         this.getAllAssets();
-        this.assets = [
-            {
-                assetId: 0,
-                date_acquired: '',
-                asset_barcode: '',
-                brand: '',
-                model: '',
-            },
-        ];
+     
     }
 
     getFilteredAssets(index: number, selectedAssetId: number) {
@@ -100,14 +92,6 @@ export class ComputersAddComponent implements OnInit {
                 }
             );
     }
-
-    // getFilteredAssets(index: number, selectedAssetId: number) {
-    //     return this.assetList.filter(
-    //         (asset) =>
-    //             asset.id === selectedAssetId || // Include the currently selected asset
-    //             !this.assets.some((selected) => selected.assetId === asset.id) // Filter out already selected ones
-    //     );
-    // }
 
     onAssetSelect(selectedId: string, index: number) {
         const selectedAsset = this.assetList.find(
