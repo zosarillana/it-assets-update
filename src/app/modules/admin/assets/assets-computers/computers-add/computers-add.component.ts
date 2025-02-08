@@ -1,12 +1,16 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    Validators,
+} from '@angular/forms';
 import { AssetsService } from 'app/services/assets/assets.service';
 import { ComponentsService } from 'app/services/components/components.service';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 // Add to your existing imports
 import { FormArray } from '@angular/forms';
-
 
 interface Asset {
     id: number;
@@ -26,7 +30,7 @@ export class ComputersAddComponent implements OnInit {
     eventForm!: FormGroup;
     sortOrder = 'desc';
     private serialSubscription: Subscription;
-    
+
     constructor(
         private _formBuilder: FormBuilder,
         private getServiceComponents: ComponentsService,
@@ -46,18 +50,18 @@ export class ComputersAddComponent implements OnInit {
             size: ['', [Validators.required]],
             color: ['', [Validators.required]],
             po_number: ['', [Validators.required]],
-            warranty: ['', [Validators.required]],  
+            warranty: ['', [Validators.required]],
             components: this._formBuilder.array([]), // ADD THIS LINE
-            assets: this._formBuilder.array([]) // Initialize accessories array
-        });   
-    
-        this.serialSubscription = this.eventForm.get('serial_number')!.valueChanges
-            .pipe(distinctUntilChanged())
-            .subscribe(value => {
+            assets: this._formBuilder.array([]), // Initialize accessories array
+        });
+
+        this.serialSubscription = this.eventForm
+            .get('serial_number')!
+            .valueChanges.pipe(distinctUntilChanged())
+            .subscribe((value) => {
                 this.cdr.detectChanges();
-            });    
+            });
     }
-    
 
     ngOnInit(): void {
         this.initializeForm();
@@ -66,8 +70,8 @@ export class ComputersAddComponent implements OnInit {
         this.getAllAssets();
     }
 
-      // Clean up subscription on component destroy
-      ngOnDestroy(): void {
+    // Clean up subscription on component destroy
+    ngOnDestroy(): void {
         if (this.serialSubscription) {
             this.serialSubscription.unsubscribe();
         }
@@ -150,20 +154,20 @@ export class ComputersAddComponent implements OnInit {
     // }
 
     onAssetSelect(selectedId: string, index: number) {
-        const selectedAsset = this.assetList.find(asset => asset.id === Number(selectedId));
-    
+        const selectedAsset = this.assetList.find(
+            (asset) => asset.id === Number(selectedId)
+        );
+
         if (selectedAsset) {
             this.assetsArray.at(index).patchValue({
                 assetId: selectedAsset.id,
                 date_acquired: selectedAsset.date_acquired,
                 asset_barcode: selectedAsset.asset_barcode,
                 brand: selectedAsset.brand,
-                model: selectedAsset.model
+                model: selectedAsset.model,
             });
         }
     }
-    
-    
 
     addAccessoryRow() {
         const assetForm = this._formBuilder.group({
@@ -171,22 +175,23 @@ export class ComputersAddComponent implements OnInit {
             date_acquired: [''],
             asset_barcode: [''],
             brand: [''],
-            model: ['']
+            model: [''],
         });
-    
+
         this.assetsArray.push(assetForm);
     }
-    
+
     getFilteredAssets(index: number, selectedAssetId: number) {
         const selectedIds = this.assetsArray.controls
-            .map(control => control.value.assetId)
-            .filter(id => id !== 0 && id !== selectedAssetId); // Exclude empty selections
-    
+            .map((control) => control.value.assetId)
+            .filter((id) => id !== 0 && id !== selectedAssetId); // Exclude empty selections
+
         return this.assetList.filter(
-            asset => asset.id === selectedAssetId || !selectedIds.includes(asset.id)
+            (asset) =>
+                asset.id === selectedAssetId || !selectedIds.includes(asset.id)
         );
     }
-    
+
     // Inside your component class
     get assetsArray() {
         return this.eventForm.get('assets') as FormArray;
@@ -194,18 +199,13 @@ export class ComputersAddComponent implements OnInit {
     // get accessoriesArray() {
     //     return this.eventForm.get('accessories') as FormArray;
     // }
-    
+
     // removeAccessoryRow(index: number) {
     //     this.assets.splice(index, 1);
     // }
     removeAccessoryRow(index: number) {
         this.assetsArray.removeAt(index);
     }
-    
-
-
-
-
 
     //components select
     components: Array<{
@@ -243,30 +243,42 @@ export class ComputersAddComponent implements OnInit {
     }
 
     onComponentSelect(selectedId: string, index: number) {
-        const selectedComponent = this.componentList.find(component => component.id === Number(selectedId));
+        const selectedComponent = this.componentList.find(
+            (component) => component.id === Number(selectedId)
+        );
     
         if (selectedComponent) {
+            console.log('Selected Component:', selectedComponent);
+            console.log('Selected Component Type:', selectedComponent.type);
+    
+            // Patch the form to include type
             this.componentsArray.at(index).patchValue({
                 componentId: selectedComponent.id,
                 uid: selectedComponent.uid,
                 description: selectedComponent.description,
+                type: selectedComponent.type, // ✅ Ensure type is updated
                 date_acquired: selectedComponent.date_acquired || 'Unknown'
             });
+    
+            // ✅ Force the form and UI to update
+            this.eventForm.updateValueAndValidity();
+            this.cdr.detectChanges();
         }
     }
     
-
+    
     getFilteredComponents(index: number, selectedComponentId: number) {
         const selectedIds = this.componentsArray.controls
-            .map(control => control.value.componentId)
-            .filter(id => id !== 0 && id !== selectedComponentId); // Exclude empty selections
-    
+            .map((control) => control.value.componentId)
+            .filter((id) => id !== 0 && id !== selectedComponentId); // Exclude empty selections
+
         return this.componentList.filter(
-            component => component.id === selectedComponentId || !selectedIds.includes(component.id)
+            (component) =>
+                component.id === selectedComponentId ||
+                !selectedIds.includes(component.id)
         );
     }
 
-    
     // addRow() {
     //     this.components.push({
     //         componentId: 0,
@@ -284,13 +296,14 @@ export class ComputersAddComponent implements OnInit {
             componentId: [''],
             uid: [''],
             description: [''],
+            type: [''], // ✅ Add type here
             date_acquired: ['']
         });
     
         this.componentsArray.push(componentForm);
     }
-
     
+
     // removeRow(index: number) {
     //     this.componentList.splice(index, 1);
     // }
@@ -299,13 +312,12 @@ export class ComputersAddComponent implements OnInit {
         this.componentsArray.removeAt(index);
     }
 
-    
     get componentsArray() {
         return this.eventForm.get('components') as FormArray;
     }
-    
+
     //submitform
     submitForm(): void {
-       console.log(this.eventForm);           
+        console.log(this.eventForm);
     }
 }

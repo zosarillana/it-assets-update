@@ -143,11 +143,22 @@
                         <p
                             class="flex flex-grow text-secondary text-xs md:text-sm"
                         >
-                            {{ this.eventForm.value.type }}
-                            {{ this.eventForm.value.brand }}
-                            {{ this.eventForm.value.model }}
-                            {{ this.eventForm.value.size }}
-                            {{ this.eventForm.value.color }}
+                            {{ this.eventForm.value.type }} &nbsp;
+                            {{ this.eventForm.value.brand }} &nbsp;
+                            {{ this.eventForm.value.model }} &nbsp;
+                            {{ this.eventForm.value.size }} &nbsp;
+                            {{ this.eventForm.value.color }}  &nbsp;
+
+                            <span
+                            *ngFor="let component of eventForm.get('components')?.value"
+                        >
+                            {{ component?.type || "No component selected" }}&nbsp;
+                        </span>
+                        
+
+                            <!-- <span *ngFor="let component of eventForm.get('components').value; let last = last">
+                                {{ component?.type || 'No component selected' }}{{ last ? '' : ', ' }}
+                            </span> -->
                             <!-- ACER TRAVELMATE LAPTOP INTEL CORE i5 10TH GEN 8GB
                             256GB SSD BLACK -->
                         </p>
@@ -397,18 +408,30 @@
                                 <td>
                                     <!-- Dropdown Selection -->
                                     <select
-                                    formControlName="componentId"
-                                    class="w-full p-1 border border-gray-300 bg-white rounded"
-                                    (change)="onComponentSelect($event.target.value, i)"
-                                >
-                                    <option value="">Select component...</option>
-                                    <option
-                                        *ngFor="let component of getFilteredComponents(i, component.value.componentId)"
-                                        [value]="component.id"
+                                        formControlName="componentId"
+                                        class="w-full p-1 border border-gray-300 bg-white rounded"
+                                        (change)="
+                                            onComponentSelect(
+                                                $event.target.value,
+                                                i
+                                            )
+                                        "
                                     >
-                                        {{ component.type }}
-                                    </option>
-                                </select>
+                                        <option value="">
+                                            Select component...
+                                        </option>
+                                        <option
+                                            *ngFor="
+                                                let component of getFilteredComponents(
+                                                    i,
+                                                    component.value.componentId
+                                                )
+                                            "
+                                            [value]="component.id"
+                                        >
+                                            {{ component.type }}
+                                        </option>
+                                    </select>
                                 </td>
 
                                 <!-- UID Input -->
