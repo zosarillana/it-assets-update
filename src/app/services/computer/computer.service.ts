@@ -44,4 +44,8 @@ export class ComputerService {
     getComputersById(id: number): Observable<Assets> {
         return this.http.get<Assets>(`${this.url}/api/Computer/Computers/${id}`);
     }
+
+    public postEvent(data: any): Observable<any> {
+        return this.http.post(`${this.url}/api/Assets/create-vacant-asset/computer-items`, data);
+    }
 }
