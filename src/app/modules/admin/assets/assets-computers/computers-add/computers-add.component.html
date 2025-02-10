@@ -128,41 +128,25 @@
                                 [formControlName]="'serial_number'"
                                 [value]="eventForm.value.serial_number"
                             />
-                        </mat-form-field>
-
-                        <!-- Second field -->
-                        <mat-label class="text-xs md:text-sm mb-1"
-                            >Serial #</mat-label
-                        >
+                        </mat-form-field>                      
                     </div>
                     <mat-divider class="mx-6 md:mx-12" vertical></mat-divider>
                     <div class="flex flex-col w-1/2">
                         <p class="text-xs md:text-sm font-bold text-primary">
                             Long Item Description
                         </p>
-                        <p
-                            class="flex flex-grow text-secondary text-xs md:text-sm"
-                        >
-                            {{ this.eventForm.value.type }} &nbsp;
-                            {{ this.eventForm.value.brand }} &nbsp;
-                            {{ this.eventForm.value.model }} &nbsp;
-                            {{ this.eventForm.value.size }} &nbsp;
-                            {{ this.eventForm.value.color }}  &nbsp;
-
-                            <span
-                            *ngFor="let component of eventForm.get('components')?.value"
-                        >
-                            {{ component?.type || "No component selected" }}&nbsp;
-                        </span>
-                        
-
-                            <!-- <span *ngFor="let component of eventForm.get('components').value; let last = last">
-                                {{ component?.type || 'No component selected' }}{{ last ? '' : ', ' }}
-                            </span> -->
-                            <!-- ACER TRAVELMATE LAPTOP INTEL CORE i5 10TH GEN 8GB
-                            256GB SSD BLACK -->
-                        </p>
-                    </div>
+                        <div class="flex justify-start items-start gap-2">
+                            <span>
+                                {{ this.eventForm.value.type + " " + this.eventForm.value.brand + " " + this.eventForm.value.size + " " + this.eventForm.value.color }}
+                                <span *ngFor="let component of eventForm.get('components')?.value">
+                                    {{ component?.type || "No component selected" }}
+                                </span>
+                                <span *ngFor="let asset of eventForm.get('assets')?.value">
+                                    {{ asset?.brand && asset?.model ? asset.brand + " - " + asset.model : "No assets selected" }}
+                                </span>
+                            </span>                                                   
+                        </div>
+                    </div>                    
                 </div>
             </div>
 
@@ -186,6 +170,22 @@
                             <mat-option value="CPU">Desktop/CPU</mat-option>
                             <mat-option value="LAPTOP">Laptop</mat-option>
                         </mat-select>
+                    </mat-form-field>
+                    <mat-label class="text-xs md:text-sm mb-1"
+                        >Computer Asset Barcode</mat-label
+                    >
+                    <mat-form-field appearance="fill">
+                        <mat-icon
+                            svgIcon="feather:hash"
+                            class="icon-size-3 md:icon-size-4 mr-2"
+                        ></mat-icon>
+                        <input
+                            matInput
+                            formControlName="asset_barcode"
+                            id="asset_barcode"
+                            placeholder="Enter asset barcode..."                            
+                            class="text-xs md:text-sm"
+                        />
                     </mat-form-field>
                     <mat-label class="text-xs md:text-sm mb-1"
                         >Serial #</mat-label
@@ -352,13 +352,15 @@
                 <div class="flex flex-row my-2 items-center justify-end">
                     <span class="mr-2 text-sm text-gray-900">Add Row</span>
                     <button
-                        mat-icon-button
-                        color="primary"
-                        (click)="addRow()"
-                        matTooltip="Add a new row"
-                    >
-                        <mat-icon svgIcon="add"></mat-icon>
-                    </button>
+                    mat-icon-button
+                    color="primary"
+                    type="button"  
+                    (click)="addRow()"
+                    matTooltip="Add a new row"
+                >
+                    <mat-icon svgIcon="add"></mat-icon>
+                </button>
+                
                 </div>
             </div>
 
@@ -505,6 +507,7 @@
                     <button
                         mat-icon-button
                         color="primary"
+                        type="button"  
                         (click)="addAccessoryRow()"
                         matTooltip="Add a new row"
                     >
@@ -659,9 +662,10 @@
                 class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
             >
                 <button mat-stroked-button>Reset Form</button>
-                <button class="px-6 ml-3" mat-flat-button [color]="'primary'">
+                <button class="px-6 ml-3" mat-flat-button color="primary" type="submit">
                     Create Form
                 </button>
+                
             </div>
         </form>
     </div>

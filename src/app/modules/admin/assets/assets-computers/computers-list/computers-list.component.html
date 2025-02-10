@@ -285,7 +285,7 @@
                         *matCellDef="let element"
                         class="border-r border-gray-200 text-sm px-4 py-0"
                     >
-                        {{ element.owner.name || "N/A" }}
+                        {{ element.owner?.name || "N/A" }}
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="bu">
@@ -302,7 +302,7 @@
                         *matCellDef="let element"
                         class="border-r border-gray-200 text-sm px-4 py-0 w-12"
                     >
-                        {{ element.owner.bu || "N/A" }}
+                        {{ element.owner?.bu || "N/A" }}
                     </td>
                 </ng-container>
                 <!-- <ng-container matColumnDef="owner_id">

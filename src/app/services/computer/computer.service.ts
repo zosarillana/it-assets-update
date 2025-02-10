@@ -46,6 +46,6 @@ export class ComputerService {
     }
 
     public postEvent(data: any): Observable<any> {
-        return this.http.post(`${this.url}/api/Assets/create-vacant-asset/computer-items`, data);
+        return this.http.post(`${this.url}/api/Assets/add-asset/computer`, data);
     }
 }
