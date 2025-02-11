@@ -15,7 +15,7 @@ interface Accountability {
     computers: {
         $id: string;
         $values: ComputerData[];
-      };
+    };
 }
 
 interface AssetData {
@@ -61,47 +61,47 @@ export class AccountabilityFormComponent implements OnInit {
         'status',
     ];
     // Two separate data sources if needed:
-  dataSource = new MatTableDataSource<AssetData>();      // For assets
-  dataSource2 = new MatTableDataSource<ComputerData>();    // For computers
+    dataSource = new MatTableDataSource<AssetData>(); // For assets
+    dataSource2 = new MatTableDataSource<ComputerData>(); // For computers
 
-  constructor(
-    private route: ActivatedRoute,
-    private _service: AccountabilityService
-  ) {}
+    constructor(
+        private route: ActivatedRoute,
+        private _service: AccountabilityService
+    ) {}
 
-  @ViewChild('paginator1') paginator1!: MatPaginator;
-  @ViewChild('paginator2') paginator2!: MatPaginator;
-  @ViewChild('sort1') sort1!: MatSort;
-  @ViewChild('sort2') sort2!: MatSort;
+    @ViewChild('paginator1') paginator1!: MatPaginator;
+    @ViewChild('paginator2') paginator2!: MatPaginator;
+    @ViewChild('sort1') sort1!: MatSort;
+    @ViewChild('sort2') sort2!: MatSort;
 
-  asset!: Accountability;
-  ngOnInit() {
-    // Set up first table
-    this.dataSource.paginator = this.paginator1;
-    this.dataSource.sort = this.sort1;
-    
-    // Set up second table
-    this.dataSource2.paginator = this.paginator2;
-    this.dataSource2.sort = this.sort2;
+    asset!: Accountability;
+    ngOnInit() {
+        // Set up first table
+        this.dataSource.paginator = this.paginator1;
+        this.dataSource.sort = this.sort1;
 
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
-        this._service.getAccountabilityById(id).subscribe({
-            next: (data: any) => {  
-                console.log('Fetched Data:', data);
-                this.asset = data;
+        // Set up second table
+        this.dataSource2.paginator = this.paginator2;
+        this.dataSource2.sort = this.sort2;
 
-                if (this.asset?.assets?.$values) {
-                    this.dataSource.data = this.asset.assets.$values;
-                }
-                if (this.asset?.computers?.$values) {
-                    this.dataSource2.data = this.asset.computers.$values;
-                }
-            },
-            error: (err) => console.error('Error fetching asset', err),
-        });
+        const id = Number(this.route.snapshot.paramMap.get('id'));
+        if (id) {
+            this._service.getAccountabilityById(id).subscribe({
+                next: (data: any) => {
+                    console.log('Fetched Data:', data);
+                    this.asset = data;
+
+                    if (this.asset?.assets?.$values) {
+                        this.dataSource.data = this.asset.assets.$values;
+                    }
+                    if (this.asset?.computers?.$values) {
+                        this.dataSource2.data = this.asset.computers.$values;
+                    }
+                },
+                error: (err) => console.error('Error fetching asset', err),
+            });
+        }
     }
-}
 
     printForm() {
         const printContents =

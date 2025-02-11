@@ -55,13 +55,15 @@
                         <p class="font-semibold text-2xl">
                             Accountability Id:
                             {{
-                                asset.userAccountabilityList.accountability_code
+                                        asset?.user_accountability_list
+                                        ?.accountability_code
                             }}
                         </p>
                         <p class="text-secondary font-semibold">
                             Tracking Id:
                             <span class="text-secondary font-medium">{{
-                                asset.userAccountabilityList.tracking_code
+                                   asset?.user_accountability_list
+                                   ?.tracking_code
                             }}</span>
                         </p>
                         <div class="flex flex-row gap-2">
@@ -115,8 +117,8 @@
                             <p class="text-primary font-bold text-2xl">
                                 Accountability Id:
                                 <span class="text-secondary text-lg">{{
-                                    asset.userAccountabilityList
-                                        .accountability_code
+                                    asset?.user_accountability_list
+                                        ?.accountability_code
                                 }}</span>
                             </p>
                             <p class="text-secondary">Status: Active</p>
@@ -129,7 +131,7 @@
                                         Accountable to:
                                     </p>
                                     <p class="text-secondary">
-                                        {{ asset.owner.name || "N/A" }}
+                                        {{ asset?.owner.name || "N/A" }}
                                     </p>
                                 </div>
                                 <!-- <mat-divider class="mx-12" vertical></mat-divider> -->
@@ -139,7 +141,7 @@
                                         Department
                                     </p>
                                     <p class="text-secondary">
-                                        {{ asset.owner.department || "N/A" }}
+                                        {{ asset?.owner.department || "N/A" }}
                                     </p>
                                 </div>
                             </div>
@@ -149,7 +151,7 @@
                                         Company:
                                     </p>
                                     <p class="text-secondary">
-                                        {{ asset.owner.company || "N/A" }}
+                                        {{ asset?.owner.company || "N/A" }}
                                     </p>
                                 </div>
                             </div>
@@ -159,7 +161,7 @@
                                     Accountability created:
                                 </p>
                                 <p class="text-secondary">
-                                    {{ asset.owner.date_created || "N/A" }}
+                                    {{ asset?.owner.date_created || "N/A" }}
                                 </p>
                             </div>
                         </div>
