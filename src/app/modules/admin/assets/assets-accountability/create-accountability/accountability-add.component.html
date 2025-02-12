@@ -27,7 +27,7 @@
                     ></mat-icon>
                     <span class="ml-1 text-secondary">Add</span>
                 </div>
-            
+
                 <div class="flex sm:hidden">
                     <a
                         class="inline-flex items-center -ml-1.5 text-secondary font-medium"
@@ -56,7 +56,7 @@
             <button
                 class="ml-4"
                 mat-icon-button
-                [routerLink]="'/assets/accountability/' "
+                [routerLink]="'/assets/accountability/'"
             >
                 <mat-icon [svgIcon]="'close'"></mat-icon>
                 <!-- <span class="ml-2 mr-1">Go back</span> -->
@@ -64,213 +64,369 @@
         </div>
     </div>
 
-    <div class="flex flex-col h-full sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
+    <div class="flex flex-col sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
         <form
             class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
         >
-            <p class="text-lg font-bold text-2xl">New Accountability Form</p>
-            <mat-divider class="mt-6 mb-4"></mat-divider>
-            <div class="flex flex-row mt-2 gap-4">
-                <label
-                    for="select-image"
-                    class="cursor-pointer flex flex-col items-center"
-                >
-                    <img
-                        id="preview-image"
-                        src="https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg"
-                        alt="Select Image"
-                        class="h-32 w-32 object-contain border border-gray-300 rounded-md"
-                    />
-                    <span class="text-secondary text-regular mt-2">
-                        <mat-icon
-                            class="icon-size-4 mt-1 text-secondary"
-                            [svgIcon]="'feather:edit'"
-                        ></mat-icon>
-                        Select new image</span
-                    >
-                </label>
-                <input
-                    id="select-image"
-                    type="file"
-                    accept="image/*"
-                    class="hidden"
-                    onchange="previewSelectedImage(event)"
-                />
-                <div
-                    class="flex flex-col flex-grow sm:flex-row justify-between gap-2"
-                >
-                    <div class="flex flex-col" style="width: 100%">
-                        <!-- Make this div take full width -->
-                        <mat-form-field appearance="fill" style="width: 100%">
-                            <!-- Make mat-form-field take full width -->
-                            <mat-label class="text-primary font-bold text-lg"
-                                >Serial Number</mat-label
-                            >
-                            <mat-icon
-                                svgIcon="feather:hash"
-                                class="icon-size-5"
-                            ></mat-icon>
-                            <input matInput id="serial_number" />
-                        </mat-form-field>
-                    </div>
-                    <!-- <mat-divider class="mx-12" vertical></mat-divider>
-                    <div class="flex flex-col">
-                        <p class="text-primary font-bold text-lg">
-                            Long Item Description
-                        </p>
-                        <p class="text-secondary">
-                            ACER TRAVELMATE LAPTOP INTEL CORE i5 10TH GEN 8GB
-                            256GB SSD BLACK
-                        </p>
-                    </div> -->
-                </div>
-            </div>
-
-            <mat-divider class="mt-6 mb-10"></mat-divider>
-            <!-- <p class="text-lg font-medium mb-3">Assign available computers</p> -->
-            <!-- <ng-template matStepLabel>Assign Assets</ng-template> -->
-            <div [formGroup]="accountabilityForm">
-                <div class="flex flex-col gt-sm:flex-row">
-                    <mat-form-field class="example-chip-list custom-chip-list">
-                        <mat-label>Assign PC / Laptop</mat-label>
-                        <mat-chip-list #chipList2 aria-label="PC selection">
-                            <mat-chip
-                                *ngFor="let pc of selectedPcs"
-                                (removed)="removePc(pc)"
-                            >
-                                {{ pc.assetBarcode }} {{ pc.id }}
-                                <button
-                                    matChipRemove
-                                    [attr.aria-label]="
-                                        'remove ' + pc.assetBarcode
-                                    "
-                                >
-                                    <mat-icon class="icon-size-4 mt-0.5" svgIcon="mat_outline:close"></mat-icon>
-                                </button>
-                            </mat-chip>
-                        </mat-chip-list>
-                        <input
-                            formControlName="assign_pc"
-                            name="currentPc"
-                            placeholder="New PC..."
-                            #pcInput
-                            [matChipInputFor]="chipList2"
-                            [matAutocomplete]="pcAuto"
-                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                            (input)="filterPCs($event.target.value)"
-                            (matChipInputTokenEnd)="addPc($event)"
-                        />
-                        <mat-autocomplete
-                            #pcAuto="matAutocomplete"
-                            (optionSelected)="selectedPc($event)"
-                        >
-                            <mat-option
-                                *ngFor="let pc of filteredPcs"
-                                [value]="pc.assetBarcode"
-                            >
-                                {{ pc.assetBarcode }}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-
-                    <!-- Assign Peripherals -->
-                    <div class="flex flex-col mt-8 gt-sm:mt-0 gt-sm:ml-16">
-                        <mat-form-field
-                            class="example-chip-list custom-chip-list"
-                        >
-                            <mat-label>Assign Peripherals</mat-label>
-                            <mat-chip-list
-                                #chipList
-                                aria-label="Peripheral selection"
-                            >
-                                <mat-chip
-                                    *ngFor="let fruit of selectedPeris"
-                                    (removed)="remove(fruit)"
-                                >
-                                    {{ fruit.id }}
-                                    <button
-                                        matChipRemove
-                                        [attr.aria-label]="
-                                            'remove ' + fruit.assetBarcode
-                                        "
-                                    >
-                                    <mat-icon class="icon-size-4 mt-0.5" svgIcon="mat_outline:close"></mat-icon>
-                                    </button>
-                                </mat-chip>
-                            </mat-chip-list>
+            <p class="text-lg font-bold">New Accountability Form</p>
+            <mat-divider class="my-4"></mat-divider>
+            <div class="flex flex-row flex-grow gap-4">
+                <div class="flex flex-grow flex-col gap-4">
+                    <div class="flex">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-icon matPrefix class="icon-size-5" [svgIcon]="'heroicons_solid:search'"></mat-icon>
                             <input
-                                formControlName="assign_peripherals"
-                                name="currentFruit"
-                                placeholder="New Peripheral..."
-                                #fruitInput
-                                [matChipInputFor]="chipList"
-                                [matAutocomplete]="fruitAuto"
-                                [matChipInputSeparatorKeyCodes]="
-                                    separatorKeysCodes
-                                "
-                                (input)="filterFruits($event.target.value)"
-                                (matChipInputTokenEnd)="add($event)"
+                                matInput
+                                placeholder="Search by User"
+                                [formControl]="typeUserControl"
+                                [matAutocomplete]="userAuto"
                             />
-                            <mat-autocomplete
-                                #fruitAuto="matAutocomplete"
-                                (optionSelected)="selectedPeripherals($event)"
-                            >
-                                <mat-option
-                                    *ngFor="let fruit of filteredFruits"
-                                    [value]="fruit.assetBarcode"
-                                >
-                                    {{ fruit.assetBarcode }}
+                            <mat-autocomplete #userAuto="matAutocomplete" (optionSelected)="onUserSelected($event.option.value)">
+                                <mat-option *ngFor="let option of filteredUserOptions | async" [value]="option.name">
+                                    {{ option.name }}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
+                        
+                        
+                    </div>
+
+                    <mat-card
+                        class="p-4 shadow-sm rounded-md border border-solid border-gray-200"
+                    >
+                        <mat-card-content>
+                            <p class="text-md font-medium">User Details</p>
+                            <p class="text-secondary mb-6 text-sm">
+                                Selected user details.
+                            </p>
+                            <div class="flex flex-row flex-grow gap-4">
+                                <!-- Left Column -->
+                                <div class="flex flex-col flex-grow gap-4">
+                                    <p
+                                        class="flex flex-col font-medium text-sm"
+                                    >
+                                        Owner Name
+                                        <span class="text-secondary text-sm">
+                                            {{ selectedUser?.name || "N/A" }}
+                                        </span>
+                                    </p>
+                                    <p
+                                        class="flex flex-col font-medium text-sm"
+                                    >
+                                        Company
+                                        <span class="text-secondary text-sm">
+                                              {{ selectedUser?.company || "N/A" }}
+                                        </span>
+                                    </p>
+                                    <p
+                                        class="flex flex-col font-medium text-sm"
+                                    >
+                                        Department
+                                        <span class="text-secondary text-sm">
+                                            {{ selectedUser?.department || "N/A" }}
+                                        </span>
+                                    </p>
+                                </div>
+
+                                <!-- Right Column -->
+                                <div class="flex flex-col flex-grow gap-4">
+                                    <p
+                                        class="flex flex-col font-medium text-sm"
+                                    >
+                                        Employee ID
+                                        <span class="text-secondary text-sm">
+                                            {{ selectedUser?.employee_id || "N/A" }}
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+
+                <div class="flex flex-grow flex-col gap-4">
+                    <div class="flex flex-grow flex-col gap-4">
+                        <!-- Search Input -->
+                        <div class="flex flex-grow">
+                            <mat-form-field
+                                class="fuse-mat-no-subscript w-full"
+                            >
+                                <mat-icon
+                                    matPrefix
+                                    class="icon-size-5"
+                                    [svgIcon]="'heroicons_solid:search'"
+                                ></mat-icon>
+                                <input
+                                    matInput
+                                    placeholder="Search by Computer"
+                                    [formControl]="typeComputerControl"
+                                    [matAutocomplete]="auto"
+                                />
+                                <mat-autocomplete
+                                    #auto="matAutocomplete"
+                                    (optionSelected)="
+                                        onTypeSelected($event.option.value)
+                                    "
+                                >
+                                    <mat-option
+                                        *ngFor="
+                                            let option of filteredComputerOptions
+                                                | async
+                                        "
+                                        [value]="option.asset_barcode"
+                                    >
+                                        {{ option.asset_barcode }} -
+                                        {{ option.model }}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Computer/Laptop Details -->
+                        <mat-card
+                            class="flex-grow p-4 shadow-sm rounded-md border border-solid border-gray-200"
+                        >
+                            <mat-card-content>
+                                <p class="text-md font-medium">
+                                    Computer/Laptop Details
+                                </p>
+                                <p class="text-secondary mb-6 text-sm">
+                                    Selected Computer/Laptop details.
+                                </p>
+                                <div class="flex flex-row flex-grow gap-4">
+                                    <!-- Left Column -->
+                                    <div class="flex flex-col flex-grow gap-4">
+                                        <p
+                                            class="flex flex-col font-medium text-sm"
+                                        >
+                                            Serial Number
+                                            <span
+                                                class="text-secondary text-sm"
+                                            >
+                                                {{
+                                                    selectedComputer?.serial_no ||
+                                                        "N/A"
+                                                }}
+                                            </span>
+                                        </p>
+                                        <p
+                                            class="flex flex-col font-medium text-sm"
+                                        >
+                                            Type
+                                            <span
+                                                class="text-secondary text-sm"
+                                            >
+                                                {{
+                                                    selectedComputer?.type ||
+                                                        "N/A"
+                                                }}
+                                            </span>
+                                        </p>
+                                        <p
+                                            class="flex flex-col font-medium text-sm"
+                                        >
+                                            Date Acquired
+                                            <span
+                                                class="text-secondary text-sm"
+                                            >
+                                                {{
+                                                    selectedComputer?.date_acquired ||
+                                                        "N/A"
+                                                }}
+                                            </span>
+                                        </p>
+                                    </div>
+
+                                    <!-- Right Column -->
+                                    <div class="flex flex-col flex-grow gap-4">
+                                        <p
+                                            class="flex flex-col font-medium text-sm"
+                                        >
+                                            Asset Barcode
+                                            <span
+                                                class="text-secondary text-sm"
+                                            >
+                                                {{
+                                                    selectedComputer?.asset_barcode ||
+                                                        "N/A"
+                                                }}
+                                            </span>
+                                        </p>
+                                        <p
+                                            class="flex flex-col font-medium text-sm"
+                                        >
+                                            Brand
+                                            <span
+                                                class="text-secondary text-sm"
+                                            >
+                                                {{
+                                                    selectedComputer?.brand ||
+                                                        "N/A"
+                                                }}
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+
+                        <!-- Components on Computer -->
+                        <mat-card
+                            class="flex-grow p-4 shadow-sm rounded-md border border-solid border-gray-200"
+                        >
+                            <mat-card-content>
+                                <p class="text-md font-medium">
+                                    Components on computer
+                                </p>
+                                <p class="text-secondary mb-6 text-sm">
+                                    Computer components
+                                </p>
+                                <div class="flex flex-row flex-grow gap-4">
+                                    <!-- Left Column -->
+                                    <div class="flex flex-col flex-grow gap-4">
+                                        <p
+                                            class="flex flex-col font-medium text-sm"
+                                        >
+                                            RAM
+                                            <span
+                                                class="text-secondary text-sm"
+                                            >
+                                                {{
+                                                    selectedComputer?.ram
+                                                        ?.capacity || "N/A"
+                                                }}
+                                            </span>
+                                        </p>
+                                        <p
+                                            class="flex flex-col font-medium text-sm"
+                                        >
+                                            SSD
+                                            <span
+                                                class="text-secondary text-sm"
+                                            >
+                                                {{
+                                                    selectedComputer?.ssd
+                                                        ?.capacity || "N/A"
+                                                }}
+                                            </span>
+                                        </p>
+                                    </div>
+
+                                    <!-- Right Column -->
+                                    <div class="flex flex-col flex-grow gap-4">
+                                        <p
+                                            class="flex flex-col font-medium text-sm"
+                                        >
+                                            GPU
+                                            <span
+                                                class="text-secondary text-sm"
+                                            >
+                                                {{
+                                                    selectedComputer?.gpu
+                                                        ?.model || "N/A"
+                                                }}
+                                            </span>
+                                        </p>
+                                        <p
+                                            class="flex flex-col font-medium text-sm"
+                                        >
+                                            HDD
+                                            <span
+                                                class="text-secondary text-sm"
+                                            >
+                                                {{
+                                                    selectedComputer?.hdd
+                                                        ?.capacity || "N/A"
+                                                }}
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+
+                        <!-- Peripherals on Computer -->
+                        <mat-card
+                            class="flex-grow p-4 shadow-sm rounded-md border border-solid border-gray-200"
+                        >
+                            <mat-card-content>
+                                <p class="text-md font-medium">
+                                    Peripherals on Computer
+                                </p>
+                                <p class="text-secondary mb-6 text-sm">
+                                    Peripherals
+                                </p>
+                                <div class="flex flex-row flex-grow gap-4">
+                                    <!-- Left Column -->
+                                    <div class="flex flex-col flex-grow gap-4">
+                                        <p
+                                            class="flex flex-col font-medium text-sm"
+                                        >
+                                            Peripheral Barcode
+                                            <ng-container
+                                                *ngIf="
+                                                    selectedComputer
+                                                        ?.assigned_assets
+                                                        ?.values?.$values
+                                                        ?.length;
+                                                    else noAssets
+                                                "
+                                            >
+                                                <span
+                                                    *ngFor="
+                                                        let asset of selectedComputer
+                                                            .assigned_assets
+                                                            .values.$values
+                                                    "
+                                                    class="text-secondary text-sm"
+                                                >
+                                                    {{ asset.asset_barcode }}
+                                                </span>
+                                            </ng-container>
+                                        </p>
+                                    </div>
+
+                                    <!-- Right Column -->
+                                    <div class="flex flex-col flex-grow gap-4">
+                                        <p
+                                            class="-ml-2 flex flex-col font-medium text-sm"
+                                        >
+                                            Peripheral Type
+                                            <ng-container
+                                                *ngIf="
+                                                    selectedComputer
+                                                        ?.assigned_assets
+                                                        ?.values?.$values
+                                                        ?.length;
+                                                    else noAssets
+                                                "
+                                            >
+                                                <span
+                                                    *ngFor="
+                                                        let asset of selectedComputer
+                                                            .assigned_assets
+                                                            .values.$values
+                                                    "
+                                                    class="text-secondary text-sm"
+                                                >
+                                                    {{ asset.type || "N/A" }}
+                                                </span>
+                                            </ng-container>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <ng-template #noAssets>
+                                    <span class="text-secondary text-sm"
+                                        >N/A</span
+                                    >
+                                </ng-template>
+                            </mat-card-content>
+                        </mat-card>
                     </div>
                 </div>
             </div>
-            <mat-divider class="mt-6 mb-10"></mat-divider>
 
-            <p class="text-lg font-medium">Current Owner Details</p>
-            <p class="text-secondary mb-6">
-                Current owner of the asset details.
-            </p>
-
-            <div class="flex flex-row gap-4">
-                <div class="flex flex-col flex-grow gap-4">
-                    <p class="flex flex-col font-medium text-medium">
-                        Owner name
-                        <span class="text-secondary text-medium"> N/A </span>
-                    </p>
-                    <p class="flex flex-col font-medium text-medium">
-                        Company
-                        <span class="text-secondary text-medium"> N/A </span>
-                    </p>
-                    <p class="flex flex-col font-medium text-medium">
-                        Department
-                        <span class="text-secondary text-medium"> N/A </span>
-                    </p>
-                </div>
-                <div class="flex flex-col flex-grow gap-4">
-                    <p class="flex flex-col font-medium text-medium">
-                        Employee Id
-                        <span class="text-secondary text-medium"> N/A </span>
-                    </p>
-                </div>
-            </div>
-            <!-- <mat-form-field class="flex-grow gt-xs:pr-3">
-                    <input matInput [placeholder]="'First name'" />
-                    <mat-icon
-                        class="icon-size-5"
-                        matPrefix
-                        [svgIcon]="'heroicons_solid:user-circle'"
-                    ></mat-icon>
-                </mat-form-field>
-                <mat-form-field class="flex-grow gt-xs:pl-3">
-                    <input matInput [placeholder]="'Last name'" />
-                    <mat-icon
-                        class="icon-size-5"
-                        matPrefix
-                        [svgIcon]="'heroicons_solid:user-circle'"
-                    ></mat-icon>
-                </mat-form-field> -->
             <div
                 class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
             >

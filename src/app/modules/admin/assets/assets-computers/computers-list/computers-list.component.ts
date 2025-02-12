@@ -195,7 +195,5 @@ applyTypeFilter(searchValue: string): void {
     }
     isValidDate(date: any): boolean {
       return date && !isNaN(new Date(date).getTime());
-    }
-
-    
+    }    
 }

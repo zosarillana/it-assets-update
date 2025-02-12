@@ -1,19 +1,17 @@
-import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
-
-interface AssetItem {
-    id: string;
-    assetBarcode: string;
-    type?: string;
-    dateAcquired?: Date;
-    brand?: string;
-    model?: string;
-    serialNumber?: string;
-    status?: string;
-}
+import { FormBuilder, FormControl } from '@angular/forms';
+import { ComputerService } from 'app/services/computer/computer.service';
+import { Observable, of } from 'rxjs';
+import {
+    debounceTime,
+    distinctUntilChanged,    
+    map,    
+    startWith,
+    switchMap,
+} from 'rxjs/operators';
+import { Assets } from 'app/models/Inventory/Asset';
+import { UsersService } from 'app/services/user/users.service';
+import { User } from 'app/core/user/user.types';
 
 @Component({
     selector: 'app-accountability-add',
@@ -22,131 +20,130 @@ interface AssetItem {
 })
 export class AccoundabilityAddComponent implements OnInit {
     @ViewChild('pcInput') pcInput!: ElementRef<HTMLInputElement>;
-    @ViewChild('fruitInput') fruitInput!: ElementRef<HTMLInputElement>;
 
-    accountabilityForm: FormGroup;
-    separatorKeysCodes: number[] = [ENTER, COMMA];
+    typeComputerControl = new FormControl('');
+    filteredComputerOptions!: Observable<Assets[]>;
+    computersData: Assets[] = [];
+    selectedComputer: Assets | null = null;
 
-    selectedPcs: AssetItem[] = [];
-    selectedPeris: AssetItem[] = [];
+    constructor(
+        private fb: FormBuilder,
+        private computerService: ComputerService,
+        private userService: UsersService
+    ) {}
 
-    filteredPcs: AssetItem[] = [];
-    filteredFruits: AssetItem[] = [];
+    ngOnInit(): void {
+        this.loadUsers();
 
-    allPcs: AssetItem[] = [];
-    allPeripherals: AssetItem[] = [];
+        // Filter user list based on input value
+        this.filteredUserOptions = this.typeUserControl.valueChanges.pipe(
+            startWith(''),
+            map((value) => this._filterUsers(value || ''))
+        );
+            
+        this.loadComputers();
+        this.filteredComputerOptions =
+            this.typeComputerControl.valueChanges.pipe(
+                startWith(''),
+                debounceTime(300),
+                distinctUntilChanged(),
+                switchMap((value) => this._filterAutocompleteOptions(value))
+            );
+    }
 
-    constructor(private fb: FormBuilder) {
-        this.accountabilityForm = this.fb.group({
-            assign_pc: ['', Validators.required],
-            assign_peripherals: [''],
+    private loadComputers(): void {
+        this.computerService.getAssets(1, 100, 'asc').subscribe({
+            next: (response) => {
+                if (response.items && Array.isArray(response.items.$values)) {
+                    this.computersData = response.items.$values; // Extract the actual array
+                } else {
+                    console.error('Expected an array, but got:', response);
+                    this.computersData = [];
+                }
+            },
+            error: (error) => {
+                console.error('Error loading computers:', error);
+                this.computersData = [];
+            },
         });
     }
 
-    ngOnInit(): void {
-        this.loadAssets();
-    }
+    private _filterAutocompleteOptions(
+        value: string | null
+    ): Observable<Assets[]> {
+        if (!value) return of(this.computersData);
 
-    private loadAssets(): void {
-        // Mock data
-        this.allPcs = [
-            {
-                id: '1',
-                assetBarcode: 'PC001',
-                type: 'Desktop',
-                brand: 'Dell',
-                model: 'OptiPlex 7090',
-                serialNumber: 'DELL123456',
-                status: 'Available',
-            },
-            {
-                id: '2',
-                assetBarcode: 'PC002',
-                type: 'Laptop',
-                brand: 'HP',
-                model: 'EliteBook 850',
-                serialNumber: 'HP789012',
-                status: 'Available',
-            },
-        ];
-
-        this.allPeripherals = [
-            {
-                id: '1',
-                assetBarcode: 'PER001',
-                type: 'Monitor',
-                brand: 'Dell',
-                model: 'P2419H',
-                serialNumber: 'MON123456',
-                status: 'Available',
-            },
-            {
-                id: '2',
-                assetBarcode: 'PER002',
-                type: 'Keyboard',
-                brand: 'Logitech',
-                model: 'MK270',
-                serialNumber: 'LOG789012',
-                status: 'Available',
-            },
-        ];
-    }
-
-    filterPCs(value: string): void {
         const filterValue = value.toLowerCase();
-        this.filteredPcs = this.allPcs.filter((pc) =>
-            pc.assetBarcode.toLowerCase().includes(filterValue)
+        return of(
+            this.computersData.filter((option) =>
+                option.asset_barcode.toLowerCase().includes(filterValue)
+            )
         );
     }
 
-    filterFruits(value: string): void {
+    onTypeSelected(event: any): void {
+        const selectedBarcode = event;
+        const selectedComputer = this.computersData.find(
+            (comp) => comp.asset_barcode === selectedBarcode
+        );
+
+        if (selectedComputer) {
+            this.typeComputerControl.setValue(selectedBarcode, {
+                emitEvent: false,
+            });
+
+            this.computerService
+                .getComputersById(selectedComputer.id)
+                .subscribe({
+                    next: (details: Assets) => {
+                        this.selectedComputer = details;
+                    },
+                    error: (error) => {
+                        console.error(
+                            'Error fetching computer details:',
+                            error
+                        );
+                    },
+                });
+        }
+    }
+
+    //users  
+    typeUserControl = new FormControl('');
+    filteredUserOptions!: Observable<User[]>;
+    UserData: User[] = [];
+    selectedUser: User | null = null;
+    private loadUsers(): void {
+        this.userService.getUsers(1, 100, 'asc').subscribe({
+            next: (response) => {
+                if (response.$values && Array.isArray(response.$values)) {
+                    this.UserData = response.$values;
+                } else {
+                    console.error('Expected an array, but got:', response);
+                    this.UserData = [];
+                }
+            },
+            error: (error) => {
+                console.error('Error loading users:', error);
+                this.UserData = [];
+            },
+        });
+    }
+    
+    private _filterUsers(value: string): User[] {
         const filterValue = value.toLowerCase();
-        this.filteredFruits = this.allPeripherals.filter((peripheral) =>
-            peripheral.assetBarcode.toLowerCase().includes(filterValue)
+        return this.UserData.filter((user) =>
+            user.name.toLowerCase().includes(filterValue)
         );
     }
 
-    addPc(event: MatChipInputEvent): void {
-        if (event.value) {
-            event.chipInput!.clear();
+ 
+    onUserSelected(userName: string): void {
+        const selectedUser = this.UserData.find((user) => user.name === userName);
+    
+        if (selectedUser) {
+            this.selectedUser = selectedUser; // Directly set the selected user
         }
     }
-
-    add(event: MatChipInputEvent): void {
-        if (event.value) {
-            event.chipInput!.clear();
-        }
-    }
-
-    selectedPc(event: MatAutocompleteSelectedEvent): void {
-        const selectedAsset = this.allPcs.find((pc) => pc.assetBarcode === event.option.value);
-        if (selectedAsset && !this.selectedPcs.includes(selectedAsset)) {
-            this.selectedPcs.push(selectedAsset);
-        }
-        this.pcInput.nativeElement.value = '';
-        this.accountabilityForm.get('assign_pc')?.setValue(null);
-    }
-
-    selectedPeripherals(event: MatAutocompleteSelectedEvent): void {
-        const selectedAsset = this.allPeripherals.find((p) => p.assetBarcode === event.option.value);
-        if (selectedAsset && !this.selectedPeris.includes(selectedAsset)) {
-            this.selectedPeris.push(selectedAsset);
-        }
-        this.fruitInput.nativeElement.value = '';
-        this.accountabilityForm.get('assign_peripherals')?.setValue(null);
-    }
-
-    removePc(pc: AssetItem): void {
-        const index = this.selectedPcs.indexOf(pc);
-        if (index >= 0) {
-            this.selectedPcs.splice(index, 1);
-        }
-    }
-
-    remove(peripheral: AssetItem): void {
-        const index = this.selectedPeris.indexOf(peripheral);
-        if (index >= 0) {
-            this.selectedPeris.splice(index, 1);
-        }
-    }
+    
 }

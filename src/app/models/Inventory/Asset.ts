@@ -25,4 +25,6 @@ export interface Assets {
     is_deleted: boolean;
     date_created: string;
     date_modified: string | null;
+    assigned_assets?: string;  // Add this if missing
+    peripheral_type?: string;  // Add this if missing
 }

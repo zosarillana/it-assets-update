@@ -2,18 +2,17 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Assets } from 'app/models/Inventory/Asset';
 import { AssetResponse } from 'app/models/Inventory/AssetResponse';
-import { ItotPc } from 'app/models/ItotPc';
 import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
 })
-export class AssetsService {
+export class UsersService {
     private url = 'https://localhost:7062';
 
     constructor(private http: HttpClient) {}
 
-    public getAssets(
+    public getUsers(
         pageNumber: number,
         pageSize: number,
         sortOrder: string,
@@ -31,23 +30,8 @@ export class AssetsService {
             params = params.set('searchTerm', searchTerm);
         }
 
-        return this.http.get<AssetResponse>(
-            `${this.url}/api/Assets/AssetItems`,
-            { params }
-        );
+        return this.http.get<AssetResponse>(`${this.url}/api/Users`, {
+            params,
+        });
     }
-
-    getAllTypes(): Observable<string[]> {
-        const url = `${this.url}/assets/types`;
-        return this.http.get<string[]>(url);
-    }
-    
-    getAssetById(id: number): Observable<Assets> {
-        return this.http.get<Assets>(`${this.url}/api/Assets/AssetItems/${id}`);        
-    }
-
-    public postEvent(data: any): Observable<any> {
-        return this.http.post(`${this.url}/api/Assets/add-asset/computer`, data);
-    }
-    
 }

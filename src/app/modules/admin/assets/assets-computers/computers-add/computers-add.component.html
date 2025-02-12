@@ -407,7 +407,7 @@
                                 "
                                 [formGroup]="component"
                             >
-                                <td>
+                                <td class="px-4">
                                     <!-- Dropdown Selection -->
                                     <select
                                         formControlName="componentId"
@@ -422,6 +422,9 @@
                                         <option value="">
                                             Select component...
                                         </option>
+                                        <!-- <option value="RAM">
+                                            RAM
+                                        </option> -->
                                         <option
                                             *ngFor="
                                                 let component of getFilteredComponents(
