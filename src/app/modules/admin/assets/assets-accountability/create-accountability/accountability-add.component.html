@@ -72,79 +72,6 @@
             <mat-divider class="my-4"></mat-divider>
             <div class="flex flex-row flex-grow gap-4">
                 <div class="flex flex-grow flex-col gap-4">
-                    <div class="flex">
-                        <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-icon matPrefix class="icon-size-5" [svgIcon]="'heroicons_solid:search'"></mat-icon>
-                            <input
-                                matInput
-                                placeholder="Search by User"
-                                [formControl]="typeUserControl"
-                                [matAutocomplete]="userAuto"
-                            />
-                            <mat-autocomplete #userAuto="matAutocomplete" (optionSelected)="onUserSelected($event.option.value)">
-                                <mat-option *ngFor="let option of filteredUserOptions | async" [value]="option.name">
-                                    {{ option.name }}
-                                </mat-option>
-                            </mat-autocomplete>
-                        </mat-form-field>
-                        
-                        
-                    </div>
-
-                    <mat-card
-                        class="p-4 shadow-sm rounded-md border border-solid border-gray-200"
-                    >
-                        <mat-card-content>
-                            <p class="text-md font-medium">User Details</p>
-                            <p class="text-secondary mb-6 text-sm">
-                                Selected user details.
-                            </p>
-                            <div class="flex flex-row flex-grow gap-4">
-                                <!-- Left Column -->
-                                <div class="flex flex-col flex-grow gap-4">
-                                    <p
-                                        class="flex flex-col font-medium text-sm"
-                                    >
-                                        Owner Name
-                                        <span class="text-secondary text-sm">
-                                            {{ selectedUser?.name || "N/A" }}
-                                        </span>
-                                    </p>
-                                    <p
-                                        class="flex flex-col font-medium text-sm"
-                                    >
-                                        Company
-                                        <span class="text-secondary text-sm">
-                                              {{ selectedUser?.company || "N/A" }}
-                                        </span>
-                                    </p>
-                                    <p
-                                        class="flex flex-col font-medium text-sm"
-                                    >
-                                        Department
-                                        <span class="text-secondary text-sm">
-                                            {{ selectedUser?.department || "N/A" }}
-                                        </span>
-                                    </p>
-                                </div>
-
-                                <!-- Right Column -->
-                                <div class="flex flex-col flex-grow gap-4">
-                                    <p
-                                        class="flex flex-col font-medium text-sm"
-                                    >
-                                        Employee ID
-                                        <span class="text-secondary text-sm">
-                                            {{ selectedUser?.employee_id || "N/A" }}
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
-                        </mat-card-content>
-                    </mat-card>
-                </div>
-
-                <div class="flex flex-grow flex-col gap-4">
                     <div class="flex flex-grow flex-col gap-4">
                         <!-- Search Input -->
                         <div class="flex flex-grow">
@@ -423,6 +350,170 @@
                                 </ng-template>
                             </mat-card-content>
                         </mat-card>
+                    </div>
+                </div>
+                <div class="flex flex-grow flex-col gap-4">
+                    <div class="flex">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-icon
+                                matPrefix
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:search'"
+                            ></mat-icon>
+                            <input
+                                matInput
+                                placeholder="Search by User"
+                                [formControl]="typeUserControl"
+                                [matAutocomplete]="userAuto"
+                            />
+                            <mat-autocomplete
+                                #userAuto="matAutocomplete"
+                                (optionSelected)="
+                                    onUserSelected($event.option.value)
+                                "
+                            >
+                                <mat-option
+                                    *ngFor="
+                                        let option of filteredUserOptions
+                                            | async
+                                    "
+                                    [value]="option.name"
+                                >
+                                    {{ option.name }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+
+                    <mat-card
+                        class="p-4 shadow-sm rounded-md border border-solid border-gray-200"
+                    >
+                        <mat-card-content>
+                            <p class="text-md font-medium">User Details</p>
+                            <p class="text-secondary mb-6 text-sm">
+                                Selected user details.
+                            </p>
+                            <div class="flex flex-row flex-grow gap-4">
+                                <!-- Left Column -->
+                                <div class="flex flex-col flex-grow gap-4">
+                                    <p
+                                        class="flex flex-col font-medium text-sm"
+                                    >
+                                        Owner Name
+                                        <span class="text-secondary text-sm">
+                                            {{ selectedUser?.name || "N/A" }}
+                                        </span>
+                                    </p>
+                                    <p
+                                        class="flex flex-col font-medium text-sm"
+                                    >
+                                        Company
+                                        <span class="text-secondary text-sm">
+                                            {{ selectedUser?.company || "N/A" }}
+                                        </span>
+                                    </p>
+                                    <p
+                                        class="flex flex-col font-medium text-sm"
+                                    >
+                                        Department
+                                        <span class="text-secondary text-sm">
+                                            {{
+                                                selectedUser?.department ||
+                                                    "N/A"
+                                            }}
+                                        </span>
+                                    </p>
+                                </div>
+
+                                <!-- Right Column -->
+                                <div class="flex flex-col flex-grow gap-4">
+                                    <p
+                                        class="flex flex-col font-medium text-sm"
+                                    >
+                                        Employee ID
+                                        <span class="text-secondary text-sm">
+                                            {{
+                                                selectedUser?.employee_id ||
+                                                    "N/A"
+                                            }}
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                    <div class="flex flex-row w-full gap-4 mt-12">
+                        <div class="flex-grow flex-col">
+                            <!-- Signature Image -->
+                            <div class="flex-grow text-center">
+                                <div class="flex justify-center items-center">
+                                    <img
+                                        src="https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg"
+                                        alt="Signature"
+                                        class="mt-4 w-48 opacity-80"
+                                    />
+                                </div>
+
+                                <!-- Name and Role -->
+                                <div class="flex flex-col items-center">
+                                    <p class="text-md border-t m-1">
+                                        WILLIARD VARQUEZ PERNIA IV
+                                    </p>
+                                    <span class="text-sm text-gray-600">
+                                        IT Manager
+                                    </span>
+                                </div>
+                            </div>
+                           
+                        </div>
+
+                        <div class="flex-grow flex-col">
+                            <!-- Signature Image -->
+                            <div class="flex-grow text-center">
+                                <div class="flex justify-center items-center">
+                                    <img
+                                        src="https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg"
+                                        alt="Signature"
+                                        class="mt-4 w-48 opacity-80"
+                                    />
+                                </div>
+
+                                <!-- Name and Role -->
+                                <div class="flex flex-col items-center">
+                                    <p class="text-md border-t m-1">
+                                        IRISH MARGOT FLORES LUNGAY
+                                    </p>
+                                    <span class="text-sm text-gray-600">
+                                        Lead, IT/ OT Operations (DA)
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow flex-col">
+                            <!-- Signature Image -->
+                            <div class="flex-grow text-center">
+                                <div
+                                    class="flex justify-center items-center"
+                                >
+                                    <img
+                                        src="https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg"
+                                        alt="Signature"
+                                        class="mt-4 w-48 opacity-80"
+                                    />
+                                </div>
+
+                                <!-- Name and Role -->
+                                <div class="flex flex-col items-center">
+                                    <p class="text-md border-t m-1">
+                                        ZOREN JAKE CATIBEN SARILLANA
+                                    </p>
+                                    <span class="text-sm text-gray-600">
+                                        Project Software Developer - Jr.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

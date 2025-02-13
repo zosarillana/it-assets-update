@@ -38,6 +38,8 @@ export class AccoundabilityAddComponent implements OnInit {
         // Filter user list based on input value
         this.filteredUserOptions = this.typeUserControl.valueChanges.pipe(
             startWith(''),
+            debounceTime(300),
+            distinctUntilChanged(),
             map((value) => this._filterUsers(value || ''))
         );
             
@@ -108,7 +110,7 @@ export class AccoundabilityAddComponent implements OnInit {
         }
     }
 
-    //users  
+    //Users  
     typeUserControl = new FormControl('');
     filteredUserOptions!: Observable<User[]>;
     UserData: User[] = [];

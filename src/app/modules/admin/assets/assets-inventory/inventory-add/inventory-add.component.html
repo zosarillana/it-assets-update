@@ -177,16 +177,16 @@
                             svgIcon="feather:cpu"
                             class="icon-size-3 md:icon-size-4 mr-2"
                         ></mat-icon>
-                        <mat-select
+                        <input
+                            matInput
                             formControlName="type"
                             id="type"
                             class="text-xs md:text-sm"
-                            placeholder="Select Type..."
-                        >
-                            <mat-option value="USB">USB</mat-option>
-                            <mat-option value="Keyboard">Keyboard</mat-option>
-                        </mat-select>
+                            placeholder="Enter Type..."
+                            type="text"
+                        />
                     </mat-form-field>
+                    
 
                     <mat-label class="text-xs md:text-sm mb-1"
                         >Date Acquired</mat-label

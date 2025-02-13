@@ -107,7 +107,7 @@ export class InventoryAddComponent implements OnInit {
             company: '',
             department: '',
             employee_id: '',
-            type: response.type || '',
+            type: '',
             date_acquired: response.date_acquired?._d
                 ? this.formatDate(response.date_acquired._d)
                 : '',
