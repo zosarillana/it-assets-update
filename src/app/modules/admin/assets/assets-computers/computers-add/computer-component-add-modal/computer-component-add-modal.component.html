@@ -1,0 +1,155 @@
+<!-- <h1 mat-dialog-title class="text-md font-bold">Computer Component</h1> -->
+<div class="flex flex-row justify-between -mt-3 mb-2">
+    <div class="text-3xl font-bold">Component Form</div>
+    <div>
+        <button class="ml-4" mat-icon-button (click)="close()">
+            <mat-icon [svgIcon]="'close'"></mat-icon>
+        </button>
+    </div>
+</div>
+
+<mat-divider class="my-3"></mat-divider>
+<mat-dialog-content>
+    <form [formGroup]="eventForm">
+        <div class="flex flex-row mt-2 gap-3 md:gap-4">
+            <!-- <div class="flex flex-col items-center mt-2 mr-5">
+                <label for="select-image" class="cursor-pointer flex flex-col items-center">
+                    <img id="preview-image" [src]="imageUrl" alt="Select Image" 
+                        class="w-32 md:h-42 md:w-48 object-contain border border-gray-300 rounded-md" />
+                    <span class="text-secondary text-xs md:text-xs mt-1 md:mt-2">
+                        <mat-icon class="icon-size-3 md:icon-size-3 text-secondary" [svgIcon]="'feather:edit'"></mat-icon>
+                        Select new image
+                    </span>
+                </label>
+                <input #fileInput id="select-image" type="file" accept="image/*" class="hidden" (change)="previewSelectedImage($event)" />
+                
+            <div *ngIf="errorMessage$ | async as errorMsg" class="alert alert-danger">
+                {{ errorMsg }}
+            </div>
+            
+            </div> -->
+            <div class="flex flex-col items-center">
+                <label
+                    for="select-image-component"
+                    class="cursor-pointer flex flex-col items-center"
+                >
+                    <img
+                        id="preview-image-component"
+                        src="https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg"
+                        alt="Select Image"
+                        class="h-32 w-32 md:h-42 md:w-48 object-contain border border-gray-300 rounded-md" 
+                    />
+                    <span
+                        class="text-secondary text-xs md:text-sm mt-1 md:mt-2"
+                    >
+                        <mat-icon
+                            class="icon-size-3 md:icon-size-4 text-secondary"
+                            [svgIcon]="'feather:edit'"
+                        ></mat-icon>
+                        Select new image
+                    </span>
+                </label>
+                <input
+                    formControlName="image_component"
+                    id="select-image-component"
+                    type="file"
+                    accept="image/*"
+                    class="hidden"
+                    (change)="previewSelectedImageComponent($event)"
+                />
+            </div>
+            <div class="flex flex-col flex-grow w-full">
+                <div class="flex flex-grow flex-row gap-4">
+                    <div class="flex flex-grow flex-col">
+                        <mat-label class="text-xs md:text-sm"
+                            >Inventory Code</mat-label
+                        >
+                        <mat-form-field appearance="fill">
+                            <mat-icon
+                                svgIcon="feather:hash"
+                                class="icon-size-3 md:icon-size-4 mr-2"
+                            ></mat-icon>
+                            <input
+                                matInput
+                                formControlName="serial_number"
+                                id="description"
+                                placeholder="Enter inventory code..."
+                                class="text-xs md:text-sm"
+                            />
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-grow flex-col">
+                        <mat-label class="text-xs md:text-sm"
+                            >Date Acquired</mat-label
+                        >
+                        <mat-form-field>
+                            <input
+                                matInput
+                                [matDatepicker]="picker"
+                                [formControlName]="'date_acquired'"
+                                placeholder="Date Assigned"
+                                (click)="picker.open()"
+                                class="cursor-pointer"
+                                required
+                            />
+                            <mat-icon
+                                matPrefix
+                                class="icon-size-4 cursor-pointer"
+                                (click)="picker.open()"
+                            >
+                                calendar_today
+                            </mat-icon>
+
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="flex flex-grow flex-row gap-4">
+                    <div class="flex flex-grow flex-col">
+                        <mat-label class="text-xs md:text-sm">Type</mat-label>
+                        <mat-form-field appearance="fill">
+                            <mat-icon
+                                svgIcon="feather:cpu"
+                                class="icon-size-3 md:icon-size-4 mr-2"
+                            ></mat-icon>
+                            <mat-select
+                                id="type"
+                                formControlName="type"
+                                class="text-xs md:text-sm"
+                                placeholder="Select Type..."
+                            >
+                                <mat-option value="RAM">RAM</mat-option>
+                                <mat-option value="SSD">SSD</mat-option>
+                                <mat-option value="HDD">HDD</mat-option>
+                                <mat-option value="GPU">GPU</mat-option>
+                                <mat-option value="GPU">BOARD</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-grow flex-col">
+                        <mat-label class="text-xs md:text-sm"
+                            >Description</mat-label
+                        >
+                        <mat-form-field appearance="fill">
+                            <mat-icon
+                                svgIcon="feather:info"
+                                class="icon-size-3 md:icon-size-4 mr-2"
+                            ></mat-icon>
+                            <input
+                                matInput
+                                formControlName="description"
+                                id="description"
+                                placeholder="Enter description..."
+                                class="text-xs md:text-sm"
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="border-t border-gray-200">
+    <button mat-button (click)="resetForm()">Reset</button>
+    <button mat-flat-button color="primary" (click)="submit()">Submit</button>
+</mat-dialog-actions>

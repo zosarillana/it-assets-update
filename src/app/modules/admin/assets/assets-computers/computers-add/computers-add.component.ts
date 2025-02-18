@@ -7,11 +7,14 @@ import {
 } from '@angular/forms';
 import { AssetsService } from 'app/services/assets/assets.service';
 import { ComponentsService } from 'app/services/components/components.service';
-import { Subscription } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
 // Add to your existing imports
 import { FormArray } from '@angular/forms';
 import { ComputerService } from 'app/services/computer/computer.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ComputerComponentAddModalComponent } from './computer-component-add-modal/computer-component-add-modal.component';
+import { CopmuterAssetsAddModalComponent } from './copmuter-assets-add-modal/copmuter-assets-add-modal.component';
 
 interface Asset {
     id: number;
@@ -28,6 +31,7 @@ interface Asset {
 })
 export class ComputersAddComponent implements OnInit {
     // items: any[] = []; // Stores rows
+    form: FormGroup;
     eventForm!: FormGroup;
     sortOrder = 'desc';
     private serialSubscription: Subscription;
@@ -37,8 +41,13 @@ export class ComputersAddComponent implements OnInit {
         private computerService: ComputerService,
         private getServiceComponents: ComponentsService,
         private getService: AssetsService,
-        private cdr: ChangeDetectorRef
-    ) {}
+        private cdr: ChangeDetectorRef,
+        private dialog: MatDialog
+    ) {
+        this.form = this._formBuilder.group({
+            componentsArray: this._formBuilder.array([]), // Initialize as FormArray
+        });
+    }
 
     // Initialize form with comprehensive validation
     private initializeForm(): void {
@@ -68,8 +77,8 @@ export class ComputersAddComponent implements OnInit {
 
     ngOnInit(): void {
         this.initializeForm();
-        this.getAllComponents();
-        this.getAllAssets();
+        // this.getAllComponents();
+        // this.getAllAssets();
     }
 
     // Clean up subscription on component destroy
@@ -108,6 +117,8 @@ export class ComputersAddComponent implements OnInit {
     }> = [];
 
     assetList = [];
+    assetControls: FormControl[] = [];
+    filteredAssets: Observable<any[]>[] = [];
 
     getAllAssets(searchTerm: string = ''): void {
         const pageSize = 10000;
@@ -122,6 +133,22 @@ export class ComputersAddComponent implements OnInit {
                             (asset) => asset.status === 'INACTIVE'
                         );
                         this.cdr.detectChanges();
+
+                        // Initialize autocomplete controls for each row
+                        this.assetsArray.controls.forEach((_, index) => {
+                            if (!this.assetControls[index]) {
+                                this.assetControls[index] = new FormControl('');
+                            }
+                            this.filteredAssets[index] = this.assetControls[
+                                index
+                            ].valueChanges.pipe(
+                                startWith(''),
+                                map((searchValue) =>
+                                    this.filterAssets(searchValue, index)
+                                )
+                            );
+                        });
+
                         console.log('Filtered Assets:', this.assetList);
                     }
                 },
@@ -130,6 +157,28 @@ export class ComputersAddComponent implements OnInit {
                 }
             );
     }
+
+    // getAllAssets(searchTerm: string = ''): void {
+    //     const pageSize = 10000;
+    //     let pageNumber = 1;
+
+    //     this.getService
+    //         .getAssets(pageNumber, pageSize, this.sortOrder, searchTerm)
+    //         .subscribe(
+    //             (response) => {
+    //                 if (response && response.items && response.items.$values) {
+    //                     this.assetList = response.items.$values.filter(
+    //                         (asset) => asset.status === 'INACTIVE'
+    //                     );
+    //                     this.cdr.detectChanges();
+    //                     console.log('Filtered Assets:', this.assetList);
+    //                 }
+    //             },
+    //             (error) => {
+    //                 console.error('Error fetching assets:', error);
+    //             }
+    //         );
+    // }
 
     // onAssetSelect(selectedId: string, index: number) {
     //     const selectedAsset = this.assetList.find(
@@ -146,12 +195,38 @@ export class ComputersAddComponent implements OnInit {
     //         });
     //     }
     // }
+
     // Update your onAssetSelect function to include type:
+    // onAssetSelect(selectedId: string, index: number) {
+    //     const selectedAsset = this.assetList.find(
+    //         (asset) => asset.id === Number(selectedId)
+    //     );
+
+    //     if (selectedAsset) {
+    //         this.assetsArray.at(index).patchValue({
+    //             assetId: selectedAsset.id,
+    //             date_acquired: selectedAsset.date_acquired,
+    //             asset_barcode: selectedAsset.asset_barcode,
+    //             brand: selectedAsset.brand,
+    //             model: selectedAsset.model,
+    //             type: selectedAsset.type, // Add this line
+    //         });
+    //     }
+    // }
+    filterAssets(searchTerm: string, index: number) {
+        if (!searchTerm) {
+            return this.getFilteredAssets(index, null);
+        }
+        return this.getFilteredAssets(index, null).filter((asset) =>
+            `${asset.brand} ${asset.model}`
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase())
+        );
+    }
     onAssetSelect(selectedId: string, index: number) {
         const selectedAsset = this.assetList.find(
             (asset) => asset.id === Number(selectedId)
         );
-
         if (selectedAsset) {
             this.assetsArray.at(index).patchValue({
                 assetId: selectedAsset.id,
@@ -159,11 +234,10 @@ export class ComputersAddComponent implements OnInit {
                 asset_barcode: selectedAsset.asset_barcode,
                 brand: selectedAsset.brand,
                 model: selectedAsset.model,
-                type: selectedAsset.type, // Add this line
+                type: selectedAsset.type,
             });
         }
     }
-
     addAccessoryRow() {
         const assetForm = this._formBuilder.group({
             assetId: [''],
@@ -194,6 +268,10 @@ export class ComputersAddComponent implements OnInit {
 
     removeAccessoryRow(index: number) {
         this.assetsArray.removeAt(index);
+    }
+
+    removeComponentsRow(index: number) {
+        this.componentsArray.removeAt(index);
     }
 
     //components select
@@ -231,41 +309,66 @@ export class ComputersAddComponent implements OnInit {
             );
     }
 
-    onComponentSelect(selectedId: string, index: number) {
-        const selectedComponent = this.componentList.find(
-            (component) => component.id === Number(selectedId)
-        );
-
-        if (selectedComponent) {
-            console.log('Selected Component:', selectedComponent);
-            console.log('Selected Component Type:', selectedComponent.type);
-
-            // Patch the form to include type
-            this.componentsArray.at(index).patchValue({
-                componentId: selectedComponent.id,
-                uid: selectedComponent.uid,
-                description: selectedComponent.description,
-                type: selectedComponent.type, // ✅ Ensure type is updated
-                date_acquired: selectedComponent.date_acquired || 'Unknown',
-            });
-
-            // ✅ Force the form and UI to update
-            this.eventForm.updateValueAndValidity();
-            this.cdr.detectChanges();
-        }
+    selectedComponent: string = '';
+    availableComponents: string[] = ['RAM', 'SSD', 'HDD', 'GPU', 'BOARD'];
+    get componentsArray() {
+        return this.form.get('componentsArray') as FormArray;
     }
-
-    getFilteredComponents(index: number, selectedComponentId: number) {
-        const selectedIds = this.componentsArray.controls
+    onComponentSelect(event: Event, index: number) {
+        const target = event.target as HTMLSelectElement;
+        this.componentsArray
+            .at(index)
+            .patchValue({ componentId: target.value });
+    }
+    getSelectedComponents(): string[] {
+        return this.componentsArray.controls
             .map((control) => control.value.componentId)
-            .filter((id) => id !== 0 && id !== selectedComponentId); // Exclude empty selections
-
-        return this.componentList.filter(
+            .filter((value) => value); // Remove empty selections
+    }
+    getFilteredComponents(index: number): string[] {
+        const selectedComponents = this.getSelectedComponents();
+        return this.availableComponents.filter(
             (component) =>
-                component.id === selectedComponentId ||
-                !selectedIds.includes(component.id)
+                !selectedComponents.includes(component) ||
+                component === this.componentsArray.at(index).value.componentId
         );
     }
+    //Old getFilteredComponents
+    // getFilteredComponents(index: number, selectedComponentId: number) {
+    //     const selectedIds = this.componentsArray.controls
+    //         .map((control) => control.value.componentId)
+    //         .filter((id) => id !== 0 && id !== selectedComponentId); // Exclude empty selections
+
+    //     return this.componentList.filter(
+    //         (component) =>
+    //             component.id === selectedComponentId ||
+    //             !selectedIds.includes(component.id)
+    //     );
+    // }
+    //Old filling to options on Coponent Select
+    // onComponentSelect(selectedId: string, index: number) {
+    //     const selectedComponent = this.componentList.find(
+    //         (component) => component.id === Number(selectedId)
+    //     );
+
+    //     if (selectedComponent) {
+    //         console.log('Selected Component:', selectedComponent);
+    //         console.log('Selected Component Type:', selectedComponent.type);
+
+    //         // Patch the form to include type
+    //         this.componentsArray.at(index).patchValue({
+    //             componentId: selectedComponent.id,
+    //             uid: selectedComponent.uid,
+    //             description: selectedComponent.description,
+    //             type: selectedComponent.type, // ✅ Ensure type is updated
+    //             date_acquired: selectedComponent.date_acquired || 'Unknown',
+    //         });
+
+    //         // ✅ Force the form and UI to update
+    //         this.eventForm.updateValueAndValidity();
+    //         this.cdr.detectChanges();
+    //     }
+    // }
 
     // addRow() {
     //     this.components.push({
@@ -295,13 +398,9 @@ export class ComputersAddComponent implements OnInit {
     //     this.componentList.splice(index, 1);
     // }
 
-    removeRow(index: number) {
-        this.componentsArray.removeAt(index);
-    }
-
-    get componentsArray() {
-        return this.eventForm.get('components') as FormArray;
-    }
+    // get componentsArray() {
+    //     return this.eventForm.get('components') as FormArray;
+    // }
 
     //submitform
     // submitForm(): void {
@@ -378,10 +477,6 @@ export class ComputersAddComponent implements OnInit {
     // **Mapping Function: Converts API response to FormGroup structure**
     private mapResponseToForm(response: any): any {
         return {
-            user_name: '',            
-            company: '',
-            department: '',
-            employee_id: '',
             type: response.type || '',
             date_acquired: response.date_acquired?._d
                 ? this.formatDate(response.date_acquired._d)
@@ -389,30 +484,40 @@ export class ComputersAddComponent implements OnInit {
             asset_barcode: response.asset_barcode || '',
             brand: response.brand || '',
             model: response.model || '',
-            ram:  this.getComponentDescription(response.components, 'RAM'),
-            ssd: this.getComponentDescription(response.components, 'SSD'),
-            hdd: this.getComponentDescription(response.components, 'HDD'),
-            gpu: this.getComponentDescription(response.components, 'GPU'),
             size: response.size || '',
             color: response.color || '',
             serial_no: response.serial_number || '',
             po: response.po_number || '',
             warranty: response.warranty || '',
-            cost: 0,
-            remarks: '',
-            assigned_assets: response.assets
-                ? response.assets.map(asset => asset.assetId.toString())  // Convert to string if needed
+            cost: response.cost || 0,
+            remarks: response.remarks || '',
+    
+            // Mapping components properly
+            components: response.components
+                ? response.components.map((comp) => ({
+                      date_acquired: comp.date_acquired || '',
+                      type: comp.type || '',
+                      description: comp.description || '',
+                  }))
                 : [],
-            history: response.assets
-                ? response.assets.map(
-                      (asset) =>
-                          `${asset.asset_barcode} - ${asset.brand} - ${asset.type}`
-                  )
-                : [],
-            li_description: response.components
-                ? response.components.map((c) => c.description).join(', ')
-                : '',
-            owner_id: 0,
+    
+            // Mapping the asset structure
+            asset: {
+                type: response.type || '',
+                date_acquired: response.date_acquired?._d
+                    ? this.formatDate(response.date_acquired._d)
+                    : '',
+                asset_barcode: response.asset_barcode || '',
+                brand: response.brand || '',
+                model: response.model || '',
+                size: response.size || '',
+                color: response.color || '',
+                serial_no: response.serial_number || '',
+                po: response.po_number || '',
+                warranty: response.warranty || '',
+                cost: response.cost || 0,
+                remarks: response.remarks || '',
+            },
         };
     }
     
@@ -438,5 +543,66 @@ export class ComputersAddComponent implements OnInit {
             }
         });
         return errors;
+    }
+
+    openComponentAdd() {
+        const serialNumber = this.eventForm.get('serial_number')?.value; // Get the current serial number
+
+        const dialogRef = this.dialog.open(ComputerComponentAddModalComponent, {
+            width: '700px',
+            disableClose: true,
+            data: { serial_number: serialNumber }, // Pass the serial number
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                this.addComponent(result);
+            }
+        });
+    }
+
+    addComponent(componentData: any) {
+        this.componentsArray.push(
+            this._formBuilder.group({
+                componentId: [componentData.type],
+                uid: [componentData.serial_number],
+                description: [componentData.description],
+                date_acquired: [componentData.date_acquired],
+            })
+        );
+    }
+
+    openAssetsAdd() {
+        const serialNumber = this.eventForm.get('serial_number')?.value; // Get the current serial number
+
+        const dialogRef = this.dialog.open(CopmuterAssetsAddModalComponent, {
+            width: '700px',
+            disableClose: true,
+            data: { serial_number: serialNumber }, // Pass the serial number
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                this.addAssets(result);
+            }
+        });
+    }
+
+    addAssets(assetData: any) {
+        this.assetsArray.push(
+            this._formBuilder.group({
+                type: [assetData.type, Validators.required],
+                serial_number: [assetData.serial_number, Validators.required],
+                asset_barcode: [assetData.asset_barcode, Validators.required],
+                date_acquired: [assetData.date_acquired, Validators.required],
+                brand: [assetData.brand, Validators.required],
+                model: [assetData.model, Validators.required],
+                cost: [assetData.cost, Validators.required],
+            })
+        );
+    }
+
+    removeRow(index: number) {
+        this.componentsArray.removeAt(index);
     }
 }

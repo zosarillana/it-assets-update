@@ -1,0 +1,254 @@
+<!-- <h1 mat-dialog-title class="text-md font-bold">Computer Component</h1> -->
+<div class="flex flex-row justify-between -mt-3 mb-2">
+    <div class="text-3xl font-bold">Assets Form</div>
+    <div>
+        <button class="ml-4" mat-icon-button (click)="close()">
+            <mat-icon [svgIcon]="'close'"></mat-icon>
+        </button>
+    </div>
+</div>
+
+<mat-divider class="my-3"></mat-divider>
+<mat-dialog-content >
+    <form [formGroup]="eventForm">
+        <div class="flex flex-row mt-2 gap-3 md:gap-4">
+            <!-- <div class="flex flex-col items-center mt-2 mr-5">
+                <label for="select-image" class="cursor-pointer flex flex-col items-center">
+                    <img id="preview-image" [src]="imageUrl" alt="Select Image" 
+                        class="w-32 md:h-42 md:w-48 object-contain border border-gray-300 rounded-md" />
+                    <span class="text-secondary text-xs md:text-xs mt-1 md:mt-2">
+                        <mat-icon class="icon-size-3 md:icon-size-3 text-secondary" [svgIcon]="'feather:edit'"></mat-icon>
+                        Select new image
+                    </span>
+                </label>
+                <input #fileInput id="select-image" type="file" accept="image/*" class="hidden" (change)="previewSelectedImage($event)" />
+                
+            <div *ngIf="errorMessage$ | async as errorMsg" class="alert alert-danger">
+                {{ errorMsg }}
+            </div>
+            
+            </div> -->
+            <div class="flex flex-col items-center">
+                <label
+                    for="select-image-component"
+                    class="cursor-pointer flex flex-col items-center"
+                >
+                    <img
+                        id="preview-image-component"
+                        src="https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg"
+                        alt="Select Image"
+                        class="h-32 w-32 md:h-42 md:w-48 object-contain border border-gray-300 rounded-md"
+                    />
+                    <span
+                        class="text-secondary text-xs md:text-sm mt-1 md:mt-2"
+                    >
+                        <mat-icon
+                            class="icon-size-3 md:icon-size-4 text-secondary"
+                            [svgIcon]="'feather:edit'"
+                        ></mat-icon>
+                        Select new image
+                    </span>
+                </label>
+                <input
+                    formControlName="image_component"
+                    id="select-image-component"
+                    type="file"
+                    accept="image/*"
+                    class="hidden"
+                    (change)="previewSelectedImageComponent($event)"
+                />
+            </div>
+            <div class="flex flex-col flex-grow w-full">
+                <div class="flex flex-grow flex-row gap-4">
+                    <div class="flex flex-grow flex-col">
+                        <mat-label class="text-xs md:text-sm"
+                            >Asset Barcode</mat-label
+                        >
+                        <mat-form-field appearance="fill">
+                            <mat-icon
+                                svgIcon="feather:hash"
+                                class="icon-size-3 md:icon-size-4 mr-2"
+                            ></mat-icon>
+                            <input
+                                matInput
+                                formControlName="asset_barcode"
+                                id="asset_barcode"
+                                placeholder="Enter asset barcode..."
+                                class="text-xs md:text-sm"
+                            />
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-grow flex-col">
+                        <mat-label class="text-xs md:text-sm"
+                            >Date Acquired</mat-label
+                        >
+                        <mat-form-field appearance="fill">
+                            <mat-icon
+                                svgIcon="feather:calendar"
+                                class="icon-size-3 md:icon-size-4 mr-2"
+                            ></mat-icon>
+    
+                            <input
+                                matInput
+                                [matDatepicker]="picker"
+                                id="date_acquired"
+                                formControlName="date_acquired"
+                                placeholder="dd-mm-yyyy"
+                                class="text-xs md:text-sm"
+                            />
+                            <mat-datepicker-toggle
+                                matSuffix
+                                [for]="picker"
+                            ></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="flex flex-grow flex-row gap-4">
+                    <div class="flex flex-grow flex-col">
+                        <mat-label class="text-xs md:text-sm">Serial Number</mat-label>
+                        <mat-form-field appearance="fill">
+                            <mat-icon
+                                svgIcon="feather:hash"
+                                class="icon-size-3 md:icon-size-4 mr-2"
+                            ></mat-icon>
+                            <input
+                                matInput
+                                formControlName="serial_number"
+                                id="serial_number"
+                                placeholder="Enter Serial Number..."
+                                class="text-xs md:text-sm"
+                            />
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-grow flex-col">
+                        <mat-label class="text-xs md:text-sm"
+                            >PO Number</mat-label
+                        >
+                        <mat-form-field appearance="fill">
+                            <mat-icon
+                                svgIcon="feather:hash"
+                                class="icon-size-3 md:icon-size-4 mr-2"
+                            ></mat-icon>
+                            <input
+                                matInput
+                                formControlName="po_number"
+                                id="po_number"
+                                placeholder="Enter po number..."
+                                class="text-xs md:text-sm"
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <mat-divider class="my-3"></mat-divider>
+        <div class="flex flex-grow flex-row gap-4">
+            <div class="flex flex-grow flex-col">
+                <mat-label class="text-xs md:text-sm">Type</mat-label>
+                <mat-form-field appearance="fill">
+                    <mat-icon
+                        svgIcon="feather:cpu"
+                        class="icon-size-3 md:icon-size-4 mr-2"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        formControlName="type"
+                        id="type"
+                        placeholder="Enter type..."
+                        class="text-xs md:text-sm"
+                    />
+                </mat-form-field>
+            </div>
+            <div class="flex flex-grow flex-col">
+                <mat-label class="text-xs md:text-sm">Brand</mat-label>
+                <mat-form-field appearance="fill">
+                    <mat-icon
+                        svgIcon="feather:box"
+                        class="icon-size-3 md:icon-size-4 mr-2"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        formControlName="brand"
+                        id="brand"
+                        placeholder="Enter brand..."
+                        class="text-xs md:text-sm"
+                    />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="flex flex-grow flex-row gap-4">
+            <div class="flex flex-grow flex-col">
+                <mat-label class="text-xs md:text-sm mb-1">Model</mat-label>
+                <mat-form-field appearance="fill">
+                    <mat-icon
+                        svgIcon="feather:smartphone"
+                        class="icon-size-3 md:icon-size-4 mr-2"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        id="model"
+                        formControlName="model"
+                        placeholder="Enter model..."
+                        class="text-xs md:text-sm"
+                    />
+                </mat-form-field>
+            </div>
+            <div class="flex flex-grow flex-col">
+                <mat-label class="text-xs md:text-sm mb-1"
+                        >Warranty</mat-label
+                    >
+                    <mat-form-field appearance="fill">
+                        <mat-icon
+                            svgIcon="feather:shield"
+                            class="icon-size-3 md:icon-size-4 mr-2"
+                        ></mat-icon>
+                        <input
+                            matInput
+                            id="warranty"
+                            formControlName="warranty"
+                            placeholder="Enter warranty..."
+                            class="text-xs md:text-sm"
+                        />
+                    </mat-form-field>
+            </div>
+        </div>
+        <div class="flex flex-row justify-start gap-4">
+            <div class="flex  flex-col w-1/2">
+                <mat-label class="text-xs md:text-sm mb-1">Cost</mat-label>
+                    <mat-form-field appearance="fill">
+                        <mat-icon
+                            svgIcon="feather:dollar-sign"
+                            class="icon-size-3 md:icon-size-4 mr-2"
+                        ></mat-icon>
+                        <input
+                            matInput
+                            id="cost"
+                            formControlName="cost"
+                            placeholder="Enter cost..."
+                            class="text-xs md:text-sm"
+                        />
+                    </mat-form-field>
+            </div>
+            <div class="flex  flex-col w-1/2">
+                <!-- <mat-label class="text-xs md:text-sm mb-1">Cost</mat-label>
+                    <mat-form-field appearance="fill">
+                        <mat-icon
+                            svgIcon="feather:dollar-sign"
+                            class="icon-size-3 md:icon-size-4 mr-2"
+                        ></mat-icon>
+                        <input
+                            matInput
+                            id="cost"
+                            placeholder="Enter cost..."
+                            class="text-xs md:text-sm"
+                        />
+                    </mat-form-field> -->
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="border-t border-gray-200">
+    <button mat-stroked-button (click)="resetForm()">Reset</button>
+    <button mat-flat-button color="primary" (click)="submit()">Submit</button>
+</mat-dialog-actions>

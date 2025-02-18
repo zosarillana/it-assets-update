@@ -69,6 +69,8 @@ import { ComponentsListComponent } from '../assets-components/components-list/co
 import { ErrorPageComponent } from '../error-page/error-page.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card'; 
+import { ComputerComponentAddModalComponent } from '../assets-computers/computers-add/computer-component-add-modal/computer-component-add-modal.component';
+import { CopmuterAssetsAddModalComponent } from '../assets-computers/computers-add/copmuter-assets-add-modal/copmuter-assets-add-modal.component';
 
 const assetRoute: Route[] = [
     // {
@@ -209,6 +211,8 @@ const assetRoute: Route[] = [
         ComputersEditComponent,
         ComputersAddComponent,
         ComputersViewComponent,
+        ComputerComponentAddModalComponent,
+        CopmuterAssetsAddModalComponent
         // AlertsComponentComponent,
     ],
     imports: [
@@ -249,6 +253,7 @@ const assetRoute: Route[] = [
         MatAutocompleteModule,
         MatTabsModule,        
         MatCardModule,
+        MatDialogModule,
         RouterModule.forChild(assetRoute),
     ],
     // schemas: [NO_ERRORS_SCHEMA] // Add this line

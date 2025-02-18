@@ -45,7 +45,11 @@ export class ComputerService {
         return this.http.get<Assets>(`${this.url}/api/Computer/Computers/${id}`);
     }
 
+    // public postEvent(data: any): Observable<any> {
+    //     return this.http.post(`${this.url}/api/Assets/add-asset/computer`, data);
+    // }
+
     public postEvent(data: any): Observable<any> {
-        return this.http.post(`${this.url}/api/Assets/add-asset/computer`, data);
+        return this.http.post(`${this.url}/api/Assets`, data);
     }
 }

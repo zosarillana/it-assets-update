@@ -128,7 +128,7 @@
                                 [formControlName]="'serial_number'"
                                 [value]="eventForm.value.serial_number"
                             />
-                        </mat-form-field>                      
+                        </mat-form-field>
                     </div>
                     <mat-divider class="mx-6 md:mx-12" vertical></mat-divider>
                     <div class="flex flex-col w-1/2">
@@ -137,16 +137,44 @@
                         </p>
                         <div class="flex justify-start items-start gap-2">
                             <span>
-                                {{ this.eventForm.value.type + " " + this.eventForm.value.brand + " " + this.eventForm.value.size + " " + this.eventForm.value.color }}
-                                <span *ngFor="let component of eventForm.get('components')?.value">
+                                {{
+                                    this.eventForm.value.type +
+                                        " " +
+                                        this.eventForm.value.brand +
+                                        " " +
+                                        this.eventForm.value.size +
+                                        " " +
+                                        this.eventForm.value.color
+                                }}
+                                <span
+                                    *ngFor="
+                                        let componentForm of componentsArray.controls;
+                                        let i = index
+                                    "
+                                >
+                                    {{
+                                        componentForm.value.componentId ||
+                                            "No component selected"
+                                    }}
+                                </span>
+                                <!-- <span *ngFor="let component of eventForm.get('components')?.value">
                                     {{ component?.type || "No component selected" }}
+                                </span> -->
+                                <span
+                                    *ngFor="
+                                        let asset of eventForm.get('assets')
+                                            ?.value
+                                    "
+                                >
+                                    {{
+                                        asset?.brand && asset?.model
+                                            ? asset.brand + " - " + asset.model
+                                            : "No assets selected"
+                                    }}
                                 </span>
-                                <span *ngFor="let asset of eventForm.get('assets')?.value">
-                                    {{ asset?.brand && asset?.model ? asset.brand + " - " + asset.model : "No assets selected" }}
-                                </span>
-                            </span>                                                   
+                            </span>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
 
@@ -183,7 +211,7 @@
                             matInput
                             formControlName="asset_barcode"
                             id="asset_barcode"
-                            placeholder="Enter asset barcode..."                            
+                            placeholder="Enter asset barcode..."
                             class="text-xs md:text-sm"
                         />
                     </mat-form-field>
@@ -350,147 +378,77 @@
                     </div>
                 </div>
                 <div class="flex flex-row my-2 items-center justify-end">
-                    <span class="mr-2 text-sm text-gray-900">Add Row</span>
+                    <!-- <span class="mr-2 text-sm text-gray-900">Add Row</span> -->
+                    <!-- <button
+                        mat-icon-button
+                        color="primary"
+                        type="button"
+                        (click)="addRow()"
+                        matTooltip="Add a new row"
+                    >
+                        <mat-icon svgIcon="add"></mat-icon>
+                    </button> -->
+
                     <button
                     mat-icon-button
                     color="primary"
-                    type="button"  
-                    (click)="addRow()"
-                    matTooltip="Add a new row"
+                    type="button"        
+                    (click)="openComponentAdd()"      
+                    matTooltip="Open modal"
                 >
                     <mat-icon svgIcon="add"></mat-icon>
                 </button>
-                
                 </div>
             </div>
 
             <div class="w-full overflow-x-auto">
-                <div class="min-w-max">
-                    <table
-                        class="min-w-full table-auto border-collapse border border-gray-300"
-                    >
-                        <thead>
-                            <tr class="bg-gray-50">
-                                <th
-                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm w-32"
-                                >
-                                    Item
-                                </th>
-                                <th
-                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
-                                >
-                                    Item Code
-                                </th>
-                                <th
-                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
-                                >
-                                    Description
-                                </th>
-                                <th
-                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
-                                >
-                                    Date Acquired
-                                </th>
-                                <th
-                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
-                                >
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr
-                                *ngFor="
-                                    let component of componentsArray.controls;
-                                    let i = index
-                                "
-                                [formGroup]="component"
-                            >
-                                <td class="px-4">
-                                    <!-- Dropdown Selection -->
-                                    <select
-                                        formControlName="componentId"
-                                        class="w-full p-1 border border-gray-300 bg-white rounded"
-                                        (change)="
-                                            onComponentSelect(
-                                                $event.target.value,
-                                                i
-                                            )
-                                        "
-                                    >
-                                        <option value="">
-                                            Select component...
-                                        </option>
-                                        <!-- <option value="RAM">
-                                            RAM
-                                        </option> -->
-                                        <option
-                                            *ngFor="
-                                                let component of getFilteredComponents(
-                                                    i,
-                                                    component.value.componentId
-                                                )
-                                            "
-                                            [value]="component.id"
-                                        >
-                                            {{ component.type }}
-                                        </option>
-                                    </select>
-                                </td>
-
-                                <!-- UID Input -->
-                                <td
-                                    class="border border-gray-300 px-4 py-2 text-sm w-42"
-                                >
-                                    <input
-                                        type="text"
-                                        formControlName="uid"
-                                        class="w-full p-1 border-b border-gray-300"
-                                        placeholder="Enter item code..."
-                                    />
-                                </td>
-
-                                <!-- Description Input -->
-                                <td
-                                    class="border border-gray-300 px-4 py-2 text-sm w-42"
-                                >
-                                    <input
-                                        type="text"
-                                        formControlName="description"
-                                        class="w-full p-1 border-b border-gray-300"
-                                        placeholder="Enter description..."
-                                    />
-                                </td>
-
-                                <!-- Date Acquired -->
-                                <td
-                                    class="border border-gray-300 px-4 py-2 text-sm w-42"
-                                >
-                                    <input
-                                        type="date"
-                                        formControlName="date_acquired"
-                                        class="w-full p-1 border-b border-gray-300"
-                                    />
-                                </td>
-
-                                <!-- Remove Button -->
-                                <td
-                                    class="border border-gray-300 px-4 py-2 text-sm"
-                                >
-                                    <button
-                                        class="px-2 py-1 text-white bg-red-600 border border-red-500 rounded hover:bg-red-800 hover:border-red-800"
-                                        (click)="removeRow(i)"
-                                    >
-                                        Remove
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
+                <div class="overflow-x-auto">
+                    <table class="table-auto w-full border-collapse border border-gray-300">
+                      <thead>
+                        <tr class="bg-gray-50">
+                          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Item</th>
+                          <th class="px-3 py-2 text-left text-sm font-medium text-gray-700">Inventory Code</th>
+                          <th class="px-3 py-2 text-left text-sm font-medium text-gray-700">Description</th>                        
+                          <th class="px-3 py-2 text-left text-sm font-medium text-gray-700">Date Acquired</th>
+                          <th class="px-3 py-2 text-left text-sm font-medium text-gray-700"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let component of componentsArray.controls; let i = index" [formGroup]="component">                           
+                          <td class="px-4 py-2 text-sm">
+                            <select formControlName="componentId" class="w-full p-1 border border-gray-300 rounded" (change)="onComponentSelect($event, i)">
+                              <option value="">Select component...</option>
+                              <option *ngFor="let component of getFilteredComponents(i)" [value]="component">{{ component }}</option>
+                            </select>
+                          </td>
+                          <td class="px-4 py-2 text-sm">
+                            <input type="text" formControlName="uid" class="w-full p-1 border border-gray-300 rounded" placeholder="Enter item code..." />
+                          </td>
+                          <td class="px-4 py-2 text-sm">
+                            <input type="text" formControlName="description" class="w-full p-1 border border-gray-300 rounded" placeholder="Enter description..." />
+                          </td>
+                          <td class="px-4 py-2 text-sm">
+                            <input formControlName="date_acquired" class="w-full p-1 border border-gray-300 rounded" readonly/>
+                          </td>
+                          <td class=" px-4 py-2 text-center">
+                            <button
+                            mat-icon-button
+                            color="warn"
+                            type="button"        
+                            (click)="removeComponentsRow(i)"
+                            matTooltip="Open modal"
+                        >
+                       
+                            <mat-icon svgIcon="feather:trash-2"></mat-icon>
+                        </button>                       
+                          </td>
+                        </tr>
+                      </tbody>
                     </table>
-                </div>
+                  </div>
+                  
             </div>
-            <mat-divider class="my-6"></mat-divider>
+            <!-- <mat-divider class="my-6"></mat-divider> -->
 
             <div class="flex flex-row justify-between">
                 <div class="flex flex-row my-2 items-center justify-start">
@@ -506,169 +464,85 @@
                     </div>
                 </div>
                 <div class="flex flex-row my-2 items-center justify-end">
-                    <span class="mr-2 text-sm text-gray-900">Add Row</span>
-                    <button
+                    <!-- <span class="mr-2 text-sm text-gray-900">Add Row</span> -->
+                    <!-- <button
                         mat-icon-button
                         color="primary"
-                        type="button"  
+                        type="button"
                         (click)="addAccessoryRow()"
                         matTooltip="Add a new row"
                     >
                         <mat-icon svgIcon="add"></mat-icon>
-                    </button>
+                    </button> -->
+                    <button
+                    mat-icon-button
+                    color="primary"
+                    type="button"        
+                    (click)="openAssetsAdd()"      
+                    matTooltip="Open modal"
+                >
+                    <mat-icon svgIcon="add"></mat-icon>
+                </button>
                 </div>
             </div>
 
             <div class="w-full overflow-x-auto">
                 <div class="min-w-max">
-                    <table
-                        class="min-w-full table-auto border-collapse border border-gray-300"
-                    >
-                        <thead>
-                            <tr class="bg-gray-50">
-                                <th
-                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm w-32"
-                                >
-                                    Asset
-                                </th>
-                                <th
-                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
-                                >
-                                    Date Acquired
-                                </th>
-                                <th
-                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
-                                >
-                                    Asset Barcode
-                                </th>
-                                <th
-                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
-                                >
-                                    Brand
-                                </th>
-                                <th
-                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
-                                >
-                                    Model
-                                </th>
-                                <th
-                                    class="border-b border-gray-300 text-black font-thin px-4 py-2 text-left text-sm"
-                                >
-                                    Actions
-                                </th>
+                    <table class="table-auto w-full border border-gray-300">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-3 py-2 text-left text-sm font-medium text-gray-700">Asset</th>                                
+                                <th class="px-5 py-2 text-left text-sm font-medium text-gray-700">Asset Barcode</th>                                            
+                                <th class="px-5 py-2 text-left text-sm font-medium text-gray-700">Model</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Date Acquired</th>
+                                <th class="px-2 py-2 text-left text-sm font-medium text-gray-700"></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr
-                                *ngFor="
-                                    let asset of assetsArray.controls;
-                                    let i = index
-                                "
-                                [formGroup]="asset"
-                            >
-                                <!-- Asset Selection Dropdown -->
-                                <td
-                                    class="border border-gray-300 px-4 py-2 text-sm"
-                                >
-                                    <select
-                                        formControlName="assetId"
-                                        class="w-full p-1 border border-gray-300 bg-white rounded"
-                                        (change)="
-                                            onAssetSelect(
-                                                $event.target.value,
-                                                i
-                                            )
-                                        "
-                                    >
-                                        <option value="">
-                                            Select asset...
-                                        </option>
-                                        <option
-                                            *ngFor="
-                                                let asset of getFilteredAssets(
-                                                    i,
-                                                    asset.value.assetId
-                                                )
-                                            "
-                                            [value]="asset.id"
-                                        >
-                                            {{ asset.brand }} -
-                                            {{ asset.model }}
-                                        </option>
-                                    </select>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr *ngFor="let asset of assetsArray.controls; let i = index" [formGroup]="asset">
+                                <td class="px-4 py-2 text-sm">
+                                    <input type="text" formControlName="type" class="w-full p-1 border border-gray-300 rounded" placeholder="Asset Type" />
                                 </td>
-
-                                <!-- Date Acquired -->
-                                <td
-                                    class="border border-gray-300 px-4 py-2 text-sm"
-                                >
-                                    <input
-                                        type="date"
-                                        formControlName="date_acquired"
-                                        class="w-full p-1 border-b border-gray-300"
-                                    />
+                              
+                                <td class="px-4 py-2 text-sm">
+                                    <input type="text" formControlName="asset_barcode" class="w-full p-1 border border-gray-300 rounded" placeholder="Barcode" />
+                                </td>                      
+                                <td class="px-4 py-2 text-sm">
+                                    <input type="text" formControlName="model" class="w-full p-1 border border-gray-300 rounded" placeholder="Model" />
                                 </td>
-
-                                <!-- Asset Barcode -->
-                                <td
-                                    class="border border-gray-300 px-4 py-2 text-sm"
-                                >
-                                    <input
-                                        type="text"
-                                        formControlName="asset_barcode"
-                                        class="w-full p-1 border-b border-gray-300"
-                                        placeholder="Barcode"
-                                    />
+                                <td class="px-4 py-2 text-sm">
+                                    <input formControlName="date_acquired" class="w-full p-1 border border-gray-300 rounded" readonly />
                                 </td>
-
-                                <!-- Brand -->
-                                <td
-                                    class="border border-gray-300 px-4 py-2 text-sm"
-                                >
-                                    <input
-                                        type="text"
-                                        formControlName="brand"
-                                        class="w-full p-1 border-b border-gray-300"
-                                        placeholder="Brand"
-                                    />
-                                </td>
-
-                                <!-- Model -->
-                                <td
-                                    class="border border-gray-300 px-4 py-2 text-sm"
-                                >
-                                    <input
-                                        type="text"
-                                        formControlName="model"
-                                        class="w-full p-1 border-b border-gray-300"
-                                        placeholder="Model"
-                                    />
-                                </td>
-
-                                <!-- Remove Button -->
-                                <td
-                                    class="border border-gray-300 px-4 py-2 text-sm"
-                                >
+                                <td class="px-4 py-2 text-sm">
                                     <button
-                                        class="px-2 py-1 text-white bg-red-600 border border-red-500 rounded hover:bg-red-800 hover:border-red-800"
-                                        (click)="removeAccessoryRow(i)"
-                                    >
-                                        Remove
-                                    </button>
+                                    mat-icon-button
+                                    color="warn"
+                                    type="button"        
+                                    (click)="removeAccessoryRow(i)"
+                                    matTooltip="Open modal"
+                                >
+                               
+                                    <mat-icon svgIcon="feather:trash-2"></mat-icon>
+                                </button>                                
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+            
             <div
                 class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
             >
                 <button mat-stroked-button>Reset Form</button>
-                <button class="px-6 ml-3" mat-flat-button color="primary" type="submit">
+                <button
+                    class="px-6 ml-3"
+                    mat-flat-button
+                    color="primary"
+                    type="submit"
+                >
                     Create Form
                 </button>
-                
             </div>
         </form>
     </div>
