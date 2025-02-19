@@ -37,6 +37,7 @@ export class ComputerComponentAddModalComponent implements OnInit {
         this.eventForm = this._formBuilder.group({
             image_component: [null],
             serial_number: [this.data.serial_number || 'N/A', []], // Use the passed value
+            asset_barcode: [this.data.asset_barcode || 'N/A', []], // Use the passed value
             date_acquired: [new Date(), [Validators.required]],
             type: ['', [Validators.required]],
             description: ['', [Validators.required]],
@@ -87,8 +88,10 @@ export class ComputerComponentAddModalComponent implements OnInit {
 
     resetForm() {
         const serialNumber = this.eventForm.get('serial_number')?.value;
+        const AssetBarcode = this.eventForm.get('asset_barcode')?.value;
         this.eventForm.reset({}, { emitEvent: false });
         this.eventForm.patchValue({ serial_number: serialNumber });
+        this.eventForm.patchValue({ asset_barcode: AssetBarcode });
         // Reset image preview
         this.imageUrl =
             'https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg';
@@ -98,4 +101,6 @@ export class ComputerComponentAddModalComponent implements OnInit {
     close() {
         this.dialogRef.close();
     }
+
+    
 }

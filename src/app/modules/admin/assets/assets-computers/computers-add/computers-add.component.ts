@@ -66,7 +66,7 @@ export class ComputersAddComponent implements OnInit {
             components: this._formBuilder.array([]), // ADD THIS LINE
             assets: this._formBuilder.array([]), // Initialize accessories array
         });
-
+        
         this.serialSubscription = this.eventForm
             .get('serial_number')!
             .valueChanges.pipe(distinctUntilChanged())
@@ -309,30 +309,7 @@ export class ComputersAddComponent implements OnInit {
             );
     }
 
-    selectedComponent: string = '';
-    availableComponents: string[] = ['RAM', 'SSD', 'HDD', 'GPU', 'BOARD'];
-    get componentsArray() {
-        return this.form.get('componentsArray') as FormArray;
-    }
-    onComponentSelect(event: Event, index: number) {
-        const target = event.target as HTMLSelectElement;
-        this.componentsArray
-            .at(index)
-            .patchValue({ componentId: target.value });
-    }
-    getSelectedComponents(): string[] {
-        return this.componentsArray.controls
-            .map((control) => control.value.componentId)
-            .filter((value) => value); // Remove empty selections
-    }
-    getFilteredComponents(index: number): string[] {
-        const selectedComponents = this.getSelectedComponents();
-        return this.availableComponents.filter(
-            (component) =>
-                !selectedComponents.includes(component) ||
-                component === this.componentsArray.at(index).value.componentId
-        );
-    }
+   
     //Old getFilteredComponents
     // getFilteredComponents(index: number, selectedComponentId: number) {
     //     const selectedIds = this.componentsArray.controls
@@ -382,17 +359,7 @@ export class ComputersAddComponent implements OnInit {
     //     });
     // }
 
-    addRow() {
-        const componentForm = this._formBuilder.group({
-            componentId: [''],
-            uid: [''],
-            description: [''],
-            type: [''], // ✅ Add type here
-            date_acquired: [''],
-        });
-
-        this.componentsArray.push(componentForm);
-    }
+  
 
     // removeRow(index: number) {
     //     this.componentList.splice(index, 1);
@@ -435,32 +402,117 @@ export class ComputersAddComponent implements OnInit {
     //     return errors;
     // }
 
+    // submitForm(): void {
+    //     // Get the raw API response from the form
+    //     const rawData = this.eventForm.value;
+    //     console.log('Raw Form Data Before Mapping:', rawData);
+
+    //     // Transform the response
+    //     const mappedData = this.mapResponseToForm(rawData);
+
+    //     // Log the mapped data before assigning it to the form
+    //     console.log('Mapped Data Before Assigning to Form:', mappedData);
+
+    //     // Update the form values
+    //     this.eventForm.patchValue(mappedData);
+
+    //     // Log the final form values after mapping
+    //     console.log('Final Mapped Form Values:', this.eventForm.value);
+
+    //     // Check if the form is valid
+    //     console.log('Form Valid:', this.eventForm.valid);
+
+    //     // Check if the form is valid before submission
+    //     if (!this.eventForm.valid) {
+    //         console.log('Form Errors:', this.getFormValidationErrors());
+    //         return; // Stop submission if the form is invalid
+    //     }
+
+    //     // Call the API to submit the data
+    //     this.computerService.postEvent(mappedData).subscribe({
+    //         next: (response) => {
+    //             console.log('API Response:', response);
+    //             alert('Asset successfully added!'); // Notify the user
+    //         },
+    //         error: (error) => {
+    //             console.error('API Error:', error);
+    //             alert('Failed to add asset. Please try again.'); // Show error message
+    //         },
+    //     });
+    // }
+
+    // // **Mapping Function: Converts API response to FormGroup structure**
+    // private mapResponseToForm(response: any): any {
+    //     return {
+    //         type: response.type || '',
+    //         date_acquired: response.date_acquired?._d
+    //             ? this.formatDate(response.date_acquired._d)
+    //             : '',
+    //         asset_barcode: response.asset_barcode || '',
+    //         brand: response.brand || '',
+    //         model: response.model || '',
+    //         size: response.size || '',
+    //         color: response.color || '',
+    //         serial_no: response.serial_number || '',
+    //         po: response.po_number || '',
+    //         warranty: response.warranty || '',
+    //         cost: response.cost || 0,
+    //         remarks: response.remarks || '',
+    
+    //         // Mapping components properly
+    //         components: response.components
+    //             ? response.components.map((comp) => ({
+    //                   date_acquired: comp.date_acquired || '',
+    //                   type: comp.type || '',
+    //                   description: comp.description || '',
+    //               }))
+    //             : [],
+    
+    //         // Mapping the asset structure
+    //         asset: {
+    //             type: response.type || '',
+    //             date_acquired: response.date_acquired?._d
+    //                 ? this.formatDate(response.date_acquired._d)
+    //                 : '',
+    //             asset_barcode: response.asset_barcode || '',
+    //             brand: response.brand || '',
+    //             model: response.model || '',
+    //             size: response.size || '',
+    //             color: response.color || '',
+    //             serial_no: response.serial_number || '',
+    //             po: response.po_number || '',
+    //             warranty: response.warranty || '',
+    //             cost: response.cost || 0,
+    //             remarks: response.remarks || '',
+    //         },
+    //     };
+    // }
+    
     submitForm(): void {
         // Get the raw API response from the form
         const rawData = this.eventForm.value;
         console.log('Raw Form Data Before Mapping:', rawData);
-
+    
         // Transform the response
         const mappedData = this.mapResponseToForm(rawData);
-
+    
         // Log the mapped data before assigning it to the form
         console.log('Mapped Data Before Assigning to Form:', mappedData);
-
+    
         // Update the form values
         this.eventForm.patchValue(mappedData);
-
+    
         // Log the final form values after mapping
         console.log('Final Mapped Form Values:', this.eventForm.value);
-
+    
         // Check if the form is valid
         console.log('Form Valid:', this.eventForm.valid);
-
-        // Check if the form is valid before submission
+    
         if (!this.eventForm.valid) {
             console.log('Form Errors:', this.getFormValidationErrors());
             return; // Stop submission if the form is invalid
         }
-
+    
         // Call the API to submit the data
         this.computerService.postEvent(mappedData).subscribe({
             next: (response) => {
@@ -473,7 +525,7 @@ export class ComputersAddComponent implements OnInit {
             },
         });
     }
-
+    
     // **Mapping Function: Converts API response to FormGroup structure**
     private mapResponseToForm(response: any): any {
         return {
@@ -493,13 +545,14 @@ export class ComputersAddComponent implements OnInit {
             remarks: response.remarks || '',
     
             // Mapping components properly
-            components: response.components
-                ? response.components.map((comp) => ({
-                      date_acquired: comp.date_acquired || '',
-                      type: comp.type || '',
-                      description: comp.description || '',
-                  }))
-                : [],
+            components: Array.isArray(response.components)
+     ? response.components.map((comp) => ({
+         asset_barcode: comp.asset_barcode || '',
+         date_acquired: comp.date_acquired || '',
+         type: comp.type || '',
+         description: comp.description || '',
+     }))
+     : [],
     
             // Mapping the asset structure
             asset: {
@@ -528,49 +581,99 @@ export class ComputersAddComponent implements OnInit {
         return component ? component.description : '';
     }
 
-    // **Helper function to format date to 'YYYY-MM-DD'**
-    private formatDate(date: Date): string {
-        return date.toISOString().split('T')[0];
-    }
+  // **Helper function to format date to 'YYYY-MM-DD'**
+private formatDate(date: Date): string {
+    return date.toISOString().split('T')[0];
+}
 
-    // **Helper method to get form validation errors**
-    private getFormValidationErrors(): any {
-        const errors: any = {};
-        Object.keys(this.eventForm.controls).forEach((key) => {
-            const controlErrors = this.eventForm.get(key)?.errors;
-            if (controlErrors) {
-                errors[key] = controlErrors;
-            }
-        });
-        return errors;
-    }
+// **Helper method to get form validation errors**
+private getFormValidationErrors(): any {
+    const errors: any = {};
+    Object.keys(this.eventForm.controls).forEach((key) => {
+        const controlErrors = this.eventForm.get(key)?.errors;
+        if (controlErrors) {
+            errors[key] = controlErrors;
+        }
+    });
+    return errors;
+}
 
-    openComponentAdd() {
-        const serialNumber = this.eventForm.get('serial_number')?.value; // Get the current serial number
+selectedComponent: string = '';
+availableComponents: string[] = ['RAM', 'SSD', 'HDD', 'GPU', 'BOARD'];
+get componentsArray(): FormArray {
+    return this.eventForm.get('components') as FormArray;
+}
+onComponentSelect(event: Event, index: number) {
+    const target = event.target as HTMLSelectElement;
+    this.componentsArray
+        .at(index)
+        .patchValue({ componentId: target.value });
+}
+getSelectedComponents(): string[] {
+    return this.componentsArray.controls
+        .map((control) => control.value.componentId)
+        .filter((value) => value); // Remove empty selections
+}
+getFilteredComponents(index: number): string[] {
+    const selectedComponents = this.getSelectedComponents();
+    return this.availableComponents.filter(
+        (component) =>
+            !selectedComponents.includes(component) ||
+            component === this.componentsArray.at(index).value.componentId
+    );
+}
+// **Open Modal to Add Component**
+openComponentAdd() {
 
-        const dialogRef = this.dialog.open(ComputerComponentAddModalComponent, {
-            width: '700px',
-            disableClose: true,
-            data: { serial_number: serialNumber }, // Pass the serial number
-        });
 
-        dialogRef.afterClosed().subscribe((result) => {
-            if (result) {
-                this.addComponent(result);
-            }
-        });
-    }
+    const serialNumber = this.eventForm.get('serial_number')?.value; // Get the current serial number
+    const assetBarcode = this.eventForm.get('asset_barcode')?.value; // Get the current serial number
 
-    addComponent(componentData: any) {
-        this.componentsArray.push(
-            this._formBuilder.group({
-                componentId: [componentData.type],
-                uid: [componentData.serial_number],
-                description: [componentData.description],
-                date_acquired: [componentData.date_acquired],
-            })
-        );
-    }
+    const dialogRef = this.dialog.open(ComputerComponentAddModalComponent, {
+        width: '700px',
+        disableClose: true,
+        data: { serial_number: serialNumber, asset_barcode: assetBarcode }, // Pass the serial number
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+        console.log("Component Modal Result:", result);
+        if (result) {
+            this.addComponent(result);
+        }
+    });   
+}
+
+// **Add Component to Form**
+addComponent(componentData: any) {
+    this.componentsArray.push(
+        this._formBuilder.group({
+            asset_barcode: [componentData.asset_barcode],
+            date_acquired: [componentData.date_acquired],
+            type: [componentData.type, Validators.required],
+            description: [componentData.description, Validators.required],
+        })
+    );
+
+    console.log("Updated Components Array:", this.componentsArray.value);
+}
+
+addRow() {
+    const componentForm = this._formBuilder.group({
+        componentId: [''],
+        asset_barcode:[''],
+        uid: [''],
+        description: [''],
+        type: [''], // ✅ Add type here
+        date_acquired: [''],
+    });
+
+    this.componentsArray.push(componentForm);
+}
+
+// **Remove Component from Form**
+removeComponent(index: number) {
+    this.componentsArray.removeAt(index);
+}
 
     openAssetsAdd() {
         const serialNumber = this.eventForm.get('serial_number')?.value; // Get the current serial number

@@ -36,8 +36,8 @@ export class ComponentsService {
         );
     }
 
-    getComponentsById(uid: string): Observable<Assets> {
-        return this.http.get<Assets>(`${this.url}/api/ComputerComponents/${uid}`);
+    getComponentsById(uid: string, asset_barcode: string): Observable<Assets> {
+        return this.http.get<Assets>(`${this.url}/api/ComputerComponents/${asset_barcode}?uid=${uid}`);
     }
     
     public postEvent(data: any): Observable<any> {

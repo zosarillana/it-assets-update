@@ -9,6 +9,7 @@ export interface Assets {
     ssd: string | null;
     hdd: string | null;
     gpu: string | null;
+    values: [];
     size: string | null;
     color: string;
     serial_no: string | null;

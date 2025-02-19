@@ -62,7 +62,7 @@
                 <div class="flex flex-grow flex-row gap-4">
                     <div class="flex flex-grow flex-col">
                         <mat-label class="text-xs md:text-sm"
-                            >Inventory Code</mat-label
+                            >Serial number</mat-label
                         >
                         <mat-form-field appearance="fill">
                             <mat-icon
@@ -72,6 +72,22 @@
                             <input
                                 matInput
                                 formControlName="serial_number"
+                                id="description"
+                                placeholder="Enter inventory code..."
+                                class="text-xs md:text-sm"
+                            />
+                        </mat-form-field>
+                        <mat-label class="text-xs md:text-sm"
+                            >Asset  Barcode</mat-label
+                        >
+                        <mat-form-field appearance="fill">
+                            <mat-icon
+                                svgIcon="feather:hash"
+                                class="icon-size-3 md:icon-size-4 mr-2"
+                            ></mat-icon>
+                            <input
+                                matInput
+                                formControlName="asset_barcode"
                                 id="description"
                                 placeholder="Enter inventory code..."
                                 class="text-xs md:text-sm"

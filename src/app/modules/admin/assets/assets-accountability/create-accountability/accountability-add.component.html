@@ -65,7 +65,7 @@
     </div>
 
     <div class="flex flex-col sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
-        <form
+        <form [formGroup]="eventForm"
             class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
         >
             <p class="text-lg font-bold">New Accountability Form</p>
@@ -85,6 +85,7 @@
                                 ></mat-icon>
                                 <input
                                     matInput
+                                    class="text-sm"
                                     placeholder="Search by Computer"
                                     [formControl]="typeComputerControl"
                                     [matAutocomplete]="auto"
@@ -219,8 +220,8 @@
                                                 class="text-secondary text-sm"
                                             >
                                                 {{
-                                                    selectedComputer?.ram
-                                                        ?.capacity || "N/A"
+                                                    selectedComputer?.ram?.values?.$values?.[0]?.description || "N/A"
+
                                                 }}
                                             </span>
                                         </p>
@@ -232,28 +233,37 @@
                                                 class="text-secondary text-sm"
                                             >
                                                 {{
-                                                    selectedComputer?.ssd
-                                                        ?.capacity || "N/A"
+                                                    selectedComputer?.ssd?.values?.$values?.[0]?.description || "N/A"
+                                                      
                                                 }}
                                             </span>
                                         </p>
+                                        <p
+                                        class="flex flex-col font-medium text-sm"
+                                    >
+                                        BOARD
+                                        <span
+                                            class="text-secondary text-sm"
+                                        >
+                                            {{
+                                                selectedComputer?.hdd?.values?.$values?.[0]?.description || "N/A"
+                                                  
+                                            }}
+                                        </span>
+                                    </p>
                                     </div>
 
                                     <!-- Right Column -->
                                     <div class="flex flex-col flex-grow gap-4">
-                                        <p
-                                            class="flex flex-col font-medium text-sm"
-                                        >
+                                        <p class="flex flex-col font-medium text-sm">
                                             GPU
-                                            <span
-                                                class="text-secondary text-sm"
-                                            >
+                                            <span class="text-secondary text-sm">
                                                 {{
-                                                    selectedComputer?.gpu
-                                                        ?.model || "N/A"
+                                                    selectedComputer?.gpu?.values?.$values?.[0]?.description || "N/A"
                                                 }}
                                             </span>
                                         </p>
+                                        
                                         <p
                                             class="flex flex-col font-medium text-sm"
                                         >
@@ -262,11 +272,12 @@
                                                 class="text-secondary text-sm"
                                             >
                                                 {{
-                                                    selectedComputer?.hdd
-                                                        ?.capacity || "N/A"
+                                                    selectedComputer?.hdd?.values?.$values?.[0]?.description || "N/A"
+                                                    
                                                 }}
                                             </span>
                                         </p>
+                                      
                                     </div>
                                 </div>
                             </mat-card-content>
@@ -353,7 +364,7 @@
                     </div>
                 </div>
                 <div class="flex flex-grow flex-col gap-4">
-                    <div class="flex">
+                    <!-- <div class="flex">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-icon
                                 matPrefix
@@ -383,7 +394,7 @@
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
-                    </div>
+                    </div> -->
 
                     <mat-card
                         class="p-4 shadow-sm rounded-md border border-solid border-gray-200"
@@ -391,53 +402,127 @@
                         <mat-card-content>
                             <p class="text-md font-medium">User Details</p>
                             <p class="text-secondary mb-6 text-sm">
-                                Selected user details.
+                                Fill up user details
                             </p>
                             <div class="flex flex-row flex-grow gap-4">
                                 <!-- Left Column -->
-                                <div class="flex flex-col flex-grow gap-4">
-                                    <p
-                                        class="flex flex-col font-medium text-sm"
-                                    >
-                                        Owner Name
-                                        <span class="text-secondary text-sm">
-                                            {{ selectedUser?.name || "N/A" }}
-                                        </span>
-                                    </p>
-                                    <p
-                                        class="flex flex-col font-medium text-sm"
-                                    >
-                                        Company
-                                        <span class="text-secondary text-sm">
-                                            {{ selectedUser?.company || "N/A" }}
-                                        </span>
-                                    </p>
-                                    <p
-                                        class="flex flex-col font-medium text-sm"
-                                    >
-                                        Department
-                                        <span class="text-secondary text-sm">
-                                            {{
-                                                selectedUser?.department ||
-                                                    "N/A"
-                                            }}
-                                        </span>
-                                    </p>
+                                <div class="flex flex-col flex-grow">
+                                    <div class="flex flex-col">
+                                        <mat-form-field appearance="fill">
+                                            <mat-icon
+                                                svgIcon="feather:credit-card"
+                                                class="icon-size-3 md:icon-size-4 mr-2"
+                                            ></mat-icon>
+                                            <input
+                                                matInput
+                                                formControlName="employee_id"
+                                                id="employee_id"
+                                                placeholder="Enter employee id..."
+                                                class="text-xs md:text-sm"
+                                            />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <mat-form-field appearance="fill">
+                                            <mat-icon
+                                                svgIcon="feather:user"
+                                                class="icon-size-3 md:icon-size-4 mr-2"
+                                            ></mat-icon>
+                                            <input
+                                                matInput
+                                                formControlName="name"
+                                                id="name"
+                                                placeholder="Enter fullname..."
+                                                class="text-xs md:text-sm"
+                                            />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <mat-form-field appearance="fill">
+                                            <mat-icon
+                                                svgIcon="mat_outline:domain"
+                                                class="icon-size-3 md:icon-size-4 mr-2"
+                                            ></mat-icon>
+                                            <input
+                                                matInput
+                                                formControlName="department"
+                                                id="department"
+                                                placeholder="Enter department..."
+                                                class="text-xs md:text-sm"
+                                            />
+                                        </mat-form-field>
+                                    </div>
                                 </div>
 
                                 <!-- Right Column -->
-                                <div class="flex flex-col flex-grow gap-4">
-                                    <p
-                                        class="flex flex-col font-medium text-sm"
-                                    >
-                                        Employee ID
-                                        <span class="text-secondary text-sm">
-                                            {{
-                                                selectedUser?.employee_id ||
-                                                    "N/A"
-                                            }}
-                                        </span>
-                                    </p>
+                                <div class="flex flex-col flex-grow">
+                                    <div class="flex flex-col">
+                                        <mat-form-field>
+                                            <input
+                                                matInput
+                                                [matDatepicker]="picker"
+                                                [formControlName]="'date_hired'"
+                                                placeholder="MM-DD-YYYY"
+                                                (click)="picker.open()"
+                                                class="cursor-pointer text-sm"
+                                                required
+                                            />
+                                            <mat-icon
+                                                matPrefix
+                                                svgIcon="mat_outline:calendar_today"
+                                                class="icon-size-4 cursor-pointer"
+                                                (click)="picker.open()"
+                                            >
+                                                <!-- calendar_today -->
+                                            </mat-icon>
+
+                                            <mat-datepicker
+                                                #picker
+                                            ></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <mat-form-field>
+                                            <input
+                                                matInput
+                                                [matDatepicker]="picker2"
+                                                [formControlName]="
+                                                    'date_resignation'
+                                                "
+                                               placeholder="MM-DD-YYYY"
+                                                (click)="picker2.open()"
+                                                class="cursor-pointer text-sm"
+                                                required
+                                            />
+                                            <mat-icon
+                                                matPrefix
+                                                svgIcon="mat_outline:calendar_today"
+                                                class="icon-size-4 cursor-pointer"
+                                                (click)="picker2.open()"
+                                            >
+                                                <!-- calendar_today -->
+                                            </mat-icon>
+
+                                            <mat-datepicker
+                                                #picker2
+                                            ></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <mat-form-field appearance="fill">
+                                            <mat-icon
+                                                svgIcon="mat_outline:business"
+                                                class="icon-size-3 md:icon-size-4 mr-2"
+                                            ></mat-icon>
+                                            <input
+                                                matInput
+                                                formControlName="company"
+                                                id="company"
+                                                placeholder="Enter company..."
+                                                class="text-xs md:text-sm"
+                                            />
+                                        </mat-form-field>
+                                    </div>
                                 </div>
                             </div>
                         </mat-card-content>
@@ -464,7 +549,6 @@
                                     </span>
                                 </div>
                             </div>
-                           
                         </div>
 
                         <div class="flex-grow flex-col">
@@ -493,9 +577,7 @@
                         <div class="flex-grow flex-col">
                             <!-- Signature Image -->
                             <div class="flex-grow text-center">
-                                <div
-                                    class="flex justify-center items-center"
-                                >
+                                <div class="flex justify-center items-center">
                                     <img
                                         src="https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg"
                                         alt="Signature"
@@ -515,6 +597,30 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- <div class="flex flex-col w-1/2 mt-12">
+                        <mat-form-field>
+                            <input
+                                matInput
+                                [matDatepicker]="picker"
+                                [formControlName]="'date_hired'"
+                                placeholder="Date Hired"
+                                (click)="picker.open()"
+                                class="cursor-pointer text-sm"
+                                required
+                            />
+                            <mat-icon
+                                matPrefix
+                                svgIcon="mat_outline:calendar_today"
+                                class="icon-size-4 cursor-pointer"
+                                (click)="picker.open()"
+                            > -->
+                                <!-- calendar_today -->
+                            <!-- </mat-icon>
+
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div> -->
                 </div>
             </div>
 

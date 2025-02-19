@@ -293,7 +293,7 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr
                     mat-row
-                    [routerLink]="['/assets/components/view', row.uid]"
+                    [routerLink]="['/assets/components/view', row.uid, row.asset_barcode]"
                     class="cursor-pointer hover:bg-gray-100"
                     *matRowDef="let row; columns: displayedColumns"
                 ></tr>

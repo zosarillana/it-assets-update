@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ComputerService } from 'app/services/computer/computer.service';
 import { Observable, of } from 'rxjs';
 import {
@@ -20,28 +20,45 @@ import { User } from 'app/core/user/user.types';
 })
 export class AccoundabilityAddComponent implements OnInit {
     @ViewChild('pcInput') pcInput!: ElementRef<HTMLInputElement>;
-
+    eventForm!: FormGroup;
     typeComputerControl = new FormControl('');
     filteredComputerOptions!: Observable<Assets[]>;
     computersData: Assets[] = [];
     selectedComputer: Assets | null = null;
 
     constructor(
-        private fb: FormBuilder,
+        private _formBuilder: FormBuilder,
         private computerService: ComputerService,
         private userService: UsersService
     ) {}
 
+    private initializeForm(): void {
+            this.eventForm = this._formBuilder.group({
+                // image_component: [null],
+                // serial_number: [this.data.serial_number || 'N/A', []], // Use the passed value
+                // asset_barcode: [this.data.asset_barcode || 'N/A', []], // Use the passed value
+                // date_acquired: [new Date(), [Validators.required]],                
+                emplotypeComputerControl: ['', [Validators.required]],
+                employee_id: ['', [Validators.required]],
+                name: ['', [Validators.required]],
+                department: ['', [Validators.required]],
+                date_hired: ['', [Validators.required]],
+                date_resignation: ['', [Validators.required]],
+                company: ['', [Validators.required]],
+            });
+        }
+        
     ngOnInit(): void {
-        this.loadUsers();
+        this.initializeForm();
+        // this.loadUsers();
 
-        // Filter user list based on input value
-        this.filteredUserOptions = this.typeUserControl.valueChanges.pipe(
-            startWith(''),
-            debounceTime(300),
-            distinctUntilChanged(),
-            map((value) => this._filterUsers(value || ''))
-        );
+        // // Filter user list based on input value
+        // this.filteredUserOptions = this.typeUserControl.valueChanges.pipe(
+        //     startWith(''),
+        //     debounceTime(300),
+        //     distinctUntilChanged(),
+        //     map((value) => this._filterUsers(value || ''))
+        // );
             
         this.loadComputers();
         this.filteredComputerOptions =
@@ -111,41 +128,41 @@ export class AccoundabilityAddComponent implements OnInit {
     }
 
     //Users  
-    typeUserControl = new FormControl('');
-    filteredUserOptions!: Observable<User[]>;
-    UserData: User[] = [];
-    selectedUser: User | null = null;
-    private loadUsers(): void {
-        this.userService.getUsers(1, 100, 'asc').subscribe({
-            next: (response) => {
-                if (response.$values && Array.isArray(response.$values)) {
-                    this.UserData = response.$values;
-                } else {
-                    console.error('Expected an array, but got:', response);
-                    this.UserData = [];
-                }
-            },
-            error: (error) => {
-                console.error('Error loading users:', error);
-                this.UserData = [];
-            },
-        });
-    }
+    // typeUserControl = new FormControl('');
+    // filteredUserOptions!: Observable<User[]>;
+    // UserData: User[] = [];
+    // selectedUser: User | null = null;
+    // private loadUsers(): void {
+    //     this.userService.getUsers(1, 100, 'asc').subscribe({
+    //         next: (response) => {
+    //             if (response.$values && Array.isArray(response.$values)) {
+    //                 this.UserData = response.$values;
+    //             } else {
+    //                 console.error('Expected an array, but got:', response);
+    //                 this.UserData = [];
+    //             }
+    //         },
+    //         error: (error) => {
+    //             console.error('Error loading users:', error);
+    //             this.UserData = [];
+    //         },
+    //     });
+    // }
     
-    private _filterUsers(value: string): User[] {
-        const filterValue = value.toLowerCase();
-        return this.UserData.filter((user) =>
-            user.name.toLowerCase().includes(filterValue)
-        );
-    }
+    // private _filterUsers(value: string): User[] {
+    //     const filterValue = value.toLowerCase();
+    //     return this.UserData.filter((user) =>
+    //         user.name.toLowerCase().includes(filterValue)
+    //     );
+    // }
 
  
-    onUserSelected(userName: string): void {
-        const selectedUser = this.UserData.find((user) => user.name === userName);
+    // onUserSelected(userName: string): void {
+    //     const selectedUser = this.UserData.find((user) => user.name === userName);
     
-        if (selectedUser) {
-            this.selectedUser = selectedUser; // Directly set the selected user
-        }
-    }
+    //     if (selectedUser) {
+    //         this.selectedUser = selectedUser; // Directly set the selected user
+    //     }
+    // }
     
 }

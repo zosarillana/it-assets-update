@@ -407,7 +407,7 @@
                       <thead>
                         <tr class="bg-gray-50">
                           <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Item</th>
-                          <th class="px-3 py-2 text-left text-sm font-medium text-gray-700">Inventory Code</th>
+                          <th class="px-3 py-2 text-left text-sm font-medium text-gray-700">Asset barcode</th>
                           <th class="px-3 py-2 text-left text-sm font-medium text-gray-700">Description</th>                        
                           <th class="px-3 py-2 text-left text-sm font-medium text-gray-700">Date Acquired</th>
                           <th class="px-3 py-2 text-left text-sm font-medium text-gray-700"></th>
@@ -416,13 +416,13 @@
                       <tbody>
                         <tr *ngFor="let component of componentsArray.controls; let i = index" [formGroup]="component">                           
                           <td class="px-4 py-2 text-sm">
-                            <select formControlName="componentId" class="w-full p-1 border border-gray-300 rounded" (change)="onComponentSelect($event, i)">
+                            <select formControlName="type" class="w-full p-1 border border-gray-300 rounded" (change)="onComponentSelect($event, i)">
                               <option value="">Select component...</option>
                               <option *ngFor="let component of getFilteredComponents(i)" [value]="component">{{ component }}</option>
                             </select>
                           </td>
                           <td class="px-4 py-2 text-sm">
-                            <input type="text" formControlName="uid" class="w-full p-1 border border-gray-300 rounded" placeholder="Enter item code..." />
+                            <input type="text" formControlName="asset_barcode" class="w-full p-1 border border-gray-300 rounded" placeholder="Barcode" />
                           </td>
                           <td class="px-4 py-2 text-sm">
                             <input type="text" formControlName="description" class="w-full p-1 border border-gray-300 rounded" placeholder="Enter description..." />
