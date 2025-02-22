@@ -125,12 +125,7 @@ export class AccountabilityFormComponent implements OnInit {
                             assignedAssets.push(...computer.assignedAssetDetails.$values);
                         }
                     });
-    
-                    this.asset.computers?.$values.forEach((computer) => {
-                        if (computer.assignedAssetDetails?.$values?.length) {
-                            assignedAssets.push(...computer.assignedAssetDetails.$values);
-                        }
-                    });
+                       
                     this.dataSourceAssignedAssets.data = assignedAssets;
                     
                     // ✅ Assign extracted data to dataSourceAssignedAssets

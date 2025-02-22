@@ -97,7 +97,7 @@ export class ComputersAddComponent implements OnInit {
             event.preventDefault();
         }
     }
-    
+
     previewSelectedImage(event: Event): void {
         const input = event.target as HTMLInputElement;
 
@@ -556,9 +556,9 @@ export class ComputersAddComponent implements OnInit {
             this.alertService.triggerSuccess('Asset successfully added!');
             
             // ✅ Reload the page after success
-            setTimeout(() => {
-              window.location.reload();
-            }, 1000); // Small delay for the alert to be visible
+            // setTimeout(() => {
+            //   window.location.reload();
+            // }, 1000); // Small delay for the alert to be visible
           },
           error: () => {
             this.alertService.triggerError('Failed to add asset. Please try again.');
