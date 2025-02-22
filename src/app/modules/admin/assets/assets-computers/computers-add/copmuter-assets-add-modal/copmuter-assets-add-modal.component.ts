@@ -38,7 +38,7 @@ export class CopmuterAssetsAddModalComponent implements OnInit {
         this.eventForm = this._formBuilder.group({
           image_component: [null],
           serial_number: [this.data.serial_number || 'N/A', [Validators.required]], // Use the passed value
-          asset_barcode: ['N/A', [Validators.required]], // Use the passed value
+          asset_barcode: ['', [Validators.required]], // Use the passed value
           date_acquired: [new Date(), [Validators.required]],
           type: ['', [Validators.required]],
           po_number: ['', [Validators.required]],
