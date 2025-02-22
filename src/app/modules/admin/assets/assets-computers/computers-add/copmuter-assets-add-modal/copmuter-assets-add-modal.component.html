@@ -215,20 +215,25 @@
         </div>
         <div class="flex flex-row justify-start gap-4">
             <div class="flex  flex-col w-1/2">
-                <mat-label class="text-xs md:text-sm mb-1">Cost</mat-label>
-                    <mat-form-field appearance="fill">
-                        <mat-icon
-                            svgIcon="feather:dollar-sign"
-                            class="icon-size-3 md:icon-size-4 mr-2"
-                        ></mat-icon>
-                        <input
-                            matInput
-                            id="cost"
-                            formControlName="cost"
-                            placeholder="Enter cost..."
-                            class="text-xs md:text-sm"
-                        />
-                    </mat-form-field>
+                <mat-label class="text-xs md:text-sm mb-1"
+                >Cost </mat-label
+            >
+                <mat-form-field class="text-sm" appearance="fill">
+                    <mat-icon
+                        svgIcon="feather:dollar-sign"
+                        class="icon-size-3 md:icon-size-4 mr-2"
+                    ></mat-icon>
+                    <input
+                        formControlName="cost"
+                        matInput
+                        id="cost"
+                        type="number"
+                        placeholder="Enter Cost..."
+                        class="text-xs md:text-sm"
+                        (keydown)="validateNumber($event)"
+                        class="no-spinner"
+                    />
+                </mat-form-field>                
             </div>
             <div class="flex  flex-col w-1/2">
                 <!-- <mat-label class="text-xs md:text-sm mb-1">Cost</mat-label>

@@ -77,6 +77,7 @@
                                 class="text-xs md:text-sm"
                             />
                         </mat-form-field>
+                 
                         <mat-label class="text-xs md:text-sm"
                             >Asset  Barcode</mat-label
                         >
@@ -118,30 +119,32 @@
 
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
+
+                        <div class="flex flex-grow flex-col">
+                            <mat-label class="text-xs md:text-sm">Type</mat-label>
+                            <mat-form-field appearance="fill">
+                                <mat-icon
+                                    svgIcon="feather:cpu"
+                                    class="icon-size-3 md:icon-size-4 mr-2"
+                                ></mat-icon>
+                                <mat-select
+                                    id="type"
+                                    formControlName="type"
+                                    class="text-xs md:text-sm"
+                                    placeholder="Select Type..."
+                                >
+                                    <mat-option value="RAM">RAM</mat-option>
+                                    <mat-option value="SSD">SSD</mat-option>
+                                    <mat-option value="HDD">HDD</mat-option>
+                                    <mat-option value="GPU">GPU</mat-option>
+                                    <mat-option value="GPU">BOARD</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                     </div>
                 </div>
                 <div class="flex flex-grow flex-row gap-4">
-                    <div class="flex flex-grow flex-col">
-                        <mat-label class="text-xs md:text-sm">Type</mat-label>
-                        <mat-form-field appearance="fill">
-                            <mat-icon
-                                svgIcon="feather:cpu"
-                                class="icon-size-3 md:icon-size-4 mr-2"
-                            ></mat-icon>
-                            <mat-select
-                                id="type"
-                                formControlName="type"
-                                class="text-xs md:text-sm"
-                                placeholder="Select Type..."
-                            >
-                                <mat-option value="RAM">RAM</mat-option>
-                                <mat-option value="SSD">SSD</mat-option>
-                                <mat-option value="HDD">HDD</mat-option>
-                                <mat-option value="GPU">GPU</mat-option>
-                                <mat-option value="GPU">BOARD</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
+                    
                     <div class="flex flex-grow flex-col">
                         <mat-label class="text-xs md:text-sm"
                             >Description</mat-label

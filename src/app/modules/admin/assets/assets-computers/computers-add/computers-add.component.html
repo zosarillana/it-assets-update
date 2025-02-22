@@ -57,7 +57,7 @@
             <button
                 class="ml-4"
                 mat-icon-button
-                [routerLink]="'/assets/inventory'"
+                [routerLink]="'/assets/computers'"
             >
                 <mat-icon [svgIcon]="'close'"></mat-icon>
                 <!-- <span class="ml-2 mr-1">Go back</span> -->
@@ -139,6 +139,9 @@
                             <span>
                                 {{
                                     this.eventForm.value.type +
+                                        " " +
+                                        this.eventForm.value.model +
+                                        " " +
                                         " " +
                                         this.eventForm.value.brand +
                                         " " +
@@ -347,19 +350,25 @@
                             class="text-xs md:text-sm"
                         />
                     </mat-form-field>
-                    <mat-label class="text-xs md:text-sm mb-1">Cost</mat-label>
-                    <mat-form-field appearance="fill">
+                    <mat-label class="text-xs md:text-sm mb-1"
+                    >Cost </mat-label
+                >
+                    <mat-form-field class="text-sm" appearance="fill">
                         <mat-icon
                             svgIcon="feather:dollar-sign"
                             class="icon-size-3 md:icon-size-4 mr-2"
                         ></mat-icon>
                         <input
+                            formControlName="cost"
                             matInput
                             id="cost"
-                            placeholder="Enter warranty..."
+                            type="number"
+                            placeholder="Enter Cost..."
                             class="text-xs md:text-sm"
+                            (keydown)="validateNumber($event)"
+                            class="no-spinner"
                         />
-                    </mat-form-field>
+                    </mat-form-field>            
                 </div>
             </div>
 
@@ -403,7 +412,7 @@
 
             <div class="w-full overflow-x-auto">
                 <div class="overflow-x-auto">
-                    <table class="table-auto w-full border-collapse border border-gray-300">
+                    <table class="table-auto w-full border border-gray-300">
                       <thead>
                         <tr class="bg-gray-50">
                           <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Item</th>
@@ -415,22 +424,22 @@
                       </thead>
                       <tbody>
                         <tr *ngFor="let component of componentsArray.controls; let i = index" [formGroup]="component">                           
-                          <td class="px-4 py-2 text-sm">
+                          <td class="border-b  px-4 py-2 text-sm">
                             <select formControlName="type" class="w-full p-1 border border-gray-300 rounded" (change)="onComponentSelect($event, i)">
                               <option value="">Select component...</option>
                               <option *ngFor="let component of getFilteredComponents(i)" [value]="component">{{ component }}</option>
                             </select>
                           </td>
-                          <td class="px-4 py-2 text-sm">
+                          <td class="border-b  px-4 py-2 text-sm">
                             <input type="text" formControlName="asset_barcode" class="w-full p-1 border border-gray-300 rounded" placeholder="Barcode" />
                           </td>
-                          <td class="px-4 py-2 text-sm">
+                          <td class="border-b  px-4 py-2 text-sm">
                             <input type="text" formControlName="description" class="w-full p-1 border border-gray-300 rounded" placeholder="Enter description..." />
                           </td>
-                          <td class="px-4 py-2 text-sm">
+                          <td class="border-b  px-4 py-2 text-sm">
                             <input formControlName="date_acquired" class="w-full p-1 border border-gray-300 rounded" readonly/>
                           </td>
-                          <td class=" px-4 py-2 text-center">
+                          <td class="border-b  px-4 py-2 text-center">
                             <button
                             mat-icon-button
                             color="warn"
@@ -487,7 +496,7 @@
             </div>
 
             <div class="w-full overflow-x-auto">
-                <div class="min-w-max">
+                <div class="overflow-x-auto">
                     <table class="table-auto w-full border border-gray-300">
                         <thead class="bg-gray-50">
                             <tr>

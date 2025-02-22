@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertService } from 'app/services/alert.service';
 import { AssetsService } from 'app/services/assets/assets.service';
 import { ComponentsService } from 'app/services/components/components.service';
 import { ComputerService } from 'app/services/computer/computer.service';
@@ -13,14 +14,10 @@ import { distinctUntilChanged } from 'rxjs/operators';
 })
 export class InventoryAddComponent implements OnInit {
     eventForm!: FormGroup;
-    private serialSubscription: Subscription;
     constructor(
         private _formBuilder: FormBuilder,
         private assetService: AssetsService,
-        private getServiceComponents: ComponentsService,
-        private getService: AssetsService,
-        private cdr: ChangeDetectorRef
-    ) {}
+        private alertService: AlertService    ) {}
 
     // Initialize form with comprehensive validation
     private initializeForm(): void {
@@ -35,7 +32,7 @@ export class InventoryAddComponent implements OnInit {
             po_number: ['', [Validators.required]],
             warranty: ['', [Validators.required]],
             remarks: ['', [Validators.required]],
-            cost: ['', [Validators.required]],
+            cost: ['', [Validators.required, Validators.pattern("^[0-9]*$")]]
         });
     }
 
@@ -63,39 +60,49 @@ export class InventoryAddComponent implements OnInit {
         }
     }
 
+    validateNumber(event: KeyboardEvent) {
+        const inputChar = event.key;
+        if (!/^\d$/.test(inputChar) && inputChar !== 'Backspace' && inputChar !== 'Tab') {
+            event.preventDefault();
+        }
+    }
+
+    
     submitForm(): void {
         // Validate the form before processing
         if (this.eventForm.invalid) {
-            console.log('Form Errors:', this.getFormValidationErrors());
-            alert('Please fill in all required fields.');
-            return;
+          this.alertService.triggerError('Please fill in all required fields.');
+          return;
         }
-    
+      
         // Get raw form data
         const rawData = this.eventForm.value;
-        console.log('Raw Form Data Before Mapping:', rawData);
-    
+      
         // Transform form data to API format
         const mappedData = this.mapResponseToForm(rawData);
-        console.log('Mapped Data Before Assigning to Form:', mappedData);
-    
+      
         // Update form values to ensure correct structure
         this.eventForm.patchValue(mappedData);
-        console.log('Final Mapped Form Values:', this.eventForm.value);
-    
+      
         // Submit data to the API
         this.assetService.postEvent(mappedData).subscribe({
-            next: (response) => {
-                console.log('API Response:', response);
-                alert('Asset successfully added!'); 
-                this.eventForm.reset(); // Reset form after success
-            },
-            error: (error) => {
-                console.error('API Error:', error);
-                alert('Failed to add asset. Please try again.');
-            },
+          next: (response) => {
+            console.log('API Response:', response);
+            this.alertService.triggerSuccess('Asset successfully added!');
+      
+            // ✅ Reload without resetting fields manually
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000); // Small delay for the alert to be visible
+          },
+          error: (error) => {
+            console.error('API Error:', error);
+            this.alertService.triggerError('Failed to add asset. Please try again.');
+          },
         });
-    }
+      }
+      
+    
     
 
     // **Mapping Function: Converts API response to FormGroup structure**
@@ -125,26 +132,10 @@ export class InventoryAddComponent implements OnInit {
     }
     
 
-    // **Helper function to get component description (e.g., SSD, HDD, GPU)**
-    private getComponentDescription(components: any[], type: string): string {
-        const component = components?.find((c) => c.type === type);
-        return component ? component.description : '';
-    }
 
     // **Helper function to format date to 'YYYY-MM-DD'**
     private formatDate(date: Date): string {
         return date.toISOString().split('T')[0];
     }
 
-    // **Helper method to get form validation errors**
-    private getFormValidationErrors(): any {
-        const errors: any = {};
-        Object.keys(this.eventForm.controls).forEach((key) => {
-            const controlErrors = this.eventForm.get(key)?.errors;
-            if (controlErrors) {
-                errors[key] = controlErrors;
-            }
-        });
-        return errors;
-    }
 }

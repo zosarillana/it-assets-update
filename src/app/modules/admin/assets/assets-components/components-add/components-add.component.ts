@@ -11,7 +11,9 @@ import { ComponentsService } from 'app/services/components/components.service';
 export class ComponentsAddComponent implements OnInit {
     // Form group declaration
     eventForm!: FormGroup;
-    constructor(private _formBuilder: FormBuilder, private service: ComponentsService, private alertService: AlertService) {}
+    constructor(private _formBuilder: FormBuilder, 
+        private service: ComponentsService,         
+        private alertService: AlertService) {}
 
     // Initialize form with comprehensive validation
     private initializeForm(): void {
@@ -28,30 +30,30 @@ export class ComponentsAddComponent implements OnInit {
 
     submitForm(): void {
         if (this.eventForm.invalid) {
-          alert('Please fill in all required fields.');
+          this.alertService.triggerError('Please fill in all required fields.');
           return;
         }
-    
+      
         this.service.postEvent(this.eventForm.value).subscribe({
-            next: (response) => {
-                console.log('Upload successful:', response);
-                this.alertService.triggerSuccess('Upload successful!');
-                this.resetForm();
-            },
-            error: (error) => {
-                console.error('Upload failed:', error);
-                console.error('Error response:', error.error);
-                this.alertService.triggerError(
-                    error.error?.message || 'Upload failed. Please try again.'
-                );
-            },
+          next: (response) => {
+            console.log('Upload successful:', response);
+            this.alertService.triggerSuccess('Upload successful!');
+      
+            // ✅ Reload the page after success
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000); // Small delay to let the alert show
+          },
+          error: (error) => {
+            console.error('Upload failed:', error);
+            console.error('Error response:', error.error);
+            this.alertService.triggerError(
+              error.error?.message || 'Upload failed. Please try again.'
+            );
+          },
         });
-    } catch (error: any) {
-        console.error('Error processing data:', error);
-        this.alertService.triggerError(
-            error.message || 'Error processing file data'
-        );
-    }
+      }
+      
       
     previewSelectedImage(event: Event): void {
         const input = event.target as HTMLInputElement;
@@ -73,13 +75,10 @@ export class ComponentsAddComponent implements OnInit {
         }
     }
 
-
-
     resetForm() {
         const serialNumber = this.eventForm.get('serial_number')?.value; // Save the current serial_number value
         this.eventForm.reset({}, { emitEvent: false }); // Reset the form without triggering validation events
         this.eventForm.patchValue({ serial_number: serialNumber }); // Restore the serial_number value
     }
-    
-    
+      
 }

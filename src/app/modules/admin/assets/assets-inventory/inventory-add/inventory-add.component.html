@@ -71,7 +71,7 @@
             (ngSubmit)="submitForm()"
             class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
         >
-            <p class="text-lg font-bold text-2xl">New Asset Form</p>
+            <p class="text-lg font-bold text-2xl">New Inventory Form</p>
             <mat-divider class="mt-6 mb-4"></mat-divider>
             <div class="flex flex-row mt-2 gap-4">
                 <div class="flex flex-col items-center">
@@ -292,9 +292,10 @@
                             class="text-xs md:text-sm"
                         />
                     </mat-form-field>
-
-                    <mat-label class="text-xs md:text-sm mb-1">Cost</mat-label>
-                    <mat-form-field appearance="fill">
+                    <mat-label class="text-xs md:text-sm mb-1"
+                    >Cost </mat-label
+                >
+                    <mat-form-field class="text-sm" appearance="fill">
                         <mat-icon
                             svgIcon="feather:dollar-sign"
                             class="icon-size-3 md:icon-size-4 mr-2"
@@ -303,10 +304,13 @@
                             formControlName="cost"
                             matInput
                             id="cost"
-                            placeholder="Enter warranty..."
+                            type="number"
+                            placeholder="Enter Cost..."
                             class="text-xs md:text-sm"
+                            (keydown)="validateNumber($event)"
+                            class="no-spinner"
                         />
-                    </mat-form-field>
+                    </mat-form-field>                
 
                     <mat-label class="text-xs md:text-sm mb-1">Remarks</mat-label>
                     <mat-form-field appearance="fill">

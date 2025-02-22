@@ -45,7 +45,7 @@ export class CopmuterAssetsAddModalComponent implements OnInit {
           brand: ['', [Validators.required]],
           model: ['', [Validators.required]],
           warranty: ['', [Validators.required]],
-          cost: ['', [Validators.required]],     
+          cost: ['', [Validators.required, Validators.pattern("^[0-9]*$")]]   
         });
     }
 
@@ -75,6 +75,13 @@ export class CopmuterAssetsAddModalComponent implements OnInit {
     //       this.dialogRef.close(this.eventForm.value); // Pass data back to parent
     //     }
     // }
+
+    validateNumber(event: KeyboardEvent) {
+        const inputChar = event.key;
+        if (!/^\d$/.test(inputChar) && inputChar !== 'Backspace' && inputChar !== 'Tab') {
+            event.preventDefault();
+        }
+    }
 
     submit() {
         if (this.eventForm.valid) {
