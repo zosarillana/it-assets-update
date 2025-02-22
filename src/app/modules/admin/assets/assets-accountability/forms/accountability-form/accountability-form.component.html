@@ -181,7 +181,7 @@
 
                 <div class="overflow-x-auto">
                     <mat-table
-                        [dataSource]="dataSource2"
+                        [dataSource]="dataSourceComputers"
                         matSort
                         class="mat-elevation-z8"
                     >
@@ -237,22 +237,14 @@
 
                         <!-- Asset Personal History Column -->
                         <ng-container matColumnDef="personalHistory">
-                            <mat-header-cell
-                                class="mx-12"
-                                *matHeaderCellDef
-                                mat-sort-header
-                                style="width: 600px; white-space: normal"
-                            >
+                            <mat-header-cell class="mx-12" *matHeaderCellDef mat-sort-header style="width: 600px; white-space: normal">
                                 Asset Personal History
                             </mat-header-cell>
-                            <mat-cell
-                                class="mx-12 text-sm truncate"
-                                *matCellDef="let element"
-                                style="width: 600px; white-space: normal"
-                            >
-                                {{ element.history.$values?.length ? element.history.$values : 'N/A' }}
+                            <mat-cell class="mx-12 text-sm truncate" *matCellDef="let element" style="width: 600px; white-space: normal">
+                                {{ element.history?.$values?.length ? element.history.$values.join(", ") : 'N/A' }}
                             </mat-cell>
                         </ng-container>
+                        
                         <!-- Status Column -->
                         <ng-container matColumnDef="status">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -285,99 +277,62 @@
                 </div>
 
                 <div class="overflow-x-auto">
-                    <mat-table
-                        [dataSource]="dataSource"
-                        matSort
-                        class="mat-elevation-z8"
-                    >
+                    <mat-table [dataSource]="dataSourceAssignedAssets" matSort class="mat-elevation-z8">
                         <!-- Type Column -->
                         <ng-container matColumnDef="type">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                Type
-                            </mat-header-cell>
-                            <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.type || "N/A" }}
-                            </mat-cell>
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">{{ element.type || "N/A" }}</mat-cell>
                         </ng-container>
-
+                    
                         <!-- Date Acquired Column -->
                         <ng-container matColumnDef="dateAcquired">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                Date Acquired
-                            </mat-header-cell>
-                            <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.date_acquired || "N/A" }}
-                            </mat-cell>
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Date Acquired</mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">{{ element.date_acquired || "N/A" }}</mat-cell>
                         </ng-container>
-
+                    
                         <!-- Asset Barcode Column -->
                         <ng-container matColumnDef="assetBarcode">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                Asset Barcode
-                            </mat-header-cell>
-                            <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.asset_barcode || "N/A" }}
-                            </mat-cell>
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Asset Barcode</mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">{{ element.asset_barcode || "N/A" }}</mat-cell>
                         </ng-container>
-
+                    
                         <!-- Brand Column -->
                         <ng-container matColumnDef="brand">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                Brand
-                            </mat-header-cell>
-                            <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.brand || "N/A" }}
-                            </mat-cell>
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Brand</mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">{{ element.brand || "N/A" }}</mat-cell>
                         </ng-container>
-
+                    
                         <!-- Model Column -->
                         <ng-container matColumnDef="model">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                Model
-                            </mat-header-cell>
-                            <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.model || "N/A" }}
-                            </mat-cell>
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Model</mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">{{ element.model || "N/A" }}</mat-cell>
                         </ng-container>
-
+                    
                         <!-- Asset Personal History Column -->
                         <ng-container matColumnDef="personalHistory">
-                            <mat-header-cell
-                                class="mx-12"
-                                *matHeaderCellDef
-                                mat-sort-header
-                                style="width: 600px; white-space: normal"
-                            >
+                            <mat-header-cell class="mx-12" *matHeaderCellDef mat-sort-header style="width: 600px; white-space: normal">
                                 Asset Personal History
                             </mat-header-cell>
-                            <mat-cell
-                                class="mx-12 text-sm truncate"
-                                *matCellDef="let element"
-                                style="width: 600px; white-space: normal"
-                            >
-                            {{ element.history.$values?.length ? element.history.$values : 'N/A' }}
+                            <mat-cell class="mx-12 text-sm truncate" *matCellDef="let element" style="width: 600px; white-space: normal">
+                                {{ element.history?.$values?.length ? element.history.$values.join(", ") : 'N/A' }}
                             </mat-cell>
                         </ng-container>
+                        
+                    
                         <!-- Status Column -->
                         <ng-container matColumnDef="status">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                Status
-                            </mat-header-cell>
-                            <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.status || "N/A" }}
-                            </mat-cell>
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">{{ element.status || "N/A" }}</mat-cell>
                         </ng-container>
-
+                    
                         <!-- Header and Rows -->
-                        <mat-header-row
-                            *matHeaderRowDef="displayedColumns"
-                        ></mat-header-row>
-                        <mat-row
-                            *matRowDef="let row; columns: displayedColumns"
-                            class="hover:bg-gray-100 cursor-pointer"
-                            [routerLink]="'/assets/inventory/view/' + row.id"
-                        ></mat-row>
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns"
+                                 class="hover:bg-gray-100 cursor-pointer"
+                                 [routerLink]="'/assets/inventory/view/' + row.id">
+                        </mat-row>
                     </mat-table>
+                    
                 </div>
 
                 <div class="flex flex-row gap-4"></div>

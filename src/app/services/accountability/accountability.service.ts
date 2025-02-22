@@ -19,4 +19,8 @@ export class AccountabilityService {
     getAccountabilityById(id: number): Observable<Accountability> {
         return this.http.get<Accountability>(`${this.url}/api/UserAccountabilityList/${id}`);
     }
+
+    public postEvent(data: any): Observable<any> {
+        return this.http.post(`${this.url}/api/UserAccountabilityList/add-accountability`, data);
+    } 
 }

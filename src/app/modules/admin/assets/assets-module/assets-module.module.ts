@@ -154,12 +154,12 @@ const assetRoute: Route[] = [
         path: 'components',
         component: ComponentsListComponent,
     },
+    // {
+    //     path: 'components/view/:uid/:asset_barcode',
+    //     component: ComponentsViewComponent,
+    // },
     {
-        path: 'components/view/:uid/:asset_barcode',
-        component: ComponentsViewComponent,
-    },
-    {
-        path: 'components/view/:id',
+        path: 'components/view/:uid',
         component: ComponentsViewComponent,
     },
     {

@@ -79,7 +79,7 @@
 
                             <button
                                 class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center"
-                                [routerLink]="'/assets/inventory/add'"
+                             
                             >
                                 <mat-icon
                                     class="icon-size-4"
@@ -188,7 +188,7 @@
                     </p>
                     <p class="flex flex-col font-medium text-medium">
                         Company
-                        <span class="text-secondary text-medium"> ABFI </span>
+                        <span class="text-secondary text-medium">   {{ asset?.owner?.company || "N/A" }} </span>
                     </p>
                     <p class="flex flex-col font-medium text-medium">
                         Department

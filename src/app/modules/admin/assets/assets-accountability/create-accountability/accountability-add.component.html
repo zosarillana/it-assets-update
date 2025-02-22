@@ -65,7 +65,7 @@
     </div>
 
     <div class="flex flex-col sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
-        <form [formGroup]="eventForm"
+        <form [formGroup]="eventForm" (ngSubmit)="onSubmit()"
             class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
         >
             <p class="text-lg font-bold">New Accountability Form</p>
@@ -75,36 +75,21 @@
                     <div class="flex flex-grow flex-col gap-4">
                         <!-- Search Input -->
                         <div class="flex flex-grow">
-                            <mat-form-field
-                                class="fuse-mat-no-subscript w-full"
-                            >
-                                <mat-icon
-                                    matPrefix
-                                    class="icon-size-5"
-                                    [svgIcon]="'heroicons_solid:search'"
-                                ></mat-icon>
+                         
+                            <mat-form-field class="fuse-mat-no-subscript w-full">
+                                <mat-icon matPrefix class="icon-size-5" [svgIcon]="'heroicons_solid:search'"></mat-icon>
                                 <input
                                     matInput
                                     class="text-sm"
                                     placeholder="Search by Computer"
-                                    [formControl]="typeComputerControl"
+                                    formControlName="typeComputerControl"
                                     [matAutocomplete]="auto"
                                 />
-                                <mat-autocomplete
-                                    #auto="matAutocomplete"
-                                    (optionSelected)="
-                                        onTypeSelected($event.option.value)
-                                    "
-                                >
-                                    <mat-option
-                                        *ngFor="
-                                            let option of filteredComputerOptions
-                                                | async
-                                        "
-                                        [value]="option.asset_barcode"
-                                    >
-                                        {{ option.asset_barcode }} -
-                                        {{ option.model }}
+                                <mat-autocomplete #auto="matAutocomplete" 
+                                                 [displayWith]="displayFn"
+                                                 (optionSelected)="onTypeSelected($event.option.value)">
+                                    <mat-option *ngFor="let option of filteredComputerOptions | async" [value]="option">
+                                        {{ option.asset_barcode }} - {{ option.model }}
                                     </mat-option>
                                 </mat-autocomplete>
                             </mat-form-field>
@@ -628,7 +613,7 @@
                 class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
             >
                 <button mat-stroked-button>Reset Form</button>
-                <button class="px-6 ml-3" mat-flat-button [color]="'primary'">
+                <button class="px-6 ml-3" mat-flat-button type="submit" [color]="'primary'">
                     Create Form
                 </button>
             </div>

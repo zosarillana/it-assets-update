@@ -22,7 +22,7 @@ export class ComponentsViewComponent implements OnInit {
       const asset_barcode = this.route.snapshot.paramMap.get('asset_barcode');
 
         if (uid) {
-            this.assetsService.getComponentsById(uid, asset_barcode).subscribe({
+            this.assetsService.getComponentsById(uid).subscribe({
                 next: (data) => (this.asset = data),
                 error: (err) => console.error('Error fetching asset', err),
             });
@@ -46,5 +46,9 @@ export class ComponentsViewComponent implements OnInit {
 
             reader.readAsDataURL(file);
         }
+    }
+
+    onDelete(){
+        console.log("fuck you");
     }
 }

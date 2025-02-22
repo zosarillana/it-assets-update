@@ -12,6 +12,7 @@ import {
 import { Assets } from 'app/models/Inventory/Asset';
 import { UsersService } from 'app/services/user/users.service';
 import { User } from 'app/core/user/user.types';
+import { AccountabilityService } from 'app/services/accountability/accountability.service';
 
 @Component({
     selector: 'app-accountability-add',
@@ -21,7 +22,6 @@ import { User } from 'app/core/user/user.types';
 export class AccoundabilityAddComponent implements OnInit {
     @ViewChild('pcInput') pcInput!: ElementRef<HTMLInputElement>;
     eventForm!: FormGroup;
-    typeComputerControl = new FormControl('');
     filteredComputerOptions!: Observable<Assets[]>;
     computersData: Assets[] = [];
     selectedComputer: Assets | null = null;
@@ -29,52 +29,57 @@ export class AccoundabilityAddComponent implements OnInit {
     constructor(
         private _formBuilder: FormBuilder,
         private computerService: ComputerService,
-        private userService: UsersService
+        private userService: UsersService,
+        private accountabilityService: AccountabilityService
     ) {}
 
-    private initializeForm(): void {
-            this.eventForm = this._formBuilder.group({
-                // image_component: [null],
-                // serial_number: [this.data.serial_number || 'N/A', []], // Use the passed value
-                // asset_barcode: [this.data.asset_barcode || 'N/A', []], // Use the passed value
-                // date_acquired: [new Date(), [Validators.required]],                
-                emplotypeComputerControl: ['', [Validators.required]],
-                employee_id: ['', [Validators.required]],
-                name: ['', [Validators.required]],
-                department: ['', [Validators.required]],
-                date_hired: ['', [Validators.required]],
-                date_resignation: ['', [Validators.required]],
-                company: ['', [Validators.required]],
-            });
+    displayFn = (value: any): string => {
+        if (!value) return '';
+        
+        // If value is an object (during selection)
+        if (typeof value === 'object') {
+            return value.asset_barcode;
         }
+        
+        // If value is an ID (after selection), find the matching computer
+        const computer = this.computersData.find(comp => comp.id === value);
+        return computer ? computer.asset_barcode : '';
+    };
+    
+    private initializeForm(): void {
+        this.eventForm = this._formBuilder.group({
+            typeComputerControl: [null, Validators.required],
+            employee_id: ['', Validators.required],
+            name: ['', Validators.required],
+            department: ['', Validators.required],
+            date_hired: ['', Validators.required],
+            date_resignation: ['', Validators.required],
+            company: ['', Validators.required]
+        });
+    }
         
     ngOnInit(): void {
         this.initializeForm();
-        // this.loadUsers();
-
-        // // Filter user list based on input value
-        // this.filteredUserOptions = this.typeUserControl.valueChanges.pipe(
-        //     startWith(''),
-        //     debounceTime(300),
-        //     distinctUntilChanged(),
-        //     map((value) => this._filterUsers(value || ''))
-        // );
-            
         this.loadComputers();
-        this.filteredComputerOptions =
-            this.typeComputerControl.valueChanges.pipe(
-                startWith(''),
-                debounceTime(300),
-                distinctUntilChanged(),
-                switchMap((value) => this._filterAutocompleteOptions(value))
-            );
+        
+        this.filteredComputerOptions = this.eventForm.get('typeComputerControl')!.valueChanges.pipe(
+            startWith(''),
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                if (typeof value === 'string') {
+                    return this._filterAutocompleteOptions(value);
+                }
+                return this._filterAutocompleteOptions('');
+            })
+        );
     }
 
     private loadComputers(): void {
         this.computerService.getAssets(1, 100, 'asc').subscribe({
             next: (response) => {
                 if (response.items && Array.isArray(response.items.$values)) {
-                    this.computersData = response.items.$values; // Extract the actual array
+                    this.computersData = response.items.$values;
                 } else {
                     console.error('Expected an array, but got:', response);
                     this.computersData = [];
@@ -87,11 +92,7 @@ export class AccoundabilityAddComponent implements OnInit {
         });
     }
 
-    private _filterAutocompleteOptions(
-        value: string | null
-    ): Observable<Assets[]> {
-        if (!value) return of(this.computersData);
-
+    private _filterAutocompleteOptions(value: string): Observable<Assets[]> {
         const filterValue = value.toLowerCase();
         return of(
             this.computersData.filter((option) =>
@@ -100,69 +101,69 @@ export class AccoundabilityAddComponent implements OnInit {
         );
     }
 
-    onTypeSelected(event: any): void {
-        const selectedBarcode = event;
-        const selectedComputer = this.computersData.find(
-            (comp) => comp.asset_barcode === selectedBarcode
-        );
-
-        if (selectedComputer) {
-            this.typeComputerControl.setValue(selectedBarcode, {
-                emitEvent: false,
+    onTypeSelected(option: Assets): void {
+        if (option) {
+            // Store both ID and display value
+            this.eventForm.patchValue({
+                typeComputerControl: option.id
             });
-
-            this.computerService
-                .getComputersById(selectedComputer.id)
-                .subscribe({
-                    next: (details: Assets) => {
-                        this.selectedComputer = details;
-                    },
-                    error: (error) => {
-                        console.error(
-                            'Error fetching computer details:',
-                            error
-                        );
-                    },
-                });
+            
+            this.selectedComputer = option;  // Store the selected computer
+            
+            this.computerService.getComputersById(option.id).subscribe({
+                next: (details: Assets) => {
+                    this.selectedComputer = details;
+                },
+                error: (error) => {
+                    console.error('Error fetching computer details:', error);
+                },
+            });
         }
     }
 
-    //Users  
-    // typeUserControl = new FormControl('');
-    // filteredUserOptions!: Observable<User[]>;
-    // UserData: User[] = [];
-    // selectedUser: User | null = null;
-    // private loadUsers(): void {
-    //     this.userService.getUsers(1, 100, 'asc').subscribe({
-    //         next: (response) => {
-    //             if (response.$values && Array.isArray(response.$values)) {
-    //                 this.UserData = response.$values;
-    //             } else {
-    //                 console.error('Expected an array, but got:', response);
-    //                 this.UserData = [];
-    //             }
-    //         },
-    //         error: (error) => {
-    //             console.error('Error loading users:', error);
-    //             this.UserData = [];
-    //         },
-    //     });
-    // }
-    
-    // private _filterUsers(value: string): User[] {
-    //     const filterValue = value.toLowerCase();
-    //     return this.UserData.filter((user) =>
-    //         user.name.toLowerCase().includes(filterValue)
-    //     );
-    // }
-
- 
-    // onUserSelected(userName: string): void {
-    //     const selectedUser = this.UserData.find((user) => user.name === userName);
-    
-    //     if (selectedUser) {
-    //         this.selectedUser = selectedUser; // Directly set the selected user
+    // onSubmit() {
+    //     if (this.eventForm.valid) {
+    //         console.log('Form data to submit:', this.eventForm.value);
+    //         // Your submit logic here
     //     }
     // }
+
+
+    onSubmit(): void {
+        if (this.eventForm.valid) {
+            const formData = this.eventForm.value;
+    
+            // Transform the payload to match the required JSON structure
+            const payload = {
+                owner_id: 0,
+                asset_ids: [],
+                computer_ids: [this.eventForm.value.typeComputerControl],
+                employee_id: this.eventForm.value.employee_id,
+                name: this.eventForm.value.name,
+                department: this.eventForm.value.department,
+                date_hired: this.eventForm.value.date_hired,
+                date_resignation: this.eventForm.value.date_resignation,
+                company: this.eventForm.value.company,
+                is_deleted: "false" // Try adding this if required
+            };
+            
+    
+            // Call the API with the transformed payload
+            this.accountabilityService.postEvent(payload).subscribe({
+                next: (response) => {
+                    console.log('Successfully submitted:', response);
+                    alert('Accountability successfully added!');
+                    this.eventForm.reset();
+                },
+                error: (error) => {
+                    console.error('Error submitting data:', error);
+                    alert('Failed to submit accountability.');
+                },
+            });
+        } else {
+            console.log('Form is invalid:', this.eventForm.errors);
+            alert('Please fill in all required fields.');
+        }
+    }
     
 }

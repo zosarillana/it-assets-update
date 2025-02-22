@@ -526,13 +526,12 @@ export class ComputersAddComponent implements OnInit {
         });
     }
     
-    // **Mapping Function: Converts API response to FormGroup structure**
     private mapResponseToForm(response: any): any {
         return {
             type: response.type || '',
             date_acquired: response.date_acquired?._d
                 ? this.formatDate(response.date_acquired._d)
-                : '',
+                : response.date_acquired || '',
             asset_barcode: response.asset_barcode || '',
             brand: response.brand || '',
             model: response.model || '',
@@ -544,35 +543,37 @@ export class ComputersAddComponent implements OnInit {
             cost: response.cost || 0,
             remarks: response.remarks || '',
     
-            // Mapping components properly
+            // ✅ Ensure components array is mapped correctly
             components: Array.isArray(response.components)
-     ? response.components.map((comp) => ({
-         asset_barcode: comp.asset_barcode || '',
-         date_acquired: comp.date_acquired || '',
-         type: comp.type || '',
-         description: comp.description || '',
-     }))
-     : [],
+                ? response.components.map((comp) => ({
+                    date_acquired: comp.date_acquired || '',
+                    type: comp.type || '',
+                    description: comp.description || '',
+                }))
+                : [],
     
-            // Mapping the asset structure
-            asset: {
-                type: response.type || '',
-                date_acquired: response.date_acquired?._d
-                    ? this.formatDate(response.date_acquired._d)
-                    : '',
-                asset_barcode: response.asset_barcode || '',
-                brand: response.brand || '',
-                model: response.model || '',
-                size: response.size || '',
-                color: response.color || '',
-                serial_no: response.serial_number || '',
-                po: response.po_number || '',
-                warranty: response.warranty || '',
-                cost: response.cost || 0,
-                remarks: response.remarks || '',
-            },
+            // ✅ Extract the first asset from the assets array (if available)
+            asset: Array.isArray(response.assets) && response.assets.length > 0
+                ? {
+                    type: response.assets[0].type || '',
+                    date_acquired: response.assets[0].date_acquired || '',
+                    asset_barcode: response.assets[0].asset_barcode || '',
+                    brand: response.assets[0].brand || '',
+                    model: response.assets[0].model || '',
+                    size: response.assets[0].size || '',
+                    color: response.assets[0].color || '',
+                    serial_no: response.assets[0].serial_number || '',
+                    po: response.assets[0].po || '',
+                    warranty: response.assets[0].warranty || '',
+                    cost: response.assets[0].cost || 0,
+                    remarks: response.assets[0].remarks || '',
+                }
+                : null, // ✅ If no assets, set asset to null
         };
     }
+    
+    
+            
     
 
     // **Helper function to get component description (e.g., SSD, HDD, GPU)**
@@ -700,9 +701,10 @@ removeComponent(index: number) {
                 date_acquired: [assetData.date_acquired, Validators.required],
                 brand: [assetData.brand, Validators.required],
                 model: [assetData.model, Validators.required],
-                cost: [assetData.cost, Validators.required],
+                cost: [Number(assetData.cost) || 0, Validators.required], // ✅ Convert to number
             })
         );
+        
     }
 
     removeRow(index: number) {

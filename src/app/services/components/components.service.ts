@@ -36,12 +36,18 @@ export class ComponentsService {
         );
     }
 
-    getComponentsById(uid: string, asset_barcode: string): Observable<Assets> {
-        return this.http.get<Assets>(`${this.url}/api/ComputerComponents/${asset_barcode}?uid=${uid}`);
+    // getComponentsById(uid: string, asset_barcode: string): Observable<Assets> {
+    //     return this.http.get<Assets>(`${this.url}/api/ComputerComponents/${asset_barcode}?uid=${uid}`);
+    // }
+    getComponentsById(uid: string): Observable<Assets> {
+        return this.http.get<Assets>(`${this.url}/api/ComputerComponents/${uid}`);
     }
     
     public postEvent(data: any): Observable<any> {
         return this.http.post(`${this.url}/api/ComputerComponents`, data);
     }
     
+    public deleteEvent(id: string): Observable<any>{
+        return this.http.delete(`${this.url}/api/ComputerComponents/${id}`);
+    }
 }

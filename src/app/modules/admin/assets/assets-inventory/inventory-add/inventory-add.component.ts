@@ -25,7 +25,7 @@ export class InventoryAddComponent implements OnInit {
     // Initialize form with comprehensive validation
     private initializeForm(): void {
         this.eventForm = this._formBuilder.group({
-            image: [null],
+            image: [null],          
             serial_number: ['', Validators.required],
             type: ['', [Validators.required]],
             asset_barcode: ['', [Validators.required]],
@@ -103,23 +103,23 @@ export class InventoryAddComponent implements OnInit {
     // **Mapping Function: Converts API response to FormGroup structure**
     private mapResponseToForm(response: any): any {
         return {
-            user_name: '',
-            company: '',
-            department: '',
-            employee_id: '',
+            // user_name: '',
+            // company: '',
+            // department: '',
+            // employee_id: '',
             type: '',
             date_acquired: response.date_acquired?._d
                 ? this.formatDate(response.date_acquired._d)
                 : '',
             asset_barcode: response.asset_barcode || '',
             brand: response.brand || '',
-            model: response.model || '',                        
+            model: response.model || '',
             color: response.color || '',
             serial_no: response.serial_number || '',
             po: response.po_number || '',
             warranty: response.warranty || '',
             cost: 0,
-            remarks: '',         
+            remarks: '',
             // li_description: response.components
             //     ? response.components.map((c) => c.description).join(', ')
             //     : '',
