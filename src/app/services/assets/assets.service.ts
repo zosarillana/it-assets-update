@@ -47,7 +47,10 @@ export class AssetsService {
     }
 
     public postEvent(data: any): Observable<any> {
-        return this.http.post(`${this.url}/api/Assets/add-asset/computer`, data);
+        return this.http.post(`${this.url}/api/Assets/create-vacant-asset/computer-items`, data);
     }
     
+    public deleteEvent(id: string): Observable<any>{
+        return this.http.delete(`${this.url}/api/Assets/delete-asset/${id}`);
+    }
 }

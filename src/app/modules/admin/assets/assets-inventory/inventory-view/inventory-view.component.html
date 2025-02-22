@@ -74,8 +74,8 @@
                             </button>
 
                             <button
-                                class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center"
-                                [routerLink]="'/assets/inventory/add'"
+                                class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center"  
+                                (click)="openDeleteDialog(asset.id)"                              
                             >
                                 <mat-icon
                                     class="icon-size-4"
@@ -289,17 +289,17 @@
                     <p class="text-sm flex flex-col font-medium text-medium">
                         Owner Name
                         <span class="text-sm text-secondary text-medium">
-                            {{ asset.owner.name || 'N/A' }}
+                            {{ asset.owner?.name || 'N/A' }}
                         </span>
                     </p>
                     <p class="text-sm flex flex-col font-medium text-medium">
                         Company
-                        <span class="text-sm text-secondary text-medium"> ABFI </span>
+                        <span class="text-sm text-secondary text-medium">     {{ asset.owner?.company || 'N/A' }} </span>
                     </p>
                     <p class="text-sm flex flex-col font-medium text-medium">
                         Department
                         <span class="text-sm text-secondary text-medium">
-                            {{ asset.owner.department || 'N/A' }}
+                            {{ asset.owner?.department || 'N/A' }}
                         </span>
                     </p>
                 </div>
@@ -307,7 +307,7 @@
                     <p class="text-sm flex flex-col font-medium text-medium">
                         Employee ID
                         <span class="text-sm text-secondary text-medium">
-                            {{asset.owner.employee_id || 'N/A'}}
+                            {{asset.owner?.employee_id || 'N/A'}}
                         </span>
                     </p>
                 </div>

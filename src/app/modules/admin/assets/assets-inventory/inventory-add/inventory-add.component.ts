@@ -16,7 +16,7 @@ export class InventoryAddComponent implements OnInit {
     private serialSubscription: Subscription;
     constructor(
         private _formBuilder: FormBuilder,
-        private computerService: ComputerService,
+        private assetService: AssetsService,
         private getServiceComponents: ComponentsService,
         private getService: AssetsService,
         private cdr: ChangeDetectorRef
@@ -34,6 +34,8 @@ export class InventoryAddComponent implements OnInit {
             model: ['', [Validators.required]],
             po_number: ['', [Validators.required]],
             warranty: ['', [Validators.required]],
+            remarks: ['', [Validators.required]],
+            cost: ['', [Validators.required]],
         });
     }
 
@@ -62,52 +64,44 @@ export class InventoryAddComponent implements OnInit {
     }
 
     submitForm(): void {
-        // Get the raw API response from the form
+        // Validate the form before processing
+        if (this.eventForm.invalid) {
+            console.log('Form Errors:', this.getFormValidationErrors());
+            alert('Please fill in all required fields.');
+            return;
+        }
+    
+        // Get raw form data
         const rawData = this.eventForm.value;
         console.log('Raw Form Data Before Mapping:', rawData);
-
-        // Transform the response
+    
+        // Transform form data to API format
         const mappedData = this.mapResponseToForm(rawData);
-
-        // Log the mapped data before assigning it to the form
         console.log('Mapped Data Before Assigning to Form:', mappedData);
-
-        // Update the form values
+    
+        // Update form values to ensure correct structure
         this.eventForm.patchValue(mappedData);
-
-        // Log the final form values after mapping
         console.log('Final Mapped Form Values:', this.eventForm.value);
-
-        // Check if the form is valid
-        console.log('Form Valid:', this.eventForm.valid);
-
-        // Check if the form is valid before submission
-        if (!this.eventForm.valid) {
-            console.log('Form Errors:', this.getFormValidationErrors());
-            return; // Stop submission if the form is invalid
-        }
-
-        // Call the API to submit the data
-        this.computerService.postEvent(mappedData).subscribe({
+    
+        // Submit data to the API
+        this.assetService.postEvent(mappedData).subscribe({
             next: (response) => {
                 console.log('API Response:', response);
-                alert('Asset successfully added!'); // Notify the user
+                alert('Asset successfully added!'); 
+                this.eventForm.reset(); // Reset form after success
             },
             error: (error) => {
                 console.error('API Error:', error);
-                alert('Failed to add asset. Please try again.'); // Show error message
+                alert('Failed to add asset. Please try again.');
             },
         });
     }
+    
 
     // **Mapping Function: Converts API response to FormGroup structure**
     private mapResponseToForm(response: any): any {
         return {
-            // user_name: '',
-            // company: '',
-            // department: '',
-            // employee_id: '',
-            type: '',
+            type: response.type || '',  // Keep the original type value
             date_acquired: response.date_acquired?._d
                 ? this.formatDate(response.date_acquired._d)
                 : '',
@@ -118,14 +112,18 @@ export class InventoryAddComponent implements OnInit {
             serial_no: response.serial_number || '',
             po: response.po_number || '',
             warranty: response.warranty || '',
-            cost: 0,
-            remarks: '',
-            // li_description: response.components
-            //     ? response.components.map((c) => c.description).join(', ')
-            //     : '',
-            // owner_id: 0,
+            cost: response.cost,
+            remarks: response.remarks,
+            asset_image: '',
+            gpu: '',
+            hdd: '',
+            li_description: '',
+            ram: '',
+            size: '', 
+            ssd: ''
         };
     }
+    
 
     // **Helper function to get component description (e.g., SSD, HDD, GPU)**
     private getComponentDescription(components: any[], type: string): string {

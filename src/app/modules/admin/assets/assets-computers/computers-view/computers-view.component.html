@@ -31,8 +31,7 @@
                 </div>
                 <div class="flex sm:hidden">
                     <a
-                        class="inline-flex items-center -ml-1.5 text-secondary font-medium"
-                        [routerLink]="'/assets/inventory'"
+                        class="inline-flex items-center -ml-1.5 text-secondary font-medium"                  
                     >
                         <mat-icon
                             class="icon-size-5 text-secondary"
@@ -81,7 +80,7 @@
 
                             <button
                                 class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center"
-                                [routerLink]="'/assets/inventory/add'"
+                                (click)="openDeleteDialog(asset.id)"
                             >
                                 <mat-icon
                                     class="icon-size-4"

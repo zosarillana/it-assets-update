@@ -52,4 +52,8 @@ export class ComputerService {
     public postEvent(data: any): Observable<any> {
         return this.http.post(`${this.url}/api/Assets`, data);
     }
+
+    public deleteEvent(id: string): Observable<any>{
+        return this.http.delete(`${this.url}/api/Computer/delete-computer/${id}`);
+    }
 }

@@ -140,7 +140,9 @@
                                 {{
                                     this.eventForm.value.type +
                                         " " +
-                                        this.eventForm.value.brand
+                                        this.eventForm.value.brand +
+                                        " " +
+                                        this.eventForm.value.model
                                 }}
                             </span>
                         </div>
@@ -186,7 +188,6 @@
                             type="text"
                         />
                     </mat-form-field>
-                    
 
                     <mat-label class="text-xs md:text-sm mb-1"
                         >Date Acquired</mat-label
@@ -299,8 +300,24 @@
                             class="icon-size-3 md:icon-size-4 mr-2"
                         ></mat-icon>
                         <input
+                            formControlName="cost"
                             matInput
                             id="cost"
+                            placeholder="Enter warranty..."
+                            class="text-xs md:text-sm"
+                        />
+                    </mat-form-field>
+
+                    <mat-label class="text-xs md:text-sm mb-1">Remarks</mat-label>
+                    <mat-form-field appearance="fill">
+                        <mat-icon
+                            svgIcon="feather:info"
+                            class="icon-size-3 md:icon-size-4 mr-2"
+                        ></mat-icon>
+                        <input
+                        formControlName="remarks"
+                            matInput
+                            id="remarks"
                             placeholder="Enter warranty..."
                             class="text-xs md:text-sm"
                         />
