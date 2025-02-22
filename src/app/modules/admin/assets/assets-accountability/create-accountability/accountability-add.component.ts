@@ -13,6 +13,7 @@ import { Assets } from 'app/models/Inventory/Asset';
 import { UsersService } from 'app/services/user/users.service';
 import { User } from 'app/core/user/user.types';
 import { AccountabilityService } from 'app/services/accountability/accountability.service';
+import { AlertService } from 'app/services/alert.service';
 
 @Component({
     selector: 'app-accountability-add',
@@ -30,6 +31,7 @@ export class AccoundabilityAddComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private computerService: ComputerService,
         private userService: UsersService,
+        private alertService: AlertService,
         private accountabilityService: AccountabilityService
     ) {}
 
@@ -49,12 +51,12 @@ export class AccoundabilityAddComponent implements OnInit {
     private initializeForm(): void {
         this.eventForm = this._formBuilder.group({
             typeComputerControl: [null, Validators.required],
-            employee_id: ['', Validators.required],
+            employee_id: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
             name: ['', Validators.required],
             department: ['', Validators.required],
             date_hired: ['', Validators.required],
             date_resignation: ['', Validators.required],
-            company: ['', Validators.required]
+            company: ['', Validators.required],
         });
     }
         
@@ -75,11 +77,68 @@ export class AccoundabilityAddComponent implements OnInit {
         );
     }
 
+    validateNumber(event: KeyboardEvent) {
+        const inputChar = event.key;
+        if (!/^\d$/.test(inputChar) && inputChar !== 'Backspace' && inputChar !== 'Tab') {
+            event.preventDefault();
+        }
+    }
+    // private loadComputers(): void {
+    //     this.computerService.getAssets(1, 100, 'asc').subscribe({
+    //         next: (response) => {
+    //             if (response.items && Array.isArray(response.items.$values)) {
+    //                 this.computersData = response.items.$values;
+    //             } else {
+    //                 console.error('Expected an array, but got:', response);
+    //                 this.computersData = [];
+    //             }
+    //         },
+    //         error: (error) => {
+    //             console.error('Error loading computers:', error);
+    //             this.computersData = [];
+    //         },
+    //     });
+    // }
+    // private loadComputers(): void {
+    //     this.computerService.getAssets(1, 100, 'asc').subscribe({
+    //         next: (response) => {
+    //             if (response.items && Array.isArray(response.items.$values)) {
+    //                 this.computersData = response.items.$values
+    //                     .filter(computer => computer.status === "INACTIVE")
+    //                     .map(computer => ({
+    //                         ...computer,
+    //                         asset_ids: computer.assigned_assets?.values?.$id ? [computer.assigned_assets.values.$id] : []
+    //                     }));
+    //             } else {
+    //                 console.error('Expected an array, but got:', response);
+    //                 this.computersData = [];
+    //             }
+    //         },
+    //         error: (error) => {
+    //             console.error('Error loading computers:', error);
+    //             this.computersData = [];
+    //         },
+    //     });
+    // }
     private loadComputers(): void {
         this.computerService.getAssets(1, 100, 'asc').subscribe({
             next: (response) => {
                 if (response.items && Array.isArray(response.items.$values)) {
-                    this.computersData = response.items.$values;
+                    this.computersData = response.items.$values
+                        .filter(computer => computer.status === "INACTIVE")
+                        .map(computer => {
+                            console.log(`Raw Assigned Assets:`, computer.assigned_assets);
+    
+                            const assetIds = Array.isArray(computer.assigned_assets?.$values)
+                                ? computer.assigned_assets.$values.map(asset => asset.id)
+                                : [];
+    
+                            console.log(`Computer ID: ${computer.id}, Asset IDs:`, assetIds);
+                            return {
+                                ...computer,
+                                asset_ids: assetIds
+                            };
+                        });
                 } else {
                     console.error('Expected an array, but got:', response);
                     this.computersData = [];
@@ -91,6 +150,9 @@ export class AccoundabilityAddComponent implements OnInit {
             },
         });
     }
+    
+
+
 
     private _filterAutocompleteOptions(value: string): Observable<Assets[]> {
         const filterValue = value.toLowerCase();
@@ -128,42 +190,76 @@ export class AccoundabilityAddComponent implements OnInit {
     //     }
     // }
 
-
+    // onSubmit(): void {
+    //     if (this.eventForm.valid) {
+    //         const formData = this.eventForm.value;
+    
+    //         const payload = {
+    //             owner_id: 0,
+    //             asset_ids: this.selectedComputer?.asset_ids || [], // Use extracted asset_ids
+    //             computer_ids: [this.eventForm.value.typeComputerControl],
+    //             employee_id: this.eventForm.value.employee_id,
+    //             name: this.eventForm.value.name,
+    //             department: this.eventForm.value.department,
+    //             date_hired: this.eventForm.value.date_hired,
+    //             date_resignation: this.eventForm.value.date_resignation,
+    //             company: this.eventForm.value.company,
+    //             is_deleted: "false"
+    //         };
+    
+    //         this.accountabilityService.postEvent(payload).subscribe({
+    //             next: (response) => {
+    //                 console.log('Successfully submitted:', response);
+    //                 alert('Accountability successfully added!');
+    //                 this.eventForm.reset();
+    //             },
+    //             error: (error) => {
+    //                 console.error('Error submitting data:', error);
+    //                 alert('Failed to submit accountability.');
+    //             },
+    //         });
+    //     } else {
+    //         console.log('Form is invalid:', this.eventForm.errors);
+    //         alert('Please fill in all required fields.');
+    //     }
+    // }
     onSubmit(): void {
         if (this.eventForm.valid) {
-            const formData = this.eventForm.value;
-    
-            // Transform the payload to match the required JSON structure
-            const payload = {
-                owner_id: 0,
-                asset_ids: [],
-                computer_ids: [this.eventForm.value.typeComputerControl],
-                employee_id: this.eventForm.value.employee_id,
-                name: this.eventForm.value.name,
-                department: this.eventForm.value.department,
-                date_hired: this.eventForm.value.date_hired,
-                date_resignation: this.eventForm.value.date_resignation,
-                company: this.eventForm.value.company,
-                is_deleted: "false" // Try adding this if required
-            };
-            
-    
-            // Call the API with the transformed payload
-            this.accountabilityService.postEvent(payload).subscribe({
-                next: (response) => {
-                    console.log('Successfully submitted:', response);
-                    alert('Accountability successfully added!');
-                    this.eventForm.reset();
-                },
-                error: (error) => {
-                    console.error('Error submitting data:', error);
-                    alert('Failed to submit accountability.');
-                },
-            });
+          const formData = this.eventForm.value;
+      
+          const payload = {
+            owner_id: 0,
+            asset_ids: this.selectedComputer?.asset_ids || [], // Use extracted asset_ids
+            computer_ids: [this.eventForm.value.typeComputerControl],
+            employee_id: this.eventForm.value.employee_id,
+            name: this.eventForm.value.name,
+            department: this.eventForm.value.department,
+            date_hired: this.eventForm.value.date_hired,
+            date_resignation: this.eventForm.value.date_resignation,
+            company: this.eventForm.value.company,
+            is_deleted: "false"
+          };
+      
+          this.accountabilityService.postEvent(payload).subscribe({
+            next: (response) => {
+              console.log('Successfully submitted:', response);
+              this.alertService.triggerSuccess('Accountability successfully added!');
+      
+              // ✅ Reload after a small delay to allow the success message to be seen
+              setTimeout(() => {
+                window.location.reload();
+              }, 1000); 
+            },
+            error: (error) => {
+              console.error('Error submitting data:', error);
+              this.alertService.triggerError('Failed to submit accountability.');
+            },
+          });
         } else {
-            console.log('Form is invalid:', this.eventForm.errors);
-            alert('Please fill in all required fields.');
+          console.log('Form is invalid:', this.eventForm.errors);
+          this.alertService.triggerError('Please fill in all required fields.');
         }
-    }
+      }
+      
     
 }

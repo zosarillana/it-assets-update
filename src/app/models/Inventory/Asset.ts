@@ -9,7 +9,9 @@ export interface Assets {
     ssd: string | null;
     hdd: string | null;
     gpu: string | null;
-    values: [];
+    values: [
+        $values: string | null
+    ];
     size: string | null;
     color: string;
     serial_no: string | null;
@@ -21,6 +23,7 @@ export interface Assets {
     history: {
         $values: string[];
     };
+    asset_ids: string;
     asset_image: string | null;
     owner_id: number;
     is_deleted: boolean;

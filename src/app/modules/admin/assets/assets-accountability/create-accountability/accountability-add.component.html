@@ -304,6 +304,7 @@
                                                     class="text-secondary text-sm"
                                                 >
                                                     {{ asset.asset_barcode }}
+                                                    {{ asset.id }}
                                                 </span>
                                             </ng-container>
                                         </p>
@@ -401,9 +402,12 @@
                                             <input
                                                 matInput
                                                 formControlName="employee_id"
+                                                type="number"
                                                 id="employee_id"
                                                 placeholder="Enter employee id..."
                                                 class="text-xs md:text-sm"
+                                                (keydown)="validateNumber($event)"
+                                                class="no-spinner"
                                             />
                                         </mat-form-field>
                                     </div>
