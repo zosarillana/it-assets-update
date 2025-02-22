@@ -152,7 +152,7 @@ export class ComputersViewComponent implements OnInit {
                 next: () => {
                   this.alertService.triggerSuccess('Item deleted successfully!');
                   // Redirect to '/assets/components' on success
-                  this.router.navigate(['/assets/copmuters']);
+                  this.router.navigate(['/assets/computers']);
                 },
                 error: (err) => {
                   console.error('Error deleting item:', err);

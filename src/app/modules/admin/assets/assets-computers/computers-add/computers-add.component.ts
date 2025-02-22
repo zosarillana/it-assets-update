@@ -535,11 +535,89 @@ export class ComputersAddComponent implements OnInit {
     //       },
     //     });
     //   }
+    // submitForm(): void {
+    //     // Get the raw API response from the form
+    //     const rawData = this.eventForm.value;
+      
+    //     // Transform the response
+    //     const mappedData = this.mapResponseToForm(rawData);
+      
+    //     // Update the form values
+    //     this.eventForm.patchValue(mappedData);
+      
+    //     // Check if the form is valid
+    //     if (!this.eventForm.valid) {
+    //       return; // Stop submission if the form is invalid
+    //     }
+      
+    //     // Call the API to submit the data
+    //     this.computerService.postEvent(mappedData).subscribe({
+    //       next: () => {
+    //         this.alertService.triggerSuccess('Asset successfully added!');
+            
+    //         // ✅ Reload the page after success
+    //         // setTimeout(() => {
+    //         //   window.location.reload();
+    //         // }, 1000); // Small delay for the alert to be visible
+    //       },
+    //       error: () => {
+    //         this.alertService.triggerError('Failed to add asset. Please try again.');
+    //       },
+    //     });
+    //   }
+      
+    
+    // private mapResponseToForm(response: any): any {
+    //     return {
+    //         type: response.type || '',
+    //         date_acquired: response.date_acquired?._d
+    //             ? this.formatDate(response.date_acquired._d)
+    //             : response.date_acquired || '',
+    //         asset_barcode: response.asset_barcode || '',
+    //         brand: response.brand || '',
+    //         model: response.model || '',
+    //         size: response.size || '',
+    //         color: response.color || '',
+    //         serial_no: response.serial_number || '',
+    //         po: response.po_number || '',
+    //         warranty: response.warranty || '',
+    //         cost: response.cost || 0,
+    //         remarks: response.remarks || '',
+    
+    //         // ✅ Ensure components array is mapped correctly
+    //         components: Array.isArray(response.components)
+    //             ? response.components.map((comp) => ({
+    //                 date_acquired: comp.date_acquired || '',
+    //                 type: comp.type || '',
+    //                 description: comp.description || '',
+    //             }))
+    //             : [],
+    
+    //         // ✅ Extract the first asset from the assets array (if available)
+    //         asset: Array.isArray(response.assets) && response.assets.length > 0
+    //             ? {
+    //                 type: response.assets[0].type || '',
+    //                 date_acquired: response.assets[0].date_acquired || '',
+    //                 asset_barcode: response.assets[0].asset_barcode || '',
+    //                 brand: response.assets[0].brand || '',
+    //                 model: response.assets[0].model || '',
+    //                 size: response.assets[0].size || '',
+    //                 color: response.assets[0].color || '',
+    //                 serial_no: response.assets[0].serial_number || '',
+    //                 po: response.assets[0].po || '',
+    //                 warranty: response.assets[0].warranty || '',
+    //                 cost: response.assets[0].cost || 0,
+    //                 remarks: response.assets[0].remarks || '',
+    //             }
+    //             : null, // ✅ If no assets, set asset to null
+    //     };
+    // }
+
     submitForm(): void {
         // Get the raw API response from the form
         const rawData = this.eventForm.value;
       
-        // Transform the response
+        // Transform the response to match the required structure
         const mappedData = this.mapResponseToForm(rawData);
       
         // Update the form values
@@ -554,11 +632,10 @@ export class ComputersAddComponent implements OnInit {
         this.computerService.postEvent(mappedData).subscribe({
           next: () => {
             this.alertService.triggerSuccess('Asset successfully added!');
-            
             // ✅ Reload the page after success
-            // setTimeout(() => {
-            //   window.location.reload();
-            // }, 1000); // Small delay for the alert to be visible
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000); // Small delay for the alert to be visible
           },
           error: () => {
             this.alertService.triggerError('Failed to add asset. Please try again.');
@@ -566,52 +643,52 @@ export class ComputersAddComponent implements OnInit {
         });
       }
       
-    
-    private mapResponseToForm(response: any): any {
+      private mapResponseToForm(response: any): any {
         return {
-            type: response.type || '',
-            date_acquired: response.date_acquired?._d
-                ? this.formatDate(response.date_acquired._d)
-                : response.date_acquired || '',
-            asset_barcode: response.asset_barcode || '',
-            brand: response.brand || '',
-            model: response.model || '',
-            size: response.size || '',
-            color: response.color || '',
-            serial_no: response.serial_number || '',
-            po: response.po_number || '',
-            warranty: response.warranty || '',
-            cost: response.cost || 0,
-            remarks: response.remarks || '',
-    
-            // ✅ Ensure components array is mapped correctly
-            components: Array.isArray(response.components)
-                ? response.components.map((comp) => ({
-                    date_acquired: comp.date_acquired || '',
-                    type: comp.type || '',
-                    description: comp.description || '',
-                }))
-                : [],
-    
-            // ✅ Extract the first asset from the assets array (if available)
-            asset: Array.isArray(response.assets) && response.assets.length > 0
-                ? {
-                    type: response.assets[0].type || '',
-                    date_acquired: response.assets[0].date_acquired || '',
-                    asset_barcode: response.assets[0].asset_barcode || '',
-                    brand: response.assets[0].brand || '',
-                    model: response.assets[0].model || '',
-                    size: response.assets[0].size || '',
-                    color: response.assets[0].color || '',
-                    serial_no: response.assets[0].serial_number || '',
-                    po: response.assets[0].po || '',
-                    warranty: response.assets[0].warranty || '',
-                    cost: response.assets[0].cost || 0,
-                    remarks: response.assets[0].remarks || '',
-                }
-                : null, // ✅ If no assets, set asset to null
+          type: response.type || '',
+          date_acquired: response.date_acquired?._d
+            ? this.formatDate(response.date_acquired._d)
+            : response.date_acquired || '',
+          asset_barcode: response.asset_barcode || '',
+          brand: response.brand || '',
+          model: response.model || '',
+          size: response.size || '',
+          color: response.color || '',
+          serial_no: response.serial_no || '',
+          po: response.po || '',
+          warranty: response.warranty || '',
+          cost: response.cost || 0,
+          remarks: response.remarks || '',
+      
+          // ✅ Ensure components array is mapped correctly
+          components: Array.isArray(response.components)
+            ? response.components.map((comp) => ({
+                date_acquired: comp.date_acquired || '',
+                type: comp.type || '',
+                description: comp.description || '',
+              }))
+            : [],
+      
+          // ✅ Ensure assets array is mapped correctly
+          assets: Array.isArray(response.assets)
+            ? response.assets.map((asset) => ({
+                type: asset.type || '',
+                date_acquired: asset.date_acquired || '',
+                asset_barcode: asset.asset_barcode || '',
+                brand: asset.brand || '',
+                model: asset.model || '',
+                size: asset.size || '',
+                color: asset.color || '',
+                serial_no: asset.serial_no || '',
+                po: asset.po || '',
+                warranty: asset.warranty || '',
+                cost: asset.cost || 0,
+                remarks: asset.remarks || '',
+              }))
+            : []
         };
-    }
+      }
+      
     
 // **Helper function to get component description (e.g., SSD, HDD, GPU)**
 private getComponentDescription(components: any[], type: string): string {
