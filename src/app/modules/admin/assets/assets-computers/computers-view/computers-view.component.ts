@@ -78,6 +78,17 @@ export class ComputersViewComponent implements OnInit {
                                 null,
                             history: this.asset?.gpu?.history || null,
                         },
+                        {
+                            name: 'BOARD',
+                            icon: 'feather:info',
+                            description:
+                                this.asset?.board?.values?.$values?.[0]
+                                    ?.description || null,
+                            uid:
+                                this.asset?.board?.values?.$values?.[0]?.uid ||
+                                null,
+                            history: this.asset?.board?.history || null,
+                        },
                     ];
                     // Assigned Assets DataSource
                     this.dataSourceAssignedAssets =
