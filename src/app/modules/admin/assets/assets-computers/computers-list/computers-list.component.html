@@ -169,7 +169,7 @@
                         class="justify-center border-b ml-4 border-r border-gray-200 text-sm text-gray-900 font-bold inventory-tag-cell w-48"
                     >
                         <div class="flex items-center ml-4">
-                            # {{ element.asset_barcode || "N/A" }}
+                            {{ element.asset_barcode || "N/A" }}
                         </div>
                     </td>
                 </ng-container>
@@ -208,11 +208,11 @@
                             <div class="flex flex-row">
                                 <span
                                 [ngClass]="{'bg-red-500': element.status === 'INACTIVE', 'bg-green-500': element.status !== 'INACTIVE'}"
-                                class="flex w-2 h-2 mt-1.5 me-3 rounded-full">
-                                </span>
-                                <p class="ml-2 text-md">
-                                    {{ element.status || "N/A" }}
-                                </p>
+                                class="flex w-2 h-2 mt-1 me-3 rounded-full">
+                            </span>
+                            <p class="ml-2 text-xs mt-0.5">
+                                {{element.status || 'N/A'}}
+                            </p>
                             </div>
                         </div>
                     </td>
