@@ -9,24 +9,29 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ComputerService } from 'app/services/computer/computer.service';
+import { AlertService } from 'app/services/alert.service';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { ModalUniversalComponent } from '../../components/modal/modal-universal/modal-universal.component';
 
 @Component({
-  selector: 'app-computers-list',
-  templateUrl: './computers-list.component.html',
-  styleUrls: ['./computers-list.component.scss']
+    selector: 'app-computers-list',
+    templateUrl: './computers-list.component.html',
+    styleUrls: ['./computers-list.component.scss'],
 })
-export class ComputersListComponent  implements OnInit, AfterViewInit {
+export class ComputersListComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
         // 'asset_img',
         'asset_barcode',
-        'type',        
+        'type',
         // 'pc_type',
         'brand',
-        'model',        
+        'model',
         'serial_no',
         'active_user',
         'bu',
         'status',
+        'action',
     ];
 
     dataSource = new MatTableDataSource<Assets>();
@@ -46,28 +51,35 @@ export class ComputersListComponent  implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
 
-    constructor(private assetService: ComputerService) {}
+    constructor(
+        private assetService: ComputerService,
+        private alertService: AlertService,
+        private dialog: MatDialog,
+        private router: Router
+    ) {}
 
     ngOnInit(): void {
         console.log(this.dataSource.data);
         // this.loadAllTypes(); // Load types dynamically
         this.loadAssets(1, this.pageSize);
-    
+
         // Set up the autocomplete filter
         this.filteredTypeOptions = this.typeFilterControl.valueChanges.pipe(
             startWith(''),
-            map(value => this.filterTypes(value))
+            map((value) => this.filterTypes(value))
         );
 
         // Subscribe to valueChanges to dynamically filter the table
-        this.typeFilterControl.valueChanges.subscribe(value => {
+        this.typeFilterControl.valueChanges.subscribe((value) => {
             this.applyTypeFilter(value);
         });
     }
 
     private _filter(value: string): string[] {
         const filterValue = value.toLowerCase();
-        return this.allTypes.filter(option => option.toLowerCase().includes(filterValue));
+        return this.allTypes.filter((option) =>
+            option.toLowerCase().includes(filterValue)
+        );
     }
 
     loadAllTypes(): void {
@@ -96,27 +108,35 @@ export class ComputersListComponent  implements OnInit, AfterViewInit {
     loadAssets(pageIndex: number, pageSize: number): void {
         this.isLoading = true;
 
-        this.assetService.getAssets(pageIndex, pageSize, this.sortOrder, this.searchTerm).subscribe({
-            next: (response: AssetResponse) => {
-                console.log('API Response:', response);
+        this.assetService
+            .getAssets(pageIndex, pageSize, this.sortOrder, this.searchTerm)
+            .subscribe({
+                next: (response: AssetResponse) => {
+                    console.log('API Response:', response);
 
-                // Extract $values safely
-                this.dataSource.data = (response.items as any)?.$values ?? (response.items as Assets[]);
+                    // Extract $values safely
+                    this.dataSource.data =
+                        (response.items as any)?.$values ??
+                        (response.items as Assets[]);
 
-                // Update total items for paginator
-                this.totalItems = response.totalItems;
-                this.paginator.length = this.totalItems;
+                    // Update total items for paginator
+                    this.totalItems = response.totalItems;
+                    this.paginator.length = this.totalItems;
 
-                // Extract unique types from the assets
-                this.allTypes = [...new Set(this.dataSource.data.map(asset => asset.type))];
+                    // Extract unique types from the assets
+                    this.allTypes = [
+                        ...new Set(
+                            this.dataSource.data.map((asset) => asset.type)
+                        ),
+                    ];
 
-                this.isLoading = false;
-            },
-            error: (error) => {
-                console.error('Error fetching assets:', error);
-                this.isLoading = false;
-            },
-        });
+                    this.isLoading = false;
+                },
+                error: (error) => {
+                    console.error('Error fetching assets:', error);
+                    this.isLoading = false;
+                },
+            });
     }
 
     onSearch(): void {
@@ -154,23 +174,25 @@ export class ComputersListComponent  implements OnInit, AfterViewInit {
     // }
 
     // In your component
-applyTypeFilter(searchValue: string): void {
-    this.searchTerm = searchValue.trim().toLowerCase();
+    applyTypeFilter(searchValue: string): void {
+        this.searchTerm = searchValue.trim().toLowerCase();
 
-    if (this.paginator) {
-        this.paginator.pageIndex = 0;
+        if (this.paginator) {
+            this.paginator.pageIndex = 0;
+        }
+
+        // Optional: You could add client-side filtering as a fallback
+        this.dataSource.filter = this.searchTerm;
+
+        // Keep your server-side pagination/filtering
+        this.loadAssets(1, this.pageSize);
     }
-
-    // Optional: You could add client-side filtering as a fallback
-    this.dataSource.filter = this.searchTerm;
-    
-    // Keep your server-side pagination/filtering
-    this.loadAssets(1, this.pageSize);
-}
 
     filterTypes(value: string): string[] {
         const filterValue = value.toLowerCase();
-        return this.allTypes.filter(type => type.toLowerCase().includes(filterValue));
+        return this.allTypes.filter((type) =>
+            type.toLowerCase().includes(filterValue)
+        );
     }
 
     // New method to handle selection from autocomplete
@@ -179,7 +201,7 @@ applyTypeFilter(searchValue: string): void {
         if (selectedType) {
             this.selectedTypeToggle = [selectedType]; // Set it in the toggle buttons
         }
-    
+
         // Create a filter predicate that checks for the selected types
         this.dataSource.filterPredicate = (data: Assets) => {
             // If no filters are selected, show all data
@@ -189,11 +211,42 @@ applyTypeFilter(searchValue: string): void {
             // Filter the table based on selected types
             return this.selectedTypeToggle.includes(data.type);
         };
-    
+
         // Apply the filter
         this.dataSource.filter = 'applyFilter'; // Triggers filtering
     }
     isValidDate(date: any): boolean {
-      return date && !isNaN(new Date(date).getTime());
-    }    
+        return date && !isNaN(new Date(date).getTime());
+    }
+
+    openDeleteDialog(id: string): void {
+        const dialogRef = this.dialog.open(ModalUniversalComponent, {
+            width: '400px',
+            data: { name: 'Are you sure you want to delete this item?' },
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                this.deleteItem(id);
+            }
+        });
+    }
+
+    private deleteItem(id: string): void {
+        this.assetService.deleteEvent(id).subscribe({
+            next: () => {
+                this.alertService.triggerSuccess('Item deleted successfully!');
+                // Reload the page after successful deletion
+                this.router.navigate(['/assets/computers']).then(() => {
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000); // Small delay for the alert to be visible
+                });
+            },
+            error: (err) => {
+                console.error('Error deleting item:', err);
+                this.alertService.triggerError('Failed to delete item.');
+            },
+        });
+    }
 }

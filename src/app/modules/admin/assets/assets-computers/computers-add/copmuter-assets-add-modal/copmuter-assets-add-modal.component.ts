@@ -41,14 +41,13 @@ export class CopmuterAssetsAddModalComponent implements OnInit {
             asset_barcode: [this.data.asset?.asset_barcode || '', [Validators.required]],
             date_acquired: [this.data.asset?.date_acquired ? new Date(this.data.asset.date_acquired) : new Date(), [Validators.required]], // ✅ Convert to Date object if editing
             type: [this.data.asset?.type || '', [Validators.required]],
-            po_number: [this.data.asset?.po_number || '', [Validators.required]],
+            po: [this.data.asset?.po || '', [Validators.required]],
             brand: [this.data.asset?.brand || '', [Validators.required]],
             model: [this.data.asset?.model || '', [Validators.required]],
             warranty: [this.data.asset?.warranty || '', [Validators.required]],
             cost: [Number(this.data.asset?.cost) || 0, [Validators.required, Validators.pattern("^[0-9]*$")]], // ✅ Ensure cost is a number
         });
     }
-    
 
     previewSelectedImageComponent(event: Event): void {
         const input = event.target as HTMLInputElement;

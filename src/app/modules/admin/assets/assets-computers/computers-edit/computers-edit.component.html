@@ -161,10 +161,10 @@
                 </div>
             </div>
 
-            <mat-divider class="mt-6 mb-10"></mat-divider>
+            <mat-divider class="mt-6 mb-5"></mat-divider>
             <p class="text-lg font-medium mb-3">Details</p>
 
-            <div class="flex flex-row gap-4">
+            <div class="flex flex-row gap-4 mb-3">
                 <!-- Parent container for responsiveness -->
 
                 <!-- Left Column (Serial, Type, etc.) -->
@@ -239,7 +239,7 @@
                         />
                     </mat-form-field>
 
-                    <mat-form-field appearance="fill" class="w-full">
+                    <!-- <mat-form-field appearance="fill" class="w-full">
                         <mat-label>Ram</mat-label>
                         <mat-icon
                             svgIcon="feather:server"
@@ -251,7 +251,7 @@
                             [placeholder]="asset.ram || 'N/A'"
                             [value]="asset.ram || 'N/A'"
                         />
-                    </mat-form-field>
+                    </mat-form-field> -->
 
                     <mat-form-field appearance="fill" class="w-full">
                         <mat-label>Storage</mat-label>
@@ -267,7 +267,7 @@
                         />
                     </mat-form-field>
 
-                    <mat-form-field appearance="fill" class="w-full">
+                    <!-- <mat-form-field appearance="fill" class="w-full">
                         <mat-label>GPU</mat-label>
                         <mat-icon
                             svgIcon="feather:monitor"
@@ -279,7 +279,7 @@
                             [placeholder]="asset.gpu || 'N/A'"
                             [value]="asset.gpu || 'N/A'"
                         />
-                    </mat-form-field>
+                    </mat-form-field> -->
                 </div>
 
                 <!-- Responsive Divider -->
@@ -327,9 +327,9 @@
                         ></mat-icon>
                         <input
                             matInput
-                            id="po_number"
-                            [placeholder]="asset.po_number || 'N/A'"
-                            [value]="asset.po_number || 'N/A'"
+                            id="po"
+                            [placeholder]="asset.po || 'N/A'"
+                            [value]="asset.po || 'N/A'"
                         />
                     </mat-form-field>
 
@@ -375,91 +375,20 @@
                             readonly
                         />
                     </mat-form-field>
-                    <p class="flex flex-col font-medium text-medium">
-                        History
-                        <span class="text-secondary text-medium">
-                            <mat-icon
-                                svgIcon="feather:file-text"
-                                class="icon-size-3 mr-2"
-                            ></mat-icon>
-                            {{
-                                asset.history?.$values?.length
-                                    ? asset.history.$values
-                                    : "N/A"
-                            }}
-                        </span>
-                    </p>
                 </div>
             </div>
-
-            <!-- Section Divider -->
-            <mat-divider class="mt-6 mb-10"></mat-divider>
-
-            <!-- Current Owner Details Section -->
-            <p class="text-lg font-medium">Current Owner Details</p>
-            <p class="text-secondary mb-6">
-                Current owner of the asset details.
-            </p>
-
-            <!-- Responsive Owner Details Section -->
-
-            <div class="flex flex-col sm:flex-row gap-4">
-                <div class="flex flex-col flex-grow gap-4">
-                    <p class="flex flex-col font-medium text-medium">
-                        Owner Name
-                        <span class="text-secondary text-medium">
-                            {{ asset.owner.name || "N/A" }}
-                        </span>
-                    </p>
-                    <p class="flex flex-col font-medium text-medium">
-                        Company
-                        <span class="text-secondary text-medium"> ABFI </span>
-                    </p>
-                    <p class="flex flex-col font-medium text-medium">
-                        Department
-                        <span class="text-secondary text-medium">
-                            {{ asset.owner.department || "N/A" }}
-                        </span>
-                    </p>
-                </div>
-                <div class="flex flex-col flex-grow gap-4">
-                    <p class="flex flex-col font-medium text-medium">
-                        Employee ID
-                        <span class="text-secondary text-medium">
-                            {{ asset.owner.employee_id || "N/A" }}
-                        </span>
-                    </p>
-                </div>
-            </div>
-
-            <!-- <mat-form-field class="flex-grow gt-xs:pr-3">
-                    <input matInput [placeholder]="'First name'" />
-                    <mat-icon
-                        class="icon-size-5"
-                        matPrefix
-                        [svgIcon]="'heroicons_solid:user-circle'"
-                    ></mat-icon>
-                </mat-form-field>
-                <mat-form-field class="flex-grow gt-xs:pl-3">
-                    <input matInput [placeholder]="'Last name'" />
-                    <mat-icon
-                        class="icon-size-5"
-                        matPrefix
-                        [svgIcon]="'heroicons_solid:user-circle'"
-                    ></mat-icon>
-                </mat-form-field> -->
-
-            <mat-divider class="mt-6 mb-10"></mat-divider>
-            <!-- <div
+            <div
                 class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
-            > -->
-            <!-- <button mat-stroked-button>Reset Form</button> -->
-            <!-- <button class="px-6 ml-3" mat-flat-button [color]="'primary'">
+            >
+<button mat-stroked-button>Reset Form</button>
+<button class="px-6 ml-3" mat-flat-button [color]="'primary'">
                     Edit Details
                 </button>
-            </div> -->
+            </div>
+
         </form>
     </div>
+    
 </div>
 <!-- <mat-form-field class="flex-grow gt-xs:pr-3">
                     <input matInput [placeholder]="'First name'" />
@@ -477,11 +406,3 @@
                         [svgIcon]="'heroicons_solid:user-circle'"
                     ></mat-icon>
                 </mat-form-field> -->
-<!-- <div
-                class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
-            > -->
-<!-- <button mat-stroked-button>Reset Form</button> -->
-<!-- <button class="px-6 ml-3" mat-flat-button [color]="'primary'">
-                    Edit Details
-                </button>
-            </div> -->

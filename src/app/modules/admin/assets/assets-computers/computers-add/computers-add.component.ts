@@ -63,7 +63,7 @@ export class ComputersAddComponent implements OnInit {
             model: ['', [Validators.required]],
             size: ['', [Validators.required]],
             color: ['', [Validators.required]],
-            po_number: ['', [Validators.required]],
+            po: ['', [Validators.required]],
             warranty: ['', [Validators.required]],
             cost: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
             components: this._formBuilder.array([]), // ADD THIS LINE
@@ -263,48 +263,82 @@ export class ComputersAddComponent implements OnInit {
             );
     }
 
+    // submitForm(): void {
+    //     // Get the raw API response from the form
+    //     const rawData = this.eventForm.value;
+      
+    //     // Transform the response to match the required structure
+    //     const mappedData = this.mapResponseToForm(rawData);
+      
+    //     // Update the form values
+    //     this.eventForm.patchValue(mappedData);
+      
+    //     // Check if the form is valid
+    //     if (!this.eventForm.valid) {
+    //       return; // Stop submission if the form is invalid
+    //     }
+      
+    //     // Call the API to submit the data
+    //     this.computerService.postEvent(mappedData).subscribe({
+    //       next: () => {
+    //         this.alertService.triggerSuccess('Asset successfully added!');
+    //         // // ✅ Reload the page after success
+            // setTimeout(() => {
+            //   window.location.reload();
+            // }, 1000); // Small delay for the alert to be visible
+    //       },
+    //       error: () => {
+    //         this.alertService.triggerError('Failed to add asset. Please try again.');
+    //       },
+    //     });
+    //   }
+      
     submitForm(): void {
-        // Get the raw API response from the form
         const rawData = this.eventForm.value;
-      
-        // Transform the response to match the required structure
+        console.log("Raw Form Data:", rawData);
+    
         const mappedData = this.mapResponseToForm(rawData);
-      
-        // Update the form values
+        console.log("Mapped Form Data:", mappedData);
+    
         this.eventForm.patchValue(mappedData);
-      
-        // Check if the form is valid
+    
         if (!this.eventForm.valid) {
-          return; // Stop submission if the form is invalid
+            console.error("Form submission failed: Invalid form data", this.getFormValidationErrors());
+            return;
         }
-      
-        // Call the API to submit the data
+    
         this.computerService.postEvent(mappedData).subscribe({
-          next: () => {
-            this.alertService.triggerSuccess('Asset successfully added!');
-            // ✅ Reload the page after success
-            setTimeout(() => {
+            next: () => {
+                this.alertService.triggerSuccess('Asset successfully added!');
+                  setTimeout(() => {
               window.location.reload();
             }, 1000); // Small delay for the alert to be visible
-          },
-          error: () => {
-            this.alertService.triggerError('Failed to add asset. Please try again.');
-          },
+            },
+            error: (err) => {
+                console.error("Error submitting form:", err);
+                this.alertService.triggerError('Failed to add asset. Please try again.');
+    
+                if (err.error) {
+                    console.error("Error details:", err.error);
+                }
+            },
         });
-      }
-      
+    }
+    
+
       private mapResponseToForm(response: any): any {
         return {
           type: response.type || '',
           date_acquired: response.date_acquired?._d
             ? this.formatDate(response.date_acquired._d)
             : response.date_acquired || '',
+        //   serial_number: response.serial_number || '',
           asset_barcode: response.asset_barcode || '',
           brand: response.brand || '',
           model: response.model || '',
           size: response.size || '',
           color: response.color || '',
-          serial_no: response.serial_no || '',
+          serial_no: response.serial_number || '',
           po: response.po || '',
           warranty: response.warranty || '',
           cost: response.cost || 0,
@@ -355,13 +389,15 @@ private formatDate(date: Date): string {
 private getFormValidationErrors(): any {
     const errors: any = {};
     Object.keys(this.eventForm.controls).forEach((key) => {
-        const controlErrors = this.eventForm.get(key)?.errors;
-        if (controlErrors) {
-            errors[key] = controlErrors;
+        const control = this.eventForm.get(key);
+        if (control && control.errors) {
+            errors[key] = control.errors;
         }
     });
+    console.error("Form Validation Errors:", errors); // Log validation errors
     return errors;
 }
+
 
 selectedComponent: string = '';
 availableComponents: string[] = ['RAM', 'SSD', 'HDD', 'GPU', 'BOARD'];
@@ -489,23 +525,6 @@ removeComponent(index: number) {
 }
 
 //for assets 
-
-// openAssetsAdd() {
-//     const serialNumber = this.eventForm.get('serial_number')?.value;
-
-//     const dialogRef = this.dialog.open(CopmuterAssetsAddModalComponent, {
-//         width: '700px',
-//         disableClose: true,
-//         data: { serial_number: serialNumber },
-//     });
-
-//     dialogRef.afterClosed().subscribe((result) => {
-//         if (result) {
-//             console.log("Received Asset Data:", result);
-//             this.addAssets(result); // ✅ Add modal data to the form
-//         }
-//     });
-// }
 openAssetsAdd(assetData?: any, index?: number) {
     const serialNumber = this.eventForm.get('serial_number')?.value;
 
@@ -551,16 +570,15 @@ updateAsset(index: number, newAsset: any) {
     }
 }
 
-
     addAssets(assetData: any) {
         this.assetsArray.push(
             this._formBuilder.group({
                 type: [assetData.type, Validators.required],
-                serial_number: [assetData.serial_number, Validators.required],
+                serial_no: [assetData.serial_number, Validators.required],
                 asset_barcode: [assetData.asset_barcode, Validators.required],
                 date_acquired: [assetData.date_acquired, Validators.required],
                 warranty: [assetData.warranty, Validators.required],
-                po_number: [assetData.po_number, Validators.required],
+                po: [assetData.po, Validators.required],
                 brand: [assetData.brand, Validators.required],
                 model: [assetData.model, Validators.required],
                 cost: [Number(assetData.cost) || 0, Validators.required], // Convert to number
@@ -569,9 +587,29 @@ updateAsset(index: number, newAsset: any) {
     
         console.log("Updated Assets Array:", this.assetsArray.value);
     }
+    // addAssets(assetData: any) {
+    //     console.log("Adding Asset:", assetData); // Debugging line
+    
+    //     this.assetsArray.push(
+    //         this._formBuilder.group({
+    //             type: [assetData.type, Validators.required],
+    //             serial_no: [assetData.serial_no, Validators.required], // Ensure key name is consistent
+    //             asset_barcode: [assetData.asset_barcode, Validators.required],
+    //             date_acquired: [assetData.date_acquired, Validators.required],
+    //             warranty: [assetData.warranty, Validators.required],
+    //             po: [assetData.po || ''], // Ensure correct key mapping
+    //             brand: [assetData.brand, Validators.required],
+    //             model: [assetData.model, Validators.required],
+    //             cost: [Number(assetData.cost) || 0, Validators.required], // Convert to number
+    //         })
+    //     );
+    
+    //     console.log("Updated Assets Array:", this.assetsArray.value);
+    // }
     
 
     removeRow(index: number) {
         this.componentsArray.removeAt(index);
     }
+    
 }

@@ -48,7 +48,8 @@ export class ComputerComponentAddModalComponent implements OnInit {
             image_component: [null],
             serial_number: [this.data.serial_number || 'N/A', [Validators.required]], // Use the passed value
             asset_barcode: [this.data.component?.asset_barcode || '', [Validators.required]], // Use existing data
-            date_acquired: [this.data.component?.date_acquired || new Date(), [Validators.required]],
+            // date_acquired: [this.data.component?.date_acquired || new Date(), [Validators.required]],
+            date_acquired: [this.data.component?.date_acquired ? new Date(this.data.component.date_acquired) : new Date(), [Validators.required]], // ✅ Convert to Date object if editing
             type: [this.data.component?.type || '', [Validators.required]],
             description: [this.data.component?.description || '', [Validators.required]],
         });

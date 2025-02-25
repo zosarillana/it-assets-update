@@ -1,4 +1,4 @@
-<div  *ngIf="asset" class="flex flex-col flex-auto min-w-0">
+<div *ngIf="asset" class="flex flex-col flex-auto min-w-0">
     <!-- Header -->
     <div
         class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
@@ -53,16 +53,22 @@
                     />
                     <div class="flex flex-col gap-2">
                         <p class="font-semibold text-2xl">
-                            {{ asset.model || "N/A" }} ({{ asset.type || "N/A" }})
+                            {{ asset.model || "N/A" }} ({{
+                                asset.type || "N/A"
+                            }})
                         </p>
                         <p class="text-secondary font-semibold">
                             Asset barcode:
-                            <span class="text-secondary font-medium">{{asset.asset_barcode}}</span>
+                            <span class="text-secondary font-medium">{{
+                                asset.asset_barcode
+                            }}</span>
                         </p>
                         <div class="flex flex-row gap-2">
                             <button
                                 class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center"
-                                [routerLink]="'/assets/inventory/edit/' + asset.id"
+                                [routerLink]="
+                                    '/assets/inventory/edit/' + asset.id
+                                "
                             >
                                 <mat-icon
                                     class="icon-size-4 text-blue-600"
@@ -74,8 +80,8 @@
                             </button>
 
                             <button
-                                class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center"  
-                                (click)="openDeleteDialog(asset.id)"                              
+                                class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center"
+                                (click)="openDeleteDialog(asset.id)"
                             >
                                 <mat-icon
                                     class="icon-size-4"
@@ -119,9 +125,11 @@
                 <div class="flex flex-col sm:flex-row justify-between gap-2">
                     <div class="flex flex-col">
                         <p class="text-primary font-bold text-2xl">
-                          {{ asset.asset_barcode || 'N/A' }}
+                            {{ asset.asset_barcode || "N/A" }}
                         </p>
-                        <p class="text-secondary">Serial number: {{ asset.serial_no || 'N/A' }}</p>
+                        <p class="text-secondary">
+                            Serial number: {{ asset.serial_no || "N/A" }}
+                        </p>
                     </div>
                     <mat-divider class="mx-12" vertical></mat-divider>
                     <div class="flex flex-col">
@@ -130,7 +138,8 @@
                         </p>
                         <p class="text-secondary">
                             <!-- {{asset.li_description}} -->
-                            {{ asset.type }} {{ asset.brand }} {{ asset.model }} {{ asset.color }} {{ asset.size }}
+                            {{ asset.type }} {{ asset.brand }}
+                            {{ asset.model }} {{ asset.color }} {{ asset.size }}
                         </p>
                     </div>
                 </div>
@@ -140,11 +149,11 @@
             <p class="text-lg font-medium mb-3">Details</p>
 
             <div class="flex flex-row gap-4">
-                <div class="flex flex-row gap-2  lg:gap-4">
+                <div class="flex flex-row gap-2 lg:gap-4">
                     <div class="flex flex-col flex-grow gap-4">
                         <p class="flex flex-col font-medium text-medium">
                             Serial number
-                            <span class="text-secondary text-medium ">
+                            <span class="text-secondary text-medium">
                                 <mat-icon
                                     svgIcon="feather:hash"
                                     class="icon-size-3"
@@ -225,7 +234,7 @@
                                     svgIcon="feather:tag"
                                     class="icon-size-3"
                                 ></mat-icon>
-                                {{ asset.po_number || "N/A" }}
+                                {{ asset.po || "N/A" }}
                             </span>
                         </p>
                         <p class="flex flex-col font-medium text-medium">
@@ -274,7 +283,7 @@
                         </p>
                     </div>
                 </div>
-            </div> 
+            </div>
 
             <mat-divider class="mt-6 mb-10"></mat-divider>
 
@@ -289,17 +298,19 @@
                     <p class="text-sm flex flex-col font-medium text-medium">
                         Owner Name
                         <span class="text-sm text-secondary text-medium">
-                            {{ asset.owner?.name || 'N/A' }}
+                            {{ asset.owner?.name || "N/A" }}
                         </span>
                     </p>
                     <p class="text-sm flex flex-col font-medium text-medium">
                         Company
-                        <span class="text-sm text-secondary text-medium">     {{ asset.owner?.company || 'N/A' }} </span>
+                        <span class="text-sm text-secondary text-medium">
+                            {{ asset.owner?.company || "N/A" }}
+                        </span>
                     </p>
                     <p class="text-sm flex flex-col font-medium text-medium">
                         Department
                         <span class="text-sm text-secondary text-medium">
-                            {{ asset.owner?.department || 'N/A' }}
+                            {{ asset.owner?.department || "N/A" }}
                         </span>
                     </p>
                 </div>
@@ -307,7 +318,7 @@
                     <p class="text-sm flex flex-col font-medium text-medium">
                         Employee ID
                         <span class="text-sm text-secondary text-medium">
-                            {{asset.owner?.employee_id || 'N/A'}}
+                            {{ asset.owner?.employee_id || "N/A" }}
                         </span>
                     </p>
                 </div>
