@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Assets } from 'app/models/Inventory/Asset';
-import { AssetsService } from 'app/services/assets/assets.service';
 import { ComputerService } from 'app/services/computer/computer.service';
 import { ModalUniversalComponent } from '../../components/modal/modal-universal/modal-universal.component';
 import { MatDialog } from '@angular/material/dialog';
