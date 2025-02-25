@@ -10,6 +10,9 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ComputerService } from 'app/services/computer/computer.service';
 import { ComponentsService } from 'app/services/components/components.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalUniversalComponent } from '../../components/modal/modal-universal/modal-universal.component';
+import { AlertService } from 'app/services/alert.service';
 
 @Component({
     selector: 'app-components-list',
@@ -24,7 +27,7 @@ export class ComponentsListComponent implements OnInit {
         'description',
         'uid',
         'status',
-        // 'action'
+        'action'
         // 'pc_type',
         //   'serial_no',
     ];
@@ -45,7 +48,7 @@ export class ComponentsListComponent implements OnInit {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
 
-    constructor(private assetService: ComponentsService) {}
+    constructor(private assetService: ComponentsService, private dialog: MatDialog, private alertService: AlertService ) {}
 
     ngOnInit(): void {
         console.log(this.dataSource.data);
@@ -191,4 +194,33 @@ export class ComponentsListComponent implements OnInit {
     isValidDate(date: any): boolean {
         return date && !isNaN(new Date(date).getTime());
     }
+
+     openDeleteDialog(id: string): void {
+            const dialogRef = this.dialog.open(ModalUniversalComponent, {
+                width: '400px',
+                data: { name: 'Are you sure you want to delete this item?' },
+            });
+    
+            dialogRef.afterClosed().subscribe((result) => {
+                if (result) {
+                    this.deleteItem(id);
+                }
+            });
+        }
+    
+        private deleteItem(id: string): void {
+            this.assetService.deleteEvent(id).subscribe({
+                next: () => {
+                    this.alertService.triggerSuccess('Item deleted successfully!');
+                    // Reload the page after successful deletion
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000); // Small delay for the alert to be visible
+                },
+                error: (err) => {
+                    console.error('Error deleting item:', err);
+                    this.alertService.triggerError('Failed to delete item.');
+                },
+            });
+        }
 }

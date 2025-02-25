@@ -28,7 +28,7 @@
                         ></mat-icon>
                         <a
                             class="ml-1 text-primary-500 cursor-pointer"
-                            [routerLink]="'/assets/inventory/view/' + asset.id"
+                            [routerLink]="'/assets/computers/view/' + asset.id"
                             >View</a
                         >
                     </div>
@@ -43,7 +43,7 @@
                 <div class="flex sm:hidden">
                     <a
                         class="inline-flex items-center -ml-1.5 text-secondary font-medium"
-                        [routerLink]="'/assets/inventory'"
+                        [routerLink]="'/assets/computers'"
                     >
                         <mat-icon
                             class="icon-size-5 text-secondary"
@@ -84,7 +84,7 @@
             <button
                 class="ml-4"
                 mat-icon-button
-                [routerLink]="'/assets/inventory'"
+                [routerLink]="'/assets/computers'"
             >
                 <mat-icon [svgIcon]="'close'"></mat-icon>
                 <!-- <span class="ml-2 mr-1">Go back</span> -->
@@ -155,7 +155,7 @@
                             Long Item Description
                         </p>
                         <p class="text-secondary">
-                            {{ asset.li_description }}
+                            {{ asset.type + " " + asset.model + " " + asset.brand + " " + asset.size + " " + asset.color }} 
                         </p>
                     </div>
                 </div>

@@ -315,12 +315,13 @@
                             <mat-icon class="icon-size-4" svgIcon="feather:more-vertical"></mat-icon>
                         </button>
                         <mat-menu #menu="matMenu">
-                            <button mat-menu-item>
-                                <mat-icon class="icon-size-5" svgIcon="feather:edit"></mat-icon> <p class="text-regular">Edit Computer</p>
-                            </button>                            
+                            <button mat-menu-item [routerLink]="'/assets/computers/edit/' + element.id">
+                                <mat-icon class="icon-size-5" svgIcon="feather:edit"></mat-icon>
+                                <p class="text-regular">Edit</p>
+                              </button> 
                             <button mat-menu-item (click)="openDeleteDialog(element.id)">
                                 <mat-icon class="icon-size-5" color="warn" svgIcon="feather:trash"></mat-icon>
-                                <p class="text-regular">Delete Computer</p>
+                                <p class="text-regular">Delete</p>
                             </button>
                                             
                             <!-- <button mat-menu-item>Option 2</button> -->

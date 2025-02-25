@@ -94,7 +94,7 @@
 
     <div class="flex flex-col h-full sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
         <form
-            class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
+            class="flex flex-col flex-grow pb-12 px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
         >
             <p class="text-lg font-bold text-2xl">Computer  Information</p>
             <mat-divider class="mt-6 mb-4"></mat-divider>
@@ -398,43 +398,8 @@
             </div>
 
             <!-- Section Divider -->
-            <mat-divider class="mt-6 mb-10"></mat-divider>
+    
 
-            <!-- Current Owner Details Section -->
-            <p class="text-lg font-medium">Current Owner Details</p>
-            <p class="text-secondary mb-6">
-                Current owner of the asset details.
-            </p>
-
-            <!-- Responsive Owner Details Section -->
-            <div class="flex flex-col sm:flex-row gap-4">
-                <div class="flex flex-col flex-grow gap-4">
-                    <p class="flex flex-col font-medium text-medium">
-                        Owner Name
-                        <span class="text-secondary text-medium">
-                            {{ asset.owner.name || 'N/A' }}
-                        </span>
-                    </p>
-                    <p class="flex flex-col font-medium text-medium">
-                        Company
-                        <span class="text-secondary text-medium"> ABFI </span>
-                    </p>
-                    <p class="flex flex-col font-medium text-medium">
-                        Department
-                        <span class="text-secondary text-medium">
-                            {{ asset.owner.department || 'N/A' }}
-                        </span>
-                    </p>
-                </div>
-                <div class="flex flex-col flex-grow gap-4">
-                    <p class="flex flex-col font-medium text-medium">
-                        Employee ID
-                        <span class="text-secondary text-medium">
-                            {{asset.owner.employee_id || 'N/A'}}
-                        </span>
-                    </p>
-                </div>
-            </div>
                     
             <!-- <mat-form-field class="flex-grow gt-xs:pr-3">
                     <input matInput [placeholder]="'First name'" />
@@ -453,7 +418,7 @@
                     ></mat-icon>
                 </mat-form-field> -->
 
-            <mat-divider class="mt-6 mb-10"></mat-divider>
+          
             <!-- <div
                 class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
             > -->

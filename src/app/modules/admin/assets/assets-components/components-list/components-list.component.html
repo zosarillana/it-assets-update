@@ -197,7 +197,7 @@
                     <td
                         mat-cell
                         *matCellDef="let element"
-                        class="border-b border-gray-200 text-sm px-0 py-0"
+                        class="border-r border-b border-gray-200 text-sm px-0 py-0"
                     >
                         <!-- {{ element.date_acquired && isValidDate(element.date_acquired) ? (element.date_acquired | date : "MM/dd/yyyy") : 'N/A' }} -->
                         <div class="flex ml-4">
@@ -270,9 +270,15 @@
                             <mat-icon class="icon-size-4" svgIcon="feather:more-vertical"></mat-icon>
                         </button>
                         <mat-menu #menu="matMenu">
-                            <button mat-menu-item>
-                                <mat-icon class="icon-size-5">fact_check</mat-icon> <p class="text-sm">Accountability</p>
-                            </button>                            
+                            <!-- <button mat-menu-item [routerLink]="'/assets/components/edit/' + element.id">
+                                <mat-icon class="icon-size-5" svgIcon="feather:edit"></mat-icon>
+                                <p class="text-regular">Edit</p>
+                              </button>  -->
+                            <button mat-menu-item (click)="openDeleteDialog(element.id)">
+                                <mat-icon class="icon-size-5" color="warn" svgIcon="feather:trash"></mat-icon>
+                                <p class="text-regular">Delete</p>
+                            </button>
+                                            
                             <!-- <button mat-menu-item>Option 2</button> -->
                         </mat-menu>
                     </td>
