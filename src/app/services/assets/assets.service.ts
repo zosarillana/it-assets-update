@@ -53,4 +53,13 @@ export class AssetsService {
     public deleteEvent(id: string): Observable<any>{
         return this.http.delete(`${this.url}/api/Assets/delete-asset/${id}`);
     }
+
+    /** 
+     * Pulls out an asset from a computer and updates its status
+     * @param assetId The ID of the asset to pull out
+     * @returns Observable<any> containing the API response
+     */
+    public pullOutAsset(assetId: number): Observable<any> {
+        return this.http.put(`${this.url}/api/Assets/pullout/${assetId}`, {});
+    }
 }

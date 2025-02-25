@@ -27,6 +27,7 @@ export class ComputersListComponent  implements OnInit, AfterViewInit {
         'active_user',
         'bu',
         'status',
+        'action'
     ];
 
     dataSource = new MatTableDataSource<Assets>();

@@ -1,8 +1,7 @@
 <div *ngIf="asset" class="flex flex-col flex-auto min-w-0">
     <!-- Header -->
     <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
-    >
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Breadcrumbs -->
             <div>
@@ -11,32 +10,21 @@
                         <a class="ml-1 text-primary-500">Computers</a>
                     </div>
                     <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon
-                            class="icon-size-5 text-secondary"
-                            [svgIcon]="'heroicons_solid:chevron-right'"
-                        ></mat-icon>
-                        <a
-                            class="ml-1 text-primary-500 cursor-pointer"
-                            [routerLink]="'/assets/computers'"
-                            >Computer List</a
-                        >
+                        <mat-icon class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                        <a class="ml-1 text-primary-500 cursor-pointer" [routerLink]="'/assets/computers'">Computer
+                            List</a>
                     </div>
                     <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon
-                            class="icon-size-5 text-secondary"
-                            [svgIcon]="'heroicons_solid:chevron-right'"
-                        ></mat-icon>
+                        <mat-icon class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
                         <span class="ml-1 text-secondary">View </span>
                     </div>
                 </div>
                 <div class="flex sm:hidden">
-                    <a
-                        class="inline-flex items-center -ml-1.5 text-secondary font-medium"                  
-                    >
-                        <mat-icon
-                            class="icon-size-5 text-secondary"
-                            [svgIcon]="'heroicons_solid:chevron-left'"
-                        ></mat-icon>
+                    <a class="inline-flex items-center -ml-1.5 text-secondary font-medium">
+                        <mat-icon class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-left'"></mat-icon>
                         <span class="ml-1">Back</span>
                     </a>
                 </div>
@@ -45,47 +33,31 @@
             <div class="mt-4 flex flex-col gap-4">
                 <!-- Image Section -->
                 <div class="flex flex-row gap-4">
-                    <img
-                        src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/inspiron-notebooks/14-2-in-1-7440-intel/media-gallery/notebook-inspiron-14-7440-t-ice-blue-gallery-17.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=1336&qlt=100,1&resMode=sharp2&size=1336,804&chrss=full"
-                        alt="Sample Image"
-                        class="h-28 w-32"
-                    />
+                    <img src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/inspiron-notebooks/14-2-in-1-7440-intel/media-gallery/notebook-inspiron-14-7440-t-ice-blue-gallery-17.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=1336&qlt=100,1&resMode=sharp2&size=1336,804&chrss=full"
+                        alt="Sample Image" class="h-28 w-32" />
                     <div class="flex flex-col gap-2">
                         <p class="font-semibold text-2xl">
                             {{ asset.model || "N/A" }} ({{
-                                asset.type || "N/A"
+                            asset.type || "N/A"
                             }})
                         </p>
                         <p class="text-secondary font-semibold">
                             Asset barcode:
                             <span class="text-secondary font-medium">{{
                                 asset.asset_barcode
-                            }}</span>
+                                }}</span>
                         </p>
                         <div class="flex flex-row gap-2">
-                            <button
-                                class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center"
-                                [routerLink]="
+                            <button class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center" [routerLink]="
                                     '/assets/computers/edit/' + asset.id
-                                "
-                            >
-                                <mat-icon
-                                    class="icon-size-4 text-blue-600"
-                                    [svgIcon]="'feather:edit'"
-                                ></mat-icon>
-                                <span class="ml-1 mr-1 text-sm text-blue-600"
-                                    >Edit</span
-                                >
+                                ">
+                                <mat-icon class="icon-size-4 text-blue-600" [svgIcon]="'feather:edit'"></mat-icon>
+                                <span class="ml-1 mr-1 text-sm text-blue-600">Edit</span>
                             </button>
 
-                            <button
-                                class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center"
-                                (click)="openDeleteDialog(asset.id)"
-                            >
-                                <mat-icon
-                                    class="icon-size-4"
-                                    [svgIcon]="'feather:trash-2'"
-                                ></mat-icon>
+                            <button class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center"
+                                (click)="openDeleteDialog(asset.id)">
+                                <mat-icon class="icon-size-4" [svgIcon]="'feather:trash-2'"></mat-icon>
                                 <span class="ml-1 text-sm">Delete</span>
                             </button>
                         </div>
@@ -95,31 +67,20 @@
                 <div class="flex flex-row gap-1"></div>
             </div>
         </div>
-        <div
-            class="hidden sm:flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4"
-        >
-            <button
-                class="ml-4"
-                mat-icon-button
-                [routerLink]="'/assets/computers'"
-            >
+        <div class="hidden sm:flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button class="ml-4" mat-icon-button [routerLink]="'/assets/computers'">
                 <mat-icon [svgIcon]="'close'"></mat-icon>
                 <!-- <span class="ml-2 mr-1">Go back</span> -->
             </button>
         </div>
     </div>
     <div class="flex flex-col h-full sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
-        <form
-            class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
-        >
+        <form class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden">
             <p class="text-lg font-bold text-2xl">Computer Information</p>
             <mat-divider class="mt-6 mb-4"></mat-divider>
             <div class="flex flex-row mt-2 gap-4">
-                <img
-                    src="https://pngimg.com/uploads/qr_code/small/qr_code_PNG7.png"
-                    alt="Sample QR"
-                    class="h-32 w-32"
-                />
+                <img src="https://pngimg.com/uploads/qr_code/small/qr_code_PNG7.png" alt="Sample QR"
+                    class="h-32 w-32" />
                 <div class="flex flex-col sm:flex-row justify-between gap-2">
                     <div class="flex flex-col">
                         <p class="text-primary font-bold text-2xl">
@@ -135,7 +96,8 @@
                             Long Item Description
                         </p>
                         <p class="text-secondary">
-                            {{ asset.type + " " + asset.brand + " " + asset.model + " " + asset.size + " " + asset.color }}
+                            {{ asset.type + " " + asset.brand + " " + asset.model + " " + asset.size + " " + asset.color
+                            }}
                         </p>
                     </div>
                 </div>
@@ -149,116 +111,80 @@
                     <p class="flex flex-col font-medium text-medium">
                         Serial number
                         <span class="text-secondary text-medium">
-                            <mat-icon
-                                svgIcon="feather:hash"
-                                class="icon-size-3"
-                            ></mat-icon>
+                            <mat-icon svgIcon="feather:hash" class="icon-size-3"></mat-icon>
                             {{ asset.serial_no || "N/A" }}
                         </span>
                     </p>
                     <p class="flex flex-col font-medium text-medium">
                         Type
                         <span class="text-secondary text-medium">
-                            <mat-icon
-                                svgIcon="feather:cpu"
-                                class="icon-size-3"
-                            ></mat-icon>
+                            <mat-icon svgIcon="feather:cpu" class="icon-size-3"></mat-icon>
                             {{ asset.type || "N/A" }}
                         </span>
                     </p>
                     <p class="flex flex-col font-medium text-medium">
                         Date Acquired
                         <span class="text-secondary text-medium">
-                            <mat-icon
-                                svgIcon="feather:calendar"
-                                class="icon-size-3"
-                            ></mat-icon>
+                            <mat-icon svgIcon="feather:calendar" class="icon-size-3"></mat-icon>
                             {{ asset.date_acquired || "N/A" }}
                         </span>
                     </p>
                     <p class="flex flex-col font-medium text-medium">
                         Brand
                         <span class="text-secondary text-medium">
-                            <mat-icon
-                                svgIcon="feather:box"
-                                class="icon-size-3"
-                            ></mat-icon>
+                            <mat-icon svgIcon="feather:box" class="icon-size-3"></mat-icon>
                             {{ asset.brand || "N/A" }}
                         </span>
                     </p>
                     <p class="flex flex-col font-medium text-medium">
                         Model
                         <span class="text-secondary text-medium">
-                            <mat-icon
-                                svgIcon="feather:smartphone"
-                                class="icon-size-3"
-                            ></mat-icon>
+                            <mat-icon svgIcon="feather:smartphone" class="icon-size-3"></mat-icon>
                             {{ asset.model || "N/A" }}
                         </span>
                     </p>
                     <p class="flex flex-col font-medium text-medium">
                         Size
                         <span class="text-secondary text-medium">
-                            <mat-icon
-                                svgIcon="feather:info"
-                                class="icon-size-3"
-                            ></mat-icon>
+                            <mat-icon svgIcon="feather:info" class="icon-size-3"></mat-icon>
                             {{ asset.size || "N/A" }}
                         </span>
                     </p>
                 </div>
-                <mat-divider
-                    class="mx-2 md:mx-6 lg:mx-12"
-                    vertical
-                ></mat-divider>
+                <mat-divider class="mx-2 md:mx-6 lg:mx-12" vertical></mat-divider>
                 <div class="flex flex-col flex-grow gap-4">
                     <p class="flex flex-col font-medium text-medium">
                         Color
                         <span class="text-secondary text-medium">
-                            <mat-icon
-                                svgIcon="feather:info"
-                                class="icon-size-3"
-                            ></mat-icon>
+                            <mat-icon svgIcon="feather:info" class="icon-size-3"></mat-icon>
                             {{ asset.color || "N/A" }}
                         </span>
                     </p>
                     <p class="flex flex-col font-medium text-medium">
                         Po #
                         <span class="text-secondary text-medium">
-                            <mat-icon
-                                svgIcon="feather:tag"
-                                class="icon-size-3"
-                            ></mat-icon>
+                            <mat-icon svgIcon="feather:tag" class="icon-size-3"></mat-icon>
                             {{ asset.po_number || "N/A" }}
                         </span>
                     </p>
                     <p class="flex flex-col font-medium text-medium">
                         Warranty
                         <span class="text-secondary text-medium">
-                            <mat-icon
-                                svgIcon="feather:shield"
-                                class="icon-size-3"
-                            ></mat-icon>
+                            <mat-icon svgIcon="feather:shield" class="icon-size-3"></mat-icon>
                             {{ asset.warranty || "N/A" }}
                         </span>
                     </p>
                     <p class="flex flex-col font-medium text-medium">
                         Cost
                         <span class="text-secondary text-medium">
-                            <mat-icon
-                                svgIcon="feather:dollar-sign"
-                                class="icon-size-3"
-                            ></mat-icon>
+                            <mat-icon svgIcon="feather:dollar-sign" class="icon-size-3"></mat-icon>
                             {{ asset.cost || "N/A" }}
                         </span>
                     </p>
                     <p class="flex flex-col font-medium text-medium">
                         Remarks
                         <span class="text-secondary text-medium">
-                            <mat-icon
-                                svgIcon="feather:file-text"
-                                class="icon-size-3"
-                            ></mat-icon>
+                            <mat-icon svgIcon="feather:file-text" class="icon-size-3"></mat-icon>
                             {{ asset.remarks || "N/A" }}
                         </span>
                     </p>
@@ -290,104 +216,81 @@
                         </p>
 
                         <div class="overflow-x-auto">
-                            <mat-table
-                                [dataSource]="dataSource"
-                                matSort
-                                class="mat-elevation-z8 w-full"
-                            >
+                            <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-full">
                                 <ng-container matColumnDef="component">
-                                    <mat-header-cell
-                                        *matHeaderCellDef
-                                        mat-sort-header
-                                        >Component</mat-header-cell
-                                    >
-                                    <mat-cell
-                                        *matCellDef="let element"
-                                        class="text-sm"
-                                    >
-                                        <mat-icon
-                                            [svgIcon]="element.icon"
-                                            class="icon-size-3 mr-1"
-                                        ></mat-icon>
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Component</mat-header-cell>
+                                    <mat-cell *matCellDef="let element" class="text-sm">
+                                        <mat-icon [svgIcon]="element.icon" class="icon-size-3 mr-1"></mat-icon>
                                         {{ element.name }}
                                     </mat-cell>
                                 </ng-container>
 
                                 <ng-container matColumnDef="description">
-                                    <mat-header-cell
-                                        *matHeaderCellDef
-                                        mat-sort-header
-                                        >Description</mat-header-cell
-                                    >
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
                                     <mat-cell *matCellDef="let element">
-                                        <ng-container
-                                            *ngIf="
+                                        <ng-container *ngIf="
                                                 element.description;
                                                 else noDescription
-                                            "
-                                        >
-                                            <span
-                                                class="text-blue-600 underline cursor-pointer text-sm"
-                                            >
+                                            ">
+                                            <span class="text-blue-600 underline cursor-pointer text-sm">
                                                 {{ element.description }}
-                                                <mat-icon
-                                                    svgIcon="mat_outline:open_in_new"
-                                                    class="icon-size-3 text-blue-700"
-                                                ></mat-icon>
+                                                <mat-icon svgIcon="mat_outline:open_in_new"
+                                                    class="icon-size-3 text-blue-700"></mat-icon>
                                             </span>
                                         </ng-container>
                                         <ng-template #noDescription>
-                                            <span
-                                                class="text-secondary"
-                                                class="text-sm"
-                                                >N/A</span
-                                            >
+                                            <span class="text-secondary" class="text-sm">N/A</span>
                                         </ng-template>
                                     </mat-cell>
                                 </ng-container>
 
                                 <ng-container matColumnDef="uid">
-                                    <mat-header-cell
-                                        *matHeaderCellDef
-                                        mat-sort-header
-                                        >UID</mat-header-cell
-                                    >
-                                    <mat-cell
-                                        *matCellDef="let element"
-                                        class="text-sm"
-                                    >
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Inventory Code</mat-header-cell>
+                                    <mat-cell *matCellDef="let element" class="text-sm">
                                         {{ element.uid || "N/A" }}
                                     </mat-cell>
                                 </ng-container>
 
                                 <ng-container matColumnDef="history">
-                                    <mat-header-cell
-                                        *matHeaderCellDef
-                                        mat-sort-header
-                                        >History</mat-header-cell
-                                    >
-                                    <mat-cell
-                                        *matCellDef="let element"
-                                        class="text-sm"
-                                    >
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>History</mat-header-cell>
+                                    <mat-cell *matCellDef="let element" class="text-sm">
                                         {{ element.history || "N/A" }}
                                     </mat-cell>
                                 </ng-container>
 
-                                <mat-header-row
-                                    *matHeaderRowDef="displayedColumns"
-                                ></mat-header-row>
-                                <mat-row
-                                    *matRowDef="
+                                <ng-container matColumnDef="action">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
+                                    <mat-cell *matCellDef="let element">
+                                        <!-- Button to open the menu -->
+                                        <button mat-icon-button [matMenuTriggerFor]="menu"
+                                            (click)="$event.stopPropagation()">
+                                            <mat-icon class="icon-size-4" svgIcon="feather:more-vertical"></mat-icon>
+                                        </button>
+
+                                        <!-- Mat Menu Instance -->
+                                        <mat-menu #menu="matMenu">
+                                            <button mat-menu-item (click)="handlePullOut(getComponentId(element))">
+                                                <mat-icon>exit_to_app</mat-icon> Pull Out
+                                            </button>
+
+                                            <button mat-menu-item>
+                                                <mat-icon>post_add</mat-icon> Create IAF
+                                            </button>
+
+                                        </mat-menu>
+                                    </mat-cell>
+                                </ng-container>
+
+
+
+                                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                <mat-row *matRowDef="
                                         let row;
                                         columns: displayedColumns
-                                    "
-                                    class="hover:bg-gray-100 cursor-pointer"
-                                    [routerLink]="[
+                                    " class="hover:bg-gray-100 cursor-pointer" [routerLink]="[
                                         '/assets/components/view',
                                         row.uid
-                                    ]"
-                                >
+                                    ]">
                                 </mat-row>
                             </mat-table>
                         </div>
@@ -402,122 +305,99 @@
 
                         <!-- New Table for Assigned Assets -->
                         <div class="overflow-x-auto mt-5">
-                            <mat-table
-                                [dataSource]="dataSourceAssignedAssets"
-                                matSort
-                                class="mat-elevation-z8 w-full"
-                            >
+                            <mat-table [dataSource]="dataSourceAssignedAssets" matSort class="mat-elevation-z8 w-full">
                                 <ng-container matColumnDef="name">
-                                    <mat-header-cell
-                                        *matHeaderCellDef
-                                        mat-sort-header
-                                        >Assigned Asset</mat-header-cell
-                                    >
-                                    <mat-cell
-                                        *matCellDef="let element"
-                                        class="text-sm"
-                                    >
-                                        <mat-icon
-                                            [svgIcon]="element.icon"
-                                            class="icon-size-3 mr-1"
-                                        ></mat-icon>
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Assigned Asset</mat-header-cell>
+                                    <mat-cell *matCellDef="let element" class="text-sm">
+                                        <mat-icon [svgIcon]="element.icon" class="icon-size-3 mr-1"></mat-icon>
                                         {{ element.name }}
                                     </mat-cell>
                                 </ng-container>
 
                                 <ng-container matColumnDef="description">
-                                    <mat-header-cell
-                                        *matHeaderCellDef
-                                        mat-sort-header
-                                        >Barcode</mat-header-cell
-                                    >
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Barcode</mat-header-cell>
 
                                     <mat-cell *matCellDef="let element">
-                                        <ng-container
-                                            *ngIf="
+                                        <ng-container *ngIf="
                                                 element.description;
                                                 else noDescription
-                                            "
-                                        >
-                                            <span
-                                                class="text-blue-600 underline cursor-pointer text-sm"
-                                            >
+                                            ">
+                                            <span class="text-blue-600 underline cursor-pointer text-sm">
                                                 {{ element.description }}
-                                                <mat-icon
-                                                    svgIcon="mat_outline:open_in_new"
-                                                    class="icon-size-3 text-blue-700"
-                                                ></mat-icon>
+                                                <mat-icon svgIcon="mat_outline:open_in_new"
+                                                    class="icon-size-3 text-blue-700"></mat-icon>
                                             </span>
                                         </ng-container>
                                         <ng-template #noDescription>
-                                            <span
-                                                class="text-secondary"
-                                                class="text-sm"
-                                                >N/A</span
-                                            >
+                                            <span class="text-secondary" class="text-sm">N/A</span>
                                         </ng-template>
                                     </mat-cell>
                                 </ng-container>
 
                                 <ng-container matColumnDef="uid">
-                                    <mat-header-cell
-                                        *matHeaderCellDef
-                                        mat-sort-header
-                                        >Asset ID</mat-header-cell
-                                    >
-                                    <mat-cell
-                                        *matCellDef="let element"
-                                        class="text-sm"
-                                    >
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Asset ID</mat-header-cell>
+                                    <mat-cell *matCellDef="let element" class="text-sm">
                                         {{ element.brand }}
                                     </mat-cell>
                                 </ng-container>
 
                                 <ng-container matColumnDef="serial_no">
-                                    <mat-header-cell
-                                        *matHeaderCellDef
-                                        mat-sort-header
-                                        >Serial Number</mat-header-cell
-                                    >
-                                    <mat-cell
-                                        *matCellDef="let element"
-                                        class="text-sm"
-                                    >
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Serial Number</mat-header-cell>
+                                    <mat-cell *matCellDef="let element" class="text-sm">
                                         {{ element.serial_no }}
                                     </mat-cell>
                                 </ng-container>
 
-                                <mat-header-row
-                                    *matHeaderRowDef="[
+                                <ng-container matColumnDef="action">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
+                                    <mat-cell *matCellDef="let element" class="text-sm">
+                                        <button mat-icon-button [matMenuTriggerFor]="menu"
+                                            (click)="$event.stopPropagation()">
+                                            <mat-icon class="icon-size-4" svgIcon="feather:more-vertical"></mat-icon>
+                                        </button>
+                                        <mat-menu #menu="matMenu">
+                                            <button mat-menu-item (click)="handleAssetPullOut(getAssetId(element))">
+                                                <mat-icon>exit_to_app</mat-icon> Pull Out
+                                            </button>
+                                            
+                                            
+                                            
+
+                                            <button mat-menu-item>
+                                                <mat-icon>post_add</mat-icon> Create IAF
+                                            </button>
+
+                                        </mat-menu>
+                                    </mat-cell>
+                                </ng-container>
+
+                                <mat-header-row *matHeaderRowDef="[
                                         'name',
                                         'description',
                                         'uid',
-                                        'serial_no'
-                                    ]"
-                                ></mat-header-row>
-                                <mat-row
-                                    *matRowDef="
+                                        'serial_no',
+                                        'action'
+                                    ]"></mat-header-row>
+                                <mat-row *matRowDef="
                                         let row;
                                         columns: [
                                             'name',
                                             'description',
                                             'uid',
-                                            'serial_no'
+                                            'serial_no',
+                                            'action'
                                         ]
-                                    "
-                                    class="hover:bg-gray-100 cursor-pointer"
-                                    [routerLink]="[
+                                    " class="hover:bg-gray-100 cursor-pointer" [routerLink]="[
                                         '/assets/inventory/view/',
                                         row.id
-                                    ]"
-                                >
+                                    ]">
                                 </mat-row>
                             </mat-table>
                         </div>
                     </mat-tab>
                     <mat-tab label="User History">
                         <p class="text-sm font-medium mt-5">
-                           User History
+                            User History
                         </p>
                         <p class="text-sm text-secondary mb-6">
                             Computer owner history.
@@ -526,30 +406,31 @@
                             <!-- ID Column -->
                             <ng-container matColumnDef="id">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Ordinal</mat-header-cell>
-                                <mat-cell class="text-sm" *matCellDef="let element">{{ getOrdinal(element.id) }}</mat-cell>
+                                <mat-cell class="text-sm" *matCellDef="let element">{{ getOrdinal(element.id)
+                                    }}</mat-cell>
                             </ng-container>
-                        
+
                             <!-- Name Column -->
                             <ng-container matColumnDef="name">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>History</mat-header-cell>
                                 <mat-cell class="text-sm" *matCellDef="let element">{{ element.name }}</mat-cell>
                             </ng-container>
-                        
+
                             <!-- Department Column -->
                             <ng-container matColumnDef="department">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Department</mat-header-cell>
                                 <mat-cell class="text-sm" *matCellDef="let element">{{ element.department }}</mat-cell>
                             </ng-container>
-                        
+
                             <!-- Company Column -->
                             <ng-container matColumnDef="company">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Company</mat-header-cell>
                                 <mat-cell class="text-sm" *matCellDef="let element">{{ element.company }}</mat-cell>
                             </ng-container>
-                        
+
                             <!-- Fix Header Row Definition -->
                             <mat-header-row *matHeaderRowDef="['id', 'name', 'department', 'company']"></mat-header-row>
-                        
+
                             <!-- Fix Row Definition -->
                             <mat-row *matRowDef="let row; columns: ['id', 'name', 'department', 'company']"
                                 class="hover:bg-gray-100 ">
