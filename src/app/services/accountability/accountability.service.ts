@@ -23,4 +23,8 @@ export class AccountabilityService {
     public postEvent(data: any): Observable<any> {
         return this.http.post(`${this.url}/api/UserAccountabilityList/add-accountability`, data);
     } 
+   
+    public deleteEvent(id: string): Observable<any>{
+        return this.http.delete(`${this.url}/api/UserAccountabilityList/delete/${id}`);
+    }
 }

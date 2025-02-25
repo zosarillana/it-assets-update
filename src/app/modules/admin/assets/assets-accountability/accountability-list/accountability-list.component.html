@@ -286,7 +286,28 @@
                         <ng-template #noData>N/A</ng-template>
                     </td>
                 </ng-container>
-
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                        class=" text-left text-gray-900 font-semibold w-24"> 
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="border-r border-gray-200 text-sm w-12 text-center">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+                            <mat-icon class="icon-size-4" svgIcon="feather:more-vertical"></mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <!-- <button mat-menu-item [routerLink]="'/assets/computers/edit/' + element.id">
+                                <mat-icon class="icon-size-5" svgIcon="feather:edit"></mat-icon>
+                                <p class="text-regular">Edit</p>
+                              </button>  -->
+                            <button mat-menu-item (click)="openDeleteDialog(element.id)">
+                                <mat-icon class="icon-size-5" color="warn" svgIcon="feather:trash"></mat-icon>
+                                <p class="text-regular">Delete</p>
+                            </button>
+                                            
+                            <!-- <button mat-menu-item>Option 2</button> -->
+                        </mat-menu>
+                    </td>
+                </ng-container>
                 <!-- Action Column -->
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr
@@ -300,10 +321,11 @@
         <!-- Paginator -->
         <div>
             <mat-paginator
-                [pageSizeOptions]="[10, 15, 20, 50, 100]"
-                [pageSize]="10"
-                showFirstLastButtons
-            ></mat-paginator>
+            [pageSizeOptions]="[10, 15, 20, 50, 100]"
+            [pageSize]="10"
+            showFirstLastButtons
+        ></mat-paginator>
+        
         </div>
     </div>
 </div>
