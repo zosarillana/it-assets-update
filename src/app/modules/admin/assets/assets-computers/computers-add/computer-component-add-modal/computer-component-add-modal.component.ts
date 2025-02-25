@@ -33,16 +33,27 @@ export class ComputerComponentAddModalComponent implements OnInit {
         this.initializeForm();
     }
 
+    // private initializeForm(): void {
+    //     this.eventForm = this._formBuilder.group({
+    //         image_component: [null],
+    //         serial_number: [this.data.serial_number || 'N/A', []], // Use the passed value
+    //         asset_barcode: [this.data.asset_barcode || 'N/A', []], // Use the passed value
+    //         date_acquired: [new Date(), [Validators.required]],
+    //         type: ['', [Validators.required]],
+    //         description: ['', [Validators.required]],
+    //     });
+    // }
     private initializeForm(): void {
         this.eventForm = this._formBuilder.group({
             image_component: [null],
-            serial_number: [this.data.serial_number || 'N/A', []], // Use the passed value
-            asset_barcode: [this.data.asset_barcode || 'N/A', []], // Use the passed value
-            date_acquired: [new Date(), [Validators.required]],
-            type: ['', [Validators.required]],
-            description: ['', [Validators.required]],
+            serial_number: [this.data.serial_number || 'N/A', [Validators.required]], // Use the passed value
+            asset_barcode: [this.data.component?.asset_barcode || '', [Validators.required]], // Use existing data
+            date_acquired: [this.data.component?.date_acquired || new Date(), [Validators.required]],
+            type: [this.data.component?.type || '', [Validators.required]],
+            description: [this.data.component?.description || '', [Validators.required]],
         });
     }
+    
 
     previewSelectedImageComponent(event: Event): void {
         const input = event.target as HTMLInputElement;

@@ -24,6 +24,7 @@ export class ComponentsListComponent implements OnInit {
         'description',
         'uid',
         'status',
+        // 'action'
         // 'pc_type',
         //   'serial_no',
     ];

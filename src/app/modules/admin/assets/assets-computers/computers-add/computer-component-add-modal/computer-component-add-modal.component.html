@@ -11,23 +11,7 @@
 <mat-divider class="my-3"></mat-divider>
 <mat-dialog-content>
     <form [formGroup]="eventForm">
-        <div class="flex flex-row mt-2 gap-3 md:gap-4">
-            <!-- <div class="flex flex-col items-center mt-2 mr-5">
-                <label for="select-image" class="cursor-pointer flex flex-col items-center">
-                    <img id="preview-image" [src]="imageUrl" alt="Select Image" 
-                        class="w-32 md:h-42 md:w-48 object-contain border border-gray-300 rounded-md" />
-                    <span class="text-secondary text-xs md:text-xs mt-1 md:mt-2">
-                        <mat-icon class="icon-size-3 md:icon-size-3 text-secondary" [svgIcon]="'feather:edit'"></mat-icon>
-                        Select new image
-                    </span>
-                </label>
-                <input #fileInput id="select-image" type="file" accept="image/*" class="hidden" (change)="previewSelectedImage($event)" />
-                
-            <div *ngIf="errorMessage$ | async as errorMsg" class="alert alert-danger">
-                {{ errorMsg }}
-            </div>
-            
-            </div> -->
+        <div class="flex flex-row mt-2 gap-3 md:gap-4">         
             <div class="flex flex-col items-center">
                 <label
                     for="select-image-component"
@@ -79,7 +63,7 @@
                         </mat-form-field>
                  
                         <mat-label class="text-xs md:text-sm"
-                            >Asset  Barcode</mat-label
+                            >Asset Barcode</mat-label
                         >
                         <mat-form-field appearance="fill">
                             <mat-icon
@@ -94,6 +78,7 @@
                                 class="text-xs md:text-sm"
                             />
                         </mat-form-field>
+                        
                     </div>
                     <div class="flex flex-grow flex-col">
                         <mat-label class="text-xs md:text-sm"

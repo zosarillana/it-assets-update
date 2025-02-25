@@ -190,7 +190,7 @@
                         mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
-                        class="text-left text-gray-900 font-semibold inventory-tag-header custom-left-align w-36"
+                        class="text-left text-gray-900 font-semibold inventory-tag-header custom-left-align w-6"
                     >
                         <div class="ml-3">Status</div>
                     </th>
@@ -246,7 +246,8 @@
                         mat-sort-header
                         class="px-4 py-2 text-left text-gray-600 font-semibold w-36"
                     >
-                        Unique ID
+                        <!-- Unique ID -->
+                        Inventory Code
                     </th>
                     <td
                         mat-cell
@@ -259,6 +260,23 @@
                     </td>
                 </ng-container>
 
+
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                        class=" text-left text-gray-900 font-semibold w-24"> 
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="border-r border-gray-200 text-sm w-12 text-center">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+                            <mat-icon class="icon-size-4" svgIcon="feather:more-vertical"></mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item>
+                                <mat-icon class="icon-size-5">fact_check</mat-icon> <p class="text-sm">Accountability</p>
+                            </button>                            
+                            <!-- <button mat-menu-item>Option 2</button> -->
+                        </mat-menu>
+                    </td>
+                </ng-container>
                 <!-- <ng-container matColumnDef="serial_no">
                     <th
                         mat-header-cell
