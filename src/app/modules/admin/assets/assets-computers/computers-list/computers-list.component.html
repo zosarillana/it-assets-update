@@ -314,12 +314,16 @@
                         <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
                             <mat-icon class="icon-size-4" svgIcon="feather:more-vertical"></mat-icon>
                         </button>
-                        <mat-menu #menu="matMenu">
-                            <button mat-menu-item [routerLink]="'/assets/computers/edit/' + element.id">
-                                <mat-icon>exit_to_app</mat-icon> 
+                        <mat-menu #menu="matMenu">                          
+                            <button mat-menu-item>
+                                <mat-icon>exit_to_app</mat-icon>
+                                <p class="text-regular">Pull out computer</p>
+                              </button> 
+                              <button mat-menu-item>
+                                <mat-icon>add_box</mat-icon> 
                                 <p class="text-regular">Pull in</p>
                               </button> 
-                            <button mat-menu-item [routerLink]="'/assets/computers/edit/' + element.id">
+                            <button mat-menu-item>
                                 <mat-icon>speaker_notes</mat-icon> 
                                 <p class="text-regular">Set Remarks</p>
                               </button> 

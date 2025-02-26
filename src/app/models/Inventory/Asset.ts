@@ -1,6 +1,7 @@
 export interface Assets {
     id: number;
     type: string;
+    description: string;
     date_acquired: string;
     asset_barcode: string;
     brand: string;

@@ -269,7 +269,11 @@
                         <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
                             <mat-icon class="icon-size-4" svgIcon="feather:more-vertical"></mat-icon>
                         </button>
-                        <mat-menu #menu="matMenu">
+                        <mat-menu #menu="matMenu">                           
+                            <button mat-menu-item>
+                                <mat-icon>speaker_notes</mat-icon> 
+                                <p class="text-regular">Set Remarks</p>
+                              </button> 
                             <button mat-menu-item [routerLink]="'/assets/components/edit/' + element.uid">
                                 <mat-icon class="icon-size-5" svgIcon="feather:edit"></mat-icon>
                                 <p class="text-regular">Edit</p>
