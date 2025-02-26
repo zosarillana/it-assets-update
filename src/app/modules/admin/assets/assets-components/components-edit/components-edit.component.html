@@ -1,1 +1,214 @@
-<p>components-edit works!</p>
+<div *ngIf="asset" class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
+    >
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div>
+                <div class="hidden sm:flex flex-wrap items-center font-medium">
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <a class="ml-1 text-primary-500">Components</a>
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-right'"
+                        ></mat-icon>
+                        <a
+                            class="ml-1 text-primary-500 cursor-pointer"
+                            [routerLink]="'/assets/components'"
+                            >Components List</a
+                        >
+                    </div>
+                    <div class="flex items-center ml-1 whitespace-nowrap">
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-right'"
+                        ></mat-icon>
+                        <span class="ml-1 text-secondary">View </span>
+                    </div>
+                </div>
+                <div class="flex sm:hidden">
+                    <a
+                        class="inline-flex items-center -ml-1.5 text-secondary font-medium"
+                        [routerLink]="'/assets/components'"
+                    >
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-left'"
+                        ></mat-icon>
+                        <span class="ml-1">Back</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-4 flex flex-col gap-4">
+                <!-- Image Section -->
+                <div class="flex flex-row gap-4">
+                    <img
+                        src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/inspiron-notebooks/14-2-in-1-7440-intel/media-gallery/notebook-inspiron-14-7440-t-ice-blue-gallery-17.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=1336&qlt=100,1&resMode=sharp2&size=1336,804&chrss=full"
+                        alt="Sample Image"
+                        class="h-28 w-32"
+                    />
+                    <div class="flex flex-col gap-2">
+                        <p class="font-semibold text-2xl">
+                            {{ asset.type }}
+                        </p>
+                        <p class="text-secondary font-semibold">
+                            Parent Asset Barcode:
+                            <span class="text-secondary font-medium">{{
+                                asset.asset_barcode
+                            }}</span>
+                        </p>
+                        <div class="flex flex-row gap-2">
+                            <button
+                                class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center"
+                                [routerLink]="
+                                    '/assets/computers/edit/' + asset.id
+                                "
+                            >
+                                <mat-icon
+                                    class="icon-size-4 text-blue-600"
+                                    [svgIcon]="'feather:edit'"
+                                ></mat-icon>
+                                <span class="ml-1 mr-1 text-sm text-blue-600"
+                                    >Edit</span
+                                >
+                            </button>
+
+                            <button
+                                class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center"
+                                (click)="openDeleteDialog(asset.id)"
+                            >
+                                <mat-icon
+                                    class="icon-size-4"
+                                    [svgIcon]="'feather:trash-2'"
+                                ></mat-icon>
+                                <span class="ml-1 text-sm">Delete</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-row gap-1"></div>
+            </div>
+        </div>
+        <div
+            class="hidden sm:flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4"
+        >
+            <button
+                class="ml-4"
+                mat-icon-button
+                [routerLink]="'/assets/components'"
+            >
+                <mat-icon [svgIcon]="'close'"></mat-icon>
+                <!-- <span class="ml-2 mr-1">Go back</span> -->
+            </button>
+        </div>
+    </div>
+
+    <div class="flex flex-col sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
+        <form
+            class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
+        >
+            <p class="text-lg font-bold text-2xl">Computer Information</p>
+            <mat-divider class="mt-6 mb-4"></mat-divider>
+            <div class="flex flex-col mt-2 gap-4">
+                
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <div class="flex flex-row">
+                        <div>
+                            <img
+                            src="https://pngimg.com/uploads/qr_code/small/qr_code_PNG7.png"
+                            alt="Sample QR"
+                            class="h-32 w-32"
+                        />
+                        </div>
+                    <div class="flex flex-col">
+                        <p class="text-primary font-bold text-2xl">
+                            {{ asset.asset_barcode || 'N/A' }}
+                        </p>
+                        <p class="text-secondary">
+                            Serial number: {{ asset.serial_no || "N/A" }}
+                        </p>
+                    </div>
+                     
+                    </div>
+                    <mat-divider class="mx-6" vertical></mat-divider>
+                    <div class="flex flex-col gap-4">
+                        <div class="justify-start">
+                            <p class="text-primary font-bold text-lg">
+                                Component Description
+                            </p>
+                            <p class="text-secondary">
+                                {{ asset.description }}
+                            </p>
+                        </div>
+                        <!-- <div class="flex flex-row gap-12">                         
+                            <div>
+                                <p class="text-primary font-bold text-lg">
+                                    Parent Assent Barcode
+                                </p>
+                                <p class="text-secondary underline cursor-pointer text-blue-600"
+                                *ngIf="asset?.computer"
+                                [routerLink]="'/assets/computers/view/' + asset?.computer?.id">
+                                 # {{ asset?.computer?.asset_barcode || "N/A" }}
+                                 <mat-icon svgIcon="mat_outline:open_in_new" class="icon-size-3 underline text-blue-600"></mat-icon>
+                             </p>
+                             <p *ngIf="!asset?.computer" class="text-secondary">N/A</p>
+                            </div>
+                        </div> -->
+                        <!-- <div>
+                            <p class="text-primary font-bold text-lg">Status</p>
+                            <p class="text-secondary">
+                                {{ asset.status }}
+                            </p>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- <mat-divider class="mt-6 mb-10"></mat-divider> -->
+
+            <!-- <p class="text-lg font-medium">Current Owner Details</p>
+            <p class="text-secondary mb-6">
+                Current owner of the asset details.
+            </p> -->
+
+            <!-- Responsive Owner Details Section
+            <div class="flex flex-col sm:flex-row gap-4">
+                <div class="flex flex-col flex-grow gap-4">
+                    <p class="flex flex-col font-medium text-medium">
+                        Owner Name
+                        <span class="text-secondary text-medium">
+                            {{ asset?.owner?.name || "N/A" }}
+                        </span>
+                    </p>
+                    <p class="flex flex-col font-medium text-medium">
+                        Company
+                        <span class="text-secondary text-medium">   {{ asset?.owner?.company || "N/A" }} </span>
+                    </p>
+                    <p class="flex flex-col font-medium text-medium">
+                        Department
+                        <span class="text-secondary text-medium">
+                            {{ asset?.owner?.department || "N/A" }}
+                        </span>
+                    </p>
+                </div>
+                <div class="flex flex-col flex-grow gap-4">
+                    <p class="flex flex-col font-medium text-medium">
+                        Employee ID
+                        <span class="text-secondary text-medium">
+                            {{ asset?.owner?.employee_id || "N/A" }}
+                        </span>
+                    </p>
+                </div>
+            </div> -->
+        
+
+            <mat-divider class="mt-6 mb-10"></mat-divider>
+           
+        </form>
+    </div>
+</div>

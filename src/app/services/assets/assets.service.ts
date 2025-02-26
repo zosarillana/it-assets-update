@@ -57,4 +57,9 @@ export class AssetsService {
     public pullOutAsset(assetId: number): Observable<any> {
         return this.http.put(`${this.url}/api/Assets/pullout/${assetId}`, {});
     }
+
+    public putEvent(id: string, data: any): Observable<any> {
+        return this.http.put(`${this.url}/api/Assets/update-asset/${id}`, data);
+    }    
+    
 }
