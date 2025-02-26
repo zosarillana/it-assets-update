@@ -9,8 +9,7 @@ export interface Assets {
     ssd: string | null;
     hdd: string | null;
     gpu: string | null;
-    board: string | null;
-    
+    board: string | null;    
     values: [
         $values: string | null
     ];

@@ -53,6 +53,10 @@ export class ComputerService {
         return this.http.post(`${this.url}/api/Assets`, data);
     }
 
+    public putEvent(id: string, data: any): Observable<any> {
+        return this.http.put(`${this.url}/api/Computer/update-computer/${id}`, data);
+    }    
+    
     public deleteEvent(id: string): Observable<any>{
         return this.http.delete(`${this.url}/api/Computer/delete-computer/${id}`);
     }

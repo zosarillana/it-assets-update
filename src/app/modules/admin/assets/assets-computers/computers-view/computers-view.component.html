@@ -373,7 +373,29 @@
                                         {{ element.history || "N/A" }}
                                     </mat-cell>
                                 </ng-container>
+                                <ng-container matColumnDef="action">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
+                                    <mat-cell *matCellDef="let element">
+                                        <!-- Button to open the menu -->
+                                        <button mat-icon-button [matMenuTriggerFor]="menu"
+                                            (click)="$event.stopPropagation()">
+                                            <mat-icon class="icon-size-4" svgIcon="feather:more-vertical"></mat-icon>
+                                        </button>
 
+                                        <!-- Mat Menu Instance -->
+                                        <mat-menu #menu="matMenu">
+                                            <button mat-menu-item (click)="handlePullOut(getComponentId(element))">
+
+                                                <mat-icon>exit_to_app</mat-icon> Pull Out
+                                            </button>
+
+                                            <button mat-menu-item>
+                                                <mat-icon>post_add</mat-icon> Create IAF
+                                            </button>
+
+                                        </mat-menu>
+                                    </mat-cell>
+                                </ng-container>
                                 <mat-header-row
                                     *matHeaderRowDef="displayedColumns"
                                 ></mat-header-row>
@@ -486,13 +508,36 @@
                                         {{ element.serial_no }}
                                     </mat-cell>
                                 </ng-container>
+                                <ng-container matColumnDef="action">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
+                                    <mat-cell *matCellDef="let element" class="text-sm">
+                                        <button mat-icon-button [matMenuTriggerFor]="menu"
+                                            (click)="$event.stopPropagation()">
+                                            <mat-icon class="icon-size-4" svgIcon="feather:more-vertical"></mat-icon>
+                                        </button>
+                                        <mat-menu #menu="matMenu">
+                                            <button mat-menu-item (click)="handleAssetPullOut(getAssetId(element))">
+                                                <mat-icon>exit_to_app</mat-icon> Pull Out
+                                            </button>
+                                            
+                                            
+                                            
 
+                                            <button mat-menu-item>
+                                                <mat-icon>post_add</mat-icon> Create IAF
+                                            </button>
+
+                                        </mat-menu>
+                                    </mat-cell>
+                                </ng-container>
+                              
                                 <mat-header-row
                                     *matHeaderRowDef="[
                                         'name',
                                         'description',
                                         'uid',
-                                        'serial_no'
+                                        'serial_no',
+                                            'action',
                                     ]"
                                 ></mat-header-row>
                                 <mat-row
@@ -502,7 +547,8 @@
                                             'name',
                                             'description',
                                             'uid',
-                                            'serial_no'
+                                            'serial_no',
+                                            'action',
                                         ]
                                     "
                                     class="hover:bg-gray-100 cursor-pointer"
@@ -512,6 +558,8 @@
                                     ]"
                                 >
                                 </mat-row>
+
+                                
                             </mat-table>
                         </div>
                     </mat-tab>
@@ -546,7 +594,28 @@
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Company</mat-header-cell>
                                 <mat-cell class="text-sm" *matCellDef="let element">{{ element.company }}</mat-cell>
                             </ng-container>
-                        
+                           <ng-container matColumnDef="action">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
+                                    <mat-cell *matCellDef="let element" class="text-sm">
+                                        <button mat-icon-button [matMenuTriggerFor]="menu"
+                                            (click)="$event.stopPropagation()">
+                                            <mat-icon class="icon-size-4" svgIcon="feather:more-vertical"></mat-icon>
+                                        </button>
+                                        <mat-menu #menu="matMenu">
+                                            <button mat-menu-item (click)="handleAssetPullOut(getAssetId(element))">
+                                                <mat-icon>exit_to_app</mat-icon> Pull Out
+                                            </button>
+                                            
+                                            
+                                            
+
+                                            <button mat-menu-item>
+                                                <mat-icon>post_add</mat-icon> Create IAF
+                                            </button>
+
+                                        </mat-menu>
+                                    </mat-cell>
+                                </ng-container>
                             <!-- Fix Header Row Definition -->
                             <mat-header-row *matHeaderRowDef="['id', 'name', 'department', 'company']"></mat-header-row>
                         

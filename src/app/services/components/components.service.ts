@@ -50,4 +50,8 @@ export class ComponentsService {
     public deleteEvent(id: string): Observable<any>{
         return this.http.delete(`${this.url}/api/ComputerComponents/${id}`);
     }
+
+    public pullOutComponent(id: number): Observable<any> {
+        return this.http.put(`${this.url}/api/ComputerComponents/pullout/${id}`, {});
+    }
 }

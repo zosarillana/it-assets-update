@@ -71,6 +71,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card'; 
 import { ComputerComponentAddModalComponent } from '../assets-computers/computers-add/computer-component-add-modal/computer-component-add-modal.component';
 import { CopmuterAssetsAddModalComponent } from '../assets-computers/computers-add/copmuter-assets-add-modal/copmuter-assets-add-modal.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 const assetRoute: Route[] = [
     // {
@@ -254,6 +255,7 @@ const assetRoute: Route[] = [
         MatTabsModule,        
         MatCardModule,
         MatDialogModule,
+        MatSnackBarModule,
         RouterModule.forChild(assetRoute),
     ],
     // schemas: [NO_ERRORS_SCHEMA] // Add this line

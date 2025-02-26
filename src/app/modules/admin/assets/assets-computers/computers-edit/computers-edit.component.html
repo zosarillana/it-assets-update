@@ -93,7 +93,7 @@
     </div>
 
     <div class="flex flex-col h-full sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
-        <form
+        <form [formGroup]="eventForm" (ngSubmit)="updateAsset()"
             class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
         >
             <p class="text-lg font-bold text-2xl">Asset Information</p>
@@ -119,6 +119,7 @@
                         </span>
                     </label>
                     <input
+                    formControlName="image"
                         id="select-image"
                         type="file"
                         accept="image/*"
@@ -142,11 +143,12 @@
                                 class="icon-size-5"
                             ></mat-icon>
                             <input
-                                matInput
-                                id="serial_number"
-                                [placeholder]="asset.serial_no || 'N/A'"
-                                [value]="asset.serial_no || ' N/A'"
-                            />
+                            matInput
+                            id="serial_number"
+                            formControlName="serial_number"
+                            [placeholder]="asset?.serial_no || 'N/A'"
+                            [value]="eventForm.value.serial_number"
+                        />
                         </mat-form-field>
                     </div>
                     <mat-divider class="mx-12" vertical></mat-divider>
@@ -155,7 +157,17 @@
                             Long Item Description
                         </p>
                         <p class="text-secondary">
-                            {{ asset.type + " " + asset.model + " " + asset.brand + " " + asset.size + " " + asset.color }} 
+                            {{
+                                asset.type +
+                                    " " +
+                                    asset.model +
+                                    " " +
+                                    asset.brand +
+                                    " " +
+                                    asset.size +
+                                    " " +
+                                    asset.color
+                            }}
                         </p>
                     </div>
                 </div>
@@ -177,39 +189,53 @@
                         ></mat-icon>
                         <input
                             matInput
+                            formControlName="serial_number"
+                            id="serial_number_2"
                             id="serial_number"
                             [placeholder]="asset.serial_number || 'N/A'"
-                            [value]="asset.serial_number || 'N/A'"
+                            [value]="eventForm.value.serial_number"
                         />
                     </mat-form-field>
 
                     <mat-form-field appearance="fill" class="w-full">
                         <mat-label>Type</mat-label>
-                        <mat-icon
-                            svgIcon="feather:cpu"
-                            class="icon-size-5 mr-2"
-                        ></mat-icon>
-                        <input
-                            matInput
-                            id="type"
-                            [placeholder]="asset.type || 'N/A'"
-                            [value]="asset.type || 'N/A'"
-                        />
+                        <mat-icon svgIcon="feather:cpu" class="icon-size-5 mr-2"></mat-icon>
+                        <mat-select formControlName="type" id="type">
+                            <mat-option *ngFor="let option of typeOptions" [value]="option">
+                                {{ option }}
+                            </mat-option>
+                        </mat-select>
                     </mat-form-field>
+                    
 
-                    <mat-form-field appearance="fill" class="w-full">
+                    <!-- <mat-form-field appearance="fill" class="w-full">
                         <mat-label>Date Acquired</mat-label>
                         <mat-icon
                             svgIcon="feather:calendar"
                             class="icon-size-5 mr-2"
                         ></mat-icon>
                         <input
+                        formControlName="date_acquired"
                             matInput
                             id="date_acquired"
                             [placeholder]="asset.date_acquired || 'N/A'"
-                            [value]="asset.date_acquired || 'N/A'"
+                       
                         />
+                    </mat-form-field> -->
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label>Date Acquired</mat-label>
+                        <mat-icon svgIcon="feather:calendar" class="icon-size-5 mr-2"></mat-icon>
+                        <input 
+                            matInput 
+                            [matDatepicker]="picker" 
+                            formControlName="date_acquired" 
+                            id="date_acquired" 
+                            [placeholder]="asset.date_acquired || 'N/A'"
+                        />
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
+                    
 
                     <mat-form-field appearance="fill" class="w-full">
                         <mat-label>Brand</mat-label>
@@ -218,10 +244,11 @@
                             class="icon-size-5 mr-2"
                         ></mat-icon>
                         <input
+                        formControlName="brand"
                             matInput
                             id="brand"
                             [placeholder]="asset.brand || 'N/A'"
-                            [value]="asset.brand || 'N/A'"
+                         
                         />
                     </mat-form-field>
 
@@ -232,10 +259,11 @@
                             class="icon-size-5 mr-2"
                         ></mat-icon>
                         <input
+                        formControlName="model"
                             matInput
                             id="model"
                             [placeholder]="asset.model || 'N/A'"
-                            [value]="asset.model || 'N/A'"
+                           
                         />
                     </mat-form-field>
 
@@ -253,7 +281,7 @@
                         />
                     </mat-form-field> -->
 
-                    <mat-form-field appearance="fill" class="w-full">
+                    <!-- <mat-form-field appearance="fill" class="w-full">
                         <mat-label>Storage</mat-label>
                         <mat-icon
                             svgIcon="feather:hard-drive"
@@ -265,7 +293,7 @@
                             [placeholder]="asset.storage || 'N/A'"
                             [value]="asset.storage || 'N/A'"
                         />
-                    </mat-form-field>
+                    </mat-form-field> -->
 
                     <!-- <mat-form-field appearance="fill" class="w-full">
                         <mat-label>GPU</mat-label>
@@ -298,10 +326,11 @@
                             class="icon-size-5 mr-2"
                         ></mat-icon>
                         <input
+                        formControlName="size"
                             matInput
                             id="size"
                             [placeholder]="asset.size || 'N/A'"
-                            [value]="asset.size || 'N/A'"
+                          
                         />
                     </mat-form-field>
 
@@ -312,10 +341,11 @@
                             class="icon-size-5 mr-2"
                         ></mat-icon>
                         <input
+                            formControlName="color"
                             matInput
                             id="color"
                             [placeholder]="asset.color || 'N/A'"
-                            [value]="asset.color || 'N/A'"
+                            
                         />
                     </mat-form-field>
 
@@ -326,10 +356,11 @@
                             class="icon-size-5 mr-2"
                         ></mat-icon>
                         <input
+                            formControlName="po"
                             matInput
                             id="po"
                             [placeholder]="asset.po || 'N/A'"
-                            [value]="asset.po || 'N/A'"
+                           
                         />
                     </mat-form-field>
 
@@ -340,10 +371,11 @@
                             class="icon-size-5 mr-2"
                         ></mat-icon>
                         <input
+                        formControlName="warranty"
                             matInput
                             id="warranty"
                             [placeholder]="asset.warranty || 'N/A'"
-                            [value]="asset.warranty || 'N/A'"
+                           
                         />
                     </mat-form-field>
 
@@ -354,14 +386,15 @@
                             class="icon-size-5 mr-2"
                         ></mat-icon>
                         <input
+                        formControlName="cost"
                             matInput
                             id="cost"
                             [placeholder]="asset.cost || 'N/A'"
-                            [value]="asset.cost || 'N/A'"
+                         
                         />
                     </mat-form-field>
 
-                    <mat-form-field appearance="fill" class="w-full">
+                    <!-- <mat-form-field appearance="fill" class="w-full">
                         <mat-label>Remarks</mat-label>
                         <mat-icon
                             svgIcon="feather:file-text"
@@ -374,21 +407,19 @@
                             [value]="asset.remarks || 'N/A'"
                             readonly
                         />
-                    </mat-form-field>
+                    </mat-form-field> -->
                 </div>
             </div>
             <div
                 class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
             >
-<button mat-stroked-button>Reset Form</button>
-<button class="px-6 ml-3" mat-flat-button [color]="'primary'">
+                <button mat-stroked-button>Reset Form</button>
+                <button class="px-6 ml-3" type="submit" mat-flat-button [color]="'primary'">
                     Edit Details
                 </button>
             </div>
-
         </form>
     </div>
-    
 </div>
 <!-- <mat-form-field class="flex-grow gt-xs:pr-3">
                     <input matInput [placeholder]="'First name'" />

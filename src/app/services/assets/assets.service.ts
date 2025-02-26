@@ -53,4 +53,8 @@ export class AssetsService {
     public deleteEvent(id: string): Observable<any>{
         return this.http.delete(`${this.url}/api/Assets/delete-asset/${id}`);
     }
+
+    public pullOutAsset(assetId: number): Observable<any> {
+        return this.http.put(`${this.url}/api/Assets/pullout/${assetId}`, {});
+    }
 }
