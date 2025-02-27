@@ -323,7 +323,7 @@
                                 <mat-icon>add_box</mat-icon> 
                                 <p class="text-regular">Pull in</p>
                               </button> 
-                            <button mat-menu-item>
+                            <button mat-menu-item (click)="openRemarkModal(element.id)">
                                 <mat-icon>speaker_notes</mat-icon> 
                                 <p class="text-regular">Set Remarks</p>
                               </button> 

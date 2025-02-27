@@ -165,28 +165,47 @@ export class ComputersViewComponent implements OnInit {
     handlePullOut(componentId: number | null): void {
         console.log('Pull Out button clicked!');
         console.log('Component ID received:', componentId);
-
+    
         if (!componentId) {
             this.snackBar.open('Invalid component ID', 'Close', {
                 duration: 3000,
             });
             return;
         }
-
-        this.componentsService.pullOutComponent(componentId).subscribe({
-            next: (response) => {
-                this.snackBar.open(response.message, 'Close', {
-                    duration: 3000,
-                });
-            },
-            error: (error) => {
-                this.snackBar.open('Error pulling out component', 'Close', {
-                    duration: 3000,
-                });
-                console.error(error);
-            },
-        });
+    
+        // Use setTimeout to let focus events settle before opening the modal
+        setTimeout(() => {
+            const dialogRef = this.dialog.open(ModalUniversalComponent, {
+                width: '400px',
+                data: { name: 'Are you sure you want to pull out this component?' }
+            });
+    
+            dialogRef.afterClosed().subscribe(result => {
+                console.log('Dialog result:', result);
+    
+                if (result) {
+                    this.componentsService.pullOutComponent(componentId).subscribe({
+                        next: (response) => {
+                            this.snackBar.open(response.message, 'Close', {
+                                duration: 3000,
+                            });
+    
+                            // 🔄 Refresh the table data
+                            this.reloadAssetData();
+                        },
+                        error: (error) => {
+                            this.snackBar.open('Error pulling out component', 'Close', {
+                                duration: 3000,
+                            });
+                            console.error(error);
+                        },
+                    });
+                }
+            });
+        }, 0);
     }
+    
+    
 
     handleAssetPullOut(assetId: number | null): void {
         console.log('Pull Out button clicked!');
@@ -243,39 +262,91 @@ export class ComputersViewComponent implements OnInit {
         }
     }
 
-    /**
-     * Confirms before pulling out the asset
-     */
-    confirmPullOut(assetId: number): void {
-        const confirmDialog = confirm(
-            'Are you sure you want to pull out this asset?'
-        );
+   /**
+ * Confirms before pulling out the asset using a modal
+ */
+confirmPullOut(assetId: number): void {
+    const dialogRef = this.dialog.open(ModalUniversalComponent, {
+        width: '400px',
+        data: { name: 'Are you sure you want to pull out this asset?' }
+    });
 
-        if (confirmDialog) {
+    dialogRef.afterClosed().subscribe(result => {
+        if (result) {
             this.pullOutAsset(assetId);
         }
-    }
+    });
+}
 
-    /**
-     * Calls the service to pull out an asset
-     */
-    pullOutAsset(assetId: number): void {
-        this.assetService.pullOutAsset(assetId).subscribe(
-            (response) => {
-                this.snackBar.open('Asset successfully pulled out!', 'Close', {
-                    duration: 3000,
-                });
-                console.log('Pull-out successful:', response);
+/**
+ * Calls the service to pull out an asset
+ */
+pullOutAsset(assetId: number): void {
+    this.assetService.pullOutAsset(assetId).subscribe(
+        (response) => {
+            this.snackBar.open('Asset successfully pulled out!', 'Close', {
+                duration: 3000,
+            });
+            console.log('Pull-out successful:', response);
+
+            // 🔄 Refresh data after successful pullout
+            this.reloadAssetData();
+        },
+        (error) => {
+            this.snackBar.open('Failed to pull out asset. Try again.', 'Close', {
+                duration: 3000
+            });
+            console.error('Error pulling out asset:', error);
+        }
+    );
+}
+
+reloadAssetData(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    if (id) {
+        this.assetsService.getComputersById(id).subscribe({
+            next: (data) => {
+                this.asset = data;
+                this.updateDataSources();
             },
-            (error) => {
-                this.snackBar.open(
-                    'Failed to pull out asset. Try again.',
-                    'Close',
-                    { duration: 3000 }
-                );
-                console.error('Error pulling out asset:', error);
-            }
-        );
+            error: (err) => console.error('Error fetching asset', err),
+        });
     }
+}
 
+updateDataSources(): void {
+    this.dataSource = [
+        { name: 'Ram', icon: 'feather:server', data: this.asset?.ram?.values?.$values?.[0] },
+        { name: 'SSD', icon: 'feather:hard-drive', data: this.asset?.ssd?.values?.$values?.[0] },
+        { name: 'HDD', icon: 'feather:hard-drive', data: this.asset?.hdd?.values?.$values?.[0] },
+        { name: 'GPU', icon: 'feather:monitor', data: this.asset?.gpu?.values?.$values?.[0] },
+        { name: 'BOARD', icon: 'feather:info', data: this.asset?.board?.values?.$values?.[0] }
+    ]
+    .filter(component => component.data)
+    .map(component => ({
+        id: component.data?.id || null,
+        name: component.name,
+        icon: component.icon,
+        description: component.data?.description || null,
+        uid: component.data?.uid || null,
+        history: component.data?.history || null,
+    }));
+
+    this.dataSourceAssignedAssets = this.asset?.assigned_assets?.values?.$values?.map(asset => ({
+        name: `${asset.type}`,
+        icon: 'feather:package',
+        description: `${asset.asset_barcode}`,
+        brand: asset.brand,
+        id: asset.id,
+        serial_no: asset.serial_no || 'N/A',
+        action: '',
+    })) || [];
+
+    this.dataSourceHistory = this.asset?.history?.values?.$values?.map((name, index) => ({
+        id: index + 1,
+        name: name,
+        department: this.asset?.owner?.department || 'N/A',
+        company: this.asset?.owner?.company || 'N/A',
+    })) || [];
+}
 }

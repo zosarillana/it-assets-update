@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ComputerComponentAddModalComponent } from '../computer-component-add-modal/computer-component-add-modal.component';
 import { CopmuterAssetsAddModalComponent } from '../copmuter-assets-add-modal/copmuter-assets-add-modal.component';
 import { AlertService } from 'app/services/alert.service';
+import { ComputerComponentAddLaptopComponent } from '../../computer-component-add-laptop/computer-component-add-laptop.component';
 
 interface Asset {
     id: number;
@@ -430,7 +431,7 @@ openComponentAdd() {
     const serialNumber = this.eventForm.get('serial_number')?.value; // Get the current serial number
     const assetBarcode = this.eventForm.get('asset_barcode')?.value; // Get the current serial number
 
-    const dialogRef = this.dialog.open(ComputerComponentAddModalComponent, {
+    const dialogRef = this.dialog.open(ComputerComponentAddLaptopComponent, {
         width: '700px',
         disableClose: true,
         data: { serial_number: serialNumber, asset_barcode: assetBarcode }, // Pass the serial number

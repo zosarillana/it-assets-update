@@ -13,6 +13,7 @@ import { AlertService } from 'app/services/alert.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ModalUniversalComponent } from '../../components/modal/modal-universal/modal-universal.component';
+import { ModalRemarksUniversalComponent } from '../../components/modal/modal-remarks-universal/modal-remarks-universal.component';
 
 @Component({
     selector: 'app-computers-list',
@@ -249,4 +250,75 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
             },
         });
     }
+  
+  // Method to open the remarks modal
+  openRemarkModal(id: number): void {
+    const dialogRef = this.dialog.open(ModalRemarksUniversalComponent, {
+      width: '400px',
+      data: { id }, // Pass the ID to the modal
+    });
+
+    // Handle the modal result after it's closed
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Remark Submitted:', result);
+        this.submitRemark(result.id, result.remark); // Handle the submission logic here
+      }
+    });
+  }
+
+  // Method to submit the remark to the API
+  submitRemark(id: number, remark: string): void {
+    // Ensure the remark is not null, undefined, or empty (even after trimming)
+    const trimmedRemark = (remark || '').trim();
+  
+    if (trimmedRemark.length > 0) {
+      const updatedAsset = {
+        asset_id: id.toString(),
+        updated_by: "Admin",
+        remarks: trimmedRemark,
+        department: "",
+        type: "",
+        date_updated: new Date().toISOString().split('T')[0], // YYYY-MM-DD format
+        asset_barcode: "",
+        brand: "",
+        model: "",
+        ram: "",
+        hdd: "",
+        ssd: "",
+        gpu: "",
+        motherboard: "",
+        size: "",
+        color: "",
+        serial_no: "",
+        po: "",
+        warranty: "",
+        cost: 0,
+        history: ["Asset remarks updated on " + new Date().toISOString().split('T')[0]],
+        li_description: "",
+        company: "",
+        user_name: "",
+        date_acquired: ""
+      };
+  
+      console.log('Submitting remark:', updatedAsset);
+  
+      // Call the API to update the asset
+      this.assetService.putEvent(id.toString(), updatedAsset).subscribe({
+        next: (response) => {
+          console.log('Remark successfully submitted:', response);
+          this.alertService.triggerSuccess('Remark submitted successfully!');
+        },
+        error: (err) => {
+          console.error('Error submitting remark:', err);
+          this.alertService.triggerError('Failed to submit remark.');
+        },
+      });
+    } else {
+      console.log('Remark cannot be empty.');
+      this.alertService.triggerError('Remark cannot be empty.');
+    }
+  }
+  
+
 }

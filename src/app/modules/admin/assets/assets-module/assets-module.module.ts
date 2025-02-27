@@ -74,6 +74,8 @@ import { CopmuterAssetsAddModalComponent } from '../assets-computers/computers-a
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ComputerFormComponent } from '../assets-computers/computers-add/computer-form/computer-form.component';
 import { LaptopFormComponent } from '../assets-computers/computers-add/laptop-form/laptop-form.component';
+import { ModalRemarksUniversalComponent } from '../components/modal/modal-remarks-universal/modal-remarks-universal.component';
+import { ComputerComponentAddLaptopComponent } from '../assets-computers/computer-component-add-laptop/computer-component-add-laptop.component';
 
 const assetRoute: Route[] = [
     // {
@@ -217,7 +219,9 @@ const assetRoute: Route[] = [
         ComputerComponentAddModalComponent,
         CopmuterAssetsAddModalComponent,
         ComputerFormComponent,
-        LaptopFormComponent
+        LaptopFormComponent,
+        ModalRemarksUniversalComponent,
+        ComputerComponentAddLaptopComponent
         // AlertsComponentComponent,
     ],
     imports: [

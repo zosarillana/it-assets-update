@@ -461,14 +461,14 @@ addComponent(componentData: any) {
 // **Open Modal to Add or Edit Component**
 openComponentModal(componentData?: any, index?: number) {
     const serialNumber = this.eventForm.get('serial_number')?.value; 
-    const assetBarcode = this.eventForm.get('asset_barcode')?.value; 
+    // const assetBarcode = this.eventForm.get('asset_barcode')?.value; 
 
     const dialogRef = this.dialog.open(ComputerComponentAddModalComponent, {
         width: '700px',
         disableClose: true,
         data: { 
             serial_number: serialNumber, 
-            asset_barcode: assetBarcode,
+         
             component: componentData || null,  // Pass existing component data
         },
     });

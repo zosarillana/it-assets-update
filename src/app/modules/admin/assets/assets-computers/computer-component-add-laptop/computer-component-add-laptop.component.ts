@@ -1,18 +1,19 @@
+import { formatDate } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { AlertService } from 'app/services/alert.service';
 import { ComponentsService } from 'app/services/components/components.service';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
-import { formatDate } from '@angular/common';
+import { ComputerComponentAddModalComponent } from '../computers-add/computer-component-add-modal/computer-component-add-modal.component';
 
 @Component({
-    selector: 'app-computer-component-add-modal',
-    templateUrl: './computer-component-add-modal.component.html',
-    styleUrls: ['./computer-component-add-modal.component.scss'],
+  selector: 'app-computer-component-add-laptop',
+  templateUrl: './computer-component-add-laptop.component.html',
+  styleUrls: ['./computer-component-add-laptop.component.scss']
 })
-export class ComputerComponentAddModalComponent implements OnInit {
+export class ComputerComponentAddLaptopComponent implements OnInit {
     eventForm!: FormGroup;
     imageUrl: SafeUrl =
         'https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg';
@@ -44,16 +45,17 @@ export class ComputerComponentAddModalComponent implements OnInit {
     //     });
     // }
     private initializeForm(): void {
-        this.eventForm = this._formBuilder.group({
-            image_component: [null],
-            serial_number: [this.data.serial_number || 'N/A', [Validators.required]], // Use the passed value
-            asset_barcode: [this.data.asset_barcode || 'N/A', [Validators.required]], // Use existing data
-            // date_acquired: [this.data.component?.date_acquired || new Date(), [Validators.required]],
-            date_acquired: [this.data.component?.date_acquired ? new Date(this.data.component.date_acquired) : new Date(), [Validators.required]], // ✅ Convert to Date object if editing
-            type: [this.data.component?.type || '', [Validators.required]],
-            description: [this.data.component?.description || '', [Validators.required]],
-        });
-    }
+      this.eventForm = this._formBuilder.group({
+          image_component: [null],
+          serial_number: [this.data.serial_number || 'N/A', [Validators.required]], // Use the passed value
+          asset_barcode: [this.data.asset_barcode || 'N/A', [Validators.required]], // Use existing data
+          // date_acquired: [this.data.component?.date_acquired || new Date(), [Validators.required]],
+          date_acquired: [this.data.component?.date_acquired ? new Date(this.data.component.date_acquired) : new Date(), [Validators.required]], // ✅ Convert to Date object if editing
+          type: [this.data.component?.type || '', [Validators.required]],
+          description: [this.data.component?.description || '', [Validators.required]],
+      });
+  }
+    
     
 
     previewSelectedImageComponent(event: Event): void {
