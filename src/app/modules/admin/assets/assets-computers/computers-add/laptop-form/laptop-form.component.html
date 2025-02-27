@@ -1,0 +1,505 @@
+<form
+[formGroup]="eventForm"
+(ngSubmit)="submitForm()"
+class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
+>
+<p class="text-sm md:text-md font-bold md:text-xl">
+    New Laptop Form
+</p>
+<mat-divider class="mt-4 md:mt-6 mb-3 md:mb-4"></mat-divider>
+
+<div class="flex flex-row mt-2 gap-3 md:gap-4">
+    <div class="flex flex-col items-center">
+        <label
+            for="select-image"
+            class="cursor-pointer flex flex-col items-center"
+        >
+            <img
+                id="preview-image"
+                src="https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg"
+                alt="Select Image"
+                class="h-24 w-24 md:h-32 md:w-32 object-contain border border-gray-300 rounded-md"
+            />
+            <span
+                class="text-secondary text-xs md:text-sm mt-1 md:mt-2"
+            >
+                <mat-icon
+                    class="icon-size-3 md:icon-size-4 text-secondary"
+                    [svgIcon]="'feather:edit'"
+                ></mat-icon>
+                Select new image
+            </span>
+        </label>
+        <input
+            formControlName="image"
+            id="select-image"
+            type="file"
+            accept="image/*"
+            class="hidden"
+            (change)="previewSelectedImage($event)"
+        />
+    </div>
+
+    <div
+        class="flex flex-col flex-grow sm:flex-row justify-between gap-2"
+    >
+        <div class="flex flex-col w-1/2">
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label
+                    class="text-xs md:text-sm font-bold text-primary"
+                    >Serial #</mat-label
+                >
+                <mat-icon
+                    svgIcon="feather:hash"
+                    class="icon-size-3 md:icon-size-3 mr-2"
+                ></mat-icon>
+                <input
+                    matInput
+                    id="serial_number_1"
+                    class="text-xs md:text-sm"
+                    [formControlName]="'serial_number'"
+                    [value]="eventForm.value.serial_number"
+                />
+            </mat-form-field>
+        </div>
+        <mat-divider class="mx-6 md:mx-12" vertical></mat-divider>
+        <div class="flex flex-col w-1/2">
+            <p class="text-xs md:text-sm font-bold text-primary">
+                Long Item Description
+            </p>
+            <div class="flex justify-start items-start gap-2 uppercase">
+                <span>
+                    {{
+                        this.eventForm.value.type +
+                            " " +
+                            this.eventForm.value.model +
+                            " " +
+                            " " +
+                            this.eventForm.value.brand +
+                            " " +
+                            this.eventForm.value.size +
+                            " " +
+                            this.eventForm.value.color
+                    }}
+                    <!-- <span
+                        *ngFor="
+                            let componentForm of componentsArray.controls;
+                            let i = index
+                        "
+                    >
+                        {{
+                            component?.value.componentId ||
+                                "No component selected"
+                        }}
+                    </span> -->
+                  
+                    <span
+                        *ngFor="
+                            let component of eventForm.get('components')
+                                ?.value
+                        "
+                    >
+                        {{
+                            component?.type                                         
+                                ? component.type
+                                : "No Component selected"
+                        }}
+                    </span>
+                    <span
+                        *ngFor="
+                            let asset of eventForm.get('assets')
+                                ?.value
+                        "
+                    >
+                        {{
+                            asset?.brand && asset?.model
+                                ? asset.brand
+                                : "No assets selected"
+                        }}
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<mat-divider class="mt-4 mb-4"></mat-divider>
+<p class="text-sm md:text-md font-medium mb-2">Details</p>
+
+<div class="flex flex-col lg:flex-row">
+    <div class="flex flex-col flex-grow">
+        <mat-label class="text-xs md:text-sm mb-1">Type</mat-label>
+        <mat-form-field appearance="fill">
+            <mat-icon
+                svgIcon="feather:cpu"
+                class="icon-size-3 md:icon-size-4 mr-2"
+            ></mat-icon>
+            <!-- Using input instead of select for readonly display -->
+            <input
+                matInput
+                readonly
+                value="LAPTOP"
+                class="text-xs md:text-sm"
+                id="type"
+            >
+            <!-- Hidden form control to maintain the value in the form -->
+            <input
+                type="hidden"
+                formControlName="type"
+                value="LAPTOP"
+            >
+        </mat-form-field>
+        <mat-label class="text-xs md:text-sm mb-1"
+        >Computer Asset Barcode</mat-label>
+        <mat-form-field appearance="fill">
+            <mat-icon
+                svgIcon="feather:hash"
+                class="icon-size-3 md:icon-size-4 mr-2"
+            ></mat-icon>
+            <input
+                matInput
+                formControlName="asset_barcode"
+                id="asset_barcode"
+                placeholder="Enter asset barcode..."
+                class="text-xs md:text-sm"
+            />
+        </mat-form-field>
+        <mat-label class="text-xs md:text-sm mb-1"
+            >Serial #</mat-label
+        >
+        <mat-form-field appearance="fill">
+            <mat-icon
+                svgIcon="feather:hash"
+                class="icon-size-3 md:icon-size-4 mr-2"
+            ></mat-icon>
+            <input
+                matInput
+                formControlName="serial_number"
+                id="serial_number_2"
+                placeholder="Enter serial number..."
+                readonly
+                [value]="eventForm.value.serial_number"
+                class="text-xs md:text-sm"
+            />
+        </mat-form-field>
+        <mat-label class="text-xs md:text-sm mb-1">Brand</mat-label>
+        <mat-form-field appearance="fill">
+            <mat-icon
+                svgIcon="feather:box"
+                class="icon-size-3 md:icon-size-4 mr-2"
+            ></mat-icon>
+            <input
+                matInput
+                id="brand"
+                formControlName="brand"
+                placeholder="Enter brand..."
+                class="text-xs md:text-sm"
+            />
+        </mat-form-field>
+        <mat-label class="text-xs md:text-sm mb-1">Model</mat-label>
+        <mat-form-field appearance="fill">
+            <mat-icon
+                svgIcon="feather:smartphone"
+                class="icon-size-3 md:icon-size-4 mr-2"
+            ></mat-icon>
+            <input
+                matInput
+                id="model"
+                formControlName="model"
+                placeholder="Enter model..."
+                class="text-xs md:text-sm"
+            />
+        </mat-form-field>
+
+        <mat-label class="text-xs md:text-sm mb-1"
+            >Date Acquired</mat-label
+        >
+        <mat-form-field appearance="fill">
+            <mat-icon
+                svgIcon="feather:calendar"
+                class="icon-size-3 md:icon-size-4 mr-2"
+            ></mat-icon>
+
+            <input
+                matInput
+                [matDatepicker]="picker"
+                id="date_acquired"
+                formControlName="date_acquired"
+                placeholder="dd-mm-yyyy"
+                class="text-xs md:text-sm"
+            />
+            <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+
+    <mat-divider class="mx-12" vertical></mat-divider>
+    <div class="flex flex-col flex-grow">
+        <mat-label class="text-xs md:text-sm mb-1">Size</mat-label>
+        <mat-form-field appearance="fill">
+            <mat-icon
+                svgIcon="feather:info"
+                class="icon-size-3 md:icon-size-4 mr-2"
+            ></mat-icon>
+            <input
+                matInput
+                id="size"
+                formControlName="size"
+                placeholder="Enter size..."
+                class="text-xs md:text-sm"
+            />
+        </mat-form-field>
+        <mat-label class="text-xs md:text-sm mb-1">Color</mat-label>
+        <mat-form-field appearance="fill">
+            <mat-icon
+                svgIcon="feather:info"
+                class="icon-size-3 md:icon-size-4 mr-2"
+            ></mat-icon>
+            <input
+                matInput
+                id="color"
+                formControlName="color"
+                placeholder="Enter color..."
+                class="text-xs md:text-sm"
+            />
+        </mat-form-field>
+        <mat-label class="text-xs md:text-sm mb-1">Po #</mat-label>
+        <mat-form-field appearance="fill">
+            <mat-icon
+                svgIcon="feather:tag"
+                class="icon-size-3 md:icon-size-4 mr-2"
+            ></mat-icon>
+            <input
+                matInput
+                id="po"
+                formControlName="po"
+                placeholder="Enter po number..."
+                class="text-xs md:text-sm"
+            />
+        </mat-form-field>
+        <mat-label class="text-xs md:text-sm mb-1"
+            >Warranty</mat-label
+        >
+        <mat-form-field appearance="fill">
+            <mat-icon
+                svgIcon="feather:shield"
+                class="icon-size-3 md:icon-size-4 mr-2"
+            ></mat-icon>
+            <input
+                matInput
+                id="warranty"
+                formControlName="warranty"
+                placeholder="Enter warranty..."
+                class="text-xs md:text-sm"
+            />
+        </mat-form-field>
+        <mat-label class="text-xs md:text-sm mb-1"
+        >Cost </mat-label
+    >
+        <mat-form-field class="text-sm" appearance="fill">
+            <mat-icon
+                svgIcon="feather:dollar-sign"
+                class="icon-size-3 md:icon-size-4 mr-2"
+            ></mat-icon>
+            <input
+                formControlName="cost"
+                matInput
+                id="cost"
+                type="number"
+                placeholder="Enter Cost..."
+                class="text-xs md:text-sm"
+                (keydown)="validateNumber($event)"
+                class="no-spinner"
+            />
+        </mat-form-field>            
+    </div>
+</div>
+
+<mat-divider class="my-2"></mat-divider>
+<div class="flex flex-row justify-between">
+    <div class="flex flex-row my-2 items-center justify-start">
+        <div class="flex flex-col">
+            <div>
+                <p class="text-sm font-medium mt-2">Components</p>
+            </div>
+            <div>
+                <p class="text-sm text-secondary mb-6">
+                    Components associated with this asset.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-row my-2 items-center justify-end">
+        <!-- <span class="mr-2 text-sm text-gray-900">Add Row</span> -->
+        <!-- <button
+            mat-icon-button
+            color="primary"
+            type="button"
+            (click)="addRow()"
+            matTooltip="Add a new row"
+        >
+            <mat-icon svgIcon="add"></mat-icon>
+        </button> -->
+
+        <button
+        mat-icon-button
+        color="primary"
+        type="button"        
+        (click)="openComponentAdd()"      
+        matTooltip="Open modal"
+    >
+        <mat-icon svgIcon="add"></mat-icon>
+    </button>
+    </div>
+</div>
+
+<div class="w-full overflow-x-auto">
+    <div class="overflow-x-auto">
+        <table class="table-auto w-full border border-gray-300">
+          <thead>
+            <tr class="bg-gray-50">
+              <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Item</th>
+              <th class="px-3 py-2 text-left text-sm font-medium text-gray-700">Asset barcode</th>
+              <th class="px-3 py-2 text-left text-sm font-medium text-gray-700">Description</th>                        
+              <th class="px-3 py-2 text-left text-sm font-medium text-gray-700">Date Acquired</th>
+              <th class="px-3 py-2 text-left text-sm font-medium text-gray-700"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let component of componentsArray.controls; let i = index" [formGroup]="component">                           
+              <td class="border-b  px-4 py-2 text-sm">
+                <select formControlName="type" class="w-full p-1 border border-gray-300 rounded" (change)="onComponentSelect($event, i)">
+                  <option value="">Select component...</option>
+                  <option *ngFor="let component of getFilteredComponents(i)" [value]="component">{{ component }}</option>
+                </select>
+              </td>
+              <td class="border-b  px-4 py-2 text-sm">
+                <input type="text" formControlName="asset_barcode" class="w-full p-1 border border-gray-300 rounded" placeholder="Barcode" />
+              </td>
+              <td class="border-b  px-4 py-2 text-sm">
+                <input type="text" formControlName="description" class="w-full p-1 border border-gray-300 rounded" placeholder="Enter description..." />
+              </td>
+              <td class="border-b  px-4 py-2 text-sm">
+                <input formControlName="date_acquired" class="w-full p-1 border border-gray-300 rounded" readonly/>
+              </td>
+
+              <td class="border-r border-gray-200 text-sm w-12 text-center">
+                <button type="button" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+                    <mat-icon class="icon-size-4" svgIcon="feather:more-vertical"></mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" type="button">                              
+                    <button mat-menu-item type="button" (click)="editComponent(i)" matTooltip="Edit">
+                        <mat-icon class="icon-size-4" svgIcon="feather:edit"></mat-icon> <p class="text-sm">Edit</p>
+                    </button>                               
+                    <button mat-menu-item type="button" (click)="removeComponentsRow(i)" matTooltip="Remove">
+                        <mat-icon class="icon-size-4" color="warn" svgIcon="feather:trash-2"></mat-icon> <p class="text-sm">Remove</p>
+                    </button>                               
+                </mat-menu>
+            </td>                        
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+</div>
+<!-- <mat-divider class="my-6"></mat-divider> -->
+
+<div class="flex flex-row justify-between">
+    <div class="flex flex-row my-2 items-center justify-start">
+        <div class="flex flex-col">
+            <div>
+                <p class="text-sm font-medium mt-2">Peripherals</p>
+            </div>
+            <div>
+                <p class="text-sm text-secondary mb-6">
+                    Accessories associated with this asset.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-row my-2 items-center justify-end">
+        <!-- <span class="mr-2 text-sm text-gray-900">Add Row</span> -->
+        <!-- <button
+            mat-icon-button
+            color="primary"
+            type="button"
+            (click)="addAccessoryRow()"
+            matTooltip="Add a new row"
+        >
+            <mat-icon svgIcon="add"></mat-icon>
+        </button> -->
+        <button
+        mat-icon-button
+        color="primary"
+        type="button"        
+        (click)="openAssetsAdd()"      
+        matTooltip="Open modal"
+    >
+        <mat-icon svgIcon="add"></mat-icon>
+    </button>
+    </div>
+</div>
+
+<div class="w-full overflow-x-auto">
+    <div class="overflow-x-auto">
+        <table class="table-auto w-full border border-gray-300">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-3 py-2 text-left text-sm font-medium text-gray-700">Asset</th>                                
+                    <th class="px-5 py-2 text-left text-sm font-medium text-gray-700">Asset Barcode</th>                                            
+                    <th class="px-5 py-2 text-left text-sm font-medium text-gray-700">Model</th>
+                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Date Acquired</th>
+                    <th class="px-2 py-2 text-left text-sm font-medium text-gray-700"></th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                <tr *ngFor="let asset of assetsArray.controls; let i = index" [formGroup]="asset">
+                    <td class="px-4 py-2 text-sm">
+                        <input type="text" formControlName="type" class="w-full p-1 border border-gray-300 rounded" placeholder="Asset Type" />
+                    </td>
+                  
+                    <td class="px-4 py-2 text-sm">
+                        <input type="text" formControlName="asset_barcode" class="w-full p-1 border border-gray-300 rounded" placeholder="Barcode" />
+                    </td>                      
+                    <td class="px-4 py-2 text-sm">
+                        <input type="text" formControlName="model" class="w-full p-1 border border-gray-300 rounded" placeholder="Model" />
+                    </td>
+                    <td class="px-4 py-2 text-sm">
+                        <input formControlName="date_acquired" class="w-full p-1 border border-gray-300 rounded" readonly />
+                    </td>
+                    <td class="border-r border-gray-200 text-sm w-12 text-center">
+                        <button type="button" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+                            <mat-icon class="icon-size-4" svgIcon="feather:more-vertical"></mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu" type="button">                              
+                            <button mat-menu-item type="button" (click)="editAsset(i)" matTooltip="Edit">
+                                <mat-icon class="icon-size-4" svgIcon="feather:edit"></mat-icon> <p class="text-sm">Edit</p>
+                            </button>                               
+                            <button mat-menu-item type="button" (click)="removeAccessoryRow(i)" matTooltip="Remove">
+                                <mat-icon class="icon-size-4" color="warn" svgIcon="feather:trash-2"></mat-icon> <p class="text-sm">Remove</p>
+                            </button>                               
+                        </mat-menu>
+                    </td>                                         
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div
+    class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
+>
+    <button mat-stroked-button>Reset Form</button>
+    <button
+        class="px-6 ml-3"
+        mat-flat-button
+        color="primary"
+        type="submit"
+    >
+        Create Form
+    </button>
+</div>
+</form>
