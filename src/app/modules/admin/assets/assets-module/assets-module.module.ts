@@ -72,6 +72,8 @@ import { MatCardModule } from '@angular/material/card';
 import { ComputerComponentAddModalComponent } from '../assets-computers/computers-add/computer-component-add-modal/computer-component-add-modal.component';
 import { CopmuterAssetsAddModalComponent } from '../assets-computers/computers-add/copmuter-assets-add-modal/copmuter-assets-add-modal.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ComputerFormComponent } from '../assets-computers/computers-add/computer-form/computer-form.component';
+import { LaptopFormComponent } from '../assets-computers/computers-add/laptop-form/laptop-form.component';
 
 const assetRoute: Route[] = [
     // {
@@ -213,7 +215,9 @@ const assetRoute: Route[] = [
         ComputersAddComponent,
         ComputersViewComponent,
         ComputerComponentAddModalComponent,
-        CopmuterAssetsAddModalComponent
+        CopmuterAssetsAddModalComponent,
+        ComputerFormComponent,
+        LaptopFormComponent
         // AlertsComponentComponent,
     ],
     imports: [

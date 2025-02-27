@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Assets } from 'app/models/Inventory/Asset';
 import { AlertService } from 'app/services/alert.service';
 import { ComponentsService } from 'app/services/components/components.service';
-import { FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-components-edit',
@@ -15,14 +15,14 @@ import { FormGroup, Validators } from '@angular/forms';
 export class ComponentsEditComponent  implements OnInit {
     // asset!: Assets;
     asset: Assets | null = null;
-     eventForm!: FormGroup;
-  private _formBuilder: any;
+     eventForm!: FormGroup;  
     constructor(
         private route: ActivatedRoute,
         private assetsService: ComponentsService,
         private dialog: MatDialog,
         private alertService:AlertService,
-        private router: Router
+        private router: Router,
+        private _formBuilder: FormBuilder
     ) {}
  private initializeForm(): void {
         // Parse the date string into a Date object
@@ -66,6 +66,8 @@ export class ComponentsEditComponent  implements OnInit {
                 error: (err) => console.error('Error fetching asset', err),
             });
         }
+
+        this.initializeForm();
     }
 
     previewSelectedImage(event: Event): void {
