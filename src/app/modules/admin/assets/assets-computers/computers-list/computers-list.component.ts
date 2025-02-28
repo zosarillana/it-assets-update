@@ -22,10 +22,8 @@ import { ModalRemarksUniversalComponent } from '../../components/modal/modal-rem
 })
 export class ComputersListComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
-        // 'asset_img',
         'asset_barcode',
         'type',
-        // 'pc_type',
         'brand',
         'model',
         'serial_no',
@@ -61,7 +59,6 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
         console.log(this.dataSource.data);
-        // this.loadAllTypes(); // Load types dynamically
         this.loadAssets(1, this.pageSize);
 
         // Set up the autocomplete filter
@@ -106,11 +103,11 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
         });
     }
 
-    loadAssets(pageIndex: number, pageSize: number): void {
+    loadAssets(pageIndex: number, pageSize: number, typeFilter?: string[], fetchAll?: boolean): void {
         this.isLoading = true;
 
         this.assetService
-            .getAssets(pageIndex, pageSize, this.sortOrder, this.searchTerm)
+            .getAssets(pageIndex, pageSize, this.sortOrder, this.searchTerm, typeFilter, fetchAll)
             .subscribe({
                 next: (response: AssetResponse) => {
                     console.log('API Response:', response);
@@ -164,17 +161,6 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
         this.loadAssets(1, this.pageSize);
     }
 
-    // applyTypeFilter(searchValue: string): void {
-    //     this.searchTerm = searchValue.trim().toLowerCase();
-
-    //     if (this.paginator) {
-    //         this.paginator.pageIndex = 0;
-    //     }
-
-    //     this.loadAssets(1, this.pageSize);
-    // }
-
-    // In your component
     applyTypeFilter(searchValue: string): void {
         this.searchTerm = searchValue.trim().toLowerCase();
 
@@ -196,26 +182,28 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
         );
     }
 
-    // New method to handle selection from autocomplete
     onTypeSelected(selectedType?: string): void {
-        // If selectedType is provided from autocomplete, use it
         if (selectedType) {
-            this.selectedTypeToggle = [selectedType]; // Set it in the toggle buttons
+            this.selectedTypeToggle = [selectedType]; // Set selected type in the toggle buttons
         }
-
-        // Create a filter predicate that checks for the selected types
+    
+        // Set the filter predicate to check the selected types
         this.dataSource.filterPredicate = (data: Assets) => {
             // If no filters are selected, show all data
-            if (this.selectedTypeToggle.length === 0) {
+            if (!this.selectedTypeToggle.length) {
                 return true;
             }
-            // Filter the table based on selected types
+            // Return true if the data type is in the selected filters
             return this.selectedTypeToggle.includes(data.type);
         };
+    
+        // Update the filter value to ensure Angular detects changes
+        this.dataSource.filter = JSON.stringify(this.selectedTypeToggle);
 
-        // Apply the filter
-        this.dataSource.filter = 'applyFilter'; // Triggers filtering
+        // Load data from server with the selected filter
+        this.loadAssets(1, this.pageSize, this.selectedTypeToggle, true); // fetchAll set to true
     }
+    
     isValidDate(date: any): boolean {
         return date && !isNaN(new Date(date).getTime());
     }
@@ -319,6 +307,4 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
       this.alertService.triggerError('Remark cannot be empty.');
     }
   }
-  
-
 }

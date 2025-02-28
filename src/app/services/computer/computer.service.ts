@@ -16,18 +16,24 @@ export class ComputerService {
         pageNumber: number,
         pageSize: number,
         sortOrder: string,
-        searchTerm?: string
+        searchTerm?: string,
+        typeFilter?: string[],
+        fetchAll?: boolean
     ): Observable<any> {
         // Ensure pageNumber is never less than 1
         pageNumber = Math.max(1, pageNumber);
 
         let params = new HttpParams()
-            .set('pageNumber', pageNumber.toString())
-            .set('pageSize', pageSize.toString())
+            .set('pageNumber', fetchAll ? '1' : pageNumber.toString())
+            .set('pageSize', fetchAll ? '1000' : pageSize.toString()) // Arbitrarily large number for fetching all
             .set('sortOrder', sortOrder);
 
         if (searchTerm) {
             params = params.set('searchTerm', searchTerm);
+        }
+
+        if (typeFilter && typeFilter.length > 0) {
+            params = params.set('typeFilter', typeFilter.join(','));
         }
 
         return this.http.get<AssetResponse>(
@@ -35,7 +41,7 @@ export class ComputerService {
             { params }
         );
     }
-
+  
     getAllTypes(): Observable<string[]> {
         const url = `${this.url}/assets/types`;
         return this.http.get<string[]>(url);
