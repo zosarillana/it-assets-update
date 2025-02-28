@@ -51,6 +51,10 @@ export class ComponentsService {
         return this.http.delete(`${this.url}/api/ComputerComponents/${id}`);
     }
 
+    public putEvent(id: string, data: any): Observable<any> {
+        return this.http.put(`${this.url}/api/ComputerComponents/${id}`, data);
+    }  
+    
     public pullOutComponent(id: number): Observable<any> {
         return this.http.put(`${this.url}/api/ComputerComponents/pullout/${id}`, {});
     }

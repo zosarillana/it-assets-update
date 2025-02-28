@@ -4,6 +4,7 @@ export interface Assets {
     description: string;
     date_acquired: string;
     asset_barcode: string;
+    uid: string;
     brand: string;
     model: string;
     ram: string | null;
@@ -16,6 +17,9 @@ export interface Assets {
     ];
     size: string | null;
     color: string;
+    active_user: string | null;
+    bu: string | null;
+    status: string | null;
     serial_no: string | null;
     po: string | null;
     warranty: string | null;
@@ -31,6 +35,7 @@ export interface Assets {
     is_deleted: boolean;
     date_created: string;
     date_modified: string | null;
+    actove_user: string | null
     assigned_assets?: string;  // Add this if missing
     peripheral_type?: string;  // Add this if missing
 }

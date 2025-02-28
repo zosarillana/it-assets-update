@@ -164,17 +164,17 @@ const assetRoute: Route[] = [
     //     component: ComponentsViewComponent,
     // },
     {
-        path: 'components/view/:uid',
+        path: 'components/edit/:uid/:id',
+        component: ComponentsEditComponent,
+    },
+    {
+        path: 'components/view/:uid/:id',
         component: ComponentsViewComponent,
     },
     {
         path: 'components/add',
         component: ComponentsAddComponent,
-    },
-    {
-        path: 'components/edit/:uid',
-        component: ComponentsEditComponent,
-    },
+    },   
 ];
 
 @NgModule({

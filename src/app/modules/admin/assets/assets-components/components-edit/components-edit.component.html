@@ -56,9 +56,11 @@
                             {{ asset.type }}
                         </p>
                         <p class="text-secondary font-semibold">
-                            Parent Asset Barcode:
+                            Inventory Code:
                             <span class="text-secondary font-medium">{{
-                                asset.asset_barcode || "N/A"
+                                asset.uid || "N/A"
+                            }} {{
+                                asset.id || "N/A"
                             }}</span>
                         </p>
                         <div class="flex flex-row gap-2">                      
@@ -83,7 +85,7 @@
     </div>
 
     <div class="flex flex-col sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
-        <form [formGroup]="eventForm" (ngSubmit)="updateAsset()"
+        <form [formGroup]="eventForm" (ngSubmit)="updateComponent()"
             class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
         >
             <p class="text-lg font-bold text-2xl">Edit information</p>
@@ -120,30 +122,18 @@
                                     (change)="previewSelectedImage($event)"
                                 />
                             </div> 
-                            <div class="flex flex-col w-full">
+                            <div class="flex flex-col w-full">                               
                                 <mat-form-field class="w-full" appearance="fill">
                                     <!-- Make mat-form-field take full width -->
                                     <mat-label
                                         class="text-primary font-semibold text-lg"
-                                        >Serial number</mat-label
+                                        >Inventory code</mat-label
                                     >
                                     <mat-icon
                                         svgIcon="feather:hash"
                                         class="icon-size-4"
                                     ></mat-icon>
-                                    <input matInput id="serial_number" formControlName="serial_number" />
-                                </mat-form-field>
-                                <mat-form-field class="w-full" appearance="fill">
-                                    <!-- Make mat-form-field take full width -->
-                                    <mat-label
-                                        class="text-primary font-semibold text-lg"
-                                        >Asset barcode</mat-label
-                                    >
-                                    <mat-icon
-                                        svgIcon="feather:hash"
-                                        class="icon-size-4"
-                                    ></mat-icon>
-                                    <input matInput id="asset_barcode" formControlName="asset_barcode" />
+                                    <input matInput id="uid" formControlName="uid" />
                                 </mat-form-field>
                             </div>
                            
@@ -177,6 +167,7 @@
             <button class="px-6 ml-3" type="submit" mat-flat-button [color]="'primary'">
                 Edit Details
             </button>
+            
         </div>
         </form>
     </div>

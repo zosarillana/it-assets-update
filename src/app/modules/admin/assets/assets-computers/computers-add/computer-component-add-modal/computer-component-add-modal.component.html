@@ -11,7 +11,7 @@
 <mat-divider class="my-3"></mat-divider>
 <mat-dialog-content>
     <form [formGroup]="eventForm">
-        <div class="flex flex-row mt-2 gap-3 md:gap-4">         
+        <div class="flex flex-row mt-2 gap-3 md:gap-4">
             <div class="flex flex-col items-center">
                 <label
                     for="select-image-component"
@@ -21,7 +21,7 @@
                         id="preview-image-component"
                         src="https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg"
                         alt="Select Image"
-                        class="h-32 w-32 md:h-42 md:w-48 object-contain border border-gray-300 rounded-md" 
+                        class="h-32 w-32 md:h-42 md:w-48 object-contain border border-gray-300 rounded-md"
                     />
                     <span
                         class="text-secondary text-xs md:text-sm mt-1 md:mt-2"
@@ -61,7 +61,7 @@
                                 class="text-xs md:text-sm"
                             />
                         </mat-form-field>
-                 
+
                         <mat-label class="text-xs md:text-sm"
                             >Asset Barcode</mat-label
                         >
@@ -78,7 +78,6 @@
                                 class="text-xs md:text-sm"
                             />
                         </mat-form-field>
-                        
                     </div>
                     <div class="flex flex-grow flex-col">
                         <mat-label class="text-xs md:text-sm"
@@ -106,7 +105,9 @@
                         </mat-form-field>
 
                         <div class="flex flex-grow flex-col">
-                            <mat-label class="text-xs md:text-sm">Type</mat-label>
+                            <mat-label class="text-xs md:text-sm"
+                                >Type</mat-label
+                            >
                             <mat-form-field appearance="fill">
                                 <mat-icon
                                     svgIcon="feather:cpu"
@@ -129,24 +130,43 @@
                     </div>
                 </div>
                 <div class="flex flex-grow flex-row gap-4">
-                    
-                    <div class="flex flex-grow flex-col">
-                        <mat-label class="text-xs md:text-sm"
-                            >Description</mat-label
-                        >
-                        <mat-form-field appearance="fill">
-                            <mat-icon
-                                svgIcon="feather:info"
-                                class="icon-size-3 md:icon-size-4 mr-2"
-                            ></mat-icon>
-                            <input
-                                matInput
-                                formControlName="description"
-                                id="description"
-                                placeholder="Enter description..."
-                                class="text-xs md:text-sm"
-                            />
-                        </mat-form-field>
+                    <div class="flex flex-grow flex-row gap-4">
+                        <div class="flex flex-col w-full">
+                            <mat-label class="text-xs md:text-sm"
+                                >Cost</mat-label
+                            >
+                            <mat-form-field appearance="fill">
+                                <mat-icon
+                                    svgIcon="mat_outline:attach_money"
+                                    class="icon-size-4 md:icon-size-4 mr-2"
+                                ></mat-icon>
+                                <input
+                                    matInput
+                                    formControlName="cost"
+                                    id="cost"
+                                    placeholder="Enter cost..."
+                                    class="text-xs md:text-sm"
+                                />
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col w-full">
+                            <mat-label class="text-xs md:text-sm"
+                                >Description</mat-label
+                            >
+                            <mat-form-field appearance="fill">
+                                <mat-icon
+                                    svgIcon="feather:info"
+                                    class="icon-size-3 md:icon-size-4 mr-2"
+                                ></mat-icon>
+                                <input
+                                    matInput
+                                    formControlName="description"
+                                    id="description"
+                                    placeholder="Enter description..."
+                                    class="text-xs md:text-sm"
+                                />
+                            </mat-form-field>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -56,16 +56,16 @@
                             {{ asset.type }}
                         </p>
                         <p class="text-secondary font-semibold">
-                            Parent Asset Barcode:
+                            Inventory code:
                             <span class="text-secondary font-medium">{{
-                                asset.asset_barcode
+                                asset.uid
                             }}</span>
                         </p>
                         <div class="flex flex-row gap-2">
                             <button
                                 class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center"
                                 [routerLink]="
-                                    '/assets/components/edit/' + asset.uid
+                                    '/assets/components/edit/' + asset.uid + '/' + asset.id
                                 "
                             >
                                 <mat-icon
@@ -108,7 +108,7 @@
         </div>
     </div>
 
-    <div class="flex flex-col h-full sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
+    <div class="flex flex-col  sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
         <form
             class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
         >
@@ -127,7 +127,7 @@
                         </div>
                     <div class="flex flex-col">
                         <p class="text-primary font-bold text-2xl">
-                            {{ asset.asset_barcode || 'N/A' }}
+                            {{ asset.uid || 'N/A' }}
                         </p>
                         <p class="text-secondary">
                             Serial number: {{ asset.serial_no || "N/A" }}

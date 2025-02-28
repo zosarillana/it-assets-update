@@ -311,7 +311,7 @@ export class ComputerFormComponent implements OnInit {
             next: () => {
                 this.alertService.triggerSuccess('Asset successfully added!');
                   setTimeout(() => {
-              window.location.reload();
+            //   window.location.reload();
             }, 1000); // Small delay for the alert to be visible
             },
             error: (err) => {
@@ -349,6 +349,7 @@ export class ComputerFormComponent implements OnInit {
             ? response.components.map((comp) => ({
                 date_acquired: comp.date_acquired || '',
                 type: comp.type || '',
+                cost: comp.cost || 0,
                 description: comp.description || '',
               }))
             : [],
@@ -451,6 +452,7 @@ addComponent(componentData: any) {
             asset_barcode: [componentData.asset_barcode],
             date_acquired: [componentData.date_acquired],
             type: [componentData.type, Validators.required],
+            cost: [componentData.cost, Validators.required],
             description: [componentData.description, Validators.required],
         })
     );

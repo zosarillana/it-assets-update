@@ -366,6 +366,7 @@ export class ComputersAddComponent implements OnInit {
                 ? response.components.map((comp) => ({
                       date_acquired: comp.date_acquired || '',
                       type: comp.type || '',
+                      cost: comp.cost || '',
                       description: comp.description || '',
                   }))
                 : [],
@@ -526,6 +527,7 @@ export class ComputersAddComponent implements OnInit {
             asset_barcode: [''],
             uid: [''],
             description: [''],
+            cost: [''],
             type: [''], // ✅ Add type here
             date_acquired: [''],
         });

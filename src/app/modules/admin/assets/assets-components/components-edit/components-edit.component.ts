@@ -8,115 +8,126 @@ import { ComponentsService } from 'app/services/components/components.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-components-edit',
-  templateUrl: './components-edit.component.html',
-  styleUrls: ['./components-edit.component.scss']
+    selector: 'app-components-edit',
+    templateUrl: './components-edit.component.html',
+    styleUrls: ['./components-edit.component.scss'],
 })
-export class ComponentsEditComponent  implements OnInit {
+export class ComponentsEditComponent implements OnInit {
     // asset!: Assets;
     asset: Assets | null = null;
-     eventForm!: FormGroup;  
+    eventForm!: FormGroup;
     constructor(
         private route: ActivatedRoute,
         private assetsService: ComponentsService,
         private dialog: MatDialog,
-        private alertService:AlertService,
+        private alertService: AlertService,
         private router: Router,
         private _formBuilder: FormBuilder
     ) {}
- private initializeForm(): void {
-        // Parse the date string into a Date object
-        let dateAcquired = null;
-        if (this.asset?.date_acquired) {
-            // Parse the MM/DD/YYYY format into a Date object
-            const dateParts = this.asset.date_acquired.split('/');
-            if (dateParts.length === 3) {
-                // Month is 0-indexed in JavaScript Date
-                dateAcquired = new Date(
-                    parseInt(dateParts[2]), // Year
-                    parseInt(dateParts[0]) - 1, // Month (0-indexed)
-                    parseInt(dateParts[1]) // Day
-                );
-            }
-        }
-
+    private initializeForm(): void {
         this.eventForm = this._formBuilder.group({
             image: [null],
             serial_number: [
                 this.asset?.serial_no || 'N/A',
                 Validators.required,
             ],
-        
-            asset_barcode: [
-                this.asset?.asset_barcode || '',
+
+            uid: [this.asset?.uid || '', [Validators.required]],
+            description: [
+                this.asset?.description || 'N/A',
                 [Validators.required],
             ],
-            description: [this.asset?.description || 'N/A', [Validators.required]],
             color: [this.asset?.color || 'N/A', [Validators.required]],
-            
         });
     }
+
+
     ngOnInit(): void {
       const uid = this.route.snapshot.paramMap.get('uid');
-      const asset_barcode = this.route.snapshot.paramMap.get('asset_barcode');
-
-        if (uid) {
-            this.assetsService.getComponentsById(uid).subscribe({
-                next: (data) => (this.asset = data),
-                error: (err) => console.error('Error fetching asset', err),
-            });
-        }
-
-        this.initializeForm();
-    }
-
-    previewSelectedImage(event: Event): void {
-      const input = event.target as HTMLInputElement;
-
-      if (input.files && input.files.length > 0) {
-          const file = input.files[0];
-          const reader = new FileReader();
-
-          reader.onload = (e: ProgressEvent<FileReader>) => {
-              const previewImage = document.getElementById(
-                  'preview-image'
-              ) as HTMLImageElement;
-              if (previewImage) {
-                  previewImage.src = e.target?.result as string;
-              }
-          };
-
-          reader.readAsDataURL(file);
+  
+      if (uid) {
+          this.assetsService.getComponentsById(uid).subscribe({
+              next: (data) => {
+                  this.asset = data;
+                  this.initializeForm(); // Initialize form only after asset is available
+              },
+              error: (err) => console.error('Error fetching asset', err),
+          });
+      } else {
+          this.initializeForm(); // Initialize with default values if no asset is found
       }
   }
+     
+
+    previewSelectedImage(event: Event): void {
+        const input = event.target as HTMLInputElement;
+
+        if (input.files && input.files.length > 0) {
+            const file = input.files[0];
+            const reader = new FileReader();
+
+            reader.onload = (e: ProgressEvent<FileReader>) => {
+                const previewImage = document.getElementById(
+                    'preview-image'
+                ) as HTMLImageElement;
+                if (previewImage) {
+                    previewImage.src = e.target?.result as string;
+                }
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
 
     openDeleteDialog(id: string): void {
         const dialogRef = this.dialog.open(ModalUniversalComponent, {
-          width: '400px',
-          data: { name: 'Are you sure you want to delete this item?' }
+            width: '400px',
+            data: { name: 'Are you sure you want to delete this item?' },
         });
-        
-        dialogRef.afterClosed().subscribe(result => {
-          if (result) {
-            this.deleteItem(id);
-          }
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                this.deleteItem(id);
+            }
         });
-      }
-    
-      private deleteItem(id: string): void {
+    }
+
+    private deleteItem(id: string): void {
         this.assetsService.deleteEvent(id).subscribe({
+            next: () => {
+                this.alertService.triggerSuccess('Item deleted successfully!');
+                // Redirect to '/assets/components' on success
+                this.router.navigate(['/assets/components']);
+            },
+            error: (err) => {
+                console.error('Error deleting item:', err);
+                this.alertService.triggerError('Failed to delete item.');
+            },
+        });
+    }
+
+    updateComponent(): void {
+      if (this.eventForm.invalid) {
+          this.alertService.triggerError("Please fill in all required fields.");
+          return;
+      }
+  
+      const id = this.route.snapshot.paramMap.get('id');
+      if (!id) {
+          this.alertService.triggerError("No valid component ID found.");
+          return;
+      }
+  
+      this.assetsService.putEvent(id, this.eventForm.value).subscribe({
           next: () => {
-            this.alertService.triggerSuccess('Item deleted successfully!');
-            // Redirect to '/assets/components' on success
-            this.router.navigate(['/assets/components']);
+              this.alertService.triggerSuccess("Component updated successfully!");
+              this.router.navigate(['/assets/components']); // Redirect after update
           },
           error: (err) => {
-            console.error('Error deleting item:', err);
-            this.alertService.triggerError('Failed to delete item.');
+              console.error("Error updating component:", err);
+              this.alertService.triggerError("Failed to update component.");
           }
-        });
-      }
-
-
-      
+      });    
+  } 
+  
 }
