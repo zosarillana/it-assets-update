@@ -291,6 +291,7 @@
 
                         <div class="overflow-x-auto">
                             <mat-table
+                            *ngIf="dataSource.length > 0"
                                 [dataSource]="dataSource"
                                 matSort
                                 class="mat-elevation-z8 w-full"
@@ -298,7 +299,7 @@
                                 <ng-container matColumnDef="component">
                                     <mat-header-cell
                                         *matHeaderCellDef
-                                        mat-sort-header
+                                        mat-sort-header class="whitespace-nowrap overflow-hidden text-ellipsis"
                                         >Component</mat-header-cell
                                     >
                                     <mat-cell
@@ -314,7 +315,7 @@
                                 </ng-container>
 
                                 <ng-container matColumnDef="description">
-                                    <mat-header-cell
+                                    <mat-header-cell class="whitespace-nowrap overflow-hidden text-ellipsis"
                                         *matHeaderCellDef
                                         mat-sort-header
                                         >Description</mat-header-cell
@@ -348,6 +349,7 @@
 
                                 <ng-container matColumnDef="uid">
                                     <mat-header-cell
+                                    class="whitespace-nowrap overflow-hidden text-ellipsis"
                                         *matHeaderCellDef
                                         mat-sort-header
                                         >Inventory code</mat-header-cell
@@ -361,7 +363,7 @@
                                 </ng-container>
 
                                 <ng-container matColumnDef="history">
-                                    <mat-header-cell
+                                    <mat-header-cell class="truncate"
                                         *matHeaderCellDef
                                         mat-sort-header
                                         >History</mat-header-cell
@@ -374,7 +376,7 @@
                                     </mat-cell>
                                 </ng-container>
                                 <ng-container matColumnDef="action">
-                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
+                                    <mat-header-cell class="whitespace-nowrap overflow-hidden text-ellipsis" *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
                                     <mat-cell *matCellDef="let element">
                                         <!-- Button to open the menu -->
                                         <button mat-icon-button [matMenuTriggerFor]="menu"
@@ -407,10 +409,13 @@
                                     class="hover:bg-gray-100 cursor-pointer"
                                     [routerLink]="[
                                         '/assets/components/view',
-                                        row.uid
+                                        row.uid, row.id
                                     ]"
                                 >
                                 </mat-row>
+                                <div *ngIf="dataSource.length === 0" class="text-center py-8">
+                                    <p class="text-gray-500">No components available for this computer.</p>
+                                </div>    
                             </mat-table>
                         </div>
                     </mat-tab>
@@ -425,12 +430,14 @@
                         <!-- New Table for Assigned Assets -->
                         <div class="overflow-x-auto mt-5">
                             <mat-table
+                            *ngIf="dataSourceAssignedAssets.length > 0"
                                 [dataSource]="dataSourceAssignedAssets"
                                 matSort
                                 class="mat-elevation-z8 w-full"
                             >
                                 <ng-container matColumnDef="name">
                                     <mat-header-cell
+                                    class="truncate"
                                         *matHeaderCellDef
                                         mat-sort-header
                                         >Assigned Asset</mat-header-cell
@@ -448,7 +455,7 @@
                                 </ng-container>
 
                                 <ng-container matColumnDef="description">
-                                    <mat-header-cell
+                                    <mat-header-cell class="whitespace-nowrap overflow-hidden text-ellipsis"
                                         *matHeaderCellDef
                                         mat-sort-header
                                         >Barcode</mat-header-cell
@@ -482,7 +489,7 @@
                                 </ng-container>
 
                                 <ng-container matColumnDef="uid">
-                                    <mat-header-cell
+                                    <mat-header-cell class="whitespace-nowrap overflow-hidden text-ellipsis"
                                         *matHeaderCellDef
                                         mat-sort-header
                                         >Asset ID</mat-header-cell
@@ -496,11 +503,11 @@
                                 </ng-container>
 
                                 <ng-container matColumnDef="serial_no">
-                                    <mat-header-cell
-                                        *matHeaderCellDef
-                                        mat-sort-header
-                                        >Serial Number</mat-header-cell
-                                    >
+                                    <mat-header-cell class="whitespace-nowrap overflow-hidden text-ellipsis"
+                                    *matHeaderCellDef
+                                    mat-sort-header>
+                     Serial Number
+                   </mat-header-cell>
                                     <mat-cell
                                         *matCellDef="let element"
                                         class="text-sm"
@@ -509,7 +516,7 @@
                                     </mat-cell>
                                 </ng-container>
                                 <ng-container matColumnDef="action">
-                                    <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
+                                    <mat-header-cell class="whitespace-nowrap overflow-hidden text-ellipsis" *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
                                     <mat-cell *matCellDef="let element" class="text-sm">
                                         <button mat-icon-button [matMenuTriggerFor]="menu"
                                             (click)="$event.stopPropagation()">
@@ -559,7 +566,9 @@
                                 >
                                 </mat-row>
 
-                                
+                                <div *ngIf="dataSourceAssignedAssets.length === 0" class="text-center py-8">
+                                    <p class="text-gray-500">No peripherals available for this computer.</p>
+                                </div>    
                             </mat-table>
                         </div>
                     </mat-tab>
@@ -570,16 +579,18 @@
                         <p class="text-sm text-secondary mb-6">
                             Computer owner history.
                         </p>
-                        <mat-table [dataSource]="dataSourceHistory" matSort>
+                        <mat-table
+                        *ngIf="dataSourceHistory.length > 0"
+                        [dataSource]="dataSourceHistory" matSort>
                             <!-- ID Column -->
                             <ng-container matColumnDef="id">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Ordinal</mat-header-cell>
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Chain of title</mat-header-cell>
                                 <mat-cell class="text-sm" *matCellDef="let element">{{ getOrdinal(element.id) }}</mat-cell>
                             </ng-container>
                         
                             <!-- Name Column -->
                             <ng-container matColumnDef="name">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>History</mat-header-cell>
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
                                 <mat-cell class="text-sm" *matCellDef="let element">{{ element.name }}</mat-cell>
                             </ng-container>
                         
@@ -618,29 +629,73 @@
                                 </ng-container>
                             <!-- Fix Header Row Definition -->
                             <mat-header-row *matHeaderRowDef="['id', 'name', 'department', 'company']"></mat-header-row>
-                        
-                            <!-- Fix Row Definition -->
                             <mat-row *matRowDef="let row; columns: ['id', 'name', 'department', 'company']"
-                                class="hover:bg-gray-100 ">
+                                class="hover:bg-gray-100">
+                            </mat-row>
+                            <div *ngIf="dataSourceHistory.length === 0" class="text-center py-8">
+                                <p class="text-gray-500">No history available for this computer.</p>
+                            </div>    
+                        </mat-table>  
+
+                    </mat-tab>
+
+                    <mat-tab label="Repair History">
+                        <p class="text-sm font-medium mt-5">
+                            Repair History
+                        </p>
+                        <p class="text-sm text-secondary mb-6">
+                            Repair history of the component/peripheral.
+                        </p>
+                        <mat-table [dataSource]="dataSourceRepairLogs" matSort>
+                            <!-- ID Column -->
+                            <ng-container matColumnDef="id">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+                                <mat-cell class="text-sm" *matCellDef="let element">{{ element.id }}</mat-cell>
+                            </ng-container>
+                        
+                            <!-- Type Column -->
+                            <ng-container matColumnDef="type">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+                                <mat-cell class="text-sm" *matCellDef="let element">{{ element.type }}</mat-cell>
+                            </ng-container>
+                        
+                            <!-- Action Column -->
+                            <ng-container matColumnDef="action">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
+                                <mat-cell class="text-sm" *matCellDef="let element">{{ element.action }}</mat-cell>
+                            </ng-container>
+                            
+                            <!-- Menu Action Column -->
+                            <ng-container matColumnDef="menu">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Options</mat-header-cell>
+                                <mat-cell *matCellDef="let element" class="text-sm">
+                                    <button mat-icon-button [matMenuTriggerFor]="menu"
+                                        (click)="$event.stopPropagation()">
+                                        <mat-icon class="icon-size-4" svgIcon="feather:more-vertical"></mat-icon>
+                                    </button>
+                                    <mat-menu #menu="matMenu">
+                                        <button mat-menu-item>
+                                            <mat-icon>edit</mat-icon> Edit
+                                        </button>
+                                        <button mat-menu-item>
+                                            <mat-icon>delete</mat-icon> Delete
+                                        </button>
+                                    </mat-menu>
+                                </mat-cell>
+                            </ng-container>
+                            
+                            <!-- Fix Header Row Definition -->
+                            <mat-header-row *matHeaderRowDef="['id', 'type', 'action', 'menu']"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: ['id', 'type', 'action', 'menu']"
+                                class="hover:bg-gray-100">
                             </mat-row>
                         </mat-table>
-
-                        <!-- <div class="flex flex-col flex-grow gap-4">
-                        <p class="flex flex-col font-medium text-sm">
-                            Owner History
-                            <span class="text-secondary text-sm">                        
-                                <ng-container *ngIf="asset.history.values.$values?.length; else noHistory">
-                                    <ng-container *ngFor="let value of asset.history.values.$values; let i = index">
-                                        {{ getOrdinal(i + 1) }} owner: {{ value }} <br>
-                                    </ng-container>
-                                </ng-container>
-                                <ng-template #noHistory>
-                                    N/A
-                                </ng-template>
-                            </span>
-                        </p>               
-                    </div>  -->
-                    </mat-tab>
+                        
+                        <!-- Show a message when no repair logs are available -->
+                        <div *ngIf="dataSourceRepairLogs.length === 0" class="text-center py-8">
+                            <p class="text-gray-500">No repair logs available for this computer.</p>
+                        </div>
+                    </mat-tab>      
                 </mat-tab-group>
             </div>
 
@@ -682,56 +737,10 @@
                     </p>
                 </div>
             </div>
-            <!-- <mat-form-field class="flex-grow gt-xs:pr-3">
-                    <input matInput [placeholder]="'First name'" />
-                    <mat-icon
-                        class="icon-size-5"
-                        matPrefix
-                        [svgIcon]="'heroicons_solid:user-circle'"
-                    ></mat-icon>
-                </mat-form-field>
-                <mat-form-field class="flex-grow gt-xs:pl-3">
-                    <input matInput [placeholder]="'Last name'" />
-                    <mat-icon
-                        class="icon-size-5"
-                        matPrefix
-                        [svgIcon]="'heroicons_solid:user-circle'"
-                    ></mat-icon>
-                </mat-form-field> -->
+        
 
             <mat-divider class="mt-6 mb-10"></mat-divider>
-            <!-- <div
-                class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
-            > -->
-            <!-- <button mat-stroked-button>Reset Form</button> -->
-            <!-- <button class="px-6 ml-3" mat-flat-button [color]="'primary'">
-                    Edit Details
-                </button>
-            </div> -->
+        
         </form>
     </div>
 </div>
-<!-- <mat-form-field class="flex-grow gt-xs:pr-3">
-                    <input matInput [placeholder]="'First name'" />
-                    <mat-icon
-                        class="icon-size-5"
-                        matPrefix
-                        [svgIcon]="'heroicons_solid:user-circle'"
-                    ></mat-icon>
-                </mat-form-field>
-                <mat-form-field class="flex-grow gt-xs:pl-3">
-                    <input matInput [placeholder]="'Last name'" />
-                    <mat-icon
-                        class="icon-size-5"
-                        matPrefix
-                        [svgIcon]="'heroicons_solid:user-circle'"
-                    ></mat-icon>
-                </mat-form-field> -->
-<!-- <div
-                class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
-            > -->
-<!-- <button mat-stroked-button>Reset Form</button> -->
-<!-- <button class="px-6 ml-3" mat-flat-button [color]="'primary'">
-                    Edit Details
-                </button>
-            </div> -->

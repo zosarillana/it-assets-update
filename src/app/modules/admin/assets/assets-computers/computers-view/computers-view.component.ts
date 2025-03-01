@@ -8,6 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from 'app/services/alert.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ComponentsService } from 'app/services/components/components.service';
+import { RepairsService } from 'app/services/repairs/repairs.service';
+import { RepairLogs } from 'app/models/RepairLogs/RepairLogs';
 
 @Component({
     selector: 'app-computers-view',
@@ -17,15 +19,25 @@ import { ComponentsService } from 'app/services/components/components.service';
 export class ComputersViewComponent implements OnInit {
     //  asset!: Assets;
     asset: any;
-    displayedColumns: string[] = ['component', 'description', 'uid', 'history', 'action'];
+    displayedColumns: string[] = [
+        'component',
+        'description',
+        'uid',
+        'history',
+        'action',
+    ];
     dataSourceAssignedAssets: any[] = [];
     dataSourceHistory: any[] = [];
     dataSource: any[] = [];
+    repairLogs: any;  // Declare the property here
+    dataSourceRepairLogs: any[] = []; // Declare data source for repair logs
+
     constructor(
         private route: ActivatedRoute,
         private assetService: AssetsService,
         private componentsService: ComponentsService,
         private assetsService: ComputerService,
+        private repairService: RepairsService,
         private dialog: MatDialog,
         private alertService: AlertService,
         private snackBar: MatSnackBar,
@@ -38,7 +50,7 @@ export class ComputersViewComponent implements OnInit {
             this.assetsService.getComputersById(id).subscribe({
                 next: (data) => {
                     this.asset = data;
-                    this.dataSource = [
+                    (this.dataSource = [
                         {
                             name: 'Ram',
                             icon: 'feather:server',
@@ -64,49 +76,52 @@ export class ComputersViewComponent implements OnInit {
                             icon: 'feather:info',
                             data: this.asset?.board?.values?.$values?.[0],
                         },
-
                     ]
-                    .filter((component) => component.data) // Remove components with no data
-                    .map((component) => ({
-                        id: component.data?.id || null,
-                        name: component.name,
-                        icon: component.icon,
-                        description:
-                            component.data?.description || null,
-                        uid: component.data?.uid || null,
-                        history: component.data?.history || null,
-                    })),
-                    
-                    // Assigned Assets DataSource
-                    this.dataSourceAssignedAssets =
-                        this.asset?.assigned_assets?.values?.$values?.map(
-                            (asset) => ({
-                                name: `${asset.type}`,
-                                icon: 'feather:package',
-                                description: `${asset.asset_barcode}`,
-                                brand: asset.brand,
-                                id: asset.id,
-                                serial_no: asset.serial_no || 'N/A',
-                                action: '',
-                            })
-                        ) || [];
+                        .filter((component) => component.data) // Remove components with no data
+                        .map((component) => ({
+                            id: component.data?.id || null,
+                            name: component.name,
+                            icon: component.icon,
+                            description: component.data?.description || null,
+                            uid: component.data?.uid || null,
+                            history: component.data?.history || null,
+                        }))),
+                        // Assigned Assets DataSource
+                        (this.dataSourceAssignedAssets =
+                            this.asset?.assigned_assets?.values?.$values?.map(
+                                (asset) => ({
+                                    name: `${asset.type}`,
+                                    icon: 'feather:package',
+                                    description: `${asset.asset_barcode}`,
+                                    brand: asset.brand,
+                                    id: asset.id,
+                                    serial_no: asset.serial_no || 'N/A',
+                                    action: '',
+                                })
+                            ) || []);
 
                     // History DataSource
                     this.dataSourceHistory =
                         this.asset?.history?.values?.$values?.map(
-                            (name, index) => ({
+                            (historyItem, index) => ({
                                 id: index + 1,
-                                name: name, // The name is the only available data
+                                name: historyItem?.name ?? 'Unknown', // ✅ Extracts the actual name or defaults to 'Unknown'
                                 department:
                                     this.asset?.owner?.department || 'N/A',
                                 company: this.asset?.owner?.company || 'N/A',
                             })
                         ) || [];
+
+                    console.log('Data Source History:', this.dataSourceHistory);
+                    
+                    // Fetch repair logs after asset data is loaded
+                    this.getHistoryById();
                 },
                 error: (err) => console.error('Error fetching asset', err),
             });
         }
     }
+
     previewSelectedImage(event: Event): void {
         const input = event.target as HTMLInputElement;
 
@@ -126,6 +141,7 @@ export class ComputersViewComponent implements OnInit {
             reader.readAsDataURL(file);
         }
     }
+
     getOrdinal(n: number): string {
         if (n > 0) {
             let suffix = ['th owner', 'st owner', 'nd owner', 'rd owner'],
@@ -165,47 +181,53 @@ export class ComputersViewComponent implements OnInit {
     handlePullOut(componentId: number | null): void {
         console.log('Pull Out button clicked!');
         console.log('Component ID received:', componentId);
-    
+
         if (!componentId) {
             this.snackBar.open('Invalid component ID', 'Close', {
                 duration: 3000,
             });
             return;
         }
-    
+
         // Use setTimeout to let focus events settle before opening the modal
         setTimeout(() => {
             const dialogRef = this.dialog.open(ModalUniversalComponent, {
                 width: '400px',
-                data: { name: 'Are you sure you want to pull out this component?' }
+                data: {
+                    name: 'Are you sure you want to pull out this component?',
+                },
             });
-    
-            dialogRef.afterClosed().subscribe(result => {
+
+            dialogRef.afterClosed().subscribe((result) => {
                 console.log('Dialog result:', result);
-    
+
                 if (result) {
-                    this.componentsService.pullOutComponent(componentId).subscribe({
-                        next: (response) => {
-                            this.snackBar.open(response.message, 'Close', {
-                                duration: 3000,
-                            });
-    
-                            // 🔄 Refresh the table data
-                            this.reloadAssetData();
-                        },
-                        error: (error) => {
-                            this.snackBar.open('Error pulling out component', 'Close', {
-                                duration: 3000,
-                            });
-                            console.error(error);
-                        },
-                    });
+                    this.componentsService
+                        .pullOutComponent(componentId)
+                        .subscribe({
+                            next: (response) => {
+                                this.snackBar.open(response.message, 'Close', {
+                                    duration: 3000,
+                                });
+
+                                // 🔄 Refresh the table data
+                                this.reloadAssetData();
+                            },
+                            error: (error) => {
+                                this.snackBar.open(
+                                    'Error pulling out component',
+                                    'Close',
+                                    {
+                                        duration: 3000,
+                                    }
+                                );
+                                console.error(error);
+                            },
+                        });
                 }
             });
         }, 0);
     }
-    
-    
 
     handleAssetPullOut(assetId: number | null): void {
         console.log('Pull Out button clicked!');
@@ -262,91 +284,148 @@ export class ComputersViewComponent implements OnInit {
         }
     }
 
-   /**
- * Confirms before pulling out the asset using a modal
- */
-confirmPullOut(assetId: number): void {
-    const dialogRef = this.dialog.open(ModalUniversalComponent, {
-        width: '400px',
-        data: { name: 'Are you sure you want to pull out this asset?' }
-    });
+    /**
+     * Confirms before pulling out the asset using a modal
+     */
+    confirmPullOut(assetId: number): void {
+        const dialogRef = this.dialog.open(ModalUniversalComponent, {
+            width: '400px',
+            data: { name: 'Are you sure you want to pull out this asset?' },
+        });
 
-    dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-            this.pullOutAsset(assetId);
-        }
-    });
-}
-
-/**
- * Calls the service to pull out an asset
- */
-pullOutAsset(assetId: number): void {
-    this.assetService.pullOutAsset(assetId).subscribe(
-        (response) => {
-            this.snackBar.open('Asset successfully pulled out!', 'Close', {
-                duration: 3000,
-            });
-            console.log('Pull-out successful:', response);
-
-            // 🔄 Refresh data after successful pullout
-            this.reloadAssetData();
-        },
-        (error) => {
-            this.snackBar.open('Failed to pull out asset. Try again.', 'Close', {
-                duration: 3000
-            });
-            console.error('Error pulling out asset:', error);
-        }
-    );
-}
-
-reloadAssetData(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
-        this.assetsService.getComputersById(id).subscribe({
-            next: (data) => {
-                this.asset = data;
-                this.updateDataSources();
-            },
-            error: (err) => console.error('Error fetching asset', err),
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                this.pullOutAsset(assetId);
+            }
         });
     }
-}
 
-updateDataSources(): void {
-    this.dataSource = [
-        { name: 'Ram', icon: 'feather:server', data: this.asset?.ram?.values?.$values?.[0] },
-        { name: 'SSD', icon: 'feather:hard-drive', data: this.asset?.ssd?.values?.$values?.[0] },
-        { name: 'HDD', icon: 'feather:hard-drive', data: this.asset?.hdd?.values?.$values?.[0] },
-        { name: 'GPU', icon: 'feather:monitor', data: this.asset?.gpu?.values?.$values?.[0] },
-        { name: 'BOARD', icon: 'feather:info', data: this.asset?.board?.values?.$values?.[0] }
-    ]
-    .filter(component => component.data)
-    .map(component => ({
-        id: component.data?.id || null,
-        name: component.name,
-        icon: component.icon,
-        description: component.data?.description || null,
-        uid: component.data?.uid || null,
-        history: component.data?.history || null,
-    }));
+    /**
+     * Calls the service to pull out an asset
+     */
+    pullOutAsset(assetId: number): void {
+        this.assetService.pullOutAsset(assetId).subscribe(
+            (response) => {
+                this.snackBar.open('Asset successfully pulled out!', 'Close', {
+                    duration: 3000,
+                });
+                console.log('Pull-out successful:', response);
 
-    this.dataSourceAssignedAssets = this.asset?.assigned_assets?.values?.$values?.map(asset => ({
-        name: `${asset.type}`,
-        icon: 'feather:package',
-        description: `${asset.asset_barcode}`,
-        brand: asset.brand,
-        id: asset.id,
-        serial_no: asset.serial_no || 'N/A',
-        action: '',
-    })) || [];
+                // 🔄 Refresh data after successful pullout
+                this.reloadAssetData();
+            },
+            (error) => {
+                this.snackBar.open(
+                    'Failed to pull out asset. Try again.',
+                    'Close',
+                    {
+                        duration: 3000,
+                    }
+                );
+                console.error('Error pulling out asset:', error);
+            }
+        );
+    }
 
-    this.dataSourceHistory = this.asset?.history?.values?.$values?.map((name, index) => ({
-        id: index + 1,
-        name: name,
-        department: this.asset?.owner?.department || 'N/A',
-        company: this.asset?.owner?.company || 'N/A',
-    })) || [];
-}
+    reloadAssetData(): void {
+        const id = Number(this.route.snapshot.paramMap.get('id'));
+        if (id) {
+            this.assetsService.getComputersById(id).subscribe({
+                next: (data) => {
+                    this.asset = data;
+                    this.updateDataSources();
+                    // Also reload repair logs
+                    this.getHistoryById();
+                },
+                error: (err) => console.error('Error fetching asset', err),
+            });
+        }
+    }
+
+    updateDataSources(): void {
+        this.dataSource = [
+            {
+                name: 'Ram',
+                icon: 'feather:server',
+                data: this.asset?.ram?.values?.$values?.[0],
+            },
+            {
+                name: 'SSD',
+                icon: 'feather:hard-drive',
+                data: this.asset?.ssd?.values?.$values?.[0],
+            },
+            {
+                name: 'HDD',
+                icon: 'feather:hard-drive',
+                data: this.asset?.hdd?.values?.$values?.[0],
+            },
+            {
+                name: 'GPU',
+                icon: 'feather:monitor',
+                data: this.asset?.gpu?.values?.$values?.[0],
+            },
+            {
+                name: 'BOARD',
+                icon: 'feather:info',
+                data: this.asset?.board?.values?.$values?.[0],
+            },
+        ]
+            .filter((component) => component.data)
+            .map((component) => ({
+                id: component.data?.id || null,
+                name: component.name,
+                icon: component.icon,
+                description: component.data?.description || null,
+                uid: component.data?.uid || null,
+                history: component.data?.history || null,
+            }));
+
+        this.dataSourceAssignedAssets =
+            this.asset?.assigned_assets?.values?.$values?.map((asset) => ({
+                name: `${asset.type}`,
+                icon: 'feather:package',
+                description: `${asset.asset_barcode}`,
+                brand: asset.brand,
+                id: asset.id,
+                serial_no: asset.serial_no || 'N/A',
+                action: '',
+            })) || [];
+
+        this.dataSourceHistory =
+            this.asset?.history?.values?.$values?.map((historyItem, index) => ({
+                id: index + 1,
+                name: historyItem?.name || 'Unknown', // ✅ Extracts string or uses a default
+                department: this.asset?.owner?.department || 'N/A',
+                company: this.asset?.owner?.company || 'N/A',
+            })) || [];
+    }
+
+    getHistoryById(): void {
+        if (this.asset && this.asset.id) {
+            console.log('📋 Fetching repair logs for asset ID:', this.asset.id);
+    
+            this.repairService.getRepairLogsById(this.asset.id).subscribe({
+                next: (data: any) => {
+                    console.log('✅ Repair Logs Data:', data);
+    
+                    // Ensure we have a valid response and an array of values
+                    this.dataSourceRepairLogs = data?.$values?.map((log: any, index: number) => ({
+                        id: index + 1,
+                        type: log.type || 'N/A',
+                        action: log.action || 'N/A', // ✅ Extracts "action" from log
+                        eaf_no: log.eaf_no || 'N/A',
+                        computer_id: log.computer_id || 'N/A',
+                        item_id: log.item_id?.id || 'N/A',
+                        timestamp: log.timestamp || 'N/A',
+                    })) || [];
+    
+                    console.log('🛠️ Repair Logs Data Source:', this.dataSourceRepairLogs);
+                },
+                error: (err) => console.error('❌ Error fetching repair logs:', err),
+            });
+        } else {
+            console.warn('⚠️ Asset ID is not available. Current asset:', this.asset);
+        }
+    }
+    
 }
