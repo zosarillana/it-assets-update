@@ -126,12 +126,13 @@
                         />
                         </div>
                     <div class="flex flex-col">
+                        <p class="text-secondary">
+                            Inventory Code
+                        </p>
                         <p class="text-primary font-bold text-2xl">
                             {{ asset.uid || 'N/A' }}
                         </p>
-                        <p class="text-secondary">
-                            Serial number: {{ asset.serial_no || "N/A" }}
-                        </p>
+                     
                     </div>
                      
                     </div>
@@ -159,13 +160,25 @@
                              </p>
                              <p *ngIf="!asset?.computer" class="text-secondary">N/A</p>
                             </div>
+                            
                         </div>
-                        <div>
-                            <p class="text-primary font-bold text-lg">Status</p>
-                            <p class="text-secondary">
-                                {{ asset.status }}
-                            </p>
+                        <div class="flex flex-row w-full flex-grow">
+                            <div class="flex flex-col flex-grow w-full">
+                                <p class="text-primary font-bold text-lg">Status</p>
+                                <p class="text-secondary">
+                                    {{ asset.status }}
+                                </p>
+                            </div>
+                            <div class="flex flex-col flex-grow w-full">
+                                <p class="text-primary font-bold text-lg">Cost</p>
+                                <p class="text-secondary">
+                                    ₱ {{ asset.cost }}
+                                </p>
+                            </div>
+
                         </div>
+                    
+                    
                     </div>
                 </div>
             </div>

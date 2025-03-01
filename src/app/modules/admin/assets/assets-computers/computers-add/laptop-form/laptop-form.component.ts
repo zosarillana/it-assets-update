@@ -349,6 +349,7 @@ export class LaptopFormComponent  implements OnInit {
           components: Array.isArray(response.components)
             ? response.components.map((comp) => ({
                 date_acquired: comp.date_acquired || '',
+                cost: comp.cost || 0,
                 type: comp.type || '',
                 description: comp.description || '',
               }))
@@ -451,6 +452,7 @@ addComponent(componentData: any) {
         this._formBuilder.group({
             asset_barcode: [componentData.asset_barcode],
             date_acquired: [componentData.date_acquired],
+            cost: [componentData.cost, Validators.required],
             type: [componentData.type, Validators.required],
             description: [componentData.description, Validators.required],
         })

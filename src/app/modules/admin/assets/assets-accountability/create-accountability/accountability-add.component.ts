@@ -55,7 +55,7 @@ export class AccoundabilityAddComponent implements OnInit {
             name: ['', Validators.required],
             department: ['', Validators.required],
             date_hired: ['', Validators.required],
-            date_resignation: ['', Validators.required],
+            // date_resignation: ['', Validators.required],
             company: ['', Validators.required],
         });
     }
@@ -235,7 +235,7 @@ export class AccoundabilityAddComponent implements OnInit {
             name: this.eventForm.value.name,
             department: this.eventForm.value.department,
             date_hired: this.eventForm.value.date_hired,
-            date_resignation: this.eventForm.value.date_resignation,
+            // date_resignation: this.eventForm.value.date_resignation,
             company: this.eventForm.value.company,
             is_deleted: "false"
           };

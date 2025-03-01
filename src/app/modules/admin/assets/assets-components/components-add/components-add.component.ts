@@ -19,6 +19,7 @@ export class ComponentsAddComponent implements OnInit {
     private initializeForm(): void {
         this.eventForm = this._formBuilder.group({
             serial_number: ['N/A', []],
+            cost: [ 0, [Validators.required, Validators.pattern("^[0-9]*$")]], // ✅ Ensure cos
             type: ['', [Validators.required]],
             description: ['', [Validators.required]],          
         });

@@ -74,7 +74,7 @@
                 <div class="flex flex-grow flex-col gap-4">
                     <div class="flex flex-grow flex-col gap-4">
                         <!-- Search Input -->
-                        <div class="flex flex-grow">
+                        <div class="flex flex-grow ">
                          
                             <mat-form-field class="fuse-mat-no-subscript w-full">
                                 <mat-icon matPrefix class="icon-size-5" [svgIcon]="'heroicons_solid:search'"></mat-icon>
@@ -407,7 +407,7 @@
                                                 placeholder="Enter employee id..."
                                                 class="text-xs md:text-sm"
                                                 (keydown)="validateNumber($event)"
-                                                class="no-spinner"
+                                                class="no-spinner text-sm"
                                             />
                                         </mat-form-field>
                                     </div>
@@ -451,7 +451,7 @@
                                                 matInput
                                                 [matDatepicker]="picker"
                                                 [formControlName]="'date_hired'"
-                                                placeholder="MM-DD-YYYY"
+                                                placeholder=" Date Hired: MM-DD-YYYY"
                                                 (click)="picker.open()"
                                                 class="cursor-pointer text-sm"
                                                 required
@@ -470,7 +470,7 @@
                                             ></mat-datepicker>
                                         </mat-form-field>
                                     </div>
-                                    <div class="flex flex-col">
+                                    <!-- <div class="flex flex-col">
                                         <mat-form-field>
                                             <input
                                                 matInput
@@ -488,15 +488,14 @@
                                                 svgIcon="mat_outline:calendar_today"
                                                 class="icon-size-4 cursor-pointer"
                                                 (click)="picker2.open()"
-                                            >
-                                                <!-- calendar_today -->
+                                            >                                             
                                             </mat-icon>
 
                                             <mat-datepicker
                                                 #picker2
                                             ></mat-datepicker>
                                         </mat-form-field>
-                                    </div>
+                                    </div> -->
                                     <div class="flex flex-col">
                                         <mat-form-field appearance="fill">
                                             <mat-icon
