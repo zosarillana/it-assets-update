@@ -33,6 +33,7 @@ export class ComponentsEditComponent implements OnInit {
             ],
 
             uid: [this.asset?.uid || '', [Validators.required]],
+            cost: [this.asset?.cost , [Validators.required, Validators.pattern("^[0-9]*$")]], // ✅ Ensure cost is a number
             description: [
                 this.asset?.description || 'N/A',
                 [Validators.required],
@@ -120,8 +121,8 @@ export class ComponentsEditComponent implements OnInit {
   
       this.assetsService.putEvent(id, this.eventForm.value).subscribe({
           next: () => {
-              this.alertService.triggerSuccess("Component updated successfully!");
-              this.router.navigate(['/assets/components']); // Redirect after update
+            //   this.alertService.triggerSuccess("Component updated successfully!");
+            //   this.router.navigate(['/assets/components']); // Redirect after update
           },
           error: (err) => {
               console.error("Error updating component:", err);
