@@ -65,20 +65,28 @@
     </div>
 
     <div class="flex flex-col sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
-        <form [formGroup]="eventForm" (ngSubmit)="onSubmit()"
+        <form
+            [formGroup]="eventForm"
+            (ngSubmit)="onSubmit()"
             class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
         >
             <p class="text-lg font-bold">New Accountability Form</p>
             <mat-divider class="my-4"></mat-divider>
-            <div class="flex flex-col sm:flex-row md:flex-row flex-grow gap-4 w-full">
-
+            <div
+                class="flex flex-col sm:flex-row md:flex-row flex-grow gap-4 w-full"
+            >
                 <div class="flex flex-grow flex-col gap-4 w-full">
                     <div class="flex flex-grow flex-col gap-4">
                         <!-- Search Input -->
-                        <div class="flex flex-grow ">
-                         
-                            <mat-form-field class="fuse-mat-no-subscript w-full">
-                                <mat-icon matPrefix class="icon-size-5" [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                        <div class="flex flex-grow">
+                            <mat-form-field
+                                class="fuse-mat-no-subscript w-full"
+                            >
+                                <mat-icon
+                                    matPrefix
+                                    class="icon-size-5"
+                                    [svgIcon]="'heroicons_solid:search'"
+                                ></mat-icon>
                                 <input
                                     matInput
                                     class="text-sm"
@@ -86,11 +94,22 @@
                                     formControlName="typeComputerControl"
                                     [matAutocomplete]="auto"
                                 />
-                                <mat-autocomplete #auto="matAutocomplete" 
-                                                 [displayWith]="displayFn"
-                                                 (optionSelected)="onTypeSelected($event.option.value)">
-                                    <mat-option *ngFor="let option of filteredComputerOptions | async" [value]="option">
-                                        {{ option.asset_barcode }} - {{ option.model }}
+                                <mat-autocomplete
+                                    #auto="matAutocomplete"
+                                    [displayWith]="displayFn"
+                                    (optionSelected)="
+                                        onTypeSelected($event.option.value)
+                                    "
+                                >
+                                    <mat-option
+                                        *ngFor="
+                                            let option of filteredComputerOptions
+                                                | async
+                                        "
+                                        [value]="option"
+                                    >
+                                        {{ option.asset_barcode }} -
+                                        {{ option.model }}
                                     </mat-option>
                                 </mat-autocomplete>
                             </mat-form-field>
@@ -220,36 +239,40 @@
                                             >
                                                 {{
                                                     selectedComputer?.ssd?.values?.$values?.[0]?.description || "N/A"
-                                                      
+
                                                 }}
                                             </span>
                                         </p>
                                         <p
-                                        class="flex flex-col font-medium text-sm"
-                                    >
-                                        BOARD
-                                        <span
-                                            class="text-secondary text-sm"
+                                            class="flex flex-col font-medium text-sm"
                                         >
-                                            {{
+                                            BOARD
+                                            <span
+                                                class="text-secondary text-sm"
+                                            >
+                                                {{
                                                 selectedComputer?.board?.values?.$values?.[0]?.description || "N/A"
-                                                  
-                                            }}
-                                        </span>
-                                    </p>
+
+                                                }}
+                                            </span>
+                                        </p>
                                     </div>
 
                                     <!-- Right Column -->
                                     <div class="flex flex-col flex-grow gap-4">
-                                        <p class="flex flex-col font-medium text-sm">
+                                        <p
+                                            class="flex flex-col font-medium text-sm"
+                                        >
                                             GPU
-                                            <span class="text-secondary text-sm">
+                                            <span
+                                                class="text-secondary text-sm"
+                                            >
                                                 {{
                                                     selectedComputer?.gpu?.values?.$values?.[0]?.description || "N/A"
                                                 }}
                                             </span>
                                         </p>
-                                        
+
                                         <p
                                             class="flex flex-col font-medium text-sm"
                                         >
@@ -259,11 +282,10 @@
                                             >
                                                 {{
                                                     selectedComputer?.hdd?.values?.$values?.[0]?.description || "N/A"
-                                                    
+
                                                 }}
                                             </span>
                                         </p>
-                                      
                                     </div>
                                 </div>
                             </mat-card-content>
@@ -407,7 +429,9 @@
                                                 id="employee_id"
                                                 placeholder="Enter employee id..."
                                                 class="text-xs md:text-sm"
-                                                (keydown)="validateNumber($event)"
+                                                (keydown)="
+                                                    validateNumber($event)
+                                                "
                                                 class="no-spinner text-sm"
                                             />
                                         </mat-form-field>
@@ -442,22 +466,6 @@
                                             />
                                         </mat-form-field>
                                     </div>
-                                    <div class="flex flex-col">
-                                        <mat-form-field appearance="fill">
-                                            <mat-icon
-                                                svgIcon="mat_outline:domain"
-                                                class="icon-size-3 md:icon-size-4 mr-2"
-                                            ></mat-icon>
-                                            <input
-                                                matInput
-                                                formControlName="department"
-                                                id="department"
-                                                placeholder="Enter department..."
-                                                class="text-xs md:text-sm"
-                                            />
-                                        </mat-form-field>
-                                    </div>
-                                   
                                 </div>
 
                                 <!-- Right Column -->
@@ -516,7 +524,7 @@
                                     <div class="flex flex-col">
                                         <mat-form-field appearance="fill">
                                             <mat-icon
-                                                svgIcon="mat_outline:business"
+                                                svgIcon="mat_outline:business_center"
                                                 class="icon-size-3 md:icon-size-4 mr-2"
                                             ></mat-icon>
                                             <input
@@ -531,7 +539,7 @@
                                     <div class="flex flex-col">
                                         <mat-form-field appearance="fill">
                                             <mat-icon
-                                                svgIcon="mat_outline:business"
+                                                svgIcon="mat_outline:info"
                                                 class="icon-size-3 md:icon-size-4 mr-2"
                                             ></mat-icon>
                                             <input
@@ -545,9 +553,38 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="flex flex-col w-full">
+                                <mat-form-field appearance="fill">
+                                    <mat-icon
+                                        svgIcon="mat_outline:domain"
+                                        class="icon-size-3 md:icon-size-4 mr-2"
+                                    ></mat-icon>
+                                    <mat-select
+                                        formControlName="department"
+                                        id="department"
+                                        class="text-sm text-gray-400"
+                                        [placeholder]="'Select Department'"
+                                    >
+                                        <mat-option value="" disabled
+                                            >Select Department</mat-option
+                                        >
+                                        <mat-option
+                                            *ngFor="
+                                                let department of departments
+                                            "
+                                            [value]="department"
+                                        >
+                                            {{ department.code }} -
+                                            {{ department.description }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
                         </mat-card-content>
                     </mat-card>
-                    <div class="flex flex-col w-full gap-4 mt-12 lg:flex-row md:flex-row">
+                    <div
+                        class="flex flex-col w-full gap-4 mt-12 lg:flex-row md:flex-row"
+                    >
                         <div class="flex-grow flex-col">
                             <!-- Signature Image -->
                             <div class="flex-grow text-center">
@@ -635,8 +672,8 @@
                                 class="icon-size-4 cursor-pointer"
                                 (click)="picker.open()"
                             > -->
-                                <!-- calendar_today -->
-                            <!-- </mat-icon>
+                    <!-- calendar_today -->
+                    <!-- </mat-icon>
 
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
@@ -648,7 +685,12 @@
                 class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
             >
                 <button mat-stroked-button>Reset Form</button>
-                <button class="px-6 ml-3" mat-flat-button type="submit" [color]="'primary'">
+                <button
+                    class="px-6 ml-3"
+                    mat-flat-button
+                    type="submit"
+                    [color]="'primary'"
+                >
                     Create Form
                 </button>
             </div>

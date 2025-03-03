@@ -14,6 +14,9 @@ import { UsersService } from 'app/services/user/users.service';
 import { User } from 'app/core/user/user.types';
 import { AccountabilityService } from 'app/services/accountability/accountability.service';
 import { AlertService } from 'app/services/alert.service';
+import { DepartmentService } from 'app/services/department/department.service';
+import { Department } from 'app/models/Department/Department';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
     selector: 'app-accountability-add',
@@ -32,7 +35,8 @@ export class AccoundabilityAddComponent implements OnInit {
         private computerService: ComputerService,
         private userService: UsersService,
         private alertService: AlertService,
-        private accountabilityService: AccountabilityService
+        private accountabilityService: AccountabilityService,
+        private departmentService: DepartmentService
     ) {}
 
     displayFn = (value: any): string => {
@@ -63,6 +67,7 @@ export class AccoundabilityAddComponent implements OnInit {
     }
         
     ngOnInit(): void {
+        this.loadDepartments();
         this.initializeForm();
         this.loadComputers();
         
@@ -225,6 +230,27 @@ export class AccoundabilityAddComponent implements OnInit {
     //         alert('Please fill in all required fields.');
     //     }
     // }
+    allTypes: string[] = []; // Store unique type values
+    departments: Department[] = []; // Holds the fetched departments
+    dataSource = new MatTableDataSource<Department>();
+    private loadDepartments(): void {
+        this.departmentService.getDepartments().subscribe({
+            next: (data) => {
+                this.departments = data; // Populate departments for the select
+                this.dataSource.data = this.departments;
+    
+                // Extract unique department codes (if needed elsewhere)
+                this.allTypes = [...new Set(data.map((dept) => dept.code))];
+    
+                console.log("Departments Loaded:", this.departments); // Debugging log
+            },
+            error: (error) => {
+                console.error('Error fetching departments', error);
+            },
+        });
+    }
+    
+
     onSubmit(): void {
         if (this.eventForm.valid) {
           const formData = this.eventForm.value;

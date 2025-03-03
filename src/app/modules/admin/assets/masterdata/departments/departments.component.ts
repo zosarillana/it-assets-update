@@ -23,7 +23,11 @@ export class DepartmentsComponent implements OnInit {
     constructor(private departmentService: DepartmentService) {}
     dataSource = new MatTableDataSource<Department>();
 
-    displayedColumns: string[] = ['code', 'description', 'action'];
+    displayedColumns: string[] = [
+        'code',
+        'description',
+        // 'action'
+    ];
 
     ngOnInit(): void {
         this.loadDepartments();
