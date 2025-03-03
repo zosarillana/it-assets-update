@@ -1,4 +1,4 @@
-import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InventoryTableComponent } from '../profiles/inventory/inventory-table/inventory-table.component';
 import { Route, RouterModule } from '@angular/router';
@@ -71,11 +71,12 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card'; 
 import { ComputerComponentAddModalComponent } from '../assets-computers/computers-add/computer-component-add-modal/computer-component-add-modal.component';
 import { CopmuterAssetsAddModalComponent } from '../assets-computers/computers-add/copmuter-assets-add-modal/copmuter-assets-add-modal.component';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ComputerFormComponent } from '../assets-computers/computers-add/computer-form/computer-form.component';
 import { LaptopFormComponent } from '../assets-computers/computers-add/laptop-form/laptop-form.component';
 import { ModalRemarksUniversalComponent } from '../components/modal/modal-remarks-universal/modal-remarks-universal.component';
 import { ComputerComponentAddLaptopComponent } from '../assets-computers/computer-component-add-laptop/computer-component-add-laptop.component';
+import { DepartmentsComponent } from '../masterdata/departments/departments.component';
 
 const assetRoute: Route[] = [
     // {
@@ -175,6 +176,11 @@ const assetRoute: Route[] = [
         path: 'components/add',
         component: ComponentsAddComponent,
     },   
+    //Masterdata
+    {
+        path: 'departments',
+        component: DepartmentsComponent,
+    },
 ];
 
 @NgModule({
@@ -221,7 +227,8 @@ const assetRoute: Route[] = [
         ComputerFormComponent,
         LaptopFormComponent,
         ModalRemarksUniversalComponent,
-        ComputerComponentAddLaptopComponent
+        ComputerComponentAddLaptopComponent,  
+        DepartmentsComponent    
         // AlertsComponentComponent,
     ],
     imports: [
