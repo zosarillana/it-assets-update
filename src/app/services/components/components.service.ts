@@ -4,6 +4,16 @@ import { Assets } from 'app/models/Inventory/Asset';
 import { AssetResponse } from 'app/models/Inventory/AssetResponse';
 import { Observable } from 'rxjs';
 
+
+interface PullInComponentRequest {
+    computer_id: number;
+    component_uid: string;
+  }
+  
+  interface PullInComponentResponse {
+    success: boolean;
+    message: string;
+  }
 @Injectable({
   providedIn: 'root'
 })
@@ -57,5 +67,9 @@ export class ComponentsService {
     
     public pullOutComponent(id: number): Observable<any> {
         return this.http.put(`${this.url}/api/ComputerComponents/pullout/${id}`, {});
+    }
+
+    public pullInComponent(request: PullInComponentRequest): Observable<PullInComponentResponse> {
+        return this.http.post<PullInComponentResponse>(`${this.url}/api/ComputerComponents/pull_in_component`, request);
     }
 }

@@ -10,6 +10,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ComponentsService } from 'app/services/components/components.service';
 import { RepairsService } from 'app/services/repairs/repairs.service';
 import { RepairLogs } from 'app/models/RepairLogs/RepairLogs';
+import { ComputerPullInModalComponent } from '../computer-pull-in-modal/computer-pull-in-modal.component';
+import { ComputerPullInAssetsModalComponent } from '../computer-pull-in-assets-modal/computer-pull-in-assets-modal.component';
 
 @Component({
     selector: 'app-computers-view',
@@ -325,6 +327,30 @@ export class ComputersViewComponent implements OnInit {
                 console.error('Error pulling out asset:', error);
             }
         );
+    }
+
+    addComponent(): void {
+        const dialogRef = this.dialog.open(ComputerPullInModalComponent, {
+          width: '600px',
+          data: { computerId: this.asset.id } // Pass the computer ID
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+          // Handle any actions after the dialog is closed
+        });
+      }
+
+    
+    addPeripherals(): void {
+        const dialogRef = this.dialog.open(ComputerPullInAssetsModalComponent, {
+            width: '600px',
+            data: { computerId: this.asset.id },
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+            // Handle any actions after the dialog is closed
+          });
     }
 
     reloadAssetData(): void {

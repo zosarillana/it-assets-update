@@ -289,6 +289,13 @@
                             Components associated with this asset.
                         </p>
 
+                        <div class="flex justify-end mb-4">
+                            <button mat-flat-button color="primary" (click)="addComponent()">
+                                <mat-icon class="icon-size-4" svgIcon="feather:plus"></mat-icon>
+                                <span class="ml-1">Add Component</span>
+                            </button>
+                        </div>
+
                         <div class="overflow-x-auto">
                             <mat-table
                             *ngIf="dataSource.length > 0"
@@ -426,6 +433,12 @@
                         <p class="text-sm text-secondary mb-6">
                             Assets associated with this asset.
                         </p>
+                        <div class="flex justify-end mb-4">
+                            <button mat-flat-button color="primary" (click)="addPeripherals()">
+                                <mat-icon class="icon-size-4" svgIcon="feather:plus"></mat-icon>
+                                <span class="ml-1">Add Peripherals</span>
+                            </button>
+                        </div>
 
                         <!-- New Table for Assigned Assets -->
                         <div class="overflow-x-auto mt-5">
