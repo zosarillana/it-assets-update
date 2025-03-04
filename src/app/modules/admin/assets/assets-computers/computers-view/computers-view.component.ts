@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ComponentsService } from 'app/services/components/components.service';
 import { RepairsService } from 'app/services/repairs/repairs.service';
 import { RepairLogs } from 'app/models/RepairLogs/RepairLogs';
+import { ModalRemarksUniversalComponent } from '../../components/modal/modal-remarks-universal/modal-remarks-universal.component';
 
 @Component({
     selector: 'app-computers-view',
@@ -177,35 +178,39 @@ export class ComputersViewComponent implements OnInit {
     handlePullOut(componentId: number | null): void {
         console.log('Pull Out button clicked!');
         console.log('Component ID received:', componentId);
-
+    
         if (!componentId) {
             this.snackBar.open('Invalid component ID', 'Close', {
                 duration: 3000,
             });
             return;
         }
-
-        // Use setTimeout to let focus events settle before opening the modal
+    
+        // Open the modal to collect remarks
         setTimeout(() => {
-            const dialogRef = this.dialog.open(ModalUniversalComponent, {
+            const dialogRef = this.dialog.open(ModalRemarksUniversalComponent, {
                 width: '400px',
                 data: {
-                    name: 'Are you sure you want to pull out this component?',
+                    id: componentId,
+                    title: 'Are you sure you want to pull out this component?' // Custom title
                 },
             });
-
+    
             dialogRef.afterClosed().subscribe((result) => {
                 console.log('Dialog result:', result);
-
-                if (result) {
+    
+                if (result && result.remark) {  // Ensure we use 'remark', not 'remarks'
+                    console.log('User submitted remark:', result.remark);
+    
+                    // Proceed with API call including remarks
                     this.componentsService
-                        .pullOutComponent(componentId)
+                        .pullOutComponent(componentId, result.remark)  // Use 'remark' here
                         .subscribe({
                             next: (response) => {
                                 this.snackBar.open(response.message, 'Close', {
                                     duration: 3000,
                                 });
-
+    
                                 // 🔄 Refresh the table data
                                 this.reloadAssetData();
                             },
@@ -213,42 +218,57 @@ export class ComputersViewComponent implements OnInit {
                                 this.snackBar.open(
                                     'Error pulling out component',
                                     'Close',
-                                    {
-                                        duration: 3000,
-                                    }
+                                    { duration: 3000 }
                                 );
                                 console.error(error);
                             },
                         });
+                } else {
+                    console.log('Pull-out canceled or no remark provided.');
                 }
             });
         }, 0);
     }
+    
+    
+    
 
     handleAssetPullOut(assetId: number | null): void {
         console.log('Pull Out button clicked!');
         console.log('Asset ID received:', assetId);
-
+    
         if (!assetId) {
             this.snackBar.open('Invalid asset ID', 'Close', { duration: 3000 });
             return;
         }
-
-        console.log(`Making API call: /api/Assets/pullout/${assetId}`);
-
-        this.assetService.pullOutAsset(assetId).subscribe({
-            next: (response) => {
-                console.log('Pull out successful:', response);
-                this.snackBar.open(response.message, 'Close', {
-                    duration: 3000,
-                });
+    
+        // Open modal for remarks input
+        const dialogRef = this.dialog.open(ModalRemarksUniversalComponent, {
+            width: '400px',         
+            data: {
+                id: assetId,
+                title: 'Are you sure you want to pull out this asset?' // Custom title
             },
-            error: (error) => {
-                console.error('Pull out failed:', error);
-                this.snackBar.open('Error pulling out asset', 'Close', {
-                    duration: 3000,
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                console.log('User submitted remark:', result.remark);
+    
+                // Proceed with API call after getting remark
+                this.assetService.pullOutAsset(assetId, result.remark).subscribe({
+                    next: (response) => {
+                        console.log('Pull out successful:', response);
+                        this.snackBar.open(response.message, 'Close', { duration: 3000 });
+                    },
+                    error: (error) => {
+                        console.error('Pull out failed:', error);
+                        this.snackBar.open('Error pulling out asset', 'Close', { duration: 3000 });
+                    }
                 });
-            },
+            } else {
+                console.log('Pull out cancelled or no remark provided.');
+            }
         });
     }
 
@@ -300,28 +320,49 @@ export class ComputersViewComponent implements OnInit {
      * Calls the service to pull out an asset
      */
     pullOutAsset(assetId: number): void {
-        this.assetService.pullOutAsset(assetId).subscribe(
-            (response) => {
-                this.snackBar.open('Asset successfully pulled out!', 'Close', {
-                    duration: 3000,
-                });
-                console.log('Pull-out successful:', response);
-
-                // 🔄 Refresh data after successful pullout
-                this.reloadAssetData();
-            },
-            (error) => {
-                this.snackBar.open(
-                    'Failed to pull out asset. Try again.',
-                    'Close',
-                    {
-                        duration: 3000,
+        if (!assetId) {
+            this.snackBar.open('Invalid asset ID', 'Close', { duration: 3000 });
+            return;
+        }
+    
+        // Open modal to get remarks before proceeding
+        const dialogRef = this.dialog.open(ModalRemarksUniversalComponent, {
+            width: '400px',
+            data: { id: assetId }
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+            if (result && result.remark) {
+                console.log('User submitted remark:', result.remark);
+    
+                // Proceed with API call after getting remark
+                this.assetService.pullOutAsset(assetId, result.remark).subscribe({
+                    next: (response) => {
+                        this.snackBar.open('Asset successfully pulled out!', 'Close', {
+                            duration: 3000,
+                        });
+                        console.log('Pull-out successful:', response);
+    
+                        // 🔄 Refresh data after successful pullout
+                        this.reloadAssetData();
+                    },
+                    error: (error) => {
+                        this.snackBar.open(
+                            'Failed to pull out asset. Try again.',
+                            'Close',
+                            {
+                                duration: 3000,
+                            }
+                        );
+                        console.error('Error pulling out asset:', error);
                     }
-                );
-                console.error('Error pulling out asset:', error);
+                });
+            } else {
+                console.log('Pull out cancelled or no remark provided.');
             }
-        );
+        });
     }
+    
 
     reloadAssetData(): void {
         const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -412,6 +453,7 @@ export class ComputersViewComponent implements OnInit {
                         eaf_no: log.eaf_no || 'N/A',
                         computer_id: log.computer_id || 'N/A',
                         item_id: log.item_id?.id || 'N/A',
+                        remarks: log.remarks || 'N/A',
                         timestamp: log.timestamp || 'N/A',
                     })) || [];
     

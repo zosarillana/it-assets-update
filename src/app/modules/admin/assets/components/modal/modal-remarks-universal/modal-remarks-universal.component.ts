@@ -12,7 +12,7 @@ export class ModalRemarksUniversalComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ModalRemarksUniversalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { id: number }, // Receiving the ID from the parent
+    @Inject(MAT_DIALOG_DATA) public data: { id: number, title: string }, // Receive title from parent
     private fb: FormBuilder
   ) {}
 
@@ -40,5 +40,4 @@ export class ModalRemarksUniversalComponent implements OnInit {
       this.dialogRef.close(remarkData); // Send data back to parent
     }
   }
-  
 }

@@ -347,9 +347,9 @@
                                                 <mat-icon>exit_to_app</mat-icon> Pull Out
                                             </button>
                 
-                                            <button mat-menu-item>
-                                                <mat-icon>post_add</mat-icon> Create IAF
-                                            </button>
+                                            <!-- <button mat-menu-item>
+                                                <mat-icon>post_add</mat-icon> Create EAF
+                                            </button> -->
                                         </mat-menu>
                                     </mat-cell>
                                 </ng-container>
@@ -424,9 +424,9 @@
                                             <button mat-menu-item (click)="handleAssetPullOut(getAssetId(element))">
                                                 <mat-icon>exit_to_app</mat-icon> Pull Out
                                             </button>
-                                            <button mat-menu-item>
-                                                <mat-icon>post_add</mat-icon> Create IAF
-                                            </button>
+                                            <!-- <button mat-menu-item>
+                                                <mat-icon>post_add</mat-icon> Create EAF
+                                            </button> -->
                                         </mat-menu>
                                     </mat-cell>
                                 </ng-container>
@@ -517,7 +517,7 @@
                         <p class="text-sm text-secondary mb-6">
                             Repair history of the component/peripheral.
                         </p>
-                        <mat-table *ngIf="dataSourceHistory.length > 0" [dataSource]="dataSourceRepairLogs" matSort>
+                        <mat-table *ngIf="dataSourceRepairLogs.length > 0" [dataSource]="dataSourceRepairLogs" matSort>
                             <!-- ID Column -->
                             <ng-container matColumnDef="id">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
@@ -536,8 +536,27 @@
                                 <mat-cell class="text-sm" *matCellDef="let element">{{ element.action }}</mat-cell>
                             </ng-container>
                             
+                            <!-- Timestamp Column -->
+                            <ng-container matColumnDef="timestamp">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</mat-header-cell>
+                                <mat-cell class="text-sm" *matCellDef="let element">
+                                    <!-- {{ element.timestamp | date:'MMM d, y, h:mm a' }} -->
+                                    {{ element.timestamp | date:'MMM d, y' }}
+
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="remarks">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</mat-header-cell>
+                                <mat-cell class="text-sm" *matCellDef="let element">
+                                    <!-- {{ element.timestamp | date:'MMM d, y, h:mm a' }} -->
+                                    {{ element.remarks }}
+
+                                </mat-cell>
+                            </ng-container>
+
+
                             <!-- Menu Action Column -->
-                            <ng-container matColumnDef="menu">
+                            <!-- <ng-container matColumnDef="menu">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Options</mat-header-cell>
                                 <mat-cell *matCellDef="let element" class="text-sm">
                                     <button mat-icon-button [matMenuTriggerFor]="menu"
@@ -553,11 +572,11 @@
                                         </button>
                                     </mat-menu>
                                 </mat-cell>
-                            </ng-container>
+                            </ng-container> -->
                             
                             <!-- Fix Header Row Definition -->
-                            <mat-header-row *matHeaderRowDef="['id', 'type', 'action', 'menu']"></mat-header-row>
-                            <mat-row *matRowDef="let row; columns: ['id', 'type', 'action', 'menu']"
+                            <mat-header-row *matHeaderRowDef="['id', 'type', 'action', 'remarks','timestamp' ]"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: ['id', 'type', 'action','remarks', 'timestamp']"
                                 class="hover:bg-gray-100">
                             </mat-row>
                         </mat-table>

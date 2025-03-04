@@ -55,7 +55,8 @@ export class ComponentsService {
         return this.http.put(`${this.url}/api/ComputerComponents/${id}`, data);
     }  
     
-    public pullOutComponent(id: number): Observable<any> {
-        return this.http.put(`${this.url}/api/ComputerComponents/pullout/${id}`, {});
+    public pullOutComponent(id: number, remark: string): Observable<any> {
+        return this.http.put(`${this.url}/api/ComputerComponents/pullout/${id}`,{ remarks: remark });
     }
+  
 }

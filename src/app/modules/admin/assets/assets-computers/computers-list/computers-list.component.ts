@@ -243,7 +243,9 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
   openRemarkModal(id: number): void {
     const dialogRef = this.dialog.open(ModalRemarksUniversalComponent, {
       width: '400px',
-      data: { id }, // Pass the ID to the modal
+      data: { id,
+         title: 'Set remark for computer' 
+      }, // Pass the ID to the modal
     });
 
     // Handle the modal result after it's closed
