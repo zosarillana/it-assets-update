@@ -201,7 +201,7 @@
                                 Date Acquired
                             </mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.dateAcquired || "N/A" }}
+                                {{ element.date_acquired || "N/A" }}
                             </mat-cell>
                         </ng-container>
 
@@ -211,7 +211,7 @@
                                 Asset Barcode
                             </mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">
-                                {{ element.assetBarcode || "N/A" }}
+                                {{ element.asset_barcode || "N/A" }}
                             </mat-cell>
                         </ng-container>
 
@@ -264,6 +264,39 @@
                             class="hover:bg-gray-100 cursor-pointer"
                             [routerLink]="'/assets/computers/view/' + row.id"
                         ></mat-row>
+                    </mat-table>
+                </div>
+
+                <div class="flex flex-col my-4">
+                    <p class="text-lg font-medium mt-5">Computer Components under accountability</p>
+                    <span class="text-secondary text-sm">(RAM, SSD, HDD, GPU, BOARD)</span>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <mat-table [dataSource]="dataSourceAssignedComponents" matSort class="mat-elevation-z8">
+                        <!-- Type Column -->
+                        <ng-container matColumnDef="type">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">{{ element.type }}</mat-cell>
+                        </ng-container>
+                
+                        <!-- Description Column -->
+                        <ng-container matColumnDef="description">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">{{ element.description }}</mat-cell>
+                        </ng-container>
+                
+                        <!-- UID Column -->
+                        <ng-container matColumnDef="uid">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Inventory Code</mat-header-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">{{ element.uid }}</mat-cell>
+                        </ng-container>
+                
+                        
+                
+                        <!-- Header and Rows -->
+                        <mat-header-row *matHeaderRowDef="['type', 'description', 'uid']"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: ['type', 'description', 'uid']" class="hover:bg-gray-100 cursor-pointer" [routerLink]="['/assets/components/view/', row.uid, row.id]"></mat-row>
                     </mat-table>
                 </div>
 
@@ -373,13 +406,13 @@
                             </span>
                         </p>
                         <p class="flex flex-col font-medium text-sm">
-                            Designation
+                           Designation
                             <span class="text-secondary text-sm">
                                 {{ asset.owner.designation || "N/A" }}
                             </span>
                         </p>
                         <p class="flex flex-col font-medium text-sm">
-                            Business unit
+                            Business Unit
                             <span class="text-secondary text-sm">
                                 {{ asset.owner.business_unit || "N/A" }}
                             </span>
@@ -392,3 +425,4 @@
         </div>
     </div>
 </div>
+

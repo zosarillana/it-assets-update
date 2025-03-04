@@ -1,3 +1,5 @@
+
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -59,6 +61,28 @@ interface ComputerData {
         $id: string;
         $values: AssignedAssetData[];
     };
+    components?: {
+        ram?: ComponentData;
+        ssd?: ComponentData;
+        hdd?: ComponentData;
+        gpu?: ComponentData;
+        board?: ComponentData;
+    };
+}
+
+interface ComponentData {
+    idProperty: string;
+    values: {
+        $id: string;
+        $values: ComponentDetail[];
+    };
+}
+
+interface ComponentDetail {
+    id: number;
+    description: string;
+    uid: string;
+    status: string;
 }
 
 @Component({
@@ -77,10 +101,11 @@ export class AccountabilityFormComponent implements OnInit {
         'status',
     ];
 
-     // ✅ Create 3 data sources
-     dataSourceAssets = new MatTableDataSource<AssetData>(); // Holds assets
-     dataSourceComputers = new MatTableDataSource<ComputerData>(); // Holds computers
-     dataSourceAssignedAssets = new MatTableDataSource<AssignedAssetData>(); // Holds assigned assets
+    // ✅ Create 3 data sources
+    dataSourceAssets = new MatTableDataSource<AssetData>(); // Holds assets
+    dataSourceComputers = new MatTableDataSource<ComputerData>(); // Holds computers
+    dataSourceAssignedAssets = new MatTableDataSource<AssignedAssetData>(); // Holds assigned assets
+    dataSourceAssignedComponents = new MatTableDataSource<ComponentDetail>(); // Holds assigned components
 
     constructor(
         private route: ActivatedRoute,
@@ -125,12 +150,25 @@ export class AccountabilityFormComponent implements OnInit {
                             assignedAssets.push(...computer.assignedAssetDetails.$values);
                         }
                     });
-                       
-                    this.dataSourceAssignedAssets.data = assignedAssets;
-                    
-                    // ✅ Assign extracted data to dataSourceAssignedAssets
                     this.dataSourceAssignedAssets.data = assignedAssets;
                     console.log('Assigned Assets Data Source:', this.dataSourceAssignedAssets.data);
+
+                    // ✅ Extract assigned components correctly
+                    let assignedComponents: ComponentDetail[] = [];
+                    this.asset.computers?.$values.forEach((computer) => {
+                        const componentTypes = ['ram', 'ssd', 'hdd', 'gpu', 'board'];
+                        componentTypes.forEach(type => {
+                            const componentData = computer.components?.[type];
+                            if (componentData?.values?.$values?.length) {
+                                assignedComponents.push(...componentData.values.$values.map(component => ({
+                                    ...component,
+                                    type: type.toUpperCase()
+                                })));
+                            }
+                        });
+                    });
+                    this.dataSourceAssignedComponents.data = assignedComponents;
+                    console.log('Assigned Components Data Source:', this.dataSourceAssignedComponents.data);
                 },
                 error: (err) => console.error('Error fetching asset', err),
             });
