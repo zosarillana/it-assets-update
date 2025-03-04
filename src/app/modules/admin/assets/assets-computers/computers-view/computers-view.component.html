@@ -653,37 +653,44 @@
                     </mat-tab>
 
                     <mat-tab label="Repair History">
-                        <p class="text-sm font-medium mt-5">
-                            Repair History
-                        </p>
-                        <p class="text-sm text-secondary mb-6">
-                            Repair history of the component/peripheral.
-                        </p>
+                        <p class="text-sm font-medium mt-5">Repair History</p>
+                        <p class="text-sm text-secondary mb-6">Repair history of the component/peripheral.</p>
                         <mat-table [dataSource]="dataSourceRepairLogs" matSort>
                             <!-- ID Column -->
                             <ng-container matColumnDef="id">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
                                 <mat-cell class="text-sm" *matCellDef="let element">{{ element.id }}</mat-cell>
                             </ng-container>
-                        
+                            
                             <!-- Type Column -->
                             <ng-container matColumnDef="type">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
                                 <mat-cell class="text-sm" *matCellDef="let element">{{ element.type }}</mat-cell>
                             </ng-container>
-                        
+                            
                             <!-- Action Column -->
                             <ng-container matColumnDef="action">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
                                 <mat-cell class="text-sm" *matCellDef="let element">{{ element.action }}</mat-cell>
+                            </ng-container>
+                    
+                            <!-- Timestamp Column -->
+                            <ng-container matColumnDef="timestamp">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</mat-header-cell>
+                                <mat-cell class="text-sm" *matCellDef="let element">{{ element.timestamp }}</mat-cell>
+                            </ng-container>
+
+                            <!-- Remarks Column -->
+                            <ng-container matColumnDef="remarks">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Remarks</mat-header-cell>
+                                <mat-cell class="text-sm" *matCellDef="let element">{{ element.remarks }}</mat-cell>
                             </ng-container>
                             
                             <!-- Menu Action Column -->
                             <ng-container matColumnDef="menu">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Options</mat-header-cell>
                                 <mat-cell *matCellDef="let element" class="text-sm">
-                                    <button mat-icon-button [matMenuTriggerFor]="menu"
-                                        (click)="$event.stopPropagation()">
+                                    <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
                                         <mat-icon class="icon-size-4" svgIcon="feather:more-vertical"></mat-icon>
                                     </button>
                                     <mat-menu #menu="matMenu">
@@ -698,9 +705,8 @@
                             </ng-container>
                             
                             <!-- Fix Header Row Definition -->
-                            <mat-header-row *matHeaderRowDef="['id', 'type', 'action', 'menu']"></mat-header-row>
-                            <mat-row *matRowDef="let row; columns: ['id', 'type', 'action', 'menu']"
-                                class="hover:bg-gray-100">
+                            <mat-header-row *matHeaderRowDef="['id', 'type', 'action', 'timestamp', 'remarks', 'menu']"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: ['id', 'type', 'action', 'timestamp', 'remarks','menu']" class="hover:bg-gray-100">
                             </mat-row>
                         </mat-table>
                         
@@ -708,7 +714,7 @@
                         <div *ngIf="dataSourceRepairLogs.length === 0" class="text-center py-8">
                             <p class="text-gray-500">No repair logs available for this computer.</p>
                         </div>
-                    </mat-tab>      
+                    </mat-tab>
                 </mat-tab-group>
             </div>
 

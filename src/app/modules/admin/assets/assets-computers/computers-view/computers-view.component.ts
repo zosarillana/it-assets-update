@@ -12,11 +12,14 @@ import { RepairsService } from 'app/services/repairs/repairs.service';
 import { RepairLogs } from 'app/models/RepairLogs/RepairLogs';
 import { ComputerPullInModalComponent } from '../computer-pull-in-modal/computer-pull-in-modal.component';
 import { ComputerPullInAssetsModalComponent } from '../computer-pull-in-assets-modal/computer-pull-in-assets-modal.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-computers-view',
     templateUrl: './computers-view.component.html',
     styleUrls: ['./computers-view.component.scss'],
+    providers: [DatePipe]
+
 })
 export class ComputersViewComponent implements OnInit {
     //  asset!: Assets;
@@ -43,7 +46,8 @@ export class ComputersViewComponent implements OnInit {
         private dialog: MatDialog,
         private alertService: AlertService,
         private snackBar: MatSnackBar,
-        private router: Router
+        private router: Router,
+        private datePipe: DatePipe
     ) {}
 
     ngOnInit(): void {
@@ -442,8 +446,13 @@ export class ComputersViewComponent implements OnInit {
                         eaf_no: log.eaf_no || 'N/A',
                         computer_id: log.computer_id || 'N/A',
                         item_id: log.item_id?.id || 'N/A',
-                        timestamp: log.timestamp || 'N/A',
+                        timestamp: this.datePipe.transform(log.timestamp, 'MMMM dd, yyyy hh:mm a') || 'N/A',
+                        remarks: log.remarks || 'N/A',
+                        rawTimestamp: log.timestamp // Keep the raw timestamp for sorting
                     })) || [];
+    
+                    // Sort the logs by raw timestamp in descending order (latest to oldest)
+                    this.dataSourceRepairLogs.sort((a, b) => new Date(b.rawTimestamp).getTime() - new Date(a.rawTimestamp).getTime());
     
                     console.log('🛠️ Repair Logs Data Source:', this.dataSourceRepairLogs);
                 },
