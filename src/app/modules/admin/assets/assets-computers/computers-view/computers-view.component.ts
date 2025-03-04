@@ -11,6 +11,7 @@ import { ComponentsService } from 'app/services/components/components.service';
 import { RepairsService } from 'app/services/repairs/repairs.service';
 import { RepairLogs } from 'app/models/RepairLogs/RepairLogs';
 import { ModalRemarksUniversalComponent } from '../../components/modal/modal-remarks-universal/modal-remarks-universal.component';
+import { ModalPullinComponentComponent } from '../modal-pullin-component/modal-pullin-component.component';
 
 @Component({
     selector: 'app-computers-view',
@@ -467,5 +468,52 @@ export class ComputersViewComponent implements OnInit {
             console.warn('⚠️ Asset ID is not available. Current asset:', this.asset);
         }
     }
+
+    //Pull in
+
+    addComponent(): void {
+        const dialogRef = this.dialog.open(ModalPullinComponentComponent, {
+            width: '600px',
+            data: { computerId: this.asset.id } // Pass the computer ID
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed', result);
+    
+            if (result && result.length > 0) {
+                // ✅ Call service to pull in each component
+                result.forEach(uid => {
+                    const requestData = {
+                        computer_id: this.asset.id,
+                        component_uid: uid,
+                        remarks: "Pulled in"
+                    };
+    
+                    this.componentsService.pullInComponent(requestData).subscribe({
+                        next: () => {
+                            // 🔄 Refresh the table data after success
+                            this.reloadAssetData();
+    
+                            // ✅ Show success message
+                            this.snackBar.open('Component successfully pulled in!', 'Close', { 
+                                duration: 3000
+                            });
+                        },
+                        error: (error) => {
+                            // ❌ Handle errors properly
+                            const errorMessage = error?.error?.message || 'Failed to pull in component. Try again.';
+                            
+                            this.snackBar.open(errorMessage, 'Close', {
+                                duration: 3000
+                            });
+    
+                            console.error('Error pulling in component:', error);
+                        }
+                    });
+                });
+            }
+        });
+    }
+    
     
 }

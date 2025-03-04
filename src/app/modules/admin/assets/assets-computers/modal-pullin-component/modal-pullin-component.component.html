@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Inactive Components</h1>
+<div mat-dialog-content>
+  <p>List of inactive components:</p>
+  
+  <mat-selection-list #componentsList>
+    <mat-list-option *ngFor="let component of inactiveComponents" [value]="component">
+      <strong>{{ component.type }}</strong> - {{ component.description }} (UID: {{ component.uid }})
+    </mat-list-option>
+  </mat-selection-list>
+
+</div>
+<div mat-dialog-actions class="justify-end">
+  <button mat-button (click)="onNoClick()">Close</button>
+  <button mat-flat-button color="primary" (click)="selectComponents(componentsList.selectedOptions.selected)">Submit</button>
+</div>

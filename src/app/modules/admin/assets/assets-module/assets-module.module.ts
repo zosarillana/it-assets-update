@@ -77,6 +77,9 @@ import { LaptopFormComponent } from '../assets-computers/computers-add/laptop-fo
 import { ModalRemarksUniversalComponent } from '../components/modal/modal-remarks-universal/modal-remarks-universal.component';
 import { ComputerComponentAddLaptopComponent } from '../assets-computers/computer-component-add-laptop/computer-component-add-laptop.component';
 import { DepartmentsComponent } from '../masterdata/departments/departments.component';
+import { ModalPullinAssetsComponent } from '../assets-computers/modal-pullin-assets/modal-pullin-assets.component';
+import { ModalPullinComponentComponent } from '../assets-computers/modal-pullin-component/modal-pullin-component.component';
+import { MatListModule } from '@angular/material/list'; 
 
 const assetRoute: Route[] = [
     // {
@@ -228,7 +231,9 @@ const assetRoute: Route[] = [
         LaptopFormComponent,
         ModalRemarksUniversalComponent,
         ComputerComponentAddLaptopComponent,  
-        DepartmentsComponent    
+        DepartmentsComponent,
+        ModalPullinAssetsComponent,
+        ModalPullinComponentComponent   
         // AlertsComponentComponent,
     ],
     imports: [
@@ -271,6 +276,7 @@ const assetRoute: Route[] = [
         MatCardModule,
         MatDialogModule,
         MatSnackBarModule,
+        MatListModule,
         RouterModule.forChild(assetRoute),
     ],
     // schemas: [NO_ERRORS_SCHEMA] // Add this line

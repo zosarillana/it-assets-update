@@ -284,11 +284,24 @@
             <div class="mt-6">
                 <mat-tab-group>
                     <mat-tab label="Components">
-                        <p class="text-sm font-medium mt-5">Components</p>
-                        <p class="text-sm text-secondary mb-6">
-                            Components associated with this asset.
-                        </p>
-                
+                        <div class="flex flex-row justify-between">
+                            <div class="flex flex-col">
+                                <p class="text-sm font-medium mt-5">Components</p>
+                                <p class="text-sm text-secondary mb-6">
+                                    Components associated with this asset.
+                                </p>
+                            </div>
+                            <div class="flex flex-col justify-end">
+                                <div class="flex justify-end mb-4">
+                                    <button mat-flat-button color="primary" (click)="addComponent()">
+                                        <mat-icon class="icon-size-4" svgIcon="mat_solid:subdirectory_arrow_right"></mat-icon>
+                                        <span class="ml-1 text-sm">Pull in components</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                      
+                        
                         <div class="overflow-x-auto">
                             <!-- Show table only when there are components -->
                             <mat-table *ngIf="dataSource.length > 0" [dataSource]="dataSource" matSort class="mat-elevation-z8 w-full">
@@ -367,13 +380,25 @@
                         </div>
                     </mat-tab>
                     <mat-tab label="Peripheral">
-                        <p class="text-sm font-medium mt-5">
-                            Peripherals under computers
-                        </p>
-                        <p class="text-sm text-secondary mb-6">
-                            Assets associated with this asset.
-                        </p>
-                    
+                       
+                        <div class="flex flex-row justify-between">
+                            <div class="flex flex-col">
+                                <p class="text-sm font-medium mt-5">
+                                    Peripherals under computers
+                                </p>
+                                <p class="text-sm text-secondary mb-6">
+                                    Assets associated with this asset.
+                                </p>
+                            </div>
+                            <div class="flex flex-col justify-end">
+                                <div class="flex justify-end mb-4">
+                                    <button mat-flat-button color="primary" (click)="addPeripherals()">
+                                        <mat-icon class="icon-size-4" svgIcon="mat_solid:subdirectory_arrow_right"></mat-icon>
+                                        <span class="ml-1 text-sm">Pull in peripherals</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                         <!-- New Table for Assigned Assets -->
                         <div class="overflow-x-auto mt-5">
                             <mat-table *ngIf="dataSourceAssignedAssets.length > 0" [dataSource]="dataSourceAssignedAssets" matSort class="mat-elevation-z8 w-full">
