@@ -203,17 +203,24 @@ export const defaultNavigation: FuseNavigationItem[] = [
         children: [
             {
                 id: 'data.asset',
-                title: 'Asset Movement',
+                title: 'Masterdata',
                 type: 'collapsable',
-                icon: 'heroicons_outline:desktop-computer',
+                icon: 'heroicons_solid:document-text',
                 children: [
                     {
                         id: 'data.asset.table',
-                        title: 'Movement',
+                        title: 'Department',
                         type: 'basic',
-                        icon: 'feather:tag',
-                        link: '/data/movement',
+                        icon: 'mat_outline:domain',
+                        link: '/masterdata/departments',
                     },
+                    // {
+                    //     id: 'data.asset.table',
+                    //     title: 'Movement',
+                    //     type: 'basic',
+                    //     icon: 'feather:tag',
+                    //     link: '/data/movement',
+                    // },
                 ],
             },
         ],
