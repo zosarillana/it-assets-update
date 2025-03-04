@@ -1,12 +1,23 @@
 <h1 mat-dialog-title>List of inactive assets</h1>
+
 <div mat-dialog-content>
   <mat-selection-list #assetsList>
     <mat-list-option *ngFor="let asset of inactiveAssets" [value]="asset">
-       <div class="flex flex-row text-sm"><strong>{{ asset.type }}</strong><p>- {{ asset.description }} (Asset Barcode: {{ asset.asset_barcode }})</p></div>        
+      <div class="flex flex-row text-sm">
+        <strong>{{ asset.type }}</strong>
+        <p>- {{ asset.description }} (Asset Barcode: {{ asset.asset_barcode }})</p>
+      </div>
     </mat-list-option>
   </mat-selection-list>
 
+  <!-- ✅ New Remark Input Field -->
+  <!-- <mat-form-field class="w-full mt-4">
+    <mat-label class="text-sm">Remarks</mat-label>
+    <input matInput [(ngModel)]="remark" class="text-sm" placeholder="Enter remarks for asset pull-in">
+  </mat-form-field> -->
+
 </div>
+
 <div mat-dialog-actions class="justify-end">
   <button mat-button (click)="onNoClick()">Close</button>
   <button mat-flat-button color="primary" (click)="selectAssets(assetsList.selectedOptions.selected)">Select</button>

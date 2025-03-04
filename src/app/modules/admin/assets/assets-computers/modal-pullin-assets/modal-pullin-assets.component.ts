@@ -10,65 +10,62 @@ import { AssetsService } from 'app/services/assets/assets.service';
     styleUrls: ['./modal-pullin-assets.component.scss'],
 })
 export class ModalPullinAssetsComponent implements OnInit {
-    inactiveAssets: any[] = [];
+  inactiveAssets: any[] = [];
+  remark: string = ''; // ✅ Store user input for remarks
 
-    constructor(
-        public dialogRef: MatDialogRef<ModalPullinAssetsComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any,
-        private assetsService: AssetsService
-    ) {}
+  constructor(
+      public dialogRef: MatDialogRef<ModalPullinAssetsComponent>,
+      @Inject(MAT_DIALOG_DATA) public data: any,
+      private assetsService: AssetsService
+  ) {}
 
-    ngOnInit(): void {
-        console.log('Received computer ID:', this.data.computerId);
-        this.fetchInactiveAssets();
-    }
+  ngOnInit(): void {
+      console.log('Received computer ID:', this.data.computerId);
+      this.fetchInactiveAssets();
+  }
 
-    fetchInactiveAssets(): void {
-        this.assetsService.getAssets(1, 100, 'asc', 'INACTIVE').subscribe({
-            next: (response) => {
-                console.log('Response:', response); // Log the response to inspect its structure
-                this.inactiveAssets = response.items.$values.filter(
-                    (asset) => asset.status === 'INACTIVE'
-                );
-                console.log('Inactive Assets:', this.inactiveAssets);
-            },
-            error: (error) => {
-                console.error('Error fetching inactive assets:', error);
-            },
-        });
-    }
+  fetchInactiveAssets(): void {
+      this.assetsService.getAssets(1, 100, 'asc', 'INACTIVE').subscribe({
+          next: (response) => {
+              console.log('Response:', response);
+              this.inactiveAssets = response.items.$values.filter(asset => asset.status === 'INACTIVE');
+          },
+          error: (error) => {
+              console.error('Error fetching inactive assets:', error);
+          }
+      });
+  }
 
-    onNoClick(): void {
-        this.dialogRef.close();
-    }
+  onNoClick(): void {
+      this.dialogRef.close();
+  }
 
-    selectAssets(selectedAssets: any[]): void {
-        const selectedAssetIds = selectedAssets.map(
-            (option) => option.value.id
-        );
-        console.log('Selected Assets:', selectedAssetIds);
+  selectAssets(selectedAssets: any[]): void {
+      const selectedAssetIds = selectedAssets.map(option => option.value.id);
+      console.log('Selected Assets:', selectedAssetIds);
 
-        if (selectedAssetIds.length === 0) {
-            this.dialogRef.close();
-            return; // No assets selected, just close the dialog
-        }
+      if (selectedAssetIds.length === 0) {
+          this.dialogRef.close();
+          return; // No assets selected, just close the dialog
+      }
 
-        // ✅ Correct API request structure
-        const requestData = {
-            computer_id: this.data.computerId,
-            asset_ids: selectedAssetIds, // Pass array of asset IDs
-            remarks: 'Pulled in via modal', // Default remark (customize as needed)
-        };
+      // ✅ Pass user input remark in the API request
+      const requestData = {
+          computer_id: this.data.computerId,
+          asset_ids: selectedAssetIds,
+          remarks:  'Pulled in ' // Use default if empty
+          // remarks: this.remark || 'Pulled in via modal' // Use default if empty
+      };
 
-        // 🔄 Send a single request with all asset IDs
-        this.assetsService.pullInAssets(requestData).subscribe({
-            next: () => {
-                console.log('Assets successfully pulled in:', selectedAssetIds);
-                this.dialogRef.close(selectedAssetIds); // Close dialog and return selected assets
-            },
-            error: (error) => {
-                console.error('Error pulling in assets:', error);
-            },
-        });
-    }
+      // 🔄 Send API request
+      this.assetsService.pullInAssets(requestData).subscribe({
+          next: () => {
+              console.log('Assets successfully pulled in:', selectedAssetIds);
+              this.dialogRef.close(selectedAssetIds);
+          },
+          error: (error) => {
+              console.error('Error pulling in assets:', error);
+          }
+      });
+  }
 }

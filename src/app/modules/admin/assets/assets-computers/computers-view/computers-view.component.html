@@ -545,7 +545,7 @@
                         <mat-table *ngIf="dataSourceRepairLogs.length > 0" [dataSource]="dataSourceRepairLogs" matSort>
                             <!-- ID Column -->
                             <ng-container matColumnDef="id">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Inventory Code</mat-header-cell>
                                 <mat-cell class="text-sm" *matCellDef="let element">{{ element.id }}</mat-cell>
                             </ng-container>
                         
