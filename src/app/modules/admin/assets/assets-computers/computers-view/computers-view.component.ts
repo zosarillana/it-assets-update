@@ -54,7 +54,7 @@ export class ComputersViewComponent implements OnInit {
     
                     // Initialize the data source
                     this.dataSource = [];
-    
+                
                     // Helper function to push an item to the data source
                     const addToDataSource = (name: string, icon: string, items: any) => {
                         if (Array.isArray(items)) {
@@ -260,6 +260,8 @@ export class ComputersViewComponent implements OnInit {
                     next: (response) => {
                         console.log('Pull out successful:', response);
                         this.snackBar.open(response.message, 'Close', { duration: 3000 });
+
+                        this.reloadAssetData();
                     },
                     error: (error) => {
                         console.error('Pull out failed:', error);
