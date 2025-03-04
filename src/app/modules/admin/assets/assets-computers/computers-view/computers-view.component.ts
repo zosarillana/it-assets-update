@@ -23,7 +23,7 @@ export class ComputersViewComponent implements OnInit {
         'component',
         'description',
         'uid',
-        'history',
+        // 'history',
         'action',
     ];
     dataSourceAssignedAssets: any[] = [];
@@ -50,70 +50,65 @@ export class ComputersViewComponent implements OnInit {
             this.assetsService.getComputersById(id).subscribe({
                 next: (data) => {
                     this.asset = data;
-                    (this.dataSource = [
-                        {
-                            name: 'Ram',
-                            icon: 'feather:server',
-                            data: this.asset?.ram?.values?.$values?.[0],
-                        },
-                        {
-                            name: 'SSD',
-                            icon: 'feather:hard-drive',
-                            data: this.asset?.ssd?.values?.$values?.[0],
-                        },
-                        {
-                            name: 'HDD',
-                            icon: 'feather:hard-drive',
-                            data: this.asset?.hdd?.values?.$values?.[0],
-                        },
-                        {
-                            name: 'GPU',
-                            icon: 'feather:monitor',
-                            data: this.asset?.gpu?.values?.$values?.[0],
-                        },
-                        {
-                            name: 'BOARD',
-                            icon: 'feather:info',
-                            data: this.asset?.board?.values?.$values?.[0],
-                        },
-                    ]
-                        .filter((component) => component.data) // Remove components with no data
-                        .map((component) => ({
-                            id: component.data?.id || null,
-                            name: component.name,
-                            icon: component.icon,
-                            description: component.data?.description || null,
-                            uid: component.data?.uid || null,
-                            history: component.data?.history || null,
-                        }))),
-                        // Assigned Assets DataSource
-                        (this.dataSourceAssignedAssets =
-                            this.asset?.assigned_assets?.values?.$values?.map(
-                                (asset) => ({
-                                    name: `${asset.type}`,
-                                    icon: 'feather:package',
-                                    description: `${asset.asset_barcode}`,
-                                    brand: asset.brand,
-                                    id: asset.id,
-                                    serial_no: asset.serial_no || 'N/A',
-                                    action: '',
-                                })
-                            ) || []);
-
+    
+                    // Initialize the data source
+                    this.dataSource = [];
+    
+                    // Helper function to push an item to the data source
+                    const addToDataSource = (name: string, icon: string, items: any) => {
+                        if (Array.isArray(items)) {
+                            items.forEach(item => {
+                                this.dataSource.push({
+                                    id: item.id || null,
+                                    name,
+                                    icon,
+                                    description: item.description || 'N/A',
+                                    uid: item.uid || 'N/A',
+                                    history: item.history || 'N/A',
+                                });
+                            });
+                        } else if (items) {
+                            this.dataSource.push({
+                                id: items.id || null,
+                                name,
+                                icon,
+                                description: items.description || 'N/A',
+                                uid: items.uid || 'N/A',
+                                history: items.history || 'N/A',
+                            });
+                        }
+                    };
+    
+                    // Add RAM (multiple entries)
+                    addToDataSource('Ram', 'feather:server', this.asset?.ram?.values?.$values);
+    
+                    // Add other components (single entries)
+                    addToDataSource('SSD', 'feather:hard-drive', this.asset?.ssd?.values?.$values?.[0]);
+                    addToDataSource('HDD', 'feather:hard-drive', this.asset?.hdd?.values?.$values?.[0]);
+                    addToDataSource('GPU', 'feather:monitor', this.asset?.gpu?.values?.$values?.[0]);
+                    addToDataSource('BOARD', 'feather:info', this.asset?.board?.values?.$values?.[0]);
+    
+                    // Assigned Assets DataSource
+                    this.dataSourceAssignedAssets = this.asset?.assigned_assets?.values?.$values?.map(asset => ({
+                        name: `${asset.type}`,
+                        icon: 'feather:package',
+                        description: `${asset.asset_barcode}`,
+                        brand: asset.brand,
+                        id: asset.id,
+                        serial_no: asset.serial_no || 'N/A',
+                        action: '',
+                    })) || [];
+    
                     // History DataSource
-                    this.dataSourceHistory =
-                        this.asset?.history?.values?.$values?.map(
-                            (historyItem, index) => ({
-                                id: index + 1,
-                                name: historyItem?.name ?? 'Unknown', // ✅ Extracts the actual name or defaults to 'Unknown'
-                                department:
-                                    this.asset?.owner?.department || 'N/A',
-                                company: this.asset?.owner?.company || 'N/A',
-                            })
-                        ) || [];
-
+                    this.dataSourceHistory = this.asset?.history?.values?.$values?.map((historyItem, index) => ({
+                        id: index + 1,
+                        name: historyItem?.name ?? 'Unknown', // ✅ Extracts the actual name or defaults to 'Unknown'
+                        department: this.asset?.owner?.department || 'N/A',
+                        company: this.asset?.owner?.company || 'N/A',
+                    })) || [];
+    
                     console.log('Data Source History:', this.dataSourceHistory);
-                    
+    
                     // Fetch repair logs after asset data is loaded
                     this.getHistoryById();
                 },
@@ -121,6 +116,7 @@ export class ComputersViewComponent implements OnInit {
             });
         }
     }
+    
 
     previewSelectedImage(event: Event): void {
         const input = event.target as HTMLInputElement;
