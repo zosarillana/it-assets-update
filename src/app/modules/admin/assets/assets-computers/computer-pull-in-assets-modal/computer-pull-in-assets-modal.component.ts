@@ -42,18 +42,16 @@ export class ComputerPullInAssetsModalComponent implements OnInit {
     const selectedAssetIds = selectedAssets.map(option => option.value.id);
     console.log('Selected Assets:', selectedAssetIds);
 
-    selectedAssetIds.forEach(id => {
-      this.assetsService.pullInAsset(this.data.computerId, id).subscribe({
+    this.assetsService.pullInAssets(this.data.computerId, selectedAssetIds).subscribe({
         next: response => {
-          console.log(`Asset ${id} response:`, response);
+            console.log('Batch response:', response);
         },
         error: error => {
-          console.error(`Error pulling in asset ${id}:`, error);
+            console.error('Error pulling in assets:', error);
         }
-      });
     });
 
-    // Handle the selected assets as needed
     this.dialogRef.close(selectedAssetIds);
-  }
+}
+
 }
