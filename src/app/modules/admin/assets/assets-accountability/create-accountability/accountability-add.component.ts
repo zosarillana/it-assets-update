@@ -253,43 +253,43 @@ export class AccoundabilityAddComponent implements OnInit {
 
     onSubmit(): void {
         if (this.eventForm.valid) {
-          const formData = this.eventForm.value;
-      
-          const payload = {
-            owner_id: 0,
-            asset_ids: this.selectedComputer?.asset_ids || [], // Use extracted asset_ids
-            computer_ids: [this.eventForm.value.typeComputerControl],
-            employee_id: this.eventForm.value.employee_id,
-            name: this.eventForm.value.name,
-            department: this.eventForm.value.department,
-            date_hired: this.eventForm.value.date_hired,
-            date_resignation: '',
-            company: this.eventForm.value.company,
-            designation: this.eventForm.value.designation,
-            business_unit: this.eventForm.value.business_unit,
-            is_deleted: "false"
-          };
-      
-          this.accountabilityService.postEvent(payload).subscribe({
-            next: (response) => {
-              console.log('Successfully submitted:', response);
-              this.alertService.triggerSuccess('Accountability successfully added!');
-      
-              // ✅ Reload after a small delay to allow the success message to be seen
-              setTimeout(() => {
-                window.location.reload();
-              }, 1000); 
-            },
-            error: (error) => {
-              console.error('Error submitting data:', error);
-              this.alertService.triggerError('Failed to submit accountability.');
-            },
-          });
+            const formData = this.eventForm.value;
+    
+            const payload = {
+                owner_id: 0,
+                asset_ids: this.selectedComputer?.asset_ids || [], // Use extracted asset_ids
+                computer_ids: [this.eventForm.value.typeComputerControl],
+                employee_id: this.eventForm.value.employee_id,
+                name: this.eventForm.value.name,
+                department: this.eventForm.value.department?.code, // ✅ Extract only department.code
+                date_hired: this.eventForm.value.date_hired,
+                date_resignation: '',
+                company: this.eventForm.value.company,
+                designation: this.eventForm.value.designation,
+                business_unit: this.eventForm.value.business_unit,
+                is_deleted: "false"
+            };
+    
+            this.accountabilityService.postEvent(payload).subscribe({
+                next: (response) => {
+                    console.log('Successfully submitted:', response);
+                    this.alertService.triggerSuccess('Accountability successfully added!');
+    
+                    // ✅ Reload after a small delay to allow the success message to be seen
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                },
+                error: (error) => {
+                    console.error('Error submitting data:', error);
+                    this.alertService.triggerError('Failed to submit accountability.');
+                },
+            });
         } else {
-          console.log('Form is invalid:', this.eventForm.errors);
-          this.alertService.triggerError('Please fill in all required fields.');
+            console.log('Form is invalid:', this.eventForm.errors);
+            this.alertService.triggerError('Please fill in all required fields.');
         }
-      }
-      
+    }
+    
     
 }
