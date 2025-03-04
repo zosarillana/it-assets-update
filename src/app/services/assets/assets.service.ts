@@ -63,4 +63,8 @@ export class AssetsService {
         return this.http.put(`${this.url}/api/Assets/update-asset/${id}`, data);
     }    
     
+    public pullInAssets(data: { computer_id: number; asset_ids: number[]; remarks: string }): Observable<any> {
+        return this.http.post(`${this.url}/api/Assets/pull_in_assets`, data);
+    }
+    
 }

@@ -12,6 +12,7 @@ import { RepairsService } from 'app/services/repairs/repairs.service';
 import { RepairLogs } from 'app/models/RepairLogs/RepairLogs';
 import { ModalRemarksUniversalComponent } from '../../components/modal/modal-remarks-universal/modal-remarks-universal.component';
 import { ModalPullinComponentComponent } from '../modal-pullin-component/modal-pullin-component.component';
+import { ModalPullinAssetsComponent } from '../modal-pullin-assets/modal-pullin-assets.component';
 
 @Component({
     selector: 'app-computers-view',
@@ -515,5 +516,47 @@ export class ComputersViewComponent implements OnInit {
         });
     }
     
+    addPeripherals(): void {
+        const dialogRef = this.dialog.open(ModalPullinAssetsComponent, {
+            width: '600px',
+            data: { computerId: this.asset.id } // Pass the computer ID
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed', result);
+    
+            if (result && result.length > 0) {
+                // ✅ Prepare request data correctly
+                const requestData = {
+                    computer_id: this.asset.id,
+                    asset_ids: result, // Pass the array of selected asset IDs
+                    remarks: "Pulled in"
+                };
+    
+                // 🔄 Send a single request with all asset IDs
+                this.assetService.pullInAssets(requestData).subscribe({
+                    next: () => {
+                        // ✅ Refresh the table data after success
+                        this.reloadAssetData();
+    
+                        // ✅ Show success message
+                        this.snackBar.open('Assets successfully pulled in!', 'Close', { 
+                            duration: 3000
+                        });
+                    },
+                    error: (error) => {
+                        // ❌ Handle errors properly
+                        const errorMessage = error?.error?.message || 'Failed to pull in assets. Try again.';
+                        
+                        this.snackBar.open(errorMessage, 'Close', {
+                            duration: 3000
+                        });
+    
+                        console.error('Error pulling in assets:', error);
+                    }
+                });
+            }
+        });
+    }
     
 }

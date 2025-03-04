@@ -1,1 +1,13 @@
-<p>modal-pullin-assets works!</p>
+<h1 mat-dialog-title>List of inactive assets</h1>
+<div mat-dialog-content>
+  <mat-selection-list #assetsList>
+    <mat-list-option *ngFor="let asset of inactiveAssets" [value]="asset">
+       <div class="flex flex-row text-sm"><strong>{{ asset.type }}</strong><p>- {{ asset.description }} (Asset Barcode: {{ asset.asset_barcode }})</p></div>        
+    </mat-list-option>
+  </mat-selection-list>
+
+</div>
+<div mat-dialog-actions class="justify-end">
+  <button mat-button (click)="onNoClick()">Close</button>
+  <button mat-flat-button color="primary" (click)="selectAssets(assetsList.selectedOptions.selected)">Select</button>
+</div>
