@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator'; // Import MatPaginator
+import { MatPaginator } from '@angular/material/paginator';
 import { AccountabilityService } from 'app/services/accountability/accountability.service';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -9,6 +9,17 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalUniversalComponent } from '../../components/modal/modal-universal/modal-universal.component';
 import { AlertService } from 'app/services/alert.service';
+
+// Define an interface for your accountability item
+interface AccountabilityItem {
+    accountability_code: string;
+    tracking_code: string;
+    computer: string;
+    assets: string;
+    owner: string;
+    department: string;
+    status: string;
+}
 
 @Component({
     selector: 'app-accountability-list',
@@ -27,14 +38,16 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
         'action'
     ];
 
+    data: AccountabilityItem[] = [];
+    dataSource = new MatTableDataSource<AccountabilityItem>([]);
+    
+    // Explicitly type allTypes as string[]
+    allTypes: string[] = []; 
     typeFilterControl = new FormControl('');
     filteredTypeOptions: Observable<string[]>;
 
-    dataSource = new MatTableDataSource<any>([]);
-    data: any[] = [];
-
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatPaginator) paginator: MatPaginator; // Add Paginator ViewChild
+    @ViewChild(MatPaginator) paginator: MatPaginator;
 
     constructor(
         private _service: AccountabilityService, 
@@ -48,54 +61,90 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
         // Set up filtering for autocomplete
         this.filteredTypeOptions = this.typeFilterControl.valueChanges.pipe(
             startWith(''),
-            map(value => this._filterAutocompleteOptions(value || ''))
+            map(value => this._filter(value || ''))
         );
 
-        // Define the filterPredicate function for MatTableDataSource
-        this.dataSource.filterPredicate = (data, filter: string) => {
-            return data.accountability_code.toLowerCase().includes(filter.toLowerCase());
-        };
+        // Listen for changes and apply filter dynamically
+        this.typeFilterControl.valueChanges.subscribe((value) => {
+            this.applyFilter(value);
+        });
     }
 
     ngAfterViewInit() {
         this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator; // Assign paginator
+        this.dataSource.paginator = this.paginator;
     }
 
-    // Fetch data from API and set it in the table
+    // Updated to use the new interface and handle potential undefined values
     loadAccountabilityData(): void {
-        this._service.getAllAccountability().subscribe(
-            (response: any) => {
+        this._service.getAllAccountability().subscribe({
+            next: (response: any) => {
                 if (response && response.$values) {
-                    this.data = response.$values;
-                    this.dataSource.data = response.$values;
-                    this.dataSource.paginator = this.paginator; // Ensure paginator updates when data is loaded
+                    // Type assertion to ensure type safety
+                    this.data = response.$values as AccountabilityItem[];
+                    this.dataSource.data = this.data;
+
+                    // Extract unique accountability codes safely
+                    this.allTypes = this.data
+                        .map(item => item.accountability_code)
+                        .filter(code => code != null); // Filter out any null/undefined values
+
+                    // Ensure paginator works after data loads
+                    setTimeout(() => {
+                        if (this.paginator) {
+                            this.dataSource.paginator = this.paginator;
+                        }
+                    });
                 }
             },
-            (error) => {
+            error: (error) => {
                 console.error('Error fetching accountability data', error);
+                this.alertService.triggerError('Failed to load accountability data');
             }
+        });
+    }
+
+    // Explicitly type the filter method
+    private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+
+        return this.allTypes.filter((option) =>
+            option.toLowerCase().includes(filterValue)
         );
     }
 
-    // Autocomplete filtering function
-    private _filterAutocompleteOptions(value: string): string[] {
-        const filterValue = value.toLowerCase();
-        return this.data
-            .map(option => option.accountability_code)
-            .filter(code => code.toLowerCase().includes(filterValue));
-    }
-
-    // Apply filter when a type is selected from the autocomplete
+    // Apply filter when a type is selected
     onTypeSelected(selectedType?: string): void {
-        if (selectedType) {
-            this.typeFilterControl.setValue(selectedType, { emitEvent: false });
-            this.dataSource.filter = selectedType.toLowerCase(); // Correctly applying the filter
-        } else {
-            this.dataSource.filter = '';
+        if (!selectedType) {
+            this.dataSource.data = this.data; // Reset data if empty
+            return;
+        }
+
+        this.dataSource.data = this.data.filter((item) =>
+            item.accountability_code.toLowerCase().includes(selectedType.toLowerCase())
+        );
+
+        if (this.paginator) {
+            this.paginator.firstPage(); // Reset pagination on filter
         }
     }
 
+    // General filter application method
+    applyFilter(value: string): void {
+        if (!value) {
+            this.dataSource.data = this.data; // Reset to all data
+        } else {
+            this.dataSource.data = this.data.filter((item) =>
+                item.accountability_code.toLowerCase().includes(value.toLowerCase())
+            );
+        }
+
+        if (this.paginator) {
+            this.paginator.firstPage(); // Reset paginator on filter change
+        }
+    }
+
+    // Rest of the methods remain the same
     openDeleteDialog(id: string): void {
         const dialogRef = this.dialog.open(ModalUniversalComponent, {
             width: '400px',
