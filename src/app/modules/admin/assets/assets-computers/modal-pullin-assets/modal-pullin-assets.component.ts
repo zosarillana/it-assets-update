@@ -41,31 +41,16 @@ export class ModalPullinAssetsComponent implements OnInit {
   }
 
   selectAssets(selectedAssets: any[]): void {
-      const selectedAssetIds = selectedAssets.map(option => option.value.id);
-      console.log('Selected Assets:', selectedAssetIds);
+    const selectedAssetIds = selectedAssets.map(option => option.value.id);
+    console.log('Selected Assets:', selectedAssetIds);
 
-      if (selectedAssetIds.length === 0) {
-          this.dialogRef.close();
-          return; // No assets selected, just close the dialog
-      }
+    if (selectedAssetIds.length === 0) {
+        this.dialogRef.close();
+        return; // No assets selected, just close the dialog
+    }
 
-      // ✅ Pass user input remark in the API request
-      const requestData = {
-          computer_id: this.data.computerId,
-          asset_ids: selectedAssetIds,
-          remarks:  'Pulled in ' // Use default if empty
-          // remarks: this.remark || 'Pulled in via modal' // Use default if empty
-      };
+    // ❌ Remove API call here
+    this.dialogRef.close(selectedAssetIds); // ✅ Only close and send selected IDs
+}
 
-      // 🔄 Send API request
-      this.assetsService.pullInAssets(requestData).subscribe({
-          next: () => {
-              console.log('Assets successfully pulled in:', selectedAssetIds);
-              this.dialogRef.close(selectedAssetIds);
-          },
-          error: (error) => {
-              console.error('Error pulling in assets:', error);
-          }
-      });
-  }
 }

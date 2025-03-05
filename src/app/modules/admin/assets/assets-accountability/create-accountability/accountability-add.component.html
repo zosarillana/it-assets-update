@@ -539,6 +539,33 @@
                                     <div class="flex flex-col">
                                         <mat-form-field appearance="fill">
                                             <mat-icon
+                                                svgIcon="mat_outline:domain"
+                                                class="icon-size-3 md:icon-size-4 mr-2"
+                                            ></mat-icon>
+                                            <mat-select
+                                                formControlName="department"
+                                                id="department"
+                                                class="text-sm text-gray-400"
+                                                [placeholder]="'Select Department'"
+                                            >
+                                                <mat-option value="" disabled
+                                                    >Select Department</mat-option
+                                                >
+                                                <mat-option
+                                                    *ngFor="
+                                                        let department of departments
+                                                    "
+                                                    [value]="department"
+                                                >
+                                                    {{ department.code }} -
+                                                    {{ department.description }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- <div class="flex flex-col">
+                                        <mat-form-field appearance="fill">
+                                            <mat-icon
                                                 svgIcon="mat_outline:info"
                                                 class="icon-size-3 md:icon-size-4 mr-2"
                                             ></mat-icon>
@@ -550,10 +577,10 @@
                                                 class="text-xs md:text-sm"
                                             />
                                         </mat-form-field>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
-                            <div class="flex flex-col w-full">
+                            <!-- <div class="flex flex-col w-full">
                                 <mat-form-field appearance="fill">
                                     <mat-icon
                                         svgIcon="mat_outline:domain"
@@ -579,7 +606,7 @@
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                            </div>
+                            </div> -->
                         </mat-card-content>
                     </mat-card>
                     <div

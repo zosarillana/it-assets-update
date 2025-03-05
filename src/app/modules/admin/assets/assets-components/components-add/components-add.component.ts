@@ -17,14 +17,16 @@ export class ComponentsAddComponent implements OnInit {
 
     // Initialize form with comprehensive validation
     private initializeForm(): void {
-        this.eventForm = this._formBuilder.group({
-            serial_number: ['N/A', []],
-            cost: [ 0, [Validators.required, Validators.pattern("^[0-9]*$")]], // ✅ Ensure cos
-            type: ['', [Validators.required]],
-            description: ['', [Validators.required]],          
-        });
-    }
+      this.eventForm = this._formBuilder.group({
+          serial_number: ['N/A', []],
+          cost: [0, [Validators.required, Validators.pattern("^[0-9]*$")]], // ✅ Ensure cost validation
+          type: ['', [Validators.required]],
+          description: ['', [Validators.required]],  
+          date_acquired: [new Date(), [Validators.required]]
 
+      });
+  }
+  
     ngOnInit(): void {
         this.initializeForm(); // Initialize the form properly
     }

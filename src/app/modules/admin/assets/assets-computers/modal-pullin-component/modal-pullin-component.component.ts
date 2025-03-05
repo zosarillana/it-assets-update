@@ -63,23 +63,10 @@ export class ModalPullinComponentComponent implements OnInit {
       const selectedComponentUids = selectedComponents.map(option => option.value.uid);
       console.log('Selected Components:', selectedComponentUids);
   
-      selectedComponentUids.forEach(uid => {
-          const requestData = {
-              computer_id: this.data.computerId,
-              component_uid: uid,
-              remarks: "Pulled in via modal" // Default or user-provided remark
-          };
-  
-          this.componentsService.pullInComponent(requestData).subscribe({
-              next: response => {
-                  console.log(`Component ${uid} response:`, response);
-              },
-              error: error => {
-                  console.error(`Error pulling in component ${uid}:`, error);
-              }
-          });
-      });
-  
+        if (selectedComponentUids.length === 0) {
+            this.dialogRef.close();
+            return; // No components selected, just close the dialog
+        }
       this.dialogRef.close(selectedComponentUids);
   }
   

@@ -141,38 +141,57 @@
             </div>
             <mat-divider class="my-6 md:my-12" horizontal></mat-divider>
             <div class="flex flex-col lg:flex-row">
-                <div class="flex flex-col flex-grow">
-                    <mat-label class="text-xs md:text-sm mb-1">Type</mat-label>
-                    <mat-form-field appearance="fill">
-                        <mat-icon
-                            svgIcon="feather:cpu"
-                            class="icon-size-3 md:icon-size-4 mr-2"
-                        ></mat-icon>
-                        <mat-select
-                            id="type"
-                            formControlName="type"
-                            class="text-xs md:text-sm"
-                            placeholder="Select Type..."
-                        >
-                            <mat-option value="RAM">RAM</mat-option>
-                            <mat-option value="SSD"
-                                >SSD</mat-option
+                <div class="flex flex-row gap-2">
+                    <div class="flex flex-col flex-grow">
+                        <mat-label class="text-xs md:text-sm mb-1">Type</mat-label>
+                        <mat-form-field appearance="fill">
+                            <mat-icon
+                                svgIcon="feather:cpu"
+                                class="icon-size-3 md:icon-size-4 mr-2"
+                            ></mat-icon>
+                            <mat-select
+                                id="type"
+                                formControlName="type"
+                                class="text-xs md:text-sm"
+                                placeholder="Select Type..."
                             >
-                            <mat-option value="HDD"
-                                >HDD</mat-option
-                            >
-                            <mat-option value="GPU"
-                                >GPU</mat-option
-                            >
-                            <mat-option value="BOARD"
-                                >BOARD</mat-option
-                            >
-                        </mat-select>
-                    </mat-form-field>
-                    <small class="text-red-500 text-xs" *ngIf="eventForm.get('type')?.invalid && eventForm.get('type')?.touched">
-                        Type is required.
-                    </small>
+                                <mat-option value="RAM">RAM</mat-option>
+                                <mat-option value="SSD"
+                                    >SSD</mat-option
+                                >
+                                <mat-option value="HDD"
+                                    >HDD</mat-option
+                                >
+                                <mat-option value="GPU"
+                                    >GPU</mat-option
+                                >
+                                <mat-option value="BOARD"
+                                    >BOARD</mat-option
+                                >
+                            </mat-select>
+                        </mat-form-field>
+                        <small class="text-red-500 text-xs" *ngIf="eventForm.get('type')?.invalid && eventForm.get('type')?.touched">
+                            Type is required.
+                        </small>
+                    </div>
+                    <div class="flex flex-col flex-grow">
+                 <mat-label class="text-xs md:text-sm mb-1">Date Acquired</mat-label>
+<mat-form-field appearance="fill">
+    <mat-icon
+        svgIcon="feather:calendar"
+        class="icon-size-3 md:icon-size-4 mr-2"
+    ></mat-icon>
+    <input matInput [matDatepicker]="picker" formControlName="date_acquired" placeholder="Select Date..." class="text-xs md:text-sm">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+<small class="text-red-500 text-xs" *ngIf="eventForm.get('date_acquired')?.invalid && eventForm.get('date_acquired')?.touched">
+    Date is required.
+</small>
+
+                    </div>
                 </div>
+          
                 <mat-divider class="mx-12" vertical></mat-divider>
                 <div class="flex flex-row flex-grow w-full gap-2">
                     <div class="flex flex-col flex-grow w-full">
