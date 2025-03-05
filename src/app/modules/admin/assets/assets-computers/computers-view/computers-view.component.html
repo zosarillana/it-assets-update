@@ -544,9 +544,9 @@
                         </p>
                         <mat-table *ngIf="dataSourceRepairLogs.length > 0" [dataSource]="dataSourceRepairLogs" matSort>
                             <!-- ID Column -->
-                            <ng-container matColumnDef="id">
+                            <ng-container matColumnDef="inventory_code">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>Inventory Code</mat-header-cell>
-                                <mat-cell class="text-sm" *matCellDef="let element">{{ element.id }}</mat-cell>
+                                <mat-cell class="text-sm" *matCellDef="let element">{{ element.inventory_code }}</mat-cell>
                             </ng-container>
                         
                             <!-- Type Column -->
@@ -600,8 +600,8 @@
                             </ng-container> -->
                             
                             <!-- Fix Header Row Definition -->
-                            <mat-header-row *matHeaderRowDef="['id', 'type', 'action', 'remarks','timestamp' ]"></mat-header-row>
-                            <mat-row *matRowDef="let row; columns: ['id', 'type', 'action','remarks', 'timestamp']"
+                            <mat-header-row *matHeaderRowDef="['inventory_code', 'type', 'action', 'remarks','timestamp' ]"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: ['inventory_code', 'type', 'action','remarks', 'timestamp']"
                                 class="hover:bg-gray-100">
                             </mat-row>
                         </mat-table>
@@ -610,7 +610,7 @@
                         <div *ngIf="dataSourceRepairLogs.length === 0" class="text-center py-8">
                             <p class="text-gray-500">No repair logs available for this computer.</p>
                         </div>
-                    </mat-tab>      
+                    </mat-tab>
                 </mat-tab-group>
             </div>
 

@@ -451,7 +451,7 @@ export class ComputersViewComponent implements OnInit {
     
                     // Ensure we have a valid response and an array of values
                     this.dataSourceRepairLogs = data?.$values?.map((log: any, index: number) => ({
-                        id: index + 1,
+                        inventory_code: log.inventory_code || 'N/A',
                         type: log.type || 'N/A',
                         action: log.action || 'N/A', // ✅ Extracts "action" from log
                         eaf_no: log.eaf_no || 'N/A',
