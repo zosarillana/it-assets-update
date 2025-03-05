@@ -80,6 +80,7 @@ import { DepartmentsComponent } from '../masterdata/departments/departments.comp
 import { ModalPullinAssetsComponent } from '../assets-computers/modal-pullin-assets/modal-pullin-assets.component';
 import { ModalPullinComponentComponent } from '../assets-computers/modal-pullin-component/modal-pullin-component.component';
 import { MatListModule } from '@angular/material/list'; 
+import { BusinessUnitsComponent } from '../masterdata/business-units/business-units.component';
 
 const assetRoute: Route[] = [
     // {
@@ -184,6 +185,12 @@ const assetRoute: Route[] = [
         path: 'departments',
         component: DepartmentsComponent,
     },
+    {
+        path: 'business-units',
+        component: BusinessUnitsComponent,
+    },
+
+
 ];
 
 @NgModule({
@@ -233,6 +240,7 @@ const assetRoute: Route[] = [
         ComputerComponentAddLaptopComponent,  
         DepartmentsComponent,
         ModalPullinAssetsComponent,
+        BusinessUnitsComponent,
         ModalPullinComponentComponent   
         // AlertsComponentComponent,
     ],
