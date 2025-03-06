@@ -23,8 +23,8 @@ export class AccountabilityApprovalService {
   
 
   // Confirm by User
-  confirmByUser(id: number, userId: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/confirm?id=${id}&userId=${userId}`, {});
+  confirmByUser(approvalId: number, userId: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/confirm?id=${approvalId}&userId=${userId}`, {});
   }
 
   getByAccountabilityId(accountabilityId: number) {
