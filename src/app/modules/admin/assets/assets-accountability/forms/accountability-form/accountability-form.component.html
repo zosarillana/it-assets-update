@@ -123,22 +123,22 @@
                         matSort
                         class="mat-elevation-z8 custom-mat-table"
                     >
+                        <!-- Type Column -->
                         <ng-container matColumnDef="type">
-                            <mat-header-cell
-                                *matHeaderCellDef
-                                mat-sort-header
-                                class="-ml-5"
+                            <mat-header-cell *matHeaderCellDef mat-sort-header
                                 >Type</mat-header-cell
                             >
-                            <mat-cell *matCellDef="let e" class="-ml-5">{{
-                                e.type || "N/A"
-                            }}</mat-cell>
+                            <mat-cell
+                                class="text-sm"
+                                *matCellDef="let e"
+                                >{{ e.type || "N/A" }}</mat-cell
+                            >
                         </ng-container>
                         <ng-container matColumnDef="dateAcquired">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header
+                            <mat-header-cell *matHeaderCellDef mat-sort-header class="-ml-7"
                                 >Date Acquired</mat-header-cell
                             >
-                            <mat-cell *matCellDef="let e">
+                            <mat-cell *matCellDef="let e" class="-ml-7">
                                 {{
                                     e.date_acquired
                                         ? (e.date_acquired | date : "MMMM d, y")
@@ -225,7 +225,7 @@
                             <mat-cell
                                 class="text-sm"
                                 *matCellDef="let element"
-                                >{{ element.type }}</mat-cell
+                                >{{ element.type || 'N/A'}}</mat-cell
                             >
                         </ng-container>
 
@@ -238,9 +238,10 @@
                             >
                             <mat-cell
                                 class="text-sm"
-                                class="-ml-7"
+                                class="-ml-4"
                                 *matCellDef="let element"
-                                >{{ element.uid }}</mat-cell
+                                >{{ element.date_acquired ? (element.date_acquired | date : "MMMM d, y")
+                                        : "N/A" }}</mat-cell
                             >
                         </ng-container>
 
@@ -250,9 +251,9 @@
                                 >Description</mat-header-cell
                             >
                             <mat-cell
-                                class="text-sm"
+                                class="text-sm ml-2"
                                 *matCellDef="let element"
-                                >{{ element.description }}</mat-cell
+                                >{{ element.description || 'N/A'}}</mat-cell
                             >
                         </ng-container>
 
@@ -267,7 +268,7 @@
                                 Inventory Code
                             </mat-header-cell>
                             <mat-cell
-                                class="text-sm -ml-5"
+                                class="text-sm"
                                 *matCellDef="let element"
                             >
                                 {{ element.uid }}
@@ -285,8 +286,8 @@
                             <mat-cell
                                 class="text-sm"
                                 *matCellDef="let element"
-                                class="-ml-7"
-                                >{{ element.uid }}</mat-cell
+                                class=""
+                                >{{ element.asset_barcode || 'N/A' }}</mat-cell
                             >
                         </ng-container>
                         <ng-container matColumnDef="status" class="-ml-5">
@@ -297,17 +298,17 @@
                                 class="text-sm"
                                 *matCellDef="let element"
                                 class="-ml-5"
-                                >{{ element.status }}</mat-cell
+                                >{{ element.status || 'N/A' }}</mat-cell
                             >
                         </ng-container>
-                        <ng-container matColumnDef="brand">
+                        <ng-container matColumnDef="cost">
                             <mat-header-cell *matHeaderCellDef mat-sort-header
-                                >brand</mat-header-cell
+                                >cost</mat-header-cell
                             >
                             <mat-cell
-                                class="text-sm"
+                                class="text-sm -ml-4"
                                 *matCellDef="let element"
-                                >{{ element.brand }}</mat-cell
+                                >₱ {{ element.cost || 'N/A'}}</mat-cell
                             >
                         </ng-container>
 
@@ -318,7 +319,7 @@
                                 'date_acquired',
                                 'uid',
                                 'description',
-                                'brand',
+                                'cost',
                                 'parent_barcode',
                                 'status'
                             ]"
@@ -331,8 +332,7 @@
                                     'date_acquired',
                                     'uid',
                                     'description',
-                                    'brand',
-                                    'uid',
+                                    'cost',                                 
                                     'parent_barcode',
                                     'status'
                                 ]
@@ -542,6 +542,27 @@
                                 </p>
                             </div>
                         </div>
+                        <div class="flex-grow text-start">
+                            <div class="flex justify-start items-start">
+                                <img
+                                    src="assets/images/logo/signature.png"
+                                    alt="Signature"
+                                    class="mt-4 w-48 opacity-80"
+                                />
+                            </div>
+                            <div class="flex flex-row gap-8 -mt-10">
+                                <!-- Name and Role -->
+                                <div class="flex flex-col items-start">
+                                    <p class="text-md border-t m-1">
+                                        IRISH MARGOT FLORES LUNGAY
+                                    </p>
+                                    <span class="text-sm text-gray-600 ml-4">
+                                        Lead, IT/ OT Operations (DA)
+                                    </span>
+                                </div>
+                               
+                            </div>
+                        </div>
                     </div>
 
                     <div class="flex-grow flex-col">
@@ -555,7 +576,7 @@
                                 </p>
                             </div>
 
-                            <div class="flex justify-start items-start">
+                            <div class="flex justify-start items-start mt-2">
                                 <img
                                     src="assets/images/logo/signature.png"
                                     alt="Signature"
@@ -567,10 +588,10 @@
                             <div class="flex flex-row gap-12 -mt-10">
                                 <div class="flex flex-col items-start">
                                     <p class="text-md border-t">
-                                        IRISH MARGOT FLORES LUNGAY
+                                        {{ asset.owner.name || "N/A" }}
                                     </p>
                                     <span class="text-sm text-gray-600 ml-6">
-                                        Lead, IT/ OT Operations (DA)
+                                        {{ asset.owner.designation || "N/A" }}
                                     </span>
                                 </div>
                                 <p
