@@ -15,10 +15,12 @@ export class AccountabilityApprovalService {
     return this.http.post(`${this.apiUrl}/check?accountabilityId=${accountabilityId}&userId=${userId}`, {});
   }
 
-  // Receive by User
-  receiveByUser(id: number, userId: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/receive?id=${id}&userId=${userId}`, {});
+  receiveByUser(approvalId: number, userId: string): Observable<any> {
+    console.log("Sending ReceiveByUser Request:", approvalId, userId);
+    return this.http.put(`${this.apiUrl}/receive?id=${approvalId}&userId=${userId}`, {});
   }
+  
+  
 
   // Confirm by User
   confirmByUser(id: number, userId: string): Observable<any> {

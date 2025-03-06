@@ -268,10 +268,7 @@ export class AccountabilityFormComponent implements OnInit {
     }
     
     receiveByUser(): void {
-        const id = this.asset?.user_accountability_list?.id 
-            ? Number(this.asset.user_accountability_list.id) 
-            : null;
-        
+        const id = this.accountabilityApproval?.id; // ✅ Use the correct primary key ID
         const userId = String(this.userId);
         
         console.log('ID for receive:', id, typeof id);
@@ -285,20 +282,16 @@ export class AccountabilityFormComponent implements OnInit {
         this.accountabilityApprovalService.receiveByUser(id, userId).subscribe(
             response => {
                 console.log('Received by User response:', response);
-                // Refresh approval data after successful receive
-                this.getAccountabilityApproval();
+                this.getAccountabilityApproval(); // Refresh after success
             },
             error => {
                 console.error('Error in receive:', error);
             }
         );
     }
-
+    
     confirmByUser(): void {
-        const id = this.asset?.user_accountability_list?.id 
-            ? Number(this.asset.user_accountability_list.id) 
-            : null;
-        
+        const id = this.accountabilityApproval?.id; // ✅ Use the correct primary key ID
         const userId = String(this.userId);
         
         console.log('Accountability ID for confirm:', id, typeof id);
@@ -312,12 +305,12 @@ export class AccountabilityFormComponent implements OnInit {
         this.accountabilityApprovalService.confirmByUser(id, userId).subscribe(
             response => {
                 console.log('Confirmed by User response:', response);
-                // Refresh approval data after successful confirm
-                this.getAccountabilityApproval();
+                this.getAccountabilityApproval(); // Refresh after success
             },
             error => {
                 console.error('Error in confirm:', error);
             }
         );
     }
+    
 }
