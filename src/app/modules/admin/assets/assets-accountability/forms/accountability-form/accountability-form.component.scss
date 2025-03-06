@@ -1,0 +1,52 @@
+.custom-mat-table {
+    .mat-header-cell,
+    .mat-cell {
+        font-size: 10px !important; /* Ensures smaller text */
+        padding: 8px 12px !important; /* Adjusts spacing between cells */
+        line-height: 1.4 !important; /* Improves readability */
+        text-transform: uppercase; /* Converts text to uppercase */
+    }
+
+    .mat-header-row,
+    .mat-row {
+        height: 40px !important; /* Adjust row height for even spacing */
+    }
+}
+
+@media print {
+    /* Set A4 page size */
+    #pdfFormArea {
+        width: 210mm;
+        min-height: 297mm;
+        max-height: 297mm; /* Prevents content from overflowing a single page */
+        margin: 0 auto;
+        page-break-after: always;
+        overflow: hidden; /* Hides overflow to prevent content cutting */
+    }
+
+    /* Ensures tables, text, and elements properly paginate */
+    .custom-mat-table {
+        page-break-inside: avoid; /* Prevents tables from splitting awkwardly */
+    }
+
+    .mat-row {
+        page-break-after: auto;
+    }
+
+    .page-break {
+        page-break-before: always; /* Forces new page */
+    }
+
+    /* Optional: Reduce padding/margins for better fit */
+    .p-16 {
+        padding: 8px !important;
+    }
+
+    .text-sm {
+        font-size: 10px !important;
+    }
+
+    .text-lg {
+        font-size: 12px !important;
+    }
+}

@@ -1,11 +1,12 @@
-
-
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { AccountabilityService } from 'app/services/accountability/accountability.service';
+import { PdfService } from 'app/services/pdf.service';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas'; // ✅ Import it properly
 
 // Interfaces
 interface Accountability {
@@ -57,7 +58,7 @@ interface ComputerData {
         $values: string[];
     };
     is_deleted: boolean;
-    assignedAssetDetails?: { 
+    assignedAssetDetails?: {
         $id: string;
         $values: AssignedAssetData[];
     };
@@ -101,20 +102,22 @@ export class AccountabilityFormComponent implements OnInit {
         'status',
     ];
 
-    // ✅ Create 3 data sources
-    dataSourceAssets = new MatTableDataSource<AssetData>(); // Holds assets
-    dataSourceComputers = new MatTableDataSource<ComputerData>(); // Holds computers
-    dataSourceAssignedAssets = new MatTableDataSource<AssignedAssetData>(); // Holds assigned assets
-    dataSourceAssignedComponents = new MatTableDataSource<ComponentDetail>(); // Holds assigned components
-
+    dataSourceAssets = new MatTableDataSource<AssetData>();
+    dataSourceComputers = new MatTableDataSource<ComputerData>();
+    dataSourceAssignedAssets = new MatTableDataSource<AssignedAssetData>();
+    dataSourceAssignedComponents = new MatTableDataSource<ComponentDetail>();
+    datenow: string;
     constructor(
         private route: ActivatedRoute,
-        private _service: AccountabilityService
+        private _service: AccountabilityService,
+        private pdfService: PdfService
     ) {}
+
     @ViewChild('paginatorAssets') paginatorAssets!: MatPaginator;
     @ViewChild('paginatorComputers') paginatorComputers!: MatPaginator;
-    @ViewChild('paginatorAssignedAssets') paginatorAssignedAssets!: MatPaginator;
-    
+    @ViewChild('paginatorAssignedAssets')
+    paginatorAssignedAssets!: MatPaginator;
+
     @ViewChild('paginator1') paginator1!: MatPaginator;
     @ViewChild('paginator2') paginator2!: MatPaginator;
     @ViewChild('sort1') sort1!: MatSort;
@@ -123,58 +126,128 @@ export class AccountabilityFormComponent implements OnInit {
     asset!: Accountability;
 
     ngOnInit() {
+        this.datenow = new Date().toLocaleString();  // You can adjust this format
         const id = Number(this.route.snapshot.paramMap.get('id'));
-    
+
         if (id) {
             this._service.getAccountabilityById(id).subscribe({
                 next: (data: any) => {
                     console.log('Fetched Data:', data);
                     this.asset = data;
-    
-                    // ✅ Assign assets if available
+
                     if (this.asset?.assets?.$values?.length) {
                         this.dataSourceAssets.data = this.asset.assets.$values;
                     }
-                    console.log('Assets Data Source:', this.dataSourceAssets.data);
-    
-                    // ✅ Assign computers if available
+                    console.log(
+                        'Assets Data Source:',
+                        this.dataSourceAssets.data
+                    );
+
                     if (this.asset?.computers?.$values?.length) {
-                        this.dataSourceComputers.data = this.asset.computers.$values;
+                        this.dataSourceComputers.data =
+                            this.asset.computers.$values;
                     }
-                    console.log('Computers Data Source:', this.dataSourceComputers.data);
-    
-                    // ✅ Extract assigned assets correctly
+                    console.log(
+                        'Computers Data Source:',
+                        this.dataSourceComputers.data
+                    );
+
                     let assignedAssets: AssignedAssetData[] = [];
                     this.asset.computers?.$values.forEach((computer) => {
                         if (computer.assignedAssetDetails?.$values?.length) {
-                            assignedAssets.push(...computer.assignedAssetDetails.$values);
+                            assignedAssets.push(
+                                ...computer.assignedAssetDetails.$values
+                            );
                         }
                     });
                     this.dataSourceAssignedAssets.data = assignedAssets;
-                    console.log('Assigned Assets Data Source:', this.dataSourceAssignedAssets.data);
+                    console.log(
+                        'Assigned Assets Data Source:',
+                        this.dataSourceAssignedAssets.data
+                    );
 
-                    // ✅ Extract assigned components correctly
                     let assignedComponents: ComponentDetail[] = [];
                     this.asset.computers?.$values.forEach((computer) => {
-                        const componentTypes = ['ram', 'ssd', 'hdd', 'gpu', 'board'];
-                        componentTypes.forEach(type => {
+                        const componentTypes = [
+                            'ram',
+                            'ssd',
+                            'hdd',
+                            'gpu',
+                            'board',
+                        ];
+                        componentTypes.forEach((type) => {
                             const componentData = computer.components?.[type];
                             if (componentData?.values?.$values?.length) {
-                                assignedComponents.push(...componentData.values.$values.map(component => ({
-                                    ...component,
-                                    type: type.toUpperCase()
-                                })));
+                                assignedComponents.push(
+                                    ...componentData.values.$values.map(
+                                        (component) => ({
+                                            ...component,
+                                            type: type.toUpperCase(),
+                                        })
+                                    )
+                                );
                             }
                         });
                     });
                     this.dataSourceAssignedComponents.data = assignedComponents;
-                    console.log('Assigned Components Data Source:', this.dataSourceAssignedComponents.data);
+                    console.log(
+                        'Assigned Components Data Source:',
+                        this.dataSourceAssignedComponents.data
+                    );
                 },
                 error: (err) => console.error('Error fetching asset', err),
             });
         }
     }
-    
+
+    @ViewChild('pdfFormArea') pdfFormArea!: ElementRef;
+    pdfForm(): void {
+        setTimeout(() => {
+            if (this.pdfFormArea) {
+                html2canvas(this.pdfFormArea.nativeElement, {
+                    scale: 2,
+                    useCORS: true,
+                })
+                    .then((canvas) => {
+                        const imgData = canvas.toDataURL('image/png');
+                        const pdf = new jsPDF({
+                            orientation: 'portrait',
+                            unit: 'px',
+                            format: 'a4',
+                        });
+
+                        const imgWidth = canvas.width;
+                        const imgHeight = canvas.height;
+                        const pageWidth = pdf.internal.pageSize.getWidth();
+                        const pageHeight = pdf.internal.pageSize.getHeight();
+
+                        const ratio = Math.min(
+                            pageWidth / imgWidth,
+                            pageHeight / imgHeight
+                        );
+                        const width = imgWidth * ratio;
+                        const height = imgHeight * ratio;
+
+                        pdf.addImage(
+                            imgData,
+                            'PNG',
+                            (pageWidth - width) / 2,
+                            (pageHeight - height) / 200,
+                            width,
+                            height
+                        );
+
+                        pdf.save('accountability-form.pdf');
+                    })
+                    .catch((error) => {
+                        console.error('Error generating PDF:', error);
+                    });
+            } else {
+                console.error('PDF content element not found');
+            }
+        }, 500);
+    }
+
     printForm() {
         const printContents =
             document.getElementById('printableArea')?.innerHTML;
@@ -182,6 +255,7 @@ export class AccountabilityFormComponent implements OnInit {
 
         document.body.innerHTML = printContents || '';
         window.print();
-        document.body.innerHTML = originalContents; // Restore the page after printing
+        document.body.innerHTML = originalContents;
     }
+    
 }
