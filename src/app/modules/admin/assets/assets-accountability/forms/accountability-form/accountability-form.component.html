@@ -1,8 +1,7 @@
 <div *ngIf="asset" class="flex flex-col flex-auto min-w-0 overflow-hidden">
     <!-- Header -->
     <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
-    >
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Breadcrumbs -->
             <div>
@@ -11,33 +10,22 @@
                         <a class="ml-1 text-primary-500">Assets</a>
                     </div>
                     <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon
-                            class="icon-size-5 text-secondary"
-                            [svgIcon]="'heroicons_solid:chevron-right'"
-                        ></mat-icon>
-                        <a
-                            class="ml-1 text-primary-500 cursor-pointer"
-                            [routerLink]="'/assets/accountability'"
-                            >Accountability List</a
-                        >
+                        <mat-icon class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                        <a class="ml-1 text-primary-500 cursor-pointer"
+                            [routerLink]="'/assets/accountability'">Accountability List</a>
                     </div>
                     <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon
-                            class="icon-size-5 text-secondary"
-                            [svgIcon]="'heroicons_solid:chevron-right'"
-                        ></mat-icon>
+                        <mat-icon class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
                         <span class="ml-1 text-secondary">View </span>
                     </div>
                 </div>
                 <div class="flex sm:hidden">
-                    <a
-                        class="inline-flex items-center -ml-1.5 text-secondary font-medium"
-                        [routerLink]="'/assets/accountability'"
-                    >
-                        <mat-icon
-                            class="icon-size-5 text-secondary"
-                            [svgIcon]="'heroicons_solid:chevron-left'"
-                        ></mat-icon>
+                    <a class="inline-flex items-center -ml-1.5 text-secondary font-medium"
+                        [routerLink]="'/assets/accountability'">
+                        <mat-icon class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-left'"></mat-icon>
                         <span class="ml-1">Back</span>
                     </a>
                 </div>
@@ -46,38 +34,28 @@
             <div class="mt-4 flex flex-col gap-4">
                 <!-- Image Section -->
                 <div class="flex flex-row gap-4">
-                    <img
-                        src="https://pngimg.com/uploads/qr_code/small/qr_code_PNG7.png"
-                        alt="Sample Image"
-                        class="h-28 w-28"
-                    />
+                    <img src="https://pngimg.com/uploads/qr_code/small/qr_code_PNG7.png" alt="Sample Image"
+                        class="h-28 w-28" />
                     <div class="flex flex-col gap-2">
                         <p class="font-semibold text-2xl">
                             Accountability Id:
                             {{
-                                        asset?.user_accountability_list
-                                        ?.accountability_code
+                            asset?.user_accountability_list
+                            ?.accountability_code
                             }}
                         </p>
                         <p class="text-secondary font-semibold">
                             Tracking Id:
                             <span class="text-secondary font-medium">{{
-                                   asset?.user_accountability_list
-                                   ?.tracking_code
-                            }}</span>
+                                asset?.user_accountability_list
+                                ?.tracking_code
+                                }}</span>
                         </p>
                         <div class="flex flex-row gap-2">
-                            <button
-                                class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center"
-                                (click)="printForm()"
-                            >
-                                <mat-icon
-                                    class="icon-size-4 text-blue-600"
-                                    [svgIcon]="'feather:printer'"
-                                ></mat-icon>
-                                <span class="ml-1 mr-1 text-sm text-blue-600"
-                                    >Print</span
-                                >
+                            <button class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center"
+                                (click)="printForm()">
+                                <mat-icon class="icon-size-4 text-blue-600" [svgIcon]="'feather:printer'"></mat-icon>
+                                <span class="ml-1 mr-1 text-sm text-blue-600">Print</span>
                             </button>
                         </div>
                     </div>
@@ -86,14 +64,8 @@
                 <div class="flex flex-row gap-1"></div>
             </div>
         </div>
-        <div
-            class="hidden sm:flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4"
-        >
-            <button
-                class="ml-4"
-                mat-icon-button
-                [routerLink]="'/assets/accountability'"
-            >
+        <div class="hidden sm:flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button class="ml-4" mat-icon-button [routerLink]="'/assets/accountability'">
                 <mat-icon [svgIcon]="'close'"></mat-icon>
                 <!-- <span class="ml-2 mr-1">Go back</span> -->
             </button>
@@ -101,25 +73,20 @@
     </div>
     <div id="printableArea">
         <div class="flex flex-col h-full sm:mx-0 md:mx-0 lg:mx-12 lg:my-4">
-            <form
-                class="flex flex-col flex-grow px-8 pt-10 bg-card rounded w-full overflow-hidden"
-            >
+            <form class="flex flex-col flex-grow px-8 pt-10 bg-card rounded w-full overflow-hidden">
                 <p class="text-lg font-bold text-2xl">Asset Information</p>
                 <mat-divider class="mt-6 mb-4"></mat-divider>
                 <div class="flex flex-row mt-2 gap-4">
-                    <img
-                        src="https://media.licdn.com/dms/image/v2/C560BAQHWJD_zzL0r7g/company-logo_200_200/company-logo_200_200/0/1630654266817/ana_s_breeders_farms_inc_and_affiliates_logo?e=2147483647&v=beta&t=LI_9i14ZJBmpdCtpPVSd5G1uePtoZ4AwzDx3djID7qA"
-                        alt="Sample QR"
-                        class="h-32 w-32"
-                    />
+                    <img src="https://media.licdn.com/dms/image/v2/C560BAQHWJD_zzL0r7g/company-logo_200_200/company-logo_200_200/0/1630654266817/ana_s_breeders_farms_inc_and_affiliates_logo?e=2147483647&v=beta&t=LI_9i14ZJBmpdCtpPVSd5G1uePtoZ4AwzDx3djID7qA"
+                        alt="Sample QR" class="h-32 w-32" />
                     <div class="flex flex-col sm:flex-row justify-between">
                         <div class="flex flex-col gap-2">
                             <p class="text-primary font-bold text-2xl">
                                 Accountability Id:
                                 <span class="text-secondary text-lg">{{
                                     asset?.user_accountability_list
-                                        ?.accountability_code
-                                }}</span>
+                                    ?.accountability_code
+                                    }}</span>
                             </p>
                             <p class="text-secondary">Status: Active</p>
                         </div>
@@ -175,16 +142,11 @@
                         Computer under accountability
                     </p>
                     <span class="text-secondary text-sm">
-                        (Desktop, Laptops, etc..)</span
-                    >
+                        (Desktop, Laptops, etc..)</span>
                 </div>
 
                 <div class="overflow-x-auto">
-                    <mat-table
-                        [dataSource]="dataSourceComputers"
-                        matSort
-                        class="mat-elevation-z8"
-                    >
+                    <mat-table [dataSource]="dataSourceComputers" matSort class="mat-elevation-z8">
                         <!-- Type Column -->
                         <ng-container matColumnDef="type">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -237,14 +199,16 @@
 
                         <!-- Asset Personal History Column -->
                         <ng-container matColumnDef="personalHistory">
-                            <mat-header-cell class="mx-12" *matHeaderCellDef mat-sort-header style="width: 600px; white-space: normal">
+                            <mat-header-cell class="mx-12" *matHeaderCellDef mat-sort-header
+                                style="width: 600px; white-space: normal">
                                 Asset Personal History
                             </mat-header-cell>
-                            <mat-cell class="mx-12 text-sm truncate" *matCellDef="let element" style="width: 600px; white-space: normal">
+                            <mat-cell class="mx-12 text-sm truncate" *matCellDef="let element"
+                                style="width: 600px; white-space: normal">
                                 {{ element.history?.$values?.length ? element.history.$values.join(", ") : 'N/A' }}
                             </mat-cell>
                         </ng-container>
-                        
+
                         <!-- Status Column -->
                         <ng-container matColumnDef="status">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -256,14 +220,10 @@
                         </ng-container>
 
                         <!-- Header and Rows -->
-                        <mat-header-row
-                            *matHeaderRowDef="displayedColumns"
-                        ></mat-header-row>
-                        <mat-row
-                            *matRowDef="let row; columns: displayedColumns"
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns"
                             class="hover:bg-gray-100 cursor-pointer"
-                            [routerLink]="'/assets/computers/view/' + row.id"
-                        ></mat-row>
+                            [routerLink]="'/assets/computers/view/' + row.id"></mat-row>
                     </mat-table>
                 </div>
 
@@ -271,7 +231,7 @@
                     <p class="text-lg font-medium mt-5">Computer Components under accountability</p>
                     <span class="text-secondary text-sm">(RAM, SSD, HDD, GPU, BOARD)</span>
                 </div>
-                
+
                 <div class="overflow-x-auto">
                     <mat-table [dataSource]="dataSourceAssignedComponents" matSort class="mat-elevation-z8">
                         <!-- Type Column -->
@@ -279,24 +239,26 @@
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">{{ element.type }}</mat-cell>
                         </ng-container>
-                
+
                         <!-- Description Column -->
                         <ng-container matColumnDef="description">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">{{ element.description }}</mat-cell>
                         </ng-container>
-                
+
                         <!-- UID Column -->
                         <ng-container matColumnDef="uid">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Inventory Code</mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">{{ element.uid }}</mat-cell>
                         </ng-container>
-                
-                        
-                
+
+
+
                         <!-- Header and Rows -->
                         <mat-header-row *matHeaderRowDef="['type', 'description', 'uid']"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: ['type', 'description', 'uid']" class="hover:bg-gray-100 cursor-pointer" [routerLink]="['/assets/components/view/', row.uid, row.id]"></mat-row>
+                        <mat-row *matRowDef="let row; columns: ['type', 'description', 'uid']"
+                            class="hover:bg-gray-100 cursor-pointer"
+                            [routerLink]="['/assets/components/view/', row.uid, row.id]"></mat-row>
                     </mat-table>
                 </div>
 
@@ -305,8 +267,7 @@
                         Assets under accountability
                     </p>
                     <span class="text-secondary text-sm">
-                        (Mouse, Keyboards, Monitors, Speakers etc..)</span
-                    >
+                        (Mouse, Keyboards, Monitors, Speakers etc..)</span>
                 </div>
 
                 <div class="overflow-x-auto">
@@ -316,113 +277,176 @@
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">{{ element.type || "N/A" }}</mat-cell>
                         </ng-container>
-                    
+
                         <!-- Date Acquired Column -->
                         <ng-container matColumnDef="dateAcquired">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Date Acquired</mat-header-cell>
-                            <mat-cell class="text-sm" *matCellDef="let element">{{ element.date_acquired || "N/A" }}</mat-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">{{ element.date_acquired || "N/A"
+                                }}</mat-cell>
                         </ng-container>
-                    
+
                         <!-- Asset Barcode Column -->
                         <ng-container matColumnDef="assetBarcode">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Asset Barcode</mat-header-cell>
-                            <mat-cell class="text-sm" *matCellDef="let element">{{ element.asset_barcode || "N/A" }}</mat-cell>
+                            <mat-cell class="text-sm" *matCellDef="let element">{{ element.asset_barcode || "N/A"
+                                }}</mat-cell>
                         </ng-container>
-                    
+
                         <!-- Brand Column -->
                         <ng-container matColumnDef="brand">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Brand</mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">{{ element.brand || "N/A" }}</mat-cell>
                         </ng-container>
-                    
+
                         <!-- Model Column -->
                         <ng-container matColumnDef="model">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Model</mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">{{ element.model || "N/A" }}</mat-cell>
                         </ng-container>
-                    
+
                         <!-- Asset Personal History Column -->
                         <ng-container matColumnDef="personalHistory">
-                            <mat-header-cell class="mx-12" *matHeaderCellDef mat-sort-header style="width: 600px; white-space: normal">
+                            <mat-header-cell class="mx-12" *matHeaderCellDef mat-sort-header
+                                style="width: 600px; white-space: normal">
                                 Asset Personal History
                             </mat-header-cell>
-                            <mat-cell class="mx-12 text-sm truncate" *matCellDef="let element" style="width: 600px; white-space: normal">
+                            <mat-cell class="mx-12 text-sm truncate" *matCellDef="let element"
+                                style="width: 600px; white-space: normal">
                                 {{ element.history?.$values?.length ? element.history.$values.join(", ") : 'N/A' }}
                             </mat-cell>
                         </ng-container>
-                        
-                    
+
+
                         <!-- Status Column -->
                         <ng-container matColumnDef="status">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
                             <mat-cell class="text-sm" *matCellDef="let element">{{ element.status || "N/A" }}</mat-cell>
                         </ng-container>
-                    
+
                         <!-- Header and Rows -->
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                         <mat-row *matRowDef="let row; columns: displayedColumns"
-                                 class="hover:bg-gray-100 cursor-pointer"
-                                 [routerLink]="'/assets/inventory/view/' + row.id">
+                            class="hover:bg-gray-100 cursor-pointer" [routerLink]="'/assets/inventory/view/' + row.id">
                         </mat-row>
                     </mat-table>
-                    
+
                 </div>
 
                 <div class="flex flex-row gap-4"></div>
 
                 <!-- <mat-divider class="mt-6 mb-10"></mat-divider> -->
 
-                <p class="text-sm font-medium mt-10">Current Owner Details</p>
+                <p class="text-sm font-medium mt-10"></p>
                 <p class="text-sm text-secondary mb-6">
-                    Current owner of the asset details.
                 </p>
 
-                <div class="flex flex-row gap-4">
-                    <div class="flex flex-col flex-grow gap-4">
-                        <p class="flex flex-col font-medium text-sm">
-                            Owner name
-                            <span class="text-secondary text-sm">
-                                {{ asset.owner.name || "N/A" }}
-                            </span>
-                        </p>
-                        <p class="flex flex-col font-medium text-sm">
-                            Company
-                            <span class="text-secondary text-sm">
-                                {{ asset.owner.company || "N/A" }}
-                            </span>
-                        </p>
-                        <p class="flex flex-col font-medium text-sm">
-                            Department
-                            <span class="text-secondary text-sm">
-                                {{ asset.owner.department || "N/A" }}
-                            </span>
-                        </p>
+                <div class="flex flex-col w-full gap-4 mt-12 lg:flex-row md:flex-row">
+                    <div class="flex-grow flex-col" *ngIf="accountabilityApproval?.checkedByUser">
+                        <!-- Checked By -->
+                        <div class="flex-grow flex-col">
+                            <div class="text-l font-bold text-gray-900 uppercase tracking-wider text-left">
+                                <span class="text-sm text-gray-600">Checked by:</span>
+                            </div>
+                
+                            <!-- Signature Image -->
+                            <div class="flex-grow text-center">
+                                <div class="flex justify-center items-center">
+                                    <img [src]="accountabilityApproval?.checkedByUser?.e_signature || 'https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg'"
+                                        alt="Signature" class="mt-4 w-48 opacity-80" />
+                                </div>
+                
+                                <!-- Name and Role -->
+                                <div class="flex flex-col items-center">
+                                    <p class="text-md border-t m-1">
+                                        {{ accountabilityApproval?.checkedByUser?.name || 'N/A' }}
+                                    </p>
+                                    <span class="text-sm text-gray-600">
+                                        {{ accountabilityApproval?.checkedByUser?.designation || 'N/A' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex flex-col flex-grow gap-4">
-                        <p class="flex flex-col font-medium text-sm">
-                            Employee Id
-                            <span class="text-secondary text-sm">
-                                {{ asset.owner.employee_id || "N/A" }}
-                            </span>
-                        </p>
-                        <p class="flex flex-col font-medium text-sm">
-                           Designation
-                            <span class="text-secondary text-sm">
-                                {{ asset.owner.designation || "N/A" }}
-                            </span>
-                        </p>
-                        <p class="flex flex-col font-medium text-sm">
-                            Business Unit
-                            <span class="text-secondary text-sm">
-                                {{ asset.owner.business_unit || "N/A" }}
-                            </span>
-                        </p>
+                
+                    <div class="flex-grow flex-col" *ngIf="accountabilityApproval?.receivedByUser">
+                        <!-- Received By -->
+                        <div class="flex-grow flex-col">
+                            <div class="text-l font-bold text-gray-900 uppercase tracking-wider text-left">
+                                <span class="text-sm text-gray-600">Received by:</span>
+                            </div>
+                
+                            <div class="flex-grow text-center">
+                                <div class="flex justify-center items-center">
+                                    <img [src]="accountabilityApproval?.receivedByUser?.e_signature || 'https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg'"
+                                        alt="Signature" class="mt-4 w-48 opacity-80" />
+                                </div>
+                
+                                <div class="flex flex-col items-center">
+                                    <p class="text-md border-t m-1">
+                                        {{ accountabilityApproval?.receivedByUser?.name || 'N/A' }}
+                                    </p>
+                                    <span class="text-sm text-gray-600">
+                                        {{ accountabilityApproval?.receivedByUser?.designation || 'N/A' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="flex-grow flex-col" *ngIf="accountabilityApproval?.confirmedByUser">
+                        <!-- Confirmed By -->
+                        <div class="flex-grow flex-col">
+                            <div class="text-l font-bold text-gray-900 uppercase tracking-wider text-left">
+                                <span class="text-sm text-gray-600">Confirmed by:</span>
+                            </div>
+                
+                            <div class="flex-grow text-center">
+                                <div class="flex justify-center items-center">
+                                    <img [src]="accountabilityApproval?.confirmedByUser?.e_signature || 'https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg'"
+                                        alt="Signature" class="mt-4 w-48 opacity-80" />
+                                </div>
+                
+                                <div class="flex flex-col items-center">
+                                    <p class="text-md border-t m-1">
+                                        {{ accountabilityApproval?.confirmedByUser?.name || 'N/A' }}
+                                    </p>
+                                    <span class="text-sm text-gray-600">
+                                        {{ accountabilityApproval?.confirmedByUser?.designation || 'N/A' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <div class="fixed bottom-4 right-4 flex flex-col space-y-2">
+                    <!-- Check by User Button -->
+                    <button *ngIf="!accountabilityApproval?.checkedByUser"
+                        (click)="checkByUser()"
+                        class="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600">
+                        Check by User
+                    </button>
+                
+                    <!-- Received by User Button -->
+                    <button *ngIf="accountabilityApproval?.checkedByUser && !accountabilityApproval?.receivedByUser"
+                        (click)="receiveByUser()"
+                        class="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600">
+                        Received by User
+                    </button>
+                
+                    <!-- Confirmed by User Button -->
+                    <button *ngIf="accountabilityApproval?.checkedByUser && accountabilityApproval?.receivedByUser && !accountabilityApproval?.confirmedByUser"
+                        (click)="confirmByUser()"
+                        class="bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-600">
+                        Confirmed by User
+                    </button>
+                </div>
+                
+
+
 
                 <!-- <mat-divider class="mt-10 mb-10"></mat-divider>  -->
             </form>
         </div>
     </div>
 </div>
-

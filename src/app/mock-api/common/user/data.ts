@@ -6,5 +6,7 @@ export const user = {
     position : 'Project Software Developer - JR',
     employee_id : '221-125',
     avatar: 'assets/images/avatars/default-profile.jpg',
-    status: 'online'
+    status: 'online',
+    designation: 'Junior Developer' // Add this line
+
 };

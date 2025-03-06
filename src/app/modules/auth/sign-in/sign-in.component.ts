@@ -1,3 +1,4 @@
+
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -45,8 +46,8 @@ export class AuthSignInComponent implements OnInit
     {
         // Create the form
         this.signInForm = this._formBuilder.group({
-            email     : ['hughes.brian@company.com', [Validators.required, Validators.email]],
-            password  : ['admin', Validators.required],
+            employee_id     : ['', [Validators.required]], // Changed to just require field, not email format
+            password  : ['', Validators.required],
             rememberMe: ['']
         });
     }
@@ -76,7 +77,6 @@ export class AuthSignInComponent implements OnInit
         this._authService.signIn(this.signInForm.value)
             .subscribe(
                 () => {
-
                     // Set the redirect url.
                     // The '/signed-in-redirect' is a dummy url to catch the request and redirect the user
                     // to the correct page after a successful sign in. This way, that url can be set via
@@ -85,9 +85,9 @@ export class AuthSignInComponent implements OnInit
 
                     // Navigate to the redirect url
                     this._router.navigateByUrl(redirectURL);
-
                 },
-                (response) => {
+                (error) => {
+                    console.error('Sign in error:', error);
 
                     // Re-enable the form
                     this.signInForm.enable();
@@ -98,7 +98,7 @@ export class AuthSignInComponent implements OnInit
                     // Set the alert
                     this.alert = {
                         type   : 'error',
-                        message: 'Wrong email or password'
+                        message: 'Invalid employee ID or password'
                     };
 
                     // Show the alert

@@ -1,7 +1,8 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, switchMap, map } from 'rxjs/operators';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 
@@ -9,6 +10,7 @@ import { UserService } from 'app/core/user/user.service';
 export class AuthService
 {
     private _authenticated: boolean = false;
+    private _apiBaseUrl: string = 'https://localhost:7062/api'; // Update with your API base URL
 
     /**
      * Constructor
@@ -48,7 +50,7 @@ export class AuthService
      */
     forgotPassword(email: string): Observable<any>
     {
-        return this._httpClient.post('api/auth/forgot-password', email);
+        return this._httpClient.post(`${this._apiBaseUrl}/Auth/forgot-password`, { email });
     }
 
     /**
@@ -58,7 +60,7 @@ export class AuthService
      */
     resetPassword(password: string): Observable<any>
     {
-        return this._httpClient.post('api/auth/reset-password', password);
+        return this._httpClient.post(`${this._apiBaseUrl}/Auth/reset-password`, { password });
     }
 
     /**
@@ -66,7 +68,7 @@ export class AuthService
      *
      * @param credentials
      */
-    signIn(credentials: { email: string; password: string }): Observable<any>
+    signIn(credentials: { employee_id: string; password: string }): Observable<any>
     {
         // Throw error, if the user is already logged in
         if ( this._authenticated )
@@ -74,9 +76,22 @@ export class AuthService
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
-            switchMap((response: any) => {
+        // Adapt credentials to match backend expectations
+        const loginRequest = {
+            employee_id: credentials.employee_id, // Assuming email field is used for employee_id
+            password: credentials.password
+        };
 
+        return this._httpClient.post(`${this._apiBaseUrl}/Auth/login`, loginRequest).pipe(
+            map((response: any) => {
+                // Your backend returns { token } so we need to adapt this
+                // to the format expected by the rest of the app
+                return {
+                    accessToken: response.token,
+                    user: this._extractUserFromToken(response.token)
+                };
+            }),
+            switchMap((response: any) => {
                 // Store the access token in the local storage
                 this.accessToken = response.accessToken;
 
@@ -93,34 +108,79 @@ export class AuthService
     }
 
     /**
+     * Extract user information from JWT token
+     */
+    private _extractUserFromToken(token: string): any {
+        try {
+            // Decode JWT without verification (as we just want to extract the payload)
+            const tokenParts = token.split('.');
+            if (tokenParts.length !== 3) {
+                throw new Error('Invalid token format');
+            }
+            
+            // Decode the payload (second part)
+            const payload = JSON.parse(atob(tokenParts[1]));
+            
+            // Map JWT claims to user object
+            // Adjust according to your actual token claims and User model needs
+            return {
+                id: payload.sub,
+                name: payload.unique_name, // This would be employee_id based on your JWT setup
+                email: payload.unique_name, // You may want to adjust this if you have email in your token
+                // Add other user fields as needed
+            };
+        } catch (error) {
+            console.error('Failed to extract user info from token:', error);
+            return {};
+        }
+    }
+
+    /**
      * Sign in using the access token
      */
     signInUsingToken(): Observable<any>
     {
-        // Renew token
-        return this._httpClient.post('api/auth/refresh-access-token', {
-            accessToken: this.accessToken
+        // In your current backend setup, you might not have a refresh endpoint
+        // So we'll check if the token is valid and if it is, we'll extract user info
+        // If not, we'll return false
+        
+        if (!this.accessToken || AuthUtils.isTokenExpired(this.accessToken)) {
+            return of(false);
+        }
+
+        // Extract user info from token
+        const user = this._extractUserFromToken(this.accessToken);
+        
+        // Set the authenticated flag to true
+        this._authenticated = true;
+
+        // Store the user on the user service
+        this._userService.user = user;
+
+        // Return true
+        return of(true);
+        
+        // Alternatively, if you add a refresh endpoint to your backend:
+        /*
+        return this._httpClient.post(`${this._apiBaseUrl}/Auth/refresh-token`, {
+            token: this.accessToken
         }).pipe(
-            catchError(() =>
-
-                // Return false
-                of(false)
-            ),
+            catchError(() => of(false)),
             switchMap((response: any) => {
-
                 // Store the access token in the local storage
-                this.accessToken = response.accessToken;
+                this.accessToken = response.token;
 
                 // Set the authenticated flag to true
                 this._authenticated = true;
 
                 // Store the user on the user service
-                this._userService.user = response.user;
+                this._userService.user = this._extractUserFromToken(response.token);
 
                 // Return true
                 return of(true);
             })
         );
+        */
     }
 
     /**
@@ -145,7 +205,13 @@ export class AuthService
      */
     signUp(user: { name: string; email: string; password: string; company: string }): Observable<any>
     {
-        return this._httpClient.post('api/auth/sign-up', user);
+        // Adapt to your backend's registration endpoint if you have one
+        return this._httpClient.post(`${this._apiBaseUrl}/Auth/register`, {
+            name: user.name,
+            employee_id: user.email, // Assuming you use email as employee_id for new users
+            password: user.password,
+            company: user.company
+        });
     }
 
     /**
@@ -153,9 +219,14 @@ export class AuthService
      *
      * @param credentials
      */
-    unlockSession(credentials: { email: string; password: string }): Observable<any>
+    unlockSession(credentials: { email:string; password: string }): Observable<any>
     {
-        return this._httpClient.post('api/auth/unlock-session', credentials);
+        const loginRequest = {
+            employee_id: credentials.email,
+            password: credentials.password
+        };
+        
+        return this._httpClient.post(`${this._apiBaseUrl}/Auth/login`, loginRequest);
     }
 
     /**

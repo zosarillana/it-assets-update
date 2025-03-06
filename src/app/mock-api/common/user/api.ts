@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { assign, cloneDeep } from 'lodash-es';
 import { FuseMockApiService } from '@fuse/lib/mock-api';
 import { user as userData } from 'app/mock-api/common/user/data';
+import { UsersService } from 'app/services/user/users.service';
+import { from } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +16,10 @@ export class UserMockApi
     /**
      * Constructor
      */
-    constructor(private _fuseMockApiService: FuseMockApiService)
+    constructor(
+        private _fuseMockApiService: FuseMockApiService,
+        private _usersService: UsersService // Inject UsersService
+    )
     {
         // Register Mock API handlers
         this.registerHandlers();
@@ -33,7 +39,21 @@ export class UserMockApi
         // -----------------------------------------------------------------------------------------------------
         this._fuseMockApiService
             .onGet('api/common/user')
-            .reply(() => [200, cloneDeep(this._user)]);
+            .reply(() => {
+                // Fetch the real data of the logged-in user
+                return from(this._usersService.getCurrentUser().toPromise()).pipe(
+                    map(user => {
+                        if (user) {
+                            this._user = user;
+                        }
+                        return [200, cloneDeep(this._user)];
+                    }),
+                    catchError(error => {
+                        console.error('Error fetching current user:', error);
+                        return [500, { message: 'Error fetching current user' }];
+                    })
+                );
+            });
 
         // -----------------------------------------------------------------------------------------------------
         // @ User - PATCH
