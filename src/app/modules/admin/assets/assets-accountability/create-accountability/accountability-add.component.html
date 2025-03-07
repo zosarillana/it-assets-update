@@ -1,379 +1,50 @@
-<div class="flex flex-col flex-auto min-w-0">
-    <!-- Header -->
-    <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
-    >
-        <div class="flex-1 min-w-0">
-            <!-- Breadcrumbs -->
-            <div class="hidden sm:flex flex-wrap items-center font-medium">
-                <div class="flex items-center ml-1 whitespace-nowrap">
-                    <a class="ml-1 text-primary-500">Assets</a>
-                </div>
-                <div class="flex items-center ml-1 whitespace-nowrap">
-                    <mat-icon
-                        class="icon-size-5 text-secondary"
-                        [svgIcon]="'heroicons_solid:chevron-right'"
-                    ></mat-icon>
-                    <a
-                        class="ml-1 text-primary-500 cursor-pointer"
-                        [routerLink]="'/assets/accountability'"
-                        >Accountability List</a
-                    >
-                </div>
-                <div class="flex items-center ml-1 whitespace-nowrap">
-                    <mat-icon
-                        class="icon-size-5 text-secondary"
-                        [svgIcon]="'heroicons_solid:chevron-right'"
-                    ></mat-icon>
-                    <span class="ml-1 text-secondary">Add</span>
-                </div>
-
-                <div class="flex sm:hidden">
-                    <a
-                        class="inline-flex items-center -ml-1.5 text-secondary font-medium"
-                        [routerLink]="'/assets/accountability'"
-                    >
-                        <mat-icon
-                            class="icon-size-5 text-secondary"
-                            [svgIcon]="'heroicons_solid:chevron-left'"
-                        ></mat-icon>
-                        <span class="ml-1">Back</span>
-                    </a>
-                </div>
-            </div>
-            <!-- Title -->
-            <div class="mt-2">
-                <h2
-                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+<form
+    [formGroup]="eventForm"
+    (ngSubmit)="onSubmit()"
+    class="absolute inset-0 flex flex-col min-w-0 overflow-hidden"
+>
+    <mat-drawer-container class="flex-auto h-full">
+        <!-- Drawer -->
+        <mat-drawer
+            class="w-90 dark:bg-gray-900"
+            [autoFocus]="false"
+            [mode]="drawerMode"
+            [opened]="drawerOpened"
+            #matDrawer
+        >
+            <div class="flex flex-col items-start p-8 border-b">
+                <!-- Back to courses -->
+                <a
+                    class="inline-flex items-center leading-6 text-primary hover:underline"
+                    [routerLink]="['..']"
                 >
+                    <span class="inline-flex items-center">
+                        <mat-icon
+                            class="icon-size-5 text-current"
+                            [svgIcon]="'heroicons_solid:arrow-sm-left'"
+                        ></mat-icon>
+                        <span class="ml-1.5 font-medium leading-5"
+                            >Back to lists</span
+                        >
+                    </span>
+                </a>
+                <!-- Course title & description -->
+                <div class="mt-7 text-2xl font-semibold">
                     Add Accountability
-                </h2>
-            </div>
-        </div>
-        <div
-            class="hidden sm:flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4"
-        >
-            <button
-                class="ml-4"
-                mat-icon-button
-                [routerLink]="'/assets/accountability/'"
-            >
-                <mat-icon [svgIcon]="'close'"></mat-icon>
-                <!-- <span class="ml-2 mr-1">Go back</span> -->
-            </button>
-        </div>
-    </div>
-
-    <div class="flex flex-col sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
-        <form
-            [formGroup]="eventForm"
-            (ngSubmit)="onSubmit()"
-            class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
-        >
-            <p class="text-lg font-bold">New Accountability Form</p>
-            <mat-divider class="my-4"></mat-divider>
-            <div
-                class="flex flex-col sm:flex-row md:flex-row flex-grow gap-4 w-full"
-            >
-                <div class="flex flex-grow flex-col gap-4 w-full">
-                    <div class="flex flex-grow flex-col gap-4">
-                        <!-- Search Input -->
-                        <div class="flex flex-grow">
-                            <mat-form-field
-                                class="fuse-mat-no-subscript w-full"
-                            >
-                                <mat-icon
-                                    matPrefix
-                                    class="icon-size-5"
-                                    [svgIcon]="'heroicons_solid:search'"
-                                ></mat-icon>
-                                <input
-                                    matInput
-                                    class="text-sm"
-                                    placeholder="Search by Computer"
-                                    formControlName="typeComputerControl"
-                                    [matAutocomplete]="auto"
-                                />
-                                <mat-autocomplete
-                                    #auto="matAutocomplete"
-                                    [displayWith]="displayFn"
-                                    (optionSelected)="
-                                        onTypeSelected($event.option.value)
-                                    "
-                                >
-                                    <mat-option
-                                        *ngFor="
-                                            let option of filteredComputerOptions
-                                                | async
-                                        "
-                                        [value]="option"
-                                    >
-                                        {{ option.asset_barcode }} -
-                                        {{ option.model }}
-                                    </mat-option>
-                                </mat-autocomplete>
-                            </mat-form-field>
-                        </div>
-
-                        <!-- Computer/Laptop Details -->
-                        <mat-card
-                            class="flex-grow p-4 shadow-sm rounded-md border border-solid border-gray-200"
-                        >
-                            <mat-card-content>
-                                <p class="text-md font-medium">
-                                    Computer/Laptop Details
-                                </p>
-                                <p class="text-secondary mb-6 text-sm">
-                                    Selected Computer/Laptop details.
-                                </p>
-                                <div class="flex flex-row flex-grow gap-4">
-                                    <!-- Left Column -->
-                                    <div class="flex flex-col flex-grow gap-4">
-                                        <p
-                                            class="flex flex-col font-medium text-sm"
-                                        >
-                                            Serial Number
-                                            <span
-                                                class="text-secondary text-sm"
-                                            >
-                                                {{
-                                                    selectedComputer?.serial_no ||
-                                                        "N/A"
-                                                }}
-                                            </span>
-                                        </p>
-                                        <p
-                                            class="flex flex-col font-medium text-sm"
-                                        >
-                                            Type
-                                            <span
-                                                class="text-secondary text-sm"
-                                            >
-                                                {{
-                                                    selectedComputer?.type ||
-                                                        "N/A"
-                                                }}
-                                            </span>
-                                        </p>
-                                        <p
-                                            class="flex flex-col font-medium text-sm"
-                                        >
-                                            Date Acquired
-                                            <span
-                                                class="text-secondary text-sm"
-                                            >
-                                                {{
-                                                    selectedComputer?.date_acquired ||
-                                                        "N/A"
-                                                }}
-                                            </span>
-                                        </p>
-                                    </div>
-
-                                    <!-- Right Column -->
-                                    <div class="flex flex-col flex-grow gap-4">
-                                        <p
-                                            class="flex flex-col font-medium text-sm"
-                                        >
-                                            Asset Barcode
-                                            <span
-                                                class="text-secondary text-sm"
-                                            >
-                                                {{
-                                                    selectedComputer?.asset_barcode ||
-                                                        "N/A"
-                                                }}
-                                            </span>
-                                        </p>
-                                        <p
-                                            class="flex flex-col font-medium text-sm"
-                                        >
-                                            Brand
-                                            <span
-                                                class="text-secondary text-sm"
-                                            >
-                                                {{
-                                                    selectedComputer?.brand ||
-                                                        "N/A"
-                                                }}
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </mat-card-content>
-                        </mat-card>
-
-                        <!-- Components on Computer -->
-                        <mat-card
-                            class="flex-grow p-4 shadow-sm rounded-md border border-solid border-gray-200"
-                        >
-                            <mat-card-content>
-                                <p class="text-md font-medium">
-                                    Components on computer
-                                </p>
-                                <p class="text-secondary mb-6 text-sm">
-                                    Computer components
-                                </p>
-                                <div class="flex flex-row flex-grow gap-4">
-                                    <!-- Left Column -->
-                                    <div class="flex flex-col flex-grow gap-4">
-                                        <p
-                                            class="flex flex-col font-medium text-sm"
-                                        >
-                                            RAM
-                                            <span
-                                                class="text-secondary text-sm"
-                                            >
-                                                {{
-                                                    selectedComputer?.ram?.values?.$values?.[0]?.description || "N/A"
-
-                                                }}
-                                            </span>
-                                        </p>
-                                        <p
-                                            class="flex flex-col font-medium text-sm"
-                                        >
-                                            SSD
-                                            <span
-                                                class="text-secondary text-sm"
-                                            >
-                                                {{
-                                                    selectedComputer?.ssd?.values?.$values?.[0]?.description || "N/A"
-
-                                                }}
-                                            </span>
-                                        </p>
-                                        <p
-                                            class="flex flex-col font-medium text-sm"
-                                        >
-                                            BOARD
-                                            <span
-                                                class="text-secondary text-sm"
-                                            >
-                                                {{
-                                                selectedComputer?.board?.values?.$values?.[0]?.description || "N/A"
-
-                                                }}
-                                            </span>
-                                        </p>
-                                    </div>
-
-                                    <!-- Right Column -->
-                                    <div class="flex flex-col flex-grow gap-4">
-                                        <p
-                                            class="flex flex-col font-medium text-sm"
-                                        >
-                                            GPU
-                                            <span
-                                                class="text-secondary text-sm"
-                                            >
-                                                {{
-                                                    selectedComputer?.gpu?.values?.$values?.[0]?.description || "N/A"
-                                                }}
-                                            </span>
-                                        </p>
-
-                                        <p
-                                            class="flex flex-col font-medium text-sm"
-                                        >
-                                            HDD
-                                            <span
-                                                class="text-secondary text-sm"
-                                            >
-                                                {{
-                                                    selectedComputer?.hdd?.values?.$values?.[0]?.description || "N/A"
-
-                                                }}
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </mat-card-content>
-                        </mat-card>
-
-                        <!-- Peripherals on Computer -->
-                        <mat-card
-                            class="flex-grow p-4 shadow-sm rounded-md border border-solid border-gray-200"
-                        >
-                            <mat-card-content>
-                                <p class="text-md font-medium">
-                                    Peripherals on Computer
-                                </p>
-                                <p class="text-secondary mb-6 text-sm">
-                                    Peripherals
-                                </p>
-                                <div class="flex flex-row flex-grow gap-4">
-                                    <!-- Left Column -->
-                                    <div class="flex flex-col flex-grow gap-4">
-                                        <p
-                                            class="flex flex-col font-medium text-sm"
-                                        >
-                                            Peripheral Barcode
-                                            <ng-container
-                                                *ngIf="
-                                                    selectedComputer
-                                                        ?.assigned_assets
-                                                        ?.values?.$values
-                                                        ?.length;
-                                                    else noAssets
-                                                "
-                                            >
-                                                <span
-                                                    *ngFor="
-                                                        let asset of selectedComputer
-                                                            .assigned_assets
-                                                            .values.$values
-                                                    "
-                                                    class="text-secondary text-sm"
-                                                >
-                                                    {{ asset.asset_barcode }}
-                                                    {{ asset.id }}
-                                                </span>
-                                            </ng-container>
-                                        </p>
-                                    </div>
-
-                                    <!-- Right Column -->
-                                    <div class="flex flex-col flex-grow gap-4">
-                                        <p
-                                            class="-ml-2 flex flex-col font-medium text-sm"
-                                        >
-                                            Peripheral Type
-                                            <ng-container
-                                                *ngIf="
-                                                    selectedComputer
-                                                        ?.assigned_assets
-                                                        ?.values?.$values
-                                                        ?.length;
-                                                    else noAssets
-                                                "
-                                            >
-                                                <span
-                                                    *ngFor="
-                                                        let asset of selectedComputer
-                                                            .assigned_assets
-                                                            .values.$values
-                                                    "
-                                                    class="text-secondary text-sm"
-                                                >
-                                                    {{ asset.type || "N/A" }}
-                                                </span>
-                                            </ng-container>
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <ng-template #noAssets>
-                                    <span class="text-secondary text-sm"
-                                        >N/A</span
-                                    >
-                                </ng-template>
-                            </mat-card-content>
-                        </mat-card>
-                    </div>
                 </div>
-                <div class="flex flex-grow w-full flex-col gap-4">
-                    <!-- <div class="flex">
+                <div class="text-secondary">
+                    Select a computer and fill the employee details to create a
+                    accountability form.
+                </div>
+            </div>
+
+            <!-- Steps -->
+            <div class="py-2 px-8">
+                <ol>
+                    <div class="mt-2 flex flex-col gap-2">
+                        <mat-label class="font-semibold">
+                            Search Computer
+                        </mat-label>
                         <mat-form-field class="fuse-mat-no-subscript w-full">
                             <mat-icon
                                 matPrefix
@@ -382,206 +53,171 @@
                             ></mat-icon>
                             <input
                                 matInput
-                                placeholder="Search by User"
-                                [formControl]="typeUserControl"
-                                [matAutocomplete]="userAuto"
+                                class="text-sm"
+                                placeholder="Search..."
+                                formControlName="typeComputerControl"
+                                [matAutocomplete]="auto"
                             />
                             <mat-autocomplete
-                                #userAuto="matAutocomplete"
+                                #auto="matAutocomplete"
+                                [displayWith]="displayFn"
                                 (optionSelected)="
-                                    onUserSelected($event.option.value)
+                                    onTypeSelected($event.option.value)
                                 "
                             >
                                 <mat-option
                                     *ngFor="
-                                        let option of filteredUserOptions
+                                        let option of filteredComputerOptions
                                             | async
                                     "
-                                    [value]="option.name"
+                                    [value]="option"
                                 >
-                                    {{ option.name }}
+                                    {{ option.asset_barcode }} -
+                                    {{ option.model }}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
-                    </div> -->
 
-                    <mat-card
-                        class="p-4 shadow-sm rounded-md border border-solid border-gray-200"
-                    >
-                        <mat-card-content>
-                            <p class="text-md font-medium">User Details</p>
-                            <p class="text-secondary mb-6 text-sm">
-                                Fill up user details
-                            </p>
-                            <div class="flex flex-row flex-grow gap-4">
-                                <!-- Left Column -->
-                                <div class="flex flex-col flex-grow">
-                                    <div class="flex flex-col">
-                                        <mat-form-field appearance="fill">
-                                            <mat-icon
-                                                svgIcon="feather:credit-card"
-                                                class="icon-size-3 md:icon-size-4 mr-2"
-                                            ></mat-icon>
-                                            <input
-                                                matInput
-                                                formControlName="employee_id"
-                                                type="number"
-                                                id="employee_id"
-                                                placeholder="Enter employee id..."
-                                                class="text-xs md:text-sm"
-                                                (keydown)="
-                                                    validateNumber($event)
-                                                "
-                                                class="no-spinner text-sm"
-                                            />
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <mat-form-field appearance="fill">
-                                            <mat-icon
-                                                svgIcon="feather:user"
-                                                class="icon-size-3 md:icon-size-4 mr-2"
-                                            ></mat-icon>
-                                            <input
-                                                matInput
-                                                formControlName="name"
-                                                id="name"
-                                                placeholder="Enter fullname..."
-                                                class="text-xs md:text-sm"
-                                            />
-                                        </mat-form-field>
-                                    </div>
-                                    <!-- <div class="flex flex-col">
-                                        <mat-form-field appearance="fill">
-                                            <mat-icon
-                                                svgIcon="mat_outline:domain"
-                                                class="icon-size-3 md:icon-size-4 mr-2"
-                                            ></mat-icon>
-                                            <input
-                                                matInput
-                                                formControlName="business_unit"
-                                                id="business_unit"
-                                                placeholder="Enter business unit..."
-                                                class="text-xs md:text-sm"
-                                            />
-                                        </mat-form-field>
-                                    </div> -->
-                                    <div class="flex flex-col">
-                                        <mat-form-field appearance="fill">
-                                            <mat-icon
-                                                svgIcon="mat_outline:info"
-                                                class="icon-size-3 md:icon-size-4 mr-2"
-                                            ></mat-icon>
-                                            <input
-                                                matInput
-                                                formControlName="company"
-                                                id="company"
-                                                placeholder="Enter company..."
-                                                class="text-xs md:text-sm"
-                                            />
-                                        </mat-form-field>
-                                    </div>
-                                </div>
+                        <mat-divider class="border-gray-200 my-2"></mat-divider>
 
-                                <!-- Right Column -->
-                                <div class="flex flex-col flex-grow">
-                                    <div class="flex flex-col">
-                                        <mat-form-field>
-                                            <input
-                                                matInput
-                                                [matDatepicker]="picker"
-                                                [formControlName]="'date_hired'"
-                                                placeholder=" Date Hired: MM-DD-YYYY"
-                                                (click)="picker.open()"
-                                                class="cursor-pointer text-sm"
-                                                required
-                                            />
-                                            <mat-icon
-                                                matPrefix
-                                                svgIcon="mat_outline:calendar_today"
-                                                class="icon-size-4 cursor-pointer"
-                                                (click)="picker.open()"
-                                            >
-                                                <!-- calendar_today -->
-                                            </mat-icon>
-
-                                            <mat-datepicker
-                                                #picker
-                                            ></mat-datepicker>
-                                        </mat-form-field>
-                                    </div>
-                                    <!-- <div class="flex flex-col">
-                                        <mat-form-field>
-                                            <input
-                                                matInput
-                                                [matDatepicker]="picker2"
-                                                [formControlName]="
-                                                    'date_resignation'
-                                                "
-                                               placeholder="MM-DD-YYYY"
-                                                (click)="picker2.open()"
-                                                class="cursor-pointer text-sm"
-                                                required
-                                            />
-                                            <mat-icon
-                                                matPrefix
-                                                svgIcon="mat_outline:calendar_today"
-                                                class="icon-size-4 cursor-pointer"
-                                                (click)="picker2.open()"
-                                            >                                             
-                                            </mat-icon>
-
-                                            <mat-datepicker
-                                                #picker2
-                                            ></mat-datepicker>
-                                        </mat-form-field>
-                                    </div> -->
-                                    <div class="flex flex-col">
-                                        <mat-form-field appearance="fill">
-                                            <mat-icon
-                                                svgIcon="mat_outline:business_center"
-                                                class="icon-size-3 md:icon-size-4 mr-2"
-                                            ></mat-icon>
-                                            <input
-                                                matInput
-                                                formControlName="designation"
-                                                id="designation"
-                                                placeholder="Enter designation..."
-                                                class="text-xs md:text-sm"
-                                            />
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <mat-form-field appearance="fill">
-                                            <mat-icon
-                                                svgIcon="mat_outline:domain"
-                                                class="icon-size-3 md:icon-size-4 mr-2"
-                                            ></mat-icon>
-                                            <mat-select
-                                                formControlName="department"
-                                                id="department"
-                                                class="text-sm text-gray-400"
-                                                [placeholder]="'Select Department'"
-                                            >
-                                                <mat-option value="" disabled
-                                                    >Select Department</mat-option
-                                                >
-                                                <mat-option
-                                                    *ngFor="
-                                                        let department of departments
-                                                    "
-                                                    [value]="department"
-                                                >
-                                                    {{ department.code }} -
-                                                    {{ department.description }}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                             
-                                </div>
+                        <mat-label class="text-md font-semibold"
+                            >User Details</mat-label
+                        >
+                        <mat-label class="text-secondary -mt-2 mb-2 text-sm">
+                            (Fill up user details)
+                        </mat-label>
+                        <div class="flex flex-col flex-grow">
+                            <div class="flex flex-col">
+                                <mat-form-field appearance="fill">
+                                    <mat-icon
+                                        svgIcon="feather:credit-card"
+                                        class="icon-size-3 md:icon-size-4 mr-2"
+                                    ></mat-icon>
+                                    <input
+                                        matInput
+                                        formControlName="employee_id"
+                                        type="number"
+                                        id="employee_id"
+                                        placeholder="Enter employee id..."
+                                        class="text-xs md:text-sm"
+                                        (keydown)="validateNumber($event)"
+                                        class="no-spinner text-sm"
+                                    />
+                                </mat-form-field>
                             </div>
-                            <!-- <div class="flex flex-col w-full">
+                            <div class="flex flex-col">
+                                <mat-form-field appearance="fill">
+                                    <mat-icon
+                                        svgIcon="feather:user"
+                                        class="icon-size-3 md:icon-size-4 mr-2"
+                                    ></mat-icon>
+                                    <input
+                                        matInput
+                                        formControlName="name"
+                                        id="name"
+                                        placeholder="Enter fullname..."
+                                        class="text-xs md:text-sm"
+                                    />
+                                </mat-form-field>
+                            </div>
+                            <!-- <div class="flex flex-col">
+                                <mat-form-field appearance="fill">
+                                    <mat-icon
+                                        svgIcon="mat_outline:domain"
+                                        class="icon-size-3 md:icon-size-4 mr-2"
+                                    ></mat-icon>
+                                    <input
+                                        matInput
+                                        formControlName="business_unit"
+                                        id="business_unit"
+                                        placeholder="Enter business unit..."
+                                        class="text-xs md:text-sm"
+                                    />
+                                </mat-form-field>
+                            </div> -->
+                            <div class="flex flex-col">
+                                <mat-form-field appearance="fill">
+                                    <mat-icon
+                                        svgIcon="mat_outline:info"
+                                        class="icon-size-3 md:icon-size-4 mr-2"
+                                    ></mat-icon>
+                                    <input
+                                        matInput
+                                        formControlName="company"
+                                        id="company"
+                                        placeholder="Enter company..."
+                                        class="text-xs md:text-sm"
+                                    />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <!-- Right Column -->
+                        <div class="flex flex-col flex-grow">
+                            <div class="flex flex-col">
+                                <mat-form-field>
+                                    <input
+                                        matInput
+                                        [matDatepicker]="picker"
+                                        [formControlName]="'date_hired'"
+                                        placeholder=" Date Hired: MM-DD-YYYY"
+                                        (click)="picker.open()"
+                                        class="cursor-pointer text-sm"
+                                        required
+                                    />
+                                    <mat-icon
+                                        matPrefix
+                                        svgIcon="mat_outline:calendar_today"
+                                        class="icon-size-4 cursor-pointer"
+                                        (click)="picker.open()"
+                                    >
+                                        <!-- calendar_today -->
+                                    </mat-icon>
+
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <!-- <div class="flex flex-col">
+                                <mat-form-field>
+                                    <input
+                                        matInput
+                                        [matDatepicker]="picker2"
+                                        [formControlName]="
+                                            'date_resignation'
+                                        "
+                                       placeholder="MM-DD-YYYY"
+                                        (click)="picker2.open()"
+                                        class="cursor-pointer text-sm"
+                                        required
+                                    />
+                                    <mat-icon
+                                        matPrefix
+                                        svgIcon="mat_outline:calendar_today"
+                                        class="icon-size-4 cursor-pointer"
+                                        (click)="picker2.open()"
+                                    >                                             
+                                    </mat-icon>
+
+                                    <mat-datepicker
+                                        #picker2
+                                    ></mat-datepicker>
+                                </mat-form-field>
+                            </div> -->
+                            <div class="flex flex-col">
+                                <mat-form-field appearance="fill">
+                                    <mat-icon
+                                        svgIcon="mat_outline:business_center"
+                                        class="icon-size-3 md:icon-size-4 mr-2"
+                                    ></mat-icon>
+                                    <input
+                                        matInput
+                                        formControlName="designation"
+                                        id="designation"
+                                        placeholder="Enter designation..."
+                                        class="text-xs md:text-sm"
+                                    />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex flex-col">
                                 <mat-form-field appearance="fill">
                                     <mat-icon
                                         svgIcon="mat_outline:domain"
@@ -607,121 +243,416 @@
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                            </div> -->
-                        </mat-card-content>
-                    </mat-card>
-                    <div
-                        class="flex flex-col w-full gap-4 mt-12 lg:flex-row md:flex-row"
-                    >
-                        <div class="flex-grow flex-col">
-                            <!-- Signature Image -->
-                            <div class="flex-grow text-center">
-                                <div class="flex justify-center items-center">
-                                    <img
-                                        src="https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg"
-                                        alt="Signature"
-                                        class="mt-4 w-48 opacity-80"
-                                    />
-                                </div>
 
-                                <!-- Name and Role -->
-                                <div class="flex flex-col items-center">
-                                    <p class="text-md border-t m-1">
-                                        WILLIARD VARQUEZ PERNIA IV
-                                    </p>
-                                    <span class="text-sm text-gray-600">
-                                        IT Manager
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex-grow flex-col">
-                            <!-- Signature Image -->
-                            <div class="flex-grow text-center">
-                                <div class="flex justify-center items-center">
-                                    <img
-                                        src="https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg"
-                                        alt="Signature"
-                                        class="mt-4 w-48 opacity-80"
-                                    />
-                                </div>
-
-                                <!-- Name and Role -->
-                                <div class="flex flex-col items-center">
-                                    <p class="text-md border-t m-1">
-                                        IRISH MARGOT FLORES LUNGAY
-                                    </p>
-                                    <span class="text-sm text-gray-600">
-                                        Lead, IT/ OT Operations (DA)
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex-grow flex-col">
-                            <!-- Signature Image -->
-                            <div class="flex-grow text-center">
-                                <div class="flex justify-center items-center">
-                                    <img
-                                        src="https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg"
-                                        alt="Signature"
-                                        class="mt-4 w-48 opacity-80"
-                                    />
-                                </div>
-
-                                <!-- Name and Role -->
-                                <div class="flex flex-col items-center">
-                                    <p class="text-md border-t m-1">
-                                        ZOREN JAKE CATIBEN SARILLANA
-                                    </p>
-                                    <span class="text-sm text-gray-600">
-                                        Project Software Developer - Jr.
-                                    </span>
-                                </div>
+                                <button
+                                    class="px-6"
+                                    mat-flat-button
+                                    type="submit"
+                                    [color]="'primary'"
+                                >
+                                    <mat-icon
+                                        class="icon-size-4"
+                                        svgIcon="mat_solid:subdirectory_arrow_right"
+                                    ></mat-icon>
+                                    <span class="ml-1 text-sm">
+                                        Create Form</span
+                                    >
+                                </button>
                             </div>
                         </div>
                     </div>
-
-                    <!-- <div class="flex flex-col w-1/2 mt-12">
-                        <mat-form-field>
-                            <input
-                                matInput
-                                [matDatepicker]="picker"
-                                [formControlName]="'date_hired'"
-                                placeholder="Date Hired"
-                                (click)="picker.open()"
-                                class="cursor-pointer text-sm"
-                                required
-                            />
-                            <mat-icon
-                                matPrefix
-                                svgIcon="mat_outline:calendar_today"
-                                class="icon-size-4 cursor-pointer"
-                                (click)="picker.open()"
-                            > -->
-                    <!-- calendar_today -->
-                    <!-- </mat-icon>
-
-                            <mat-datepicker #picker></mat-datepicker>
-                        </mat-form-field>
-                    </div> -->
-                </div>
+                </ol>
             </div>
+        </mat-drawer>
 
+        <!-- Drawer content -->
+        <mat-drawer-content class="flex flex-col overflow-hidden">
+            <!-- Header -->
             <div
-                class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
+                class="lg:hidden flex flex-0 items-center py-2 pl-4 pr-6 sm:py-4 md:pl-6 md:pr-8 border-b lg:border-b-0 bg-card dark:bg-transparent"
             >
-                <button mat-stroked-button>Reset Form</button>
-                <button
-                    class="px-6 ml-3"
-                    mat-flat-button
-                    type="submit"
-                    [color]="'primary'"
-                >
-                    Create Form
+                <!-- Title & Actions -->
+                <button mat-icon-button [routerLink]="['..']">
+                    <mat-icon
+                        [svgIcon]="'heroicons_outline:arrow-sm-left'"
+                    ></mat-icon>
                 </button>
+                <h2
+                    class="ml-2.5 text-md sm:text-xl font-medium tracking-tight truncate"
+                >
+                    Accountability Details
+                </h2>
             </div>
-        </form>
-    </div>
-</div>
+            <mat-progress-bar
+                class="hidden lg:block flex-0 h-0.5 w-full"
+                [value]="(100 * (currentStep + 1)) / course.totalSteps"
+            ></mat-progress-bar>
+
+            <!-- Main -->
+            <div class="flex-auto overflow-y-auto" cdkScrollable>
+                <!-- Steps -->
+                <mat-tab-group
+                    class="fuse-mat-no-header"
+                    [animationDuration]="'200'"
+                    #courseSteps
+                >
+                    <mat-tab>
+                        <ng-template matTabContent>
+                            <div
+                                class="prose prose-sm max-w-3xl mx-auto sm:my-2 lg:mt-4 p-6 sm:p-10 sm:py-12 rounded-2xl shadow overflow-hidden bg-card"
+                            >
+                                <!-- Computer/Laptop Details -->
+                                <mat-card
+                                    class="flex-grow p-4 shadow-sm rounded-md border border-solid border-gray-200"
+                                >
+                                    <mat-card-content>
+                                        <p class="text-md font-medium">
+                                            Computer/Laptop Details
+                                        </p>
+                                        <p class="text-secondary mb-6 text-sm">
+                                            Selected Computer/Laptop details.
+                                        </p>
+                                        <div
+                                            class="flex flex-row flex-grow gap-4"
+                                        >
+                                            <!-- Left Column -->
+                                            <div
+                                                class="flex flex-col flex-grow gap-4"
+                                            >
+                                                <p
+                                                    class="flex flex-col font-medium text-sm"
+                                                >
+                                                    Serial Number
+                                                    <span
+                                                        class="text-secondary text-sm"
+                                                    >
+                                                        {{
+                                                            selectedComputer?.serial_no ||
+                                                                "N/A"
+                                                        }}
+                                                    </span>
+                                                </p>
+                                                <p
+                                                    class="flex flex-col font-medium text-sm"
+                                                >
+                                                    Type
+                                                    <span
+                                                        class="text-secondary text-sm"
+                                                    >
+                                                        {{
+                                                            selectedComputer?.type ||
+                                                                "N/A"
+                                                        }}
+                                                    </span>
+                                                </p>
+                                                <p
+                                                    class="flex flex-col font-medium text-sm"
+                                                >
+                                                    Date Acquired
+                                                    <span
+                                                        class="text-secondary text-sm"
+                                                    >
+                                                        {{
+                                                            selectedComputer?.date_acquired ||
+                                                                "N/A"
+                                                        }}
+                                                    </span>
+                                                </p>
+                                            </div>
+
+                                            <!-- Right Column -->
+                                            <div
+                                                class="flex flex-col flex-grow gap-4"
+                                            >
+                                                <p
+                                                    class="flex flex-col font-medium text-sm"
+                                                >
+                                                    Asset Barcode
+                                                    <span
+                                                        class="text-secondary text-sm"
+                                                    >
+                                                        {{
+                                                            selectedComputer?.asset_barcode ||
+                                                                "N/A"
+                                                        }}
+                                                    </span>
+                                                </p>
+                                                <p
+                                                    class="flex flex-col font-medium text-sm"
+                                                >
+                                                    Brand
+                                                    <span
+                                                        class="text-secondary text-sm"
+                                                    >
+                                                        {{
+                                                            selectedComputer?.brand ||
+                                                                "N/A"
+                                                        }}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+
+                                <!-- Components on Computer -->
+                                <mat-card
+                                    class="flex-grow p-4 shadow-sm rounded-md border border-solid border-gray-200"
+                                >
+                                    <mat-card-content>
+                                        <p class="text-md font-medium">
+                                            Components on computer
+                                        </p>
+                                        <p class="text-secondary mb-6 text-sm">
+                                            Computer components
+                                        </p>
+                                        <div
+                                            class="flex flex-row flex-grow gap-4"
+                                        >
+                                            <!-- Left Column -->
+                                            <div
+                                                class="flex flex-col flex-grow gap-4"
+                                            >
+                                                <p
+                                                    class="flex flex-col font-medium text-sm"
+                                                >
+                                                    RAM
+                                                    <span
+                                                        class="text-secondary text-sm"
+                                                    >
+                                                        {{
+                                             selectedComputer?.ram?.values?.$values?.[0]?.description || "N/A"
+
+                                                        }}
+                                                    </span>
+                                                </p>
+                                                <p
+                                                    class="flex flex-col font-medium text-sm"
+                                                >
+                                                    SSD
+                                                    <span
+                                                        class="text-secondary text-sm"
+                                                    >
+                                                        {{
+                                             selectedComputer?.ssd?.values?.$values?.[0]?.description || "N/A"
+
+                                                        }}
+                                                    </span>
+                                                </p>
+                                                <p
+                                                    class="flex flex-col font-medium text-sm"
+                                                >
+                                                    BOARD
+                                                    <span
+                                                        class="text-secondary text-sm"
+                                                    >
+                                                        {{
+                                         selectedComputer?.board?.values?.$values?.[0]?.description || "N/A"
+
+                                                        }}
+                                                    </span>
+                                                </p>
+                                            </div>
+
+                                            <!-- Right Column -->
+                                            <div
+                                                class="flex flex-col flex-grow gap-4"
+                                            >
+                                                <p
+                                                    class="flex flex-col font-medium text-sm"
+                                                >
+                                                    GPU
+                                                    <span
+                                                        class="text-secondary text-sm"
+                                                    >
+                                                        {{
+                                             selectedComputer?.gpu?.values?.$values?.[0]?.description || "N/A"
+                                                        }}
+                                                    </span>
+                                                </p>
+
+                                                <p
+                                                    class="flex flex-col font-medium text-sm"
+                                                >
+                                                    HDD
+                                                    <span
+                                                        class="text-secondary text-sm"
+                                                    >
+                                                        {{
+                                             selectedComputer?.hdd?.values?.$values?.[0]?.description || "N/A"
+
+                                                        }}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+
+                                <!-- Peripherals on Computer -->
+                                <mat-card
+                                    class="flex-grow p-4 shadow-sm rounded-md border border-solid border-gray-200"
+                                >
+                                    <mat-card-content>
+                                        <p class="text-md font-medium">
+                                            Peripherals on Computer
+                                        </p>
+                                        <p class="text-secondary mb-6 text-sm">
+                                            Peripherals
+                                        </p>
+                                        <div
+                                            class="flex flex-row flex-grow gap-4"
+                                        >
+                                            <!-- Left Column -->
+                                            <div
+                                                class="flex flex-col flex-grow gap-4"
+                                            >
+                                                <p
+                                                    class="flex flex-col font-medium text-sm"
+                                                >
+                                                    Peripheral Barcode
+                                                    <ng-container
+                                                        *ngIf="
+                                                            selectedComputer
+                                                                ?.assigned_assets
+                                                                ?.values
+                                                                ?.$values
+                                                                ?.length;
+                                                            else noAssets
+                                                        "
+                                                    >
+                                                        <span
+                                                            *ngFor="
+                                                                let asset of selectedComputer
+                                                                    .assigned_assets
+                                                                    .values
+                                                                    .$values
+                                                            "
+                                                            class="text-secondary text-sm"
+                                                        >
+                                                            {{
+                                                                asset.asset_barcode
+                                                            }}
+                                                            {{ asset.id }}
+                                                        </span>
+                                                    </ng-container>
+                                                </p>
+                                            </div>
+
+                                            <!-- Right Column -->
+                                            <div
+                                                class="flex flex-col flex-grow gap-4"
+                                            >
+                                                <p
+                                                    class="-ml-2 flex flex-col font-medium text-sm"
+                                                >
+                                                    Peripheral Type
+                                                    <ng-container
+                                                        *ngIf="
+                                                            selectedComputer
+                                                                ?.assigned_assets
+                                                                ?.values
+                                                                ?.$values
+                                                                ?.length;
+                                                            else noAssets
+                                                        "
+                                                    >
+                                                        <span
+                                                            *ngFor="
+                                                                let asset of selectedComputer
+                                                                    .assigned_assets
+                                                                    .values
+                                                                    .$values
+                                                            "
+                                                            class="text-secondary text-sm"
+                                                        >
+                                                            {{
+                                                                asset.type ||
+                                                                    "N/A"
+                                                            }}
+                                                        </span>
+                                                    </ng-container>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <ng-template #noAssets>
+                                            <span class="text-secondary text-sm"
+                                                >N/A</span
+                                            >
+                                        </ng-template>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </ng-template>
+                    </mat-tab>
+                </mat-tab-group>
+
+                <!-- Navigation - Desktop -->
+                <!-- <div class="z-10 sticky hidden lg:flex bottom-4 p-4">
+                    <div class="flex items-center justify-center mx-auto p-2 rounded-full shadow-lg bg-primary">
+                        <button
+                            class="flex-0"
+                            mat-flat-button
+                            [color]="'primary'"
+                            (click)="goToPreviousStep()">
+                            <mat-icon
+                                class="mr-2"
+                                [svgIcon]="'heroicons_outline:arrow-narrow-left'"></mat-icon>
+                            <span class="mr-1">Prev</span>
+                        </button>
+                        <div class="flex items-center justify-center mx-2.5 font-medium leading-5 text-on-primary">
+                            <span>{{currentStep + 1}}</span>
+                            <span class="mx-0.5 text-hint">/</span>
+                            <span>{{course.totalSteps}}</span>
+                        </div>
+                        <button
+                            class="flex-0"
+                            mat-flat-button
+                            [color]="'primary'"
+                            (click)="goToNextStep()">
+                            <span class="ml-1">Next</span>
+                            <mat-icon
+                                class="ml-2"
+                                [svgIcon]="'heroicons_outline:arrow-narrow-right'"></mat-icon>
+                        </button>
+                    </div>
+                </div> -->
+            </div>
+
+            <!-- Progress & Navigation - Mobile -->
+            <!-- <div class="lg:hidden flex items-center p-4 border-t bg-card">
+                <button mat-icon-button (click)="matDrawer.toggle()">
+                    <mat-icon
+                        [svgIcon]="'heroicons_outline:view-list'"
+                    ></mat-icon>
+                </button>
+                <div
+                    class="flex items-center justify-center ml-1 lg:ml-2 font-medium leading-5"
+                >
+                    <span>{{ currentStep + 1 }}</span>
+                    <span class="mx-0.5 text-hint">/</span>
+                    <span>{{ course.totalSteps }}</span>
+                </div>
+                <mat-progress-bar
+                    class="flex-auto ml-6 rounded-full"
+                    [value]="(100 * (currentStep + 1)) / course.totalSteps"
+                ></mat-progress-bar>
+                <button
+                    class="ml-4"
+                    mat-icon-button
+                    (click)="goToPreviousStep()"
+                >
+                    <mat-icon
+                        [svgIcon]="'heroicons_outline:arrow-narrow-left'"
+                    ></mat-icon>
+                </button>
+                <button class="ml-0.5" mat-icon-button (click)="goToNextStep()">
+                    <mat-icon
+                        [svgIcon]="'heroicons_outline:arrow-narrow-right'"
+                    ></mat-icon>
+                </button>
+            </div> -->
+        </mat-drawer-content>
+    </mat-drawer-container>
+</form>

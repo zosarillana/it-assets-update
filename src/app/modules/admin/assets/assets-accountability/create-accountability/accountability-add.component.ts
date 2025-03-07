@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ComputerService } from 'app/services/computer/computer.service';
 import { Observable, of } from 'rxjs';
@@ -17,6 +17,8 @@ import { AlertService } from 'app/services/alert.service';
 import { DepartmentService } from 'app/services/department/department.service';
 import { Department } from 'app/models/Department/Department';
 import { MatTableDataSource } from '@angular/material/table';
+import { DOCUMENT } from '@angular/common';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @Component({
     selector: 'app-accountability-add',
@@ -31,12 +33,14 @@ export class AccoundabilityAddComponent implements OnInit {
     selectedComputer: Assets | null = null;
 
     constructor(
+        @Inject(DOCUMENT) private _document: Document,
         private _formBuilder: FormBuilder,
         private computerService: ComputerService,
         private userService: UsersService,
         private alertService: AlertService,
         private accountabilityService: AccountabilityService,
-        private departmentService: DepartmentService
+        private departmentService: DepartmentService,
+        private _changeDetectorRef: ChangeDetectorRef
     ) {}
 
     displayFn = (value: any): string => {
@@ -229,5 +233,132 @@ export class AccoundabilityAddComponent implements OnInit {
         });
     }
     
+    //course dummy data 
+
+    course = {
+        title: 'Master Angular Development',
+        description: 'Learn the ins and outs of Angular development, from beginner to advanced.',
+        duration: 120,
+        totalSteps: 5,
+        category: {
+          slug: 'web',
+          title: 'Web Development',
+        },
+        steps: [
+          {
+            order: 0,
+            title: 'Introduction to Angular',
+            subtitle: 'Get familiar with Angular framework basics.',
+            content: '<p>This is the content for step 1. It introduces Angular fundamentals.</p>',
+          },
+          {
+            order: 1,
+            title: 'Components and Modules',
+            subtitle: 'Learn about creating and structuring Angular components and modules.',
+            content: '<p>This step covers components and module concepts in Angular.</p>',
+          },
+          {
+            order: 2,
+            title: 'Services and Dependency Injection',
+            subtitle: 'Understand services and how to use dependency injection in Angular.',
+            content: '<p>This step dives into services and dependency injection in Angular applications.</p>',
+          },
+          {
+            order: 3,
+            title: 'Routing and Navigation',
+            subtitle: 'Learn how to handle routing and navigation between components.',
+            content: '<p>This step covers routing and navigation concepts in Angular.</p>',
+          },
+          {
+            order: 4,
+            title: 'Advanced Angular Techniques',
+            subtitle: 'Explore advanced Angular concepts for better app architecture.',
+            content: '<p>This step discusses advanced techniques in Angular, such as lazy loading and state management.</p>',
+          },
+        ],
+      };
+
+    //drawer 
+    drawerMode: 'over' | 'side' = 'side';
+    drawerOpened: boolean = true;
+    currentStep: number = 0
+    @ViewChild('courseSteps', {static: true}) courseSteps: MatTabGroup;
+
+    trackByFn(index: number, item: any): any
+    {
+        return item.id || index;
+    }
     
+    goToStep(step: number): void
+    {
+        // Set the current step
+        this.currentStep = step;
+
+        // Go to the step
+        this.courseSteps.selectedIndex = this.currentStep;
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+    }
+
+    /**
+     * Go to previous step
+     */
+    goToPreviousStep(): void
+    {
+        // Return if we already on the first step
+        if ( this.currentStep === 0 )
+        {
+            return;
+        }
+
+        // Go to step
+        this.goToStep(this.currentStep - 1);
+
+        // Scroll the current step selector from sidenav into view
+        this._scrollCurrentStepElementIntoView();
+    }
+
+    /**
+     * Go to next step
+     */
+    goToNextStep(): void
+    {
+        // Return if we already on the last step
+        if ( this.currentStep === this.course.totalSteps - 1 )
+        {
+            return;
+        }
+
+        // Go to step
+        this.goToStep(this.currentStep + 1);
+
+        // Scroll the current step selector from sidenav into view
+        this._scrollCurrentStepElementIntoView();
+    }
+   /**
+     * Scrolls the current step element from
+     * sidenav into the view. This only happens when
+     * previous/next buttons pressed as we don't want
+     * to change the scroll position of the sidebar
+     * when the user actually clicks around the sidebar.
+     *
+     * @private
+     */
+   private _scrollCurrentStepElementIntoView(): void
+   {
+       // Wrap everything into setTimeout so we can make sure that the 'current-step' class points to correct element
+       setTimeout(() => {
+
+           // Get the current step element and scroll it into view
+           const currentStepElement = this._document.getElementsByClassName('current-step')[0];
+           if ( currentStepElement )
+           {
+               currentStepElement.scrollIntoView({
+                   behavior: 'smooth',
+                   block   : 'start'
+               });
+           }
+       });
+   }
 }
