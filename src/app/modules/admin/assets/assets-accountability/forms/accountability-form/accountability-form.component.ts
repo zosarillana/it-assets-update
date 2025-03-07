@@ -123,9 +123,13 @@ export class AccountabilityFormComponent implements OnInit {
     @ViewChild('sort1') sort1!: MatSort;
     @ViewChild('sort2') sort2!: MatSort;
 
+    //pdf
+    @ViewChild('pdfFormArea') pdfFormArea!: ElementRef;
+    @ViewChild('acknowledgmentSection') acknowledgmentSection!: ElementRef;
     asset!: Accountability;
 
     ngOnInit() {
+        this.handleOverflow();
         this.datenow = new Date().toLocaleString();  // You can adjust this format
         const id = Number(this.route.snapshot.paramMap.get('id'));
 
@@ -198,55 +202,108 @@ export class AccountabilityFormComponent implements OnInit {
                 error: (err) => console.error('Error fetching asset', err),
             });
         }
-    }
+    }  
 
-    @ViewChild('pdfFormArea') pdfFormArea!: ElementRef;
+    // Function to generate the PDF
     pdfForm(): void {
         setTimeout(() => {
-            if (this.pdfFormArea) {
-                html2canvas(this.pdfFormArea.nativeElement, {
-                    scale: 2,
-                    useCORS: true,
-                })
-                    .then((canvas) => {
-                        const imgData = canvas.toDataURL('image/png');
-                        const pdf = new jsPDF({
-                            orientation: 'portrait',
-                            unit: 'px',
-                            format: 'a4',
-                        });
-
-                        const imgWidth = canvas.width;
-                        const imgHeight = canvas.height;
-                        const pageWidth = pdf.internal.pageSize.getWidth();
-                        const pageHeight = pdf.internal.pageSize.getHeight();
-
-                        const ratio = Math.min(
-                            pageWidth / imgWidth,
-                            pageHeight / imgHeight
-                        );
-                        const width = imgWidth * ratio;
-                        const height = imgHeight * ratio;
-
-                        pdf.addImage(
-                            imgData,
-                            'PNG',
-                            (pageWidth - width) / 2,
-                            (pageHeight - height) / 200,
-                            width,
-                            height
-                        );
-
-                        pdf.save('accountability-form.pdf');
-                    })
-                    .catch((error) => {
-                        console.error('Error generating PDF:', error);
-                    });
-            } else {
-                console.error('PDF content element not found');
-            }
+          if (this.pdfFormArea && this.acknowledgmentSection) {
+            // First, convert both sections to canvas
+            Promise.all([
+              html2canvas(this.pdfFormArea.nativeElement, { scale: 2, useCORS: true }),
+              html2canvas(this.acknowledgmentSection.nativeElement, { scale: 2, useCORS: true })
+            ])
+            .then(([mainCanvas, ackCanvas]) => {
+              const mainImgData = mainCanvas.toDataURL('image/png');
+              const ackImgData = ackCanvas.toDataURL('image/png');
+              
+              const pdf = new jsPDF({
+                orientation: 'portrait',
+                unit: 'px',
+                format: 'a4',
+              });
+              
+              // Define margin and usable page dimensions
+              const margin = 20;
+              const pageWidth = pdf.internal.pageSize.getWidth();
+              const pageHeight = pdf.internal.pageSize.getHeight();
+              const usableWidth = pageWidth - 2 * margin;
+              const usableHeight = pageHeight - 2 * margin;
+              
+              // Calculate scaled dimensions for main content
+              const mainRatio = usableWidth / mainCanvas.width;
+              const mainHeight = mainCanvas.height * mainRatio;
+              
+              // Calculate scaled dimensions for acknowledgment content
+              const ackRatio = usableWidth / ackCanvas.width;
+              const ackHeight = ackCanvas.height * ackRatio;
+              
+              // Check if both sections can fit on one page
+              if (mainHeight + ackHeight <= usableHeight) {
+                // Both sections fit on one page
+                // Add main content at the top
+                pdf.addImage(mainImgData, 'PNG', margin, margin, usableWidth, mainHeight);
+                
+                // Add acknowledgment section below the main content with a small gap
+                const ackYPosition = margin + mainHeight + 10; // 10px gap between sections
+                pdf.addImage(ackImgData, 'PNG', margin, ackYPosition, usableWidth, ackHeight);
+              } else {
+                // Sections don't fit on one page, place on separate pages
+                
+                // Add main content on first page
+                pdf.addImage(mainImgData, 'PNG', margin, margin, usableWidth, mainHeight);
+                
+                // If main content overflows, handle pagination
+                if (mainHeight > usableHeight) {
+                  let remainingHeight = mainHeight - usableHeight;
+                  let offsetY = usableHeight;
+                  
+                  while (remainingHeight > 0) {
+                    pdf.addPage();
+                    pdf.addImage(mainImgData, 'PNG', margin, -offsetY + margin, usableWidth, mainHeight);
+                    offsetY += usableHeight;
+                    remainingHeight -= usableHeight;
+                  }
+                }
+                
+                // Add acknowledgment on a new page
+                pdf.addPage();
+                pdf.addImage(ackImgData, 'PNG', margin, margin, usableWidth, ackHeight);
+              }
+              
+              // Save the PDF
+              pdf.save('accountability-form.pdf');
+            })
+            .catch((error) => {
+              console.error('Error generating PDF:', error);
+            });
+          } else {
+            console.error('Required elements not found');
+          }
         }, 500);
+      }
+  
+
+  // Handle content overflow and move to next page if necessary
+  private handleOverflow(): void {
+    const pdfFormArea = document.querySelector('#pdfFormArea');
+    
+    if (pdfFormArea) {
+      // Function to check if an element overflows
+      function isOverflowing(element: Element): boolean {
+        return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
+      }
+
+      if (isOverflowing(pdfFormArea)) {
+        // Forcing page break by adding a CSS class or dynamically splitting content
+        // If needed, you can add more complex logic here to split your content
+        pdfFormArea.classList.add('page-break');  // Custom class to handle page breaks
+      }
+    } else {
+      console.error('pdfFormArea element not found');
     }
+  }
+
 
     printForm() {
         const printContents =

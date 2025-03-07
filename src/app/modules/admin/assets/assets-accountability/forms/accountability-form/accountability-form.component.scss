@@ -12,6 +12,9 @@
         height: 40px !important; /* Adjust row height for even spacing */
     }
 }
+.page-break {
+    page-break-before: always;
+}
 
 @media print {
     /* Set A4 page size */
