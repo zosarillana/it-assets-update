@@ -61,14 +61,14 @@ export class AccoundabilityAddComponent implements OnInit {
             date_hired: ['', Validators.required],
             // date_resignation: ['', Validators.required],
             company: ['', Validators.required],
-            business_unit: ['', Validators.required],
+            // business_unit: ['', Validators.required],
             designation: ['', Validators.required],
         });
     }
         
     ngOnInit(): void {
+        this.initializeForm(); // Ensure the form is created first
         this.loadDepartments();
-        this.initializeForm();
         this.loadComputers();
         
         this.filteredComputerOptions = this.eventForm.get('typeComputerControl')!.valueChanges.pipe(
@@ -83,6 +83,7 @@ export class AccoundabilityAddComponent implements OnInit {
             })
         );
     }
+    
 
     validateNumber(event: KeyboardEvent) {
         const inputChar = event.key;
@@ -90,43 +91,7 @@ export class AccoundabilityAddComponent implements OnInit {
             event.preventDefault();
         }
     }
-    // private loadComputers(): void {
-    //     this.computerService.getAssets(1, 100, 'asc').subscribe({
-    //         next: (response) => {
-    //             if (response.items && Array.isArray(response.items.$values)) {
-    //                 this.computersData = response.items.$values;
-    //             } else {
-    //                 console.error('Expected an array, but got:', response);
-    //                 this.computersData = [];
-    //             }
-    //         },
-    //         error: (error) => {
-    //             console.error('Error loading computers:', error);
-    //             this.computersData = [];
-    //         },
-    //     });
-    // }
-    // private loadComputers(): void {
-    //     this.computerService.getAssets(1, 100, 'asc').subscribe({
-    //         next: (response) => {
-    //             if (response.items && Array.isArray(response.items.$values)) {
-    //                 this.computersData = response.items.$values
-    //                     .filter(computer => computer.status === "INACTIVE")
-    //                     .map(computer => ({
-    //                         ...computer,
-    //                         asset_ids: computer.assigned_assets?.values?.$id ? [computer.assigned_assets.values.$id] : []
-    //                     }));
-    //             } else {
-    //                 console.error('Expected an array, but got:', response);
-    //                 this.computersData = [];
-    //             }
-    //         },
-    //         error: (error) => {
-    //             console.error('Error loading computers:', error);
-    //             this.computersData = [];
-    //         },
-    //     });
-    // }
+  
     private loadComputers(): void {
         this.computerService.getAssets(1, 100, 'asc').subscribe({
             next: (response) => {
@@ -190,46 +155,6 @@ export class AccoundabilityAddComponent implements OnInit {
         }
     }
 
-    // onSubmit() {
-    //     if (this.eventForm.valid) {
-    //         console.log('Form data to submit:', this.eventForm.value);
-    //         // Your submit logic here
-    //     }
-    // }
-
-    // onSubmit(): void {
-    //     if (this.eventForm.valid) {
-    //         const formData = this.eventForm.value;
-    
-    //         const payload = {
-    //             owner_id: 0,
-    //             asset_ids: this.selectedComputer?.asset_ids || [], // Use extracted asset_ids
-    //             computer_ids: [this.eventForm.value.typeComputerControl],
-    //             employee_id: this.eventForm.value.employee_id,
-    //             name: this.eventForm.value.name,
-    //             department: this.eventForm.value.department,
-    //             date_hired: this.eventForm.value.date_hired,
-    //             date_resignation: this.eventForm.value.date_resignation,
-    //             company: this.eventForm.value.company,
-    //             is_deleted: "false"
-    //         };
-    
-    //         this.accountabilityService.postEvent(payload).subscribe({
-    //             next: (response) => {
-    //                 console.log('Successfully submitted:', response);
-    //                 alert('Accountability successfully added!');
-    //                 this.eventForm.reset();
-    //             },
-    //             error: (error) => {
-    //                 console.error('Error submitting data:', error);
-    //                 alert('Failed to submit accountability.');
-    //             },
-    //         });
-    //     } else {
-    //         console.log('Form is invalid:', this.eventForm.errors);
-    //         alert('Please fill in all required fields.');
-    //     }
-    // }
     allTypes: string[] = []; // Store unique type values
     departments: Department[] = []; // Holds the fetched departments
     dataSource = new MatTableDataSource<Department>();
@@ -252,43 +177,56 @@ export class AccoundabilityAddComponent implements OnInit {
     
 
     onSubmit(): void {
-        if (this.eventForm.valid) {
-            const formData = this.eventForm.value;
+        this.eventForm.markAllAsTouched(); // ✅ Force validation to show errors
+        this.eventForm.updateValueAndValidity();
     
-            const payload = {
-                owner_id: 0,
-                asset_ids: this.selectedComputer?.asset_ids || [], // Use extracted asset_ids
-                computer_ids: [this.eventForm.value.typeComputerControl],
-                employee_id: this.eventForm.value.employee_id,
-                name: this.eventForm.value.name,
-                department: this.eventForm.value.department?.code, // ✅ Extract only department.code
-                date_hired: this.eventForm.value.date_hired,
-                date_resignation: '',
-                company: this.eventForm.value.company,
-                designation: this.eventForm.value.designation,
-                business_unit: this.eventForm.value.business_unit,
-                is_deleted: "false"
-            };
+        console.log('Form Status:', this.eventForm.status);
+        console.log('Form Controls:', this.eventForm.controls);
+        console.log('Form Errors:', this.eventForm.errors);
     
-            this.accountabilityService.postEvent(payload).subscribe({
-                next: (response) => {
-                    console.log('Successfully submitted:', response);
-                    this.alertService.triggerSuccess('Accountability successfully added!');
-    
-                    // ✅ Reload after a small delay to allow the success message to be seen
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1000);
-                },
-                error: (error) => {
-                    console.error('Error submitting data:', error);
-                    this.alertService.triggerError('Failed to submit accountability.');
-                },
+        if (this.eventForm.invalid) {
+            Object.keys(this.eventForm.controls).forEach(key => {
+                console.log(`Field: ${key}, Status: ${this.eventForm.controls[key].status}, Errors:`, this.eventForm.controls[key].errors);
             });
-        } else {
-            console.log('Form is invalid:', this.eventForm.errors);
+    
             this.alertService.triggerError('Please fill in all required fields.');
+            return;
         }
+        
+        const formData = this.eventForm.value;
+        console.log('Form Data:', formData);
+    
+        const payload = {
+            owner_id: 0,
+            asset_ids: this.selectedComputer?.asset_ids || [],
+            computer_ids: [this.eventForm.value.typeComputerControl],
+            employee_id: this.eventForm.value.employee_id,
+            name: this.eventForm.value.name,
+            department: this.eventForm.value.department?.code,
+            date_hired: this.eventForm.value.date_hired,
+            date_resignation: '',
+            company: this.eventForm.value.company,
+            designation: this.eventForm.value.designation,
+            // business_unit: this.eventForm.value.business_unit,
+            is_deleted: "false"
+        };
+    
+        console.log('Payload being submitted:', payload);
+    
+        this.accountabilityService.postEvent(payload).subscribe({
+            next: (response) => {
+                console.log('Successfully submitted:', response);
+                this.alertService.triggerSuccess('Accountability successfully added!');
+    
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            },
+            error: (error) => {
+                console.error('Error submitting data:', error);
+                this.alertService.triggerError('Failed to submit accountability.');
+            },
+        });
     }
     
     

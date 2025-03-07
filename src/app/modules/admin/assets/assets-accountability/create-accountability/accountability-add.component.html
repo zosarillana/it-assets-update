@@ -451,7 +451,7 @@
                                             />
                                         </mat-form-field>
                                     </div>
-                                    <div class="flex flex-col">
+                                    <!-- <div class="flex flex-col">
                                         <mat-form-field appearance="fill">
                                             <mat-icon
                                                 svgIcon="mat_outline:domain"
@@ -462,6 +462,21 @@
                                                 formControlName="business_unit"
                                                 id="business_unit"
                                                 placeholder="Enter business unit..."
+                                                class="text-xs md:text-sm"
+                                            />
+                                        </mat-form-field>
+                                    </div> -->
+                                    <div class="flex flex-col">
+                                        <mat-form-field appearance="fill">
+                                            <mat-icon
+                                                svgIcon="mat_outline:info"
+                                                class="icon-size-3 md:icon-size-4 mr-2"
+                                            ></mat-icon>
+                                            <input
+                                                matInput
+                                                formControlName="company"
+                                                id="company"
+                                                placeholder="Enter company..."
                                                 class="text-xs md:text-sm"
                                             />
                                         </mat-form-field>
@@ -563,21 +578,7 @@
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
-                                    <!-- <div class="flex flex-col">
-                                        <mat-form-field appearance="fill">
-                                            <mat-icon
-                                                svgIcon="mat_outline:info"
-                                                class="icon-size-3 md:icon-size-4 mr-2"
-                                            ></mat-icon>
-                                            <input
-                                                matInput
-                                                formControlName="company"
-                                                id="company"
-                                                placeholder="Enter company..."
-                                                class="text-xs md:text-sm"
-                                            />
-                                        </mat-form-field>
-                                    </div> -->
+                             
                                 </div>
                             </div>
                             <!-- <div class="flex flex-col w-full">
