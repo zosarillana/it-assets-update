@@ -1,23 +1,32 @@
-<h1 mat-dialog-title>List of inactive components</h1>
+<h1 mat-dialog-title>List of available components</h1>
 <div mat-dialog-content>
-    <mat-selection-list #componentsList>
-        <mat-list-option
-            *ngFor="let component of inactiveComponents"
-            [value]="component"
-        >
-            <div class="flex flex-row text-sm">
-                <strong>{{ component.type }}</strong>
-                <p>- {{ component.description }} (UID: {{ component.uid }})</p>
-            </div>
-        </mat-list-option>
-    </mat-selection-list>
+    <ng-container *ngIf="inactiveComponents?.length; else noComponents">
+        <mat-selection-list #componentsList>
+            <mat-list-option
+                *ngFor="let component of inactiveComponents"
+                [value]="component"
+            >
+                <div class="flex flex-row text-sm">
+                    <strong>{{ component.type }}</strong>
+                    <p>
+                        - {{ component.description }} (UID: {{ component.uid }})
+                    </p>
+                </div>
+            </mat-list-option>
+        </mat-selection-list>
+    </ng-container>
+
+    <ng-template #noComponents>
+        <p>No available components</p>
+    </ng-template>
 </div>
 <div mat-dialog-actions class="justify-end">
     <button mat-button (click)="onNoClick()">Close</button>
     <button
         mat-flat-button
         color="primary"
-        (click)="selectComponents(componentsList.selectedOptions.selected)"
+        (click)="selectComponents()"
+        [disabled]="!inactiveComponents?.length"
     >
         Submit
     </button>

@@ -1,6 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ComponentsService } from 'app/services/components/components.service';
+import { MatSelectionList } from '@angular/material/list';
 
 @Component({
     selector: 'app-modal-pullin-component',
@@ -8,6 +9,8 @@ import { ComponentsService } from 'app/services/components/components.service';
     styleUrls: ['./modal-pullin-component.component.scss'],
 })
 export class ModalPullinComponentComponent implements OnInit {
+    @ViewChild('componentsList') componentsList!: MatSelectionList; // ✅ Get reference to mat-selection-list
+
     inactiveComponents: any[] = [];
 
     constructor(
@@ -23,34 +26,27 @@ export class ModalPullinComponentComponent implements OnInit {
 
     fetchInactiveComponents(): void {
         this.componentsService
-            .getComponents(1, 100, 'asc', 'INACTIVE')
+            .getComponents(1, 100, 'asc', 'AVAILABLE')
             .subscribe({
                 next: (response) => {
                     console.log('API Response:', response);
 
-                    // ✅ Extract the $values array from items
                     if (
                         response?.items?.$values &&
                         Array.isArray(response.items.$values)
                     ) {
                         this.inactiveComponents = response.items.$values.filter(
-                            (component) => component.status === 'INACTIVE'
+                            (component) => component.status === 'AVAILABLE'
                         );
                     } else {
-                        console.error(
-                            'Unexpected API response format:',
-                            response
-                        );
-                        this.inactiveComponents = []; // Ensure it's an empty array to prevent errors
+                        console.error('Unexpected API response format:', response);
+                        this.inactiveComponents = [];
                     }
 
-                    console.log(
-                        'Inactive Components:',
-                        this.inactiveComponents
-                    );
+                    console.log('Inactive Components:', this.inactiveComponents);
                 },
                 error: (error) => {
-                    console.error('Error fetching inactive components:', error);
+                    console.error('Error fetching available components:', error);
                     this.inactiveComponents = [];
                 },
             });
@@ -59,15 +55,23 @@ export class ModalPullinComponentComponent implements OnInit {
     onNoClick(): void {
         this.dialogRef.close();
     }
-    selectComponents(selectedComponents: any[]): void {
-      const selectedComponentUids = selectedComponents.map(option => option.value.uid);
-      console.log('Selected Components:', selectedComponentUids);
-  
+
+    selectComponents(): void {
+        if (!this.componentsList) {
+            console.error('componentsList is not defined');
+            return;
+        }
+
+        const selectedComponents = this.componentsList.selectedOptions.selected.map(option => option.value);
+        const selectedComponentUids = selectedComponents.map(component => component.uid);
+
+        console.log('Selected Components:', selectedComponentUids);
+
         if (selectedComponentUids.length === 0) {
             this.dialogRef.close();
             return; // No components selected, just close the dialog
         }
-      this.dialogRef.close(selectedComponentUids);
-  }
-  
+
+        this.dialogRef.close(selectedComponentUids);
+    }
 }

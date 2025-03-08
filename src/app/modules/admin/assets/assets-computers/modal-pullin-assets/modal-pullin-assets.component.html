@@ -1,24 +1,31 @@
-<h1 mat-dialog-title>List of inactive assets</h1>
+<h1 mat-dialog-title>List of available assets</h1>
 
 <div mat-dialog-content>
-  <mat-selection-list #assetsList>
-    <mat-list-option *ngFor="let asset of inactiveAssets" [value]="asset">
-      <div class="flex flex-row text-sm">
-        <strong>{{ asset.type }}</strong>
-        <p>- {{ asset.description }} (Asset Barcode: {{ asset.asset_barcode }})</p>
-      </div>
-    </mat-list-option>
-  </mat-selection-list>
+  <!-- ✅ Show selection list if there are inactive assets, otherwise show "No available assets" -->
+  <ng-container *ngIf="inactiveAssets?.length; else noAssets">
+    <mat-selection-list #assetsList>
+      <mat-list-option *ngFor="let asset of inactiveAssets" [value]="asset">
+        <div class="flex flex-row text-sm">
+          <strong>{{ asset.type }}</strong>
+          <p>- {{ asset.description }} (Asset Barcode: {{ asset.asset_barcode }})</p>
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </ng-container>
 
-  <!-- ✅ New Remark Input Field -->
-  <!-- <mat-form-field class="w-full mt-4">
-    <mat-label class="text-sm">Remarks</mat-label>
-    <input matInput [(ngModel)]="remark" class="text-sm" placeholder="Enter remarks for asset pull-in">
-  </mat-form-field> -->
-
+  <!-- ✅ Template for when there are no assets -->
+  <ng-template #noAssets>
+    <p class="text-gray-500">No available assets</p>
+  </ng-template>
 </div>
 
 <div mat-dialog-actions class="justify-end">
   <button mat-button (click)="onNoClick()">Close</button>
-  <button mat-flat-button color="primary" (click)="selectAssets(assetsList.selectedOptions.selected)">Select</button>
+  <button 
+    mat-flat-button 
+    color="primary" 
+    (click)="selectAssets()" 
+    [disabled]="!inactiveAssets?.length">
+    Select
+  </button>
 </div>
