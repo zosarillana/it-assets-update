@@ -102,7 +102,7 @@ export class AccoundabilityAddComponent implements OnInit {
             next: (response) => {
                 if (response.items && Array.isArray(response.items.$values)) {
                     this.computersData = response.items.$values
-                        .filter(computer => computer.status === "INACTIVE")
+                        .filter(computer => computer.status === "AVAILABLE")
                         .map(computer => {
                             console.log(`Raw Assigned Assets:`, computer.assigned_assets);
     
