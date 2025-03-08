@@ -31,7 +31,7 @@ export class AccoundabilityAddComponent implements OnInit {
     filteredComputerOptions!: Observable<Assets[]>;
     computersData: Assets[] = [];
     selectedComputer: Assets | null = null;
-
+    datenow: string;
     constructor(
         @Inject(DOCUMENT) private _document: Document,
         private _formBuilder: FormBuilder,
@@ -57,6 +57,7 @@ export class AccoundabilityAddComponent implements OnInit {
     };
     
     private initializeForm(): void {
+        this.datenow = new Date().toLocaleString();  // You can adjust this format
         this.eventForm = this._formBuilder.group({
             typeComputerControl: [null, Validators.required],
             employee_id: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
@@ -158,6 +159,16 @@ export class AccoundabilityAddComponent implements OnInit {
             });
         }
     }
+    
+    getComponentKeys(computer: any): string[] {
+        if (!computer) return [];
+        
+        const componentKeys = ["ram", "ssd", "hdd", "gpu", "board"];
+        
+        // Filter out null values and return only the keys that exist
+        return componentKeys.filter(key => computer[key]?.values?.$values?.length);
+    }
+    
 
     allTypes: string[] = []; // Store unique type values
     departments: Department[] = []; // Holds the fetched departments
