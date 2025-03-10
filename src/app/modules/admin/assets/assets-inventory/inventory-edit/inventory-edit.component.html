@@ -1,304 +1,581 @@
-<div *ngIf="asset" class="flex flex-col flex-auto min-w-0">
-    <!-- Header -->
-    <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
+<div *ngIf="asset">
+    <form
+        [formGroup]="eventForm"
+        (ngSubmit)="updateAsset()"
+        class="absolute inset-0 flex flex-col min-w-0 overflow-hidden"
     >
-        <div class="flex-1 min-w-0">
-            <!-- Breadcrumbs -->
-            <div>
-                <div class="hidden sm:flex flex-wrap items-center font-medium">
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <a class="ml-1 text-primary-500">Assets</a>
-                    </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon
-                            class="icon-size-5 text-secondary"
-                            [svgIcon]="'heroicons_solid:chevron-right'"
-                        ></mat-icon>
-                        <a
-                            class="ml-1 text-primary-500 cursor-pointer"
-                            [routerLink]="'/assets/inventory'"
-                            >Inventory List</a
-                        >
-                    </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon
-                            class="icon-size-5 text-secondary"
-                            [svgIcon]="'heroicons_solid:chevron-right'"
-                        ></mat-icon>
-                        <a
-                            class="ml-1 text-primary-500 cursor-pointer"
-                            [routerLink]="'/assets/inventory/view/' + asset.id"
-                            >View</a
-                        >
-                    </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon
-                            class="icon-size-5 text-secondary"
-                            [svgIcon]="'heroicons_solid:chevron-right'"
-                        ></mat-icon>
-                        <span class="ml-1 text-secondary">Edit </span>
-                    </div>
-                </div>
-                <div class="flex sm:hidden">
+        <mat-drawer-container class="flex-auto h-full">
+            <!-- Drawer -->
+            <mat-drawer
+                class="w-90 dark:bg-gray-900"
+                [autoFocus]="false"
+                [mode]="drawerMode"
+                [opened]="drawerOpened"
+                #matDrawer
+            >
+                <div class="flex flex-col items-start p-8 border-b">
+                    <!-- Back to courses -->
                     <a
-                        class="inline-flex items-center -ml-1.5 text-secondary font-medium"
-                        [routerLink]="'/assets/inventory'"
+                        class="inline-flex items-center leading-6 text-primary hover:underline"
+                        [routerLink]="['..']"
                     >
-                        <mat-icon
-                            class="icon-size-5 text-secondary"
-                            [svgIcon]="'heroicons_solid:chevron-left'"
-                        ></mat-icon>
-                        <span class="ml-1">Back</span>
-                    </a>
-                </div>
-            </div>
-            <!-- Title -->
-            <div class="mt-4 flex flex-col gap-4">
-                <!-- Image Section -->
-                <div class="flex flex-row gap-4">
-                    <img
-                        src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/inspiron-notebooks/14-2-in-1-7440-intel/media-gallery/notebook-inspiron-14-7440-t-ice-blue-gallery-17.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=1336&qlt=100,1&resMode=sharp2&size=1336,804&chrss=full"
-                        alt="Sample Image"
-                        class="h-28 w-32"
-                    />
-                    <div class="flex flex-col gap-2">
-                        <p class="font-semibold text-2xl">
-                            {{ asset.model }} ({{ asset.type }})
-                        </p>
-                        <p class="text-secondary font-semibold">
-                            Asset barcode:
-                            <span class="text-secondary font-medium">{{
-                                asset.asset_barcode
-                            }}</span>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="flex flex-row gap-1"></div>
-            </div>
-        </div>
-        <div
-            class="hidden sm:flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4"
-        >
-            <button
-                class="ml-4"
-                mat-icon-button
-                [routerLink]="'/assets/inventory'"
-            >
-                <mat-icon [svgIcon]="'close'"></mat-icon>
-                <!-- <span class="ml-2 mr-1">Go back</span> -->
-            </button>
-        </div>
-    </div>
-
-    <div class="flex flex-col h-full sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
-        <form [formGroup]="eventForm" (ngSubmit)="updateAsset()"
-            class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
-        >
-            <p class="text-lg font-bold text-2xl">Computer  Information</p>
-            <mat-divider class="mt-6 mb-4"></mat-divider>
-            <div class="flex flex-row mt-2 gap-4">
-                <div class="flex flex-col items-center">
-                    <label for="select-image" class="cursor-pointer flex flex-col items-center">
-                        <img
-                            id="preview-image"
-                            src="https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg"
-                            alt="Select Image"
-                            class="h-32 w-32 object-contain border border-gray-300 rounded-md"
-                        />
-                        <span class="text-secondary text-regular mt-2">
-                            <mat-icon class="icon-size-4 mt-1 text-secondary" [svgIcon]="'feather:edit'"></mat-icon>
-                            Select new image
-                        </span>
-                    </label>
-                    <input
-                        id="select-image"
-                        type="file"
-                        accept="image/*"
-                        class="hidden"
-                        (change)="previewSelectedImage($event)"
-                    />
-                </div>                            
-                <div
-                    class="flex flex-col sm:flex-row gap-4"
-                    style="width: 100%"
-                >
-                    <div class="flex flex-col flex-grow" style="width: 100%">
-                        <!-- Make this div take full width -->
-                        <mat-form-field appearance="fill" style="width: 100%">
-                            <!-- Make mat-form-field take full width -->
-                            <mat-label class="text-primary font-bold text-lg"
-                                >Serial Number</mat-label
-                            >
+                        <span class="inline-flex items-center">
                             <mat-icon
-                                svgIcon="feather:hash"
-                                class="icon-size-5"
+                                class="icon-size-5 text-current"
+                                [svgIcon]="'heroicons_solid:arrow-sm-left'"
                             ></mat-icon>
-                            <input
-                                matInput
-                                id="serial_number"
-                                [placeholder]="asset.serial_no || 'N/A'"
-                               formControlName="serial_number"
-                            />
-                        </mat-form-field>
+                            <span class="ml-1.5 font-medium leading-5"
+                                >Back to lists</span
+                            >
+                        </span>
+                    </a>
+                    <!-- Course title & description -->
+                    <div class="mt-7 text-2xl font-semibold">
+                        Edit Peripheral
                     </div>
-                    <mat-divider class="mx-12" vertical></mat-divider>
-                    <div class="flex flex-col flex-grow" style="width: 100%">
-                        <p class="text-primary font-bold text-lg ">
-                            Long Item Description
-                        </p>
-                        <p class="text-secondary uppercase">
-                            {{ asset.type + " " +  asset.brand + " " + asset.model }}
-                        </p>
+                    <div class="text-secondary">
+                        Fill the fields you want to uodate in the selected
+                        peripheral.
                     </div>
                 </div>
-            </div>
 
-            <mat-divider class="mt-6 mb-10"></mat-divider>
-            <p class="text-lg font-medium mb-3">Details</p>
+                <!-- Steps -->
+                <div class="py-2 px-8">
+                    <ol>
+                        <div class="mt-2 flex flex-col gap-2">
+                            <mat-label class="font-semibold flex-col flex">
+                                Search Computer
+                                <span class="text-sm font-medium text-gray-500">
+                                    Fill all the required fields to update
+                                    peripheral
+                                </span>
+                            </mat-label>
 
-            <div class="flex flex-row gap-4">
-                <!-- Parent container for responsiveness -->
+                            <mat-form-field
+                                appearance="fill"
+                                style="width: 100%"
+                            >
+                                <!-- Make mat-form-field take full width -->
+                                <mat-label
+                                    class="text-primary font-bold text-lg"
+                                    >Serial Number</mat-label
+                                >
+                                <mat-icon
+                                    svgIcon="feather:hash"
+                                    class="icon-size-5"
+                                ></mat-icon>
+                                <input
+                                    matInput
+                                    id="serial_number"
+                                    [placeholder]="asset.serial_no || 'N/A'"
+                                    formControlName="serial_number"
+                                />
+                            </mat-form-field>
 
-                <!-- Left Column (Serial, Type, etc.) -->
-                <div class="flex flex-col flex-grow gap-1 w-full">
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Serial Number</mat-label>
-                        <mat-icon
-                            svgIcon="feather:hash"
-                            class="icon-size-5 mr-2"
-                        ></mat-icon>
-                        <input
-                            matInput
-                            id="serial_number_2"                            
-                            [placeholder]="asset.serial_number || 'N/A'"
-                            [value]="eventForm.value.serial_number"
-                            formControlName="serial_number"
-                        />
-                    </mat-form-field>
+                            <mat-form-field appearance="fill" class="w-full">
+                                <mat-label>Type</mat-label>
+                                <mat-icon
+                                    svgIcon="feather:cpu"
+                                    class="icon-size-5 mr-2"
+                                ></mat-icon>
+                                <input
+                                    matInput
+                                    id="type"
+                                    [placeholder]="asset.type || 'N/A'"
+                                    formControlName="type"
+                                />
+                            </mat-form-field>
 
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Type</mat-label>
-                        <mat-icon
-                            svgIcon="feather:cpu"
-                            class="icon-size-5 mr-2"
-                        ></mat-icon>
-                        <input
-                    
-                            matInput
-                            id="type"
-                            [placeholder]="asset.type || 'N/A'"
-                            formControlName="type"
-                        />
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Date Acquired</mat-label>
-                        <mat-icon svgIcon="feather:calendar" class="icon-size-5 mr-2"></mat-icon>
-                        <input 
-                        matInput 
-                        [matDatepicker]="picker" 
-                        id="date_acquired" 
-                        [placeholder]="asset.date_acquired || 'N/A'"
-                        formControlName="date_acquired"
-                    />
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Brand</mat-label>
-                        <mat-icon
-                            svgIcon="feather:box"
-                            class="icon-size-5 mr-2"
-                        ></mat-icon>
-                        <input
-                        formControlName="brand"
-                            matInput
-                            id="brand"
-                            [placeholder]="asset.brand || 'N/A'"
-                         
-                        />
-                    </mat-form-field>
+                            <mat-form-field appearance="fill" class="w-full">
+                                <mat-label>Date Acquired</mat-label>
+                                <mat-icon
+                                    svgIcon="feather:calendar"
+                                    class="icon-size-5 mr-2"
+                                ></mat-icon>
+                                <input
+                                    matInput
+                                    [matDatepicker]="picker"
+                                    id="date_acquired"
+                                    [placeholder]="asset.date_acquired || 'N/A'"
+                                    formControlName="date_acquired"
+                                />
+                                <mat-datepicker-toggle
+                                    matIconSuffix
+                                    [for]="picker"
+                                ></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
 
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Model</mat-label>
-                        <mat-icon
-                            svgIcon="feather:smartphone"
-                            class="icon-size-5 mr-2"
-                        ></mat-icon>
-                        <input
-                            matInput
-                            id="model"
-                            [placeholder]="asset.model || 'N/A'"
-                           formControlName="model"
-                        />
-                    </mat-form-field>
-                 
+                            <mat-form-field appearance="fill" class="w-full">
+                                <mat-label>Brand</mat-label>
+                                <mat-icon
+                                    svgIcon="feather:box"
+                                    class="icon-size-5 mr-2"
+                                ></mat-icon>
+                                <input
+                                    formControlName="brand"
+                                    matInput
+                                    id="brand"
+                                    [placeholder]="asset.brand || 'N/A'"
+                                />
+                            </mat-form-field>
+
+                            <mat-form-field appearance="fill" class="w-full">
+                                <mat-label>Model</mat-label>
+                                <mat-icon
+                                    svgIcon="feather:smartphone"
+                                    class="icon-size-5 mr-2"
+                                ></mat-icon>
+                                <input
+                                    matInput
+                                    id="model"
+                                    [placeholder]="asset.model || 'N/A'"
+                                    formControlName="model"
+                                />
+                            </mat-form-field>
+
+                            <mat-form-field appearance="fill" class="w-full">
+                                <mat-label>Po #</mat-label>
+                                <mat-icon
+                                    svgIcon="feather:tag"
+                                    class="icon-size-5 mr-2"
+                                ></mat-icon>
+                                <input
+                                    formControlName="po"
+                                    matInput
+                                    id="po"
+                                    placeholder="N/A"
+                                />
+                            </mat-form-field>
+
+                            <mat-form-field appearance="fill" class="w-full">
+                                <mat-label>Warranty</mat-label>
+                                <mat-icon
+                                    svgIcon="feather:shield"
+                                    class="icon-size-5 mr-2"
+                                ></mat-icon>
+                                <input
+                                    matInput
+                                    id="warranty"
+                                    placeholder="N/A"
+                                    formControlName="warranty"
+                                />
+                            </mat-form-field>
+
+                            <mat-form-field appearance="fill" class="w-full">
+                                <mat-label>Cost</mat-label>
+                                <mat-icon
+                                    svgIcon="feather:dollar-sign"
+                                    class="icon-size-5 mr-2"
+                                ></mat-icon>
+                                <input
+                                    matInput
+                                    id="cost"
+                                    [placeholder]="asset.cost || 'N/A'"
+                                    formControlName="cost"
+                                />
+                            </mat-form-field>
+
+                            <button
+                                class="px-6"
+                                mat-flat-button
+                                type="submit"
+                                [color]="'primary'"
+                            >
+                                <mat-icon
+                                    class="icon-size-4"
+                                    svgIcon="mat_solid:subdirectory_arrow_right"
+                                ></mat-icon>
+                                <span class="ml-1 text-sm"> Save changes</span>
+                            </button>
+                        </div>
+                    </ol>
                 </div>
+            </mat-drawer>
 
-                <!-- Responsive Divider -->
-                <mat-divider
-                    class="hidden sm:block mx-6"
-                    vertical
-                ></mat-divider>
-                <mat-divider class="sm:hidden my-2"></mat-divider>
-
-                <!-- Right Column (Size, Color, PO, etc.) -->
-                <div class="flex flex-col flex-grow gap-1 w-full">               
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Po #</mat-label>
-                        <mat-icon
-                            svgIcon="feather:tag"
-                            class="icon-size-5 mr-2"
-                        ></mat-icon>
-                        <input
-                            formControlName="po"
-                            matInput
-                            id="po"
-                            placeholder="N/A"
-                        />
-                    </mat-form-field>
-                    
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Warranty</mat-label>
-                        <mat-icon
-                            svgIcon="feather:shield"
-                            class="icon-size-5 mr-2"
-                        ></mat-icon>
-                        <input
-                            matInput
-                            id="warranty"
-                            placeholder="N/A"
-                            formControlName="warranty"
-                        />
-                    </mat-form-field>
-
-                    <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Cost</mat-label>
-                        <mat-icon
-                            svgIcon="feather:dollar-sign"
-                            class="icon-size-5 mr-2"
-                        ></mat-icon>
-                        <input
-                            matInput
-                            id="cost"
-                            [placeholder]="asset.cost || 'N/A'"
-                      formControlName="cost"
-                        />
-                    </mat-form-field>
-                  
+            <!-- Drawer content -->
+            <mat-drawer-content class="flex flex-col overflow-hidden">
+                <!-- Header -->
+                <div
+                    class="lg:hidden flex flex-0 items-center py-2 pl-4 pr-6 sm:py-4 md:pl-6 md:pr-8 border-b lg:border-b-0 bg-card dark:bg-transparent"
+                >
+                    <!-- Title & Actions -->
+                    <button mat-icon-button [routerLink]="['..']">
+                        <!-- <mat-icon
+                            [svgIcon]="'heroicons_outline:arrow-sm-left'"
+                        ></mat-icon> -->
+                    </button>
+                    <h2
+                        class="ml-2.5 text-md sm:text-xl font-medium tracking-tight truncate"
+                    >
+                        Accountability Details
+                    </h2>
                 </div>
-            </div>
-            <!-- Section Divider -->                             
-            <div
-                class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
-            >
-            <!-- <button mat-stroked-button>Reset Form</button> -->
-            <button class="px-6 ml-3" mat-flat-button type="submit" [color]="'primary'">
-                    Save Changes
-                </button>
-            </div>
-        </form>
-    </div>
+                <mat-progress-bar
+                    class="hidden lg:block flex-0 h-0.5 w-full"
+                ></mat-progress-bar>
+
+                <!-- Main -->
+                <div class="flex-auto overflow-y-auto" cdkScrollable>
+                    <!-- Steps -->
+                    <mat-tab-group
+                        class="fuse-mat-no-header"
+                        [animationDuration]="'200'"
+                        #courseSteps
+                    >
+                        <mat-tab>
+                            <ng-template matTabContent>
+                                <div
+                                    class="mx-auto inset-0 min-w-0 text-center overflow-auto print:overflow-visible"
+                                    cdkScrollable
+                                >
+                                    <!-- A4 Wrapper -->
+                                    <div class="a4-container">
+                                        <!-- Page Content -->
+                                        <div
+                                            class="inline-block p-6 sm:p-10 text-left print:p-0"
+                                        >
+                                            <div
+                                                class="w-240 min-w-240 p-16 rounded-2xl shadow bg-card print:w-auto print:p-0 print:rounded-none print:shadow-none print:bg-transparent"
+                                            >
+                                                <div
+                                                    id="pdfFormArea"
+                                                    #pdfFormArea
+                                                >
+                                                    <div class="flex">
+                                                        <div
+                                                            class="flex flex-row gap-4 w-full"
+                                                        >
+                                                            <div
+                                                                class="flex gap-4"
+                                                            >
+                                                                <img
+                                                                    src="assets/images/logo/suylogo.png"
+                                                                    alt="Logo"
+                                                                    class="-ml-5 -mt-5 h-32 w-32"
+                                                                />
+                                                                <div
+                                                                    class="flex flex-col w-64 gap-1"
+                                                                >
+                                                                    <p
+                                                                        class="font-bold text-sm"
+                                                                    >
+                                                                        Ana's
+                                                                        Breeders
+                                                                        Farm
+                                                                        Inc.
+                                                                    </p>
+                                                                    <p
+                                                                        class="text-sm w-56"
+                                                                    >
+                                                                        Sitio
+                                                                        Sto.
+                                                                        Niño,
+                                                                        Pan
+                                                                        Philippine
+                                                                        Highway
+                                                                        Brgy.
+                                                                        Binugao,
+                                                                        Toril
+                                                                        District
+                                                                        Davao
+                                                                        City,
+                                                                        Davao
+                                                                        del Sur,
+                                                                        Philippines.
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Right-aligned Document Details -->
+                                                        <div
+                                                            class="flex flex-row gap-4 w-full justify-end"
+                                                        >
+                                                            <div
+                                                                class="flex flex-col w-64 gap-1 items-end"
+                                                            >
+                                                                <p
+                                                                    class="font-bold text-sm"
+                                                                >
+                                                                    Document
+                                                                    Number
+                                                                    <span
+                                                                        class="font-medium"
+                                                                        >A-60-FR-009</span
+                                                                    >
+                                                                </p>
+                                                                <p
+                                                                    class="font-bold text-sm"
+                                                                >
+                                                                    Effective
+                                                                    Date
+                                                                    <!-- <span
+                                                                    class="font-medium"
+                                                                    >{{
+                                                                        asset
+                                                                            ?.user_accountability_list
+                                                                            .date_created
+                                                                            ? (asset
+                                                                                  ?.user_accountability_list
+                                                                                  .date_created
+                                                                              | date
+                                                                                  : "MMMM d, y")
+                                                                            : "N/A"
+                                                                    }}</span
+                                                                > -->
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p
+                                                        class="flex justify-center text-2xl font-semibold w-full"
+                                                    >
+                                                        PERIPHERAL FORM
+                                                    </p>
+                                                    <div
+                                                        class="mt-5 w-full flex flex-row gap-12"
+                                                    >
+                                                        <div>
+                                                            <img
+                                                                id="preview-image"
+                                                                src="https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg"
+                                                                alt="Select Image"
+                                                                class="h-42 w-36 object-contain border border-gray-300 rounded-md"
+                                                            />
+                                                        </div>
+
+                                                        <div
+                                                            class="grid grid-cols-2 w-full uppercase"
+                                                        >
+                                                            <div>
+                                                                <p
+                                                                    class="text-sm md:text-md font-bold text-primary"
+                                                                >
+                                                                    Asset
+                                                                    barcode
+                                                                </p>
+                                                                <div
+                                                                    class="flex justify-start items-start gap-2"
+                                                                >
+                                                                    <span>
+                                                                        {{
+                                                                            this
+                                                                                .eventForm
+                                                                                .value
+                                                                                .asset_barcode ||
+                                                                                "N/A"
+                                                                        }}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <p
+                                                                    class="text-sm md:text-md font-bold text-primary"
+                                                                >
+                                                                    Serial
+                                                                    number
+                                                                </p>
+                                                                <div
+                                                                    class="flex justify-start items-start gap-2"
+                                                                >
+                                                                    <span>
+                                                                        {{
+                                                                            this
+                                                                                .eventForm
+                                                                                .value
+                                                                                .serial_number ||
+                                                                                "N/A"
+                                                                        }}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <p
+                                                                    class="text-sm md:text-md font-bold text-primary"
+                                                                >
+                                                                    Long Item
+                                                                    Description
+                                                                </p>
+                                                                <div
+                                                                    class="flex justify-start items-start gap-2"
+                                                                >
+                                                                    <span>
+                                                                        {{
+                                                                            (eventForm
+                                                                                .value
+                                                                                .type
+                                                                                ? eventForm
+                                                                                      .value
+                                                                                      .type +
+                                                                                  " "
+                                                                                : "") +
+                                                                                (eventForm
+                                                                                    .value
+                                                                                    .brand
+                                                                                    ? eventForm
+                                                                                          .value
+                                                                                          .brand +
+                                                                                      " "
+                                                                                    : "") +
+                                                                                (eventForm
+                                                                                    .value
+                                                                                    .model
+                                                                                    ? eventForm
+                                                                                          .value
+                                                                                          .model
+                                                                                    : "") ||
+                                                                                "N/A"
+                                                                        }}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <mat-divider
+                                                    horizontal
+                                                    class="border-gray-300 my-4"
+                                                ></mat-divider>
+                                                <div
+                                                    class="grid grid-cols-4 w-full mt-2 uppercase gap-7"
+                                                >
+                                                    <div>
+                                                        <p
+                                                            class="text-md font-semibold"
+                                                        >
+                                                            Type
+                                                        </p>
+                                                        <span>
+                                                            {{
+                                                                this.eventForm
+                                                                    .value
+                                                                    .type ||
+                                                                    "N/A"
+                                                            }}
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <p
+                                                            class="text-md font-semibold"
+                                                        >
+                                                            Brand
+                                                        </p>
+                                                        <span>
+                                                            {{
+                                                                this.eventForm
+                                                                    .value
+                                                                    .brand ||
+                                                                    "N/A"
+                                                            }}
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <p
+                                                            class="text-md font-semibold"
+                                                        >
+                                                            Model
+                                                        </p>
+                                                        <span>
+                                                            {{
+                                                                this.eventForm
+                                                                    .value
+                                                                    .model ||
+                                                                    "N/A"
+                                                            }}
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <p
+                                                            class="text-md font-semibold"
+                                                        >
+                                                            Po Number
+                                                        </p>
+                                                        <span>
+                                                            {{
+                                                                this.eventForm
+                                                                    .value
+                                                                    .po_number ||
+                                                                    "N/A"
+                                                            }}
+                                                        </span>
+                                                    </div>
+
+                                                    <div>
+                                                        <p
+                                                            class="text-md font-semibold"
+                                                        >
+                                                            Cost
+                                                        </p>
+                                                        <span>
+                                                            {{
+                                                                this.eventForm
+                                                                    .value
+                                                                    .cost ||
+                                                                    "N/A"
+                                                            }}
+                                                        </span>
+                                                    </div>
+
+                                                    <div>
+                                                        <p
+                                                            class="text-md font-semibold"
+                                                        >
+                                                            Warranty
+                                                        </p>
+                                                        <span>
+                                                            {{
+                                                                this.eventForm
+                                                                    .value
+                                                                    .warranty ||
+                                                                    "N/A"
+                                                            }}
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <p
+                                                            class="text-md font-semibold"
+                                                        >
+                                                            Date Acquired
+                                                        </p>
+                                                        <span>
+                                                            {{
+                                                                eventForm.value
+                                                                    .date_acquired
+                                                                    ? (eventForm
+                                                                          .value
+                                                                          .date_acquired
+                                                                      | date
+                                                                          : "MMMM d, y")
+                                                                    : "N/A"
+                                                            }}
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <p
+                                                            class="text-md font-semibold"
+                                                        >
+                                                            Remarks
+                                                        </p>
+                                                        <span>
+                                                            {{
+                                                                this.eventForm
+                                                                    .value
+                                                                    .remarks ||
+                                                                    "N/A"
+                                                            }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+            </mat-drawer-content>
+        </mat-drawer-container>
+    </form>
 </div>
