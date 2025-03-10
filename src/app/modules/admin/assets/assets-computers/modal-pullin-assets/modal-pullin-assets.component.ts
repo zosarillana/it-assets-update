@@ -25,32 +25,43 @@ export class ModalPullinAssetsComponent implements OnInit {
   }
 
   fetchInactiveAssets(): void {
-      this.assetsService.getAssets(1, 100, 'asc', 'INACTIVE').subscribe({
-          next: (response) => {
-              console.log('Response:', response);
-              this.inactiveAssets = response.items.$values.filter(asset => asset.status === 'INACTIVE');
-          },
-          error: (error) => {
-              console.error('Error fetching inactive assets:', error);
-          }
-      });
-  }
+    this.assetsService.getAssets(1, 100, 'asc', 'AVAILABLE').subscribe({
+        next: (response) => {
+            console.log('Response:', response);
+            
+            if (response?.items?.$values) {
+                this.inactiveAssets = response.items.$values.filter(asset => asset.status === 'AVAILABLE');
+                console.log('Inactive Assets:', this.inactiveAssets);
+            } else {
+                console.error('Unexpected response format:', response);
+                this.inactiveAssets = [];
+            }
+        },
+        error: (error) => {
+            console.error('Error fetching inactive assets:', error);
+        }
+    });
+}
+
 
   onNoClick(): void {
       this.dialogRef.close();
   }
 
   selectAssets(selectedAssets: any[]): void {
-    const selectedAssetIds = selectedAssets.map(option => option.value.id);
-    console.log('Selected Assets:', selectedAssetIds);
+    console.log('Raw selected assets:', selectedAssets);
+
+    const selectedAssetIds = selectedAssets.map(option => option.value?.id);
+    
+    console.log('Selected Asset IDs:', selectedAssetIds);
 
     if (selectedAssetIds.length === 0) {
         this.dialogRef.close();
         return; // No assets selected, just close the dialog
     }
 
-    // ❌ Remove API call here
-    this.dialogRef.close(selectedAssetIds); // ✅ Only close and send selected IDs
+    this.dialogRef.close(selectedAssetIds); // ✅ Send selected asset IDs
 }
+
 
 }

@@ -117,10 +117,7 @@
                         mat-sort-header
                         class="py-4 text-left text-gray-600 font-semibold inventory-tag-header custom-left-align"
                     >
-                        <mat-icon
-                            class="icon-size-4 mr-4"
-                            svgIcon="feather:tag"
-                        ></mat-icon>
+                        <mat-icon class="icon-size-4 mr-4" svgIcon="feather:tag"></mat-icon>
                         Accountability Code
                     </th>
                     <td
@@ -128,10 +125,10 @@
                         *matCellDef="let element"
                         class="ml-4 border-r border-gray-200 py-4 text-sm font-semibold inventory-tag-cell"
                     >
-                      
-                    {{ element.accountability_code || "N/A" }}
+                        {{ element.user_accountability_list?.accountability_code || "N/A" }}
                     </td>
                 </ng-container>
+                
                 <ng-container matColumnDef="tracking_code">
                     <th
                         mat-header-cell
@@ -146,8 +143,8 @@
                         *matCellDef="let element"
                         class="border-r border-gray-200 px-4 py-4 text-sm font-semibold inventory-tag-cell"
                     >
-                        {{ element.tracking_code || "N/A" }}
-                    </td>
+                    {{ element.user_accountability_list?.tracking_code || "N/A" }}
+                </td>
                 </ng-container>
                 <ng-container matColumnDef="owner">
                     <th
@@ -163,9 +160,10 @@
                         *matCellDef="let element"
                         class="border-r border-gray-200 text-sm px-4 py-2"
                     >
-                        {{ element.owner_details?.name || "N/A" }}
+                        {{ element.owner?.name || "N/A" }}
                     </td>
                 </ng-container>
+                
                 <ng-container matColumnDef="department">
                     <th
                         mat-header-cell
@@ -180,7 +178,7 @@
                         *matCellDef="let element"
                         class="border-r border-gray-200 text-sm px-4 py-2"
                     >
-                        {{ element.owner_details?.department || "N/A" }}
+                        {{ element.owner?.department || "N/A" }}
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="status">
@@ -200,16 +198,17 @@
                         <div class="flex ml-4">
                             <div class="flex flex-row">
                                 <span
-                                [ngClass]="{'bg-red-500': element.status === 'INACTIVE', 'bg-green-500': element.status !== 'INACTIVE'}"
-                                class="flex w-2 h-2 mt-1.5 me-3 rounded-full">
-                                </span>
+                                    [ngClass]="{'bg-red-500': !element.user_accountability_list?.is_active, 'bg-green-500': element.user_accountability_list?.is_active}"
+                                    class="flex w-2 h-2 mt-1.5 me-3 rounded-full"
+                                ></span>
                                 <p class="ml-2 text-md">
-                                    {{element.status || 'N/A'}}
+                                    {{ element.user_accountability_list?.is_active ? 'ACTIVE' : 'INACTIVE' }}
                                 </p>
                             </div>
                         </div>
                     </td>
                 </ng-container>
+                
                 <ng-container matColumnDef="computer">
                     <th
                         mat-header-cell
@@ -225,30 +224,20 @@
                         class="border-r border-gray-200 text-sm px-4 py-2"
                     >
                         <ng-container
-                            *ngIf="
-                                element.computer_details?.$values?.length > 0;
-                                else noData
-                            "
+                            *ngIf="element.computers?.$values?.length > 0; else noData"
                         >
                             <span
-                                *ngFor="
-                                    let comp of element.computer_details
-                                        .$values;
-                                    let i = index
-                                "
+                                *ngFor="let comp of element.computers.$values; let i = index"
                             >
-                                {{ comp.type
-                                }}{{
-                                    i <
-                                    element.computer_details.$values.length - 1
-                                        ? ", "
-                                        : ""
+                                {{ comp.type }}{{
+                                    i < element.computers.$values.length - 1 ? ", " : ""
                                 }}
                             </span>
                         </ng-container>
                         <ng-template #noData>N/A</ng-template>
                     </td>
                 </ng-container>
+                
                 <ng-container matColumnDef="assets">
                     <th
                         mat-header-cell
@@ -265,19 +254,20 @@
                     >
                         <ng-container
                             *ngIf="
-                                element.asset_details?.$values?.length > 0;
+                                element.computers?.$values?.length > 0 &&
+                                element.computers.$values[0]?.assignedAssetDetails?.$values?.length > 0;
                                 else noData
                             "
                         >
                             <span
                                 *ngFor="
-                                    let asset of element.asset_details.$values;
+                                    let asset of element.computers.$values[0].assignedAssetDetails.$values;
                                     let i = index
                                 "
                             >
                                 {{ asset.type
                                 }}{{
-                                    i < element.asset_details.$values.length - 1
+                                    i < element.computers.$values[0].assignedAssetDetails.$values.length - 1
                                         ? ", "
                                         : ""
                                 }}
@@ -286,6 +276,7 @@
                         <ng-template #noData>N/A</ng-template>
                     </td>
                 </ng-container>
+                
                 <ng-container matColumnDef="action">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header
                         class=" text-left text-gray-900 font-semibold w-24"> 
@@ -303,6 +294,12 @@
                                 <mat-icon class="icon-size-5" color="warn" svgIcon="feather:trash"></mat-icon>
                                 <p class="text-regular">Delete</p>
                             </button>
+
+                            <button mat-menu-item (click)="returnItem(element?.user_accountability_list?.id)">
+                                <mat-icon class="icon-size-5" svgIcon="feather:corner-up-left"></mat-icon>
+                                <p class="text-regular">Return</p>
+                            </button>
+                            
                                             
                             <!-- <button mat-menu-item>Option 2</button> -->
                         </mat-menu>
@@ -311,11 +308,12 @@
                 <!-- Action Column -->
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr
-                    mat-row
-                    [routerLink]="'/assets/accountability/view/' + row.id"
-                    class="cursor-pointer hover:bg-gray-100"
-                    *matRowDef="let row; columns: displayedColumns"
-                ></tr>
+    mat-row
+    [routerLink]="'/assets/accountability/view/' + (row?.user_accountability_list?.id || '')"
+    class="cursor-pointer hover:bg-gray-100"
+    *matRowDef="let row; columns: displayedColumns"
+></tr>
+
             </table>
         </div>
         <!-- Paginator -->

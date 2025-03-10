@@ -9,6 +9,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalUniversalComponent } from '../../components/modal/modal-universal/modal-universal.component';
 import { AlertService } from 'app/services/alert.service';
+import { Router } from '@angular/router';
 
 // Define an interface for your accountability item
 interface AccountabilityItem {
@@ -48,11 +49,13 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
 
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
+    // router: any;
 
     constructor(
         private _service: AccountabilityService, 
         private alertService: AlertService, 
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private router: Router,
     ) {}
 
     ngOnInit(): void {
@@ -173,4 +176,8 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
             },
         });
     }
+
+    returnItem(id: string): void {
+        this.router.navigate(['/assets/accountability/return', id]);
+      }
 }

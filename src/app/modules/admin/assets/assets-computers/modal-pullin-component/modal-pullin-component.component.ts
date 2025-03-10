@@ -23,7 +23,7 @@ export class ModalPullinComponentComponent implements OnInit {
 
     fetchInactiveComponents(): void {
         this.componentsService
-            .getComponents(1, 100, 'asc', 'INACTIVE')
+            .getComponents(1, 100, 'asc', 'AVAILABLE')
             .subscribe({
                 next: (response) => {
                     console.log('API Response:', response);
@@ -34,7 +34,7 @@ export class ModalPullinComponentComponent implements OnInit {
                         Array.isArray(response.items.$values)
                     ) {
                         this.inactiveComponents = response.items.$values.filter(
-                            (component) => component.status === 'INACTIVE'
+                            (component) => component.status === 'AVAILABLE'
                         );
                     } else {
                         console.error(
