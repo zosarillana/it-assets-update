@@ -17,15 +17,15 @@
                     <!-- Back to courses -->
                     <a
                         class="inline-flex items-center leading-6 text-primary hover:underline"
-                        (click)="goBack()">
-                    
+                        (click)="goBack()"
+                    >
                         <span class="inline-flex items-center">
                             <mat-icon
                                 class="icon-size-5 text-current"
                                 [svgIcon]="'heroicons_solid:arrow-sm-left'"
                             ></mat-icon>
                             <span class="ml-1.5 font-medium leading-5"
-                                >Back to lists</span
+                                >Go back</span
                             >
                         </span>
                     </a>
@@ -310,29 +310,28 @@
                                                                 >
                                                                     Effective
                                                                     Date
-                                                                    <!-- <span
-                                                                    class="font-medium"
-                                                                    >{{
-                                                                        asset
-                                                                            ?.user_accountability_list
-                                                                            .date_created
-                                                                            ? (asset
-                                                                                  ?.user_accountability_list
-                                                                                  .date_created
-                                                                              | date
-                                                                                  : "MMMM d, y")
-                                                                            : "N/A"
-                                                                    }}</span
-                                                                > -->
+                                                                    <span
+                                                                        class="font-medium"
+                                                                        >{{
+                                                                            asset.date_created
+                                                                                ? (asset.date_created
+                                                                                  | date
+                                                                                      : "MMMM d, y")
+                                                                                : "N/A"
+                                                                        }}</span
+                                                                    >
                                                                 </p>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <p
+                                                    <mat-divider
+                                                        class="border"
+                                                    ></mat-divider>
+                                                    <!-- <p
                                                         class="flex justify-center text-2xl font-semibold w-full"
                                                     >
                                                         PERIPHERAL FORM
-                                                    </p>
+                                                    </p> -->
                                                     <div
                                                         class="mt-5 w-full flex flex-row gap-12"
                                                     >
@@ -348,7 +347,9 @@
                                                         <div
                                                             class="grid grid-cols-2 w-full uppercase"
                                                         >
-                                                            <div>
+                                                            <div
+                                                                class="columnDivider"
+                                                            >
                                                                 <p
                                                                     class="text-sm md:text-md font-bold text-primary"
                                                                 >
@@ -369,6 +370,7 @@
                                                                     </span>
                                                                 </div>
                                                             </div>
+
                                                             <div>
                                                                 <p
                                                                     class="text-sm md:text-md font-bold text-primary"
@@ -390,7 +392,9 @@
                                                                     </span>
                                                                 </div>
                                                             </div>
-                                                            <div>
+                                                            <div
+                                                                class="columnDivider"
+                                                            >
                                                                 <p
                                                                     class="text-sm md:text-md font-bold text-primary"
                                                                 >
@@ -565,6 +569,104 @@
                                                                     "N/A"
                                                             }}
                                                         </span>
+                                                    </div>
+                                                </div>
+                                                <mat-divider
+                                                    class="my-4"
+                                                ></mat-divider>
+                                                <div class="uppercase">
+                                                    <p
+                                                        class="text-md font-semibold"
+                                                    >
+                                                        Current Owner Details
+                                                    </p>
+                                                    <p
+                                                        class="text-md text-secondary mb-6"
+                                                    >
+                                                        Current owner of the
+                                                        asset details.
+                                                    </p>
+
+                                                    <!-- Responsive Owner Details Section -->
+                                                    <div
+                                                        class="grid grid-cols-1 lg:grid-cols-2 gap-4"
+                                                    >
+                                                        <div
+                                                            class="flex flex-col flex-grow gap-4"
+                                                        >
+                                                            <p
+                                                                class="text-md flex flex-col font-semibold text-medium"
+                                                            >
+                                                                Owner Name
+                                                                <span
+                                                                    class="text-md text-secondary font-medium text-medium"
+                                                                >
+                                                                    {{
+                                                                        asset
+                                                                            .owner
+                                                                            ?.name ||
+                                                                            "N/A"
+                                                                    }}
+                                                                </span>
+                                                            </p>
+                                                           
+                                                        </div>
+                                                        <div
+                                                            class="flex flex-col flex-grow gap-4"
+                                                        >
+                                                        <p
+                                                        class="text-md flex flex-col font-semibold text-medium"
+                                                    >
+                                                        Company
+                                                        <span
+                                                            class="text-md text-secondary font-medium text-medium"
+                                                        >
+                                                            {{
+                                                                asset
+                                                                    .owner
+                                                                    ?.company ||
+                                                                    "N/A"
+                                                            }}
+                                                        </span>
+                                                    </p></div>
+                                                        <div
+                                                            class="flex flex-col flex-grow gap-4"
+                                                        >
+                                                            <p
+                                                                class="text-md flex flex-col font-semibold text-medium"
+                                                            >
+                                                                Department
+                                                                <span
+                                                                    class="text-md text-secondary font-medium text-medium"
+                                                                >
+                                                                    {{
+                                                                        asset
+                                                                            .owner
+                                                                            ?.department ||
+                                                                            "N/A"
+                                                                    }}
+                                                                </span>
+                                                            </p>
+                                                        </div>
+                                                        <div
+                                                            class="flex flex-col flex-grow gap-4"
+                                                        >
+                                                            <p
+                                                                class="text-md flex flex-col font-semibold text-medium"
+                                                            >
+                                                                Employee ID
+                                                                <span
+                                                                    class="text-md text-secondary font-medium text-medium"
+                                                                >
+                                                                    {{
+                                                                        asset
+                                                                            .owner
+                                                                            ?.employee_id ||
+                                                                            "N/A"
+                                                                    }}
+                                                                </span>
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
