@@ -9,3 +9,52 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
+
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.upload-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1f2937; /* Tailwind's text-gray-900 equivalent */
+    cursor: pointer;
+}
+
+.upload-input {
+    display: block;
+    width: 100%;
+    font-size: 14px;
+    color: #1f2937;
+    border: 1px solid #d1d5db; /* Equivalent to border-gray-300 */
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #f9fafb; /* Equivalent to bg-gray-50 */
+    padding: 6px;
+    outline: none;
+}
+
+.upload-input:focus {
+    border-color: #2563eb; /* Equivalent to focus:ring-indigo-500 */
+}
+
+.custom-button {
+    margin-top: 12px; /* Adds space between input and button */
+    display: flex;
+    align-items: center;
+    gap: 6px; /* Similar to Tailwind's space-x-1.5 */
+    font-size: 14px;
+}
+
+.icon-size {
+    width: 18px;
+    height: 18px;
+}
+
+.button-text {
+    font-size: 14px;
+}

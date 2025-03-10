@@ -1,5 +1,7 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatTabGroup } from '@angular/material/tabs';
 import { AlertService } from 'app/services/alert.service';
 import { AssetsService } from 'app/services/assets/assets.service';
 import { ComponentsService } from 'app/services/components/components.service';
@@ -15,9 +17,13 @@ import { distinctUntilChanged } from 'rxjs/operators';
 export class InventoryAddComponent implements OnInit {
     eventForm!: FormGroup;
     constructor(
+        @Inject(DOCUMENT) private _document: Document,
         private _formBuilder: FormBuilder,
         private assetService: AssetsService,
-        private alertService: AlertService    ) {}
+        private alertService: AlertService,
+        private _changeDetectorRef: ChangeDetectorRef
+    
+    ) {}
 
     // Initialize form with comprehensive validation
     private initializeForm(): void {
@@ -138,4 +144,54 @@ export class InventoryAddComponent implements OnInit {
         return date.toISOString().split('T')[0];
     }
 
+    //drawer 
+    //course dummy data 
+
+    course = {
+        title: 'Master Angular Development',
+        description: 'Learn the ins and outs of Angular development, from beginner to advanced.',
+        duration: 120,
+        totalSteps: 5,
+        category: {
+          slug: 'web',
+          title: 'Web Development',
+        },
+        steps: [
+          {
+            order: 0,
+            title: 'Introduction to Angular',
+            subtitle: 'Get familiar with Angular framework basics.',
+            content: '<p>This is the content for step 1. It introduces Angular fundamentals.</p>',
+          },
+        
+        ],
+      };
+     //drawer 
+        drawerMode: 'over' | 'side' = 'side';
+        drawerOpened: boolean = true;
+       /**
+         * Scrolls the current step element from
+         * sidenav into the view. This only happens when
+         * previous/next buttons pressed as we don't want
+         * to change the scroll position of the sidebar
+         * when the user actually clicks around the sidebar.
+         *
+         * @private
+         */
+       private _scrollCurrentStepElementIntoView(): void
+       {
+           // Wrap everything into setTimeout so we can make sure that the 'current-step' class points to correct element
+           setTimeout(() => {
+    
+               // Get the current step element and scroll it into view
+               const currentStepElement = this._document.getElementsByClassName('current-step')[0];
+               if ( currentStepElement )
+               {
+                   currentStepElement.scrollIntoView({
+                       behavior: 'smooth',
+                       block   : 'start'
+                   });
+               }
+           });
+       }
 }
