@@ -8,6 +8,7 @@ import { AlertService } from 'app/services/alert.service';
 import { AssetsService } from 'app/services/assets/assets.service';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'app-edit-inventory',
@@ -25,7 +26,8 @@ export class InventoryEditComponent implements OnInit {
         private assetsService: AssetsService,
         private _formBuilder: FormBuilder,
         private cdr: ChangeDetectorRef,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private location: Location
     ) {}
 
     ngOnInit(): void {
@@ -45,6 +47,10 @@ export class InventoryEditComponent implements OnInit {
         }
     }
     
+    goBack(): void {
+        this.location.back();
+      }
+
     private initializeForm(): void {
         // Parse the date string into a Date object
         let dateAcquired = null;
