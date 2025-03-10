@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { Assets } from 'app/models/Inventory/Asset';
+import { AlertService } from 'app/services/alert.service';
 import { AssetsService } from 'app/services/assets/assets.service';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
@@ -23,7 +24,8 @@ export class InventoryEditComponent implements OnInit {
         private route: ActivatedRoute,
         private assetsService: AssetsService,
         private _formBuilder: FormBuilder,
-        private cdr: ChangeDetectorRef
+        private cdr: ChangeDetectorRef,
+        private alertService: AlertService
     ) {}
 
     ngOnInit(): void {
@@ -176,29 +178,44 @@ export class InventoryEditComponent implements OnInit {
 
         this.assetsService.putEvent(id, updatedAsset).subscribe({
             next: (response) => {
-                console.log('Asset updated successfully', response);
-                alert('Asset updated successfully!');
-            },
-            error: (err) => {
-                console.error('Error updating asset', err);
-
-                // Handle specific validation errors dynamically
-                if (err.status === 400 && err.error?.errors) {
-                    let errorMessages = [];
-
-                    // Iterate over all error fields and collect messages
-                    Object.keys(err.error.errors).forEach((key) => {
-                        errorMessages.push(
-                            `${key}: ${err.error.errors[key].join(', ')}`
-                        );
-                    });
-
-                    // Display error messages in an alert or console
-                    alert('Validation Errors:\n' + errorMessages.join('\n'));
+                console.log('API Response:', response);
+              
+                // Trigger success alert for asset added or updated
+                this.alertService.triggerSuccess('Asset successfully added!');
+              
+                // If this is for an update (based on the previous example), change the message accordingly
+                // Example: for asset update success:
+                // alert('Asset updated successfully!'); // or use this line instead of alertService if needed
+              
+                // ✅ Reload without resetting fields manually
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1000); // Small delay for the alert to be visible
+              },
+              
+              error: (error) => {
+                console.error('API Error:', error);
+              
+                // Trigger error alert for both add and update failures
+                this.alertService.triggerError('Failed to add asset. Please try again.');
+              
+                // For validation errors, handle them dynamically as in the update example
+                if (error.status === 400 && error.error?.errors) {
+                  let errorMessages = [];
+              
+                  // Iterate over all error fields and collect messages
+                  Object.keys(error.error.errors).forEach((key) => {
+                    errorMessages.push(
+                      `${key}: ${error.error.errors[key].join(', ')}`
+                    );
+                  });
+              
+                  // Display error messages in an alert or console
+                  alert('Validation Errors:\n' + errorMessages.join('\n'));
                 } else {
-                    alert('Failed to update asset.');
+                  alert('Failed to add asset.'); // Or 'Failed to update asset.' depending on context
                 }
-            },
+              },
         });
     }
 
