@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { Assets } from 'app/models/Inventory/Asset';
+import { AlertService } from 'app/services/alert.service';
 import { AssetsService } from 'app/services/assets/assets.service';
 import { ComputerService } from 'app/services/computer/computer.service';
 import { Subscription } from 'rxjs';
@@ -24,7 +25,8 @@ export class ComputersEditComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private cdr: ChangeDetectorRef,
         @Inject(DOCUMENT) private _document: Document,
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private alertService: AlertService
      
     ) {}
     typeOptions: string[] = ['CPU', 'LAPTOP'];
@@ -129,6 +131,7 @@ export class ComputersEditComponent implements OnInit {
             hdd: formData.hdd || "", // ✅ Move hdd to top level
             ssd: formData.ssd || "", // ✅ Move ssd to top level
             gpu: formData.gpu || "",
+            board: formData.gpu || "",
             motherboard: formData.board || "",
             size: formData.size || "",
             color: formData.color || "",
@@ -152,26 +155,25 @@ export class ComputersEditComponent implements OnInit {
         this.assetsService.putEvent(id, updatedAsset).subscribe({
             next: (response) => {
                 console.log('Asset updated successfully', response);
-                alert('Asset updated successfully!');
-            },
-            error: (err) => {
+                this.alertService.triggerSuccess('Asset updated successfully!');
+                setTimeout(() => {
+                    window.location.reload();
+                  }, 1000); // S
+              },
+              error: (err) => {
                 console.error('Error updating asset', err);
-    
-                // Handle specific validation errors dynamically
+                
                 if (err.status === 400 && err.error?.errors) {
-                    let errorMessages = [];
-    
-                    // Iterate over all error fields and collect messages
-                    Object.keys(err.error.errors).forEach((key) => {
-                        errorMessages.push(`${key}: ${err.error.errors[key].join(", ")}`);
-                    });
-    
-                    // Display error messages in an alert or console
-                    alert("Validation Errors:\n" + errorMessages.join("\n"));
+                  let errorMessages = [];
+                  Object.keys(err.error.errors).forEach((key) => {
+                    errorMessages.push(`${key}: ${err.error.errors[key].join(", ")}`);
+                  });
+                  
+                  this.alertService.triggerError("Validation Errors:\n" + errorMessages.join("\n"));
                 } else {
-                    alert('Failed to update asset.');
+                  this.alertService.triggerError('Failed to update asset.');
                 }
-            },
+              }
         });
     }
     

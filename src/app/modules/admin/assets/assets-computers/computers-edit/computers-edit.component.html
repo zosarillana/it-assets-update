@@ -48,7 +48,7 @@
                                 Fill all the required fields to update computer
                             </span>
                         </mat-label>
-                        <div 
+                        <div
                             class="flex flex-col flex-grow uppercase"
                             style="width: 100%"
                         >
@@ -91,7 +91,9 @@
                             </mat-form-field>
 
                             <mat-form-field appearance="fill" class="w-full">
-                                <mat-label class="text-sm">Date Acquired</mat-label>
+                                <mat-label class="text-sm"
+                                    >Date Acquired</mat-label
+                                >
                                 <mat-icon
                                     svgIcon="feather:calendar"
                                     class="icon-size-5 mr-2"
@@ -117,6 +119,7 @@
                                     class="icon-size-5 mr-2"
                                 ></mat-icon>
                                 <input
+                                    class="uppercase"
                                     formControlName="brand"
                                     matInput
                                     id="brand"
@@ -131,6 +134,7 @@
                                     class="icon-size-5 mr-2"
                                 ></mat-icon>
                                 <input
+                                    class="uppercase"
                                     formControlName="model"
                                     matInput
                                     id="model"
@@ -207,7 +211,20 @@
                                     [placeholder]="asset.cost || 'N/A'"
                                 />
                             </mat-form-field>
+                            <button
+                            class="px-6"
+                            mat-flat-button
+                            type="submit"
+                            [color]="'primary'"
+                        >
+                            <mat-icon
+                                class="icon-size-4"
+                                svgIcon="mat_solid:subdirectory_arrow_right"
+                            ></mat-icon>
+                            <span class="ml-1 text-sm"> Save changes</span>
+                        </button>
                         </div>
+                        
                     </ol>
                 </div>
             </mat-drawer>
@@ -323,32 +340,62 @@
                                                                         class="font-medium"
                                                                         >A-60-FR-009</span
                                                                     >
-                                                                </p>                                                                                                                                
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <mat-divider class="my-4"></mat-divider>
-                                                    <div class="flex flex-row mt-2 gap-4 uppercase">
+                                                    <mat-divider
+                                                        class="my-4"
+                                                    ></mat-divider>
+                                                    <div
+                                                        class="flex flex-row mt-2 gap-4 uppercase"
+                                                    >
                                                         <img
                                                             src="https://pngimg.com/uploads/qr_code/small/qr_code_PNG7.png"
                                                             alt="Sample QR"
                                                             class="h-32 w-32"
                                                         />
-                                                        <div class="flex flex-col sm:flex-row justify-between gap-2">
-                                                            <div class="flex flex-col">
-                                                                <p class="text-primary font-bold text-2xl">
-                                                                    {{ asset.asset_barcode || "N/A" }}
+                                                        <div
+                                                            class="flex flex-col sm:flex-row justify-between gap-2"
+                                                        >
+                                                            <div
+                                                                class="flex flex-col"
+                                                            >
+                                                                <p
+                                                                    class="text-primary font-bold text-2xl"
+                                                                >
+                                                                    {{
+                                                                        asset.asset_barcode ||
+                                                                            "N/A"
+                                                                    }}
                                                                 </p>
-                                                                <p class="text-secondary">
-                                                                    Serial number: {{ asset.serial_no || "N/A" }}
+                                                                <p
+                                                                    class="text-secondary"
+                                                                >
+                                                                    Serial
+                                                                    number:
+                                                                    {{
+                                                                        asset.serial_no ||
+                                                                            "N/A"
+                                                                    }}
                                                                 </p>
                                                             </div>
-                                                            <mat-divider class="mx-12" vertical></mat-divider>
-                                                            <div class="flex flex-col">
-                                                                <p class="text-primary font-bold text-lg">
-                                                                    Long Item Description
+                                                            <mat-divider
+                                                                class="mx-12"
+                                                                vertical
+                                                            ></mat-divider>
+                                                            <div
+                                                                class="flex flex-col"
+                                                            >
+                                                                <p
+                                                                    class="text-primary font-bold text-lg"
+                                                                >
+                                                                    Long Item
+                                                                    Description
                                                                 </p>
-                                                                <p class="text-secondary">
+                                                                <p
+                                                                    class="text-secondary"
+                                                                >
                                                                     {{
                                                                         asset.type +
                                                                             " " +
@@ -364,174 +411,301 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                        
-                                                    <mat-divider class="mt-6 mb-10"></mat-divider>
-                                                    <p class="text-lg font-medium mb-3">DETAILS</p>
-                                        
-                                                    <div class="grid grid-cols-3 gap-4 uppercase">
-                                                        <p class="flex flex-col font-medium text-medium">
+
+                                                    <mat-divider
+                                                        class="mt-6 mb-10"
+                                                    ></mat-divider>
+                                                    <p
+                                                        class="text-lg font-medium mb-3"
+                                                    >
+                                                        DETAILS
+                                                    </p>
+
+                                                    <div
+                                                        class="grid grid-cols-3 gap-4 uppercase"
+                                                    >
+                                                        <p
+                                                            class="flex flex-col font-medium text-medium"
+                                                        >
                                                             Serial number
-                                                            <span class="text-secondary text-medium">
+                                                            <span
+                                                                class="text-secondary text-medium"
+                                                            >
                                                                 <mat-icon
                                                                     svgIcon="feather:hash"
                                                                     class="icon-size-3"
                                                                 ></mat-icon>
-                                                                {{ asset.serial_no || "N/A" }}
+                                                                {{
+                                                                    asset.serial_no ||
+                                                                        "N/A"
+                                                                }}
                                                             </span>
                                                         </p>
-                                                        <p class="flex flex-col font-medium text-medium">
+                                                        <p
+                                                            class="flex flex-col font-medium text-medium"
+                                                        >
                                                             Type
-                                                            <span class="text-secondary text-medium">
+                                                            <span
+                                                                class="text-secondary text-medium"
+                                                            >
                                                                 <mat-icon
                                                                     svgIcon="feather:cpu"
                                                                     class="icon-size-3"
                                                                 ></mat-icon>
-                                                                {{ asset.type || "N/A" }}
+                                                                {{
+                                                                    asset.type ||
+                                                                        "N/A"
+                                                                }}
                                                             </span>
                                                         </p>
-                                                        <p class="flex flex-col font-medium text-medium">
+                                                        <p
+                                                            class="flex flex-col font-medium text-medium"
+                                                        >
                                                             Date Acquired
-                                                            <span class="text-secondary text-medium">
+                                                            <span
+                                                                class="text-secondary text-medium"
+                                                            >
                                                                 <mat-icon
                                                                     svgIcon="feather:calendar"
                                                                     class="icon-size-3"
                                                                 ></mat-icon>
-                                                                {{ asset.date_acquired || "N/A" }}
+                                                                {{
+                                                                    asset.date_acquired ||
+                                                                        "N/A"
+                                                                }}
                                                             </span>
                                                         </p>
-                                                        <p class="flex flex-col font-medium text-medium">
+                                                        <p
+                                                            class="flex flex-col font-medium text-medium"
+                                                        >
                                                             Brand
-                                                            <span class="text-secondary text-medium">
+                                                            <span
+                                                                class="text-secondary text-medium"
+                                                            >
                                                                 <mat-icon
                                                                     svgIcon="feather:box"
                                                                     class="icon-size-3"
                                                                 ></mat-icon>
-                                                                {{ asset.brand || "N/A" }}
+                                                                {{
+                                                                    asset.brand ||
+                                                                        "N/A"
+                                                                }}
                                                             </span>
                                                         </p>
-                                                        <p class="flex flex-col font-medium text-medium">
+                                                        <p
+                                                            class="flex flex-col font-medium text-medium"
+                                                        >
                                                             Model
-                                                            <span class="text-secondary text-medium">
+                                                            <span
+                                                                class="text-secondary text-medium"
+                                                            >
                                                                 <mat-icon
                                                                     svgIcon="feather:smartphone"
                                                                     class="icon-size-3"
                                                                 ></mat-icon>
-                                                                {{ asset.model || "N/A" }}
+                                                                {{
+                                                                    asset.model ||
+                                                                        "N/A"
+                                                                }}
                                                             </span>
                                                         </p>
-                                                        <p class="flex flex-col font-medium text-medium">
+                                                        <p
+                                                            class="flex flex-col font-medium text-medium"
+                                                        >
                                                             Size
-                                                            <span class="text-secondary text-medium">
+                                                            <span
+                                                                class="text-secondary text-medium"
+                                                            >
                                                                 <mat-icon
                                                                     svgIcon="feather:info"
                                                                     class="icon-size-3"
                                                                 ></mat-icon>
-                                                                {{ asset.size || "N/A" }}
+                                                                {{
+                                                                    asset.size ||
+                                                                        "N/A"
+                                                                }}
                                                             </span>
                                                         </p>
-                                        
-                                                        <p class="flex flex-col font-medium text-medium">
+
+                                                        <p
+                                                            class="flex flex-col font-medium text-medium"
+                                                        >
                                                             Color
-                                                            <span class="text-secondary text-medium">
+                                                            <span
+                                                                class="text-secondary text-medium"
+                                                            >
                                                                 <mat-icon
                                                                     svgIcon="feather:info"
                                                                     class="icon-size-3"
                                                                 ></mat-icon>
-                                                                {{ asset.color || "N/A" }}
+                                                                {{
+                                                                    asset.color ||
+                                                                        "N/A"
+                                                                }}
                                                             </span>
                                                         </p>
-                                                        <p class="flex flex-col font-medium text-medium">
+                                                        <p
+                                                            class="flex flex-col font-medium text-medium"
+                                                        >
                                                             Po #
-                                                            <span class="text-secondary text-medium">
+                                                            <span
+                                                                class="text-secondary text-medium"
+                                                            >
                                                                 <mat-icon
                                                                     svgIcon="feather:tag"
                                                                     class="icon-size-3"
                                                                 ></mat-icon>
-                                                                {{ asset.po || "N/A" }}
+                                                                {{
+                                                                    asset.po ||
+                                                                        "N/A"
+                                                                }}
                                                             </span>
                                                         </p>
-                                                        <p class="flex flex-col font-medium text-medium">
+                                                        <p
+                                                            class="flex flex-col font-medium text-medium"
+                                                        >
                                                             Warranty
-                                                            <span class="text-secondary text-medium">
+                                                            <span
+                                                                class="text-secondary text-medium"
+                                                            >
                                                                 <mat-icon
                                                                     svgIcon="feather:shield"
                                                                     class="icon-size-3"
                                                                 ></mat-icon>
-                                                                {{ asset.warranty || "N/A" }}
+                                                                {{
+                                                                    asset.warranty ||
+                                                                        "N/A"
+                                                                }}
                                                             </span>
                                                         </p>
-                                                        <p class="flex flex-col font-medium text-medium">
+                                                        <p
+                                                            class="flex flex-col font-medium text-medium"
+                                                        >
                                                             Cost
-                                                            <span class="text-secondary text-medium">
+                                                            <span
+                                                                class="text-secondary text-medium"
+                                                            >
                                                                 <mat-icon
                                                                     svgIcon="feather:dollar-sign"
                                                                     class="icon-size-3"
                                                                 ></mat-icon>
-                                                                {{ asset.cost || "N/A" }}
+                                                                {{
+                                                                    asset.cost ||
+                                                                        "N/A"
+                                                                }}
                                                             </span>
                                                         </p>
-                                                        <p class="flex flex-col font-medium text-medium">
+                                                        <p
+                                                            class="flex flex-col font-medium text-medium"
+                                                        >
                                                             Remarks
-                                                            <span class="text-secondary text-medium">
+                                                            <span
+                                                                class="text-secondary text-medium"
+                                                            >
                                                                 <mat-icon
                                                                     svgIcon="feather:file-text"
                                                                     class="icon-size-3"
                                                                 ></mat-icon>
-                                                                {{ asset.remarks || "N/A" }}
+                                                                {{
+                                                                    asset.remarks ||
+                                                                        "N/A"
+                                                                }}
                                                             </span>
                                                         </p>
-                                                    </div>          
-                                                    <mat-divider class="border-gray-300 my-4"></mat-divider>                              
+                                                    </div>
+                                                    <mat-divider
+                                                        class="border-gray-300 my-4"
+                                                    ></mat-divider>
                                                     <div class="uppercase">
-                                                        <p class="text-sm font-medium mt-5">Current Owner Details</p>
-                                                        <p class="text-sm text-secondary mb-6">
-                                                            Current owner of the asset details.
+                                                        <p
+                                                            class="text-sm font-medium mt-5"
+                                                        >
+                                                            Current Owner
+                                                            Details
                                                         </p>
-                                        
+                                                        <p
+                                                            class="text-sm text-secondary mb-6"
+                                                        >
+                                                            Current owner of the
+                                                            asset details.
+                                                        </p>
+
                                                         <!-- Responsive Owner Details Section -->
-                                                        <div class="flex flex-col sm:flex-row gap-4">
-                                                            <div class="flex flex-col flex-grow gap-4">
+                                                        <div
+                                                            class="flex flex-col sm:flex-row gap-4"
+                                                        >
+                                                            <div
+                                                                class="flex flex-col flex-grow gap-4"
+                                                            >
                                                                 <p
                                                                     class="text-sm flex flex-col font-medium text-medium"
                                                                 >
                                                                     Owner Name
-                                                                    <span class="text-sm text-secondary text-medium">
-                                                                        {{ asset.owner?.name || "N/A" }}
+                                                                    <span
+                                                                        class="text-sm text-secondary text-medium"
+                                                                    >
+                                                                        {{
+                                                                            asset
+                                                                                .owner
+                                                                                ?.name ||
+                                                                                "N/A"
+                                                                        }}
                                                                     </span>
                                                                 </p>
                                                                 <p
                                                                     class="text-sm flex flex-col font-medium text-medium"
                                                                 >
                                                                     Company
-                                                                    <span class="text-sm text-secondary text-medium">
-                                                                        {{ asset.owner?.company || "N/A" }}
+                                                                    <span
+                                                                        class="text-sm text-secondary text-medium"
+                                                                    >
+                                                                        {{
+                                                                            asset
+                                                                                .owner
+                                                                                ?.company ||
+                                                                                "N/A"
+                                                                        }}
                                                                     </span>
                                                                 </p>
                                                                 <p
                                                                     class="text-sm flex flex-col font-medium text-medium"
                                                                 >
                                                                     Department
-                                                                    <span class="text-sm text-secondary text-medium">
-                                                                        {{ asset.owne?.department || "N/A" }}
+                                                                    <span
+                                                                        class="text-sm text-secondary text-medium"
+                                                                    >
+                                                                        {{
+                                                                            asset
+                                                                                .owne
+                                                                                ?.department ||
+                                                                                "N/A"
+                                                                        }}
                                                                     </span>
                                                                 </p>
                                                             </div>
-                                                            <div class="flex flex-col flex-grow gap-4">
+                                                            <div
+                                                                class="flex flex-col flex-grow gap-4"
+                                                            >
                                                                 <p
                                                                     class="text-sm flex flex-col font-medium text-medium"
                                                                 >
                                                                     Employee ID
-                                                                    <span class="text-sm text-secondary text-medium">
-                                                                        {{ asset.owner?.employee_id || "N/A" }}
+                                                                    <span
+                                                                        class="text-sm text-secondary text-medium"
+                                                                    >
+                                                                        {{
+                                                                            asset
+                                                                                .owner
+                                                                                ?.employee_id ||
+                                                                                "N/A"
+                                                                        }}
                                                                     </span>
                                                                 </p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
                                             </div>
-                                            
                                         </div>
                                     </div>
                                 </div>
