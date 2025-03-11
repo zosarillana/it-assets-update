@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatTabGroup } from '@angular/material/tabs';
 import { AlertService } from 'app/services/alert.service';
 import { ComponentsService } from 'app/services/components/components.service';
 
@@ -13,7 +15,9 @@ export class ComponentsAddComponent implements OnInit {
     eventForm!: FormGroup;
     constructor(private _formBuilder: FormBuilder, 
         private service: ComponentsService,         
-        private alertService: AlertService) {}
+        private alertService: AlertService,      
+@Inject(DOCUMENT) private _document: Document,
+private _changeDetectorRef: ChangeDetectorRef) {}
 
     // Initialize form with comprehensive validation
     private initializeForm(): void {
@@ -84,4 +88,72 @@ export class ComponentsAddComponent implements OnInit {
         this.eventForm.patchValue({ serial_number: serialNumber }); // Restore the serial_number value
     }
       
+
+    //ts 
+
+ //drawer 
+ drawerMode: 'over' | 'side' = 'side';
+ drawerOpened: boolean = true;
+ currentStep: number = 0
+ @ViewChild('courseSteps', {static: true}) courseSteps: MatTabGroup;
+
+ trackByFn(index: number, item: any): any
+ {
+     return item.id || index;
+ }
+ 
+ goToStep(step: number): void
+ {
+     // Set the current step
+     this.currentStep = step;
+
+     // Go to the step
+     this.courseSteps.selectedIndex = this.currentStep;
+
+     // Mark for check
+     this._changeDetectorRef.markForCheck();
+ }
+
+ /**
+  * Go to previous step
+  */
+ goToPreviousStep(): void
+ {
+     // Return if we already on the first step
+     if ( this.currentStep === 0 )
+     {
+         return;
+     }
+
+     // Go to step
+     this.goToStep(this.currentStep - 1);
+
+     // Scroll the current step selector from sidenav into view
+     this._scrollCurrentStepElementIntoView();
+ }
+/**
+  * Scrolls the current step element from
+  * sidenav into the view. This only happens when
+  * previous/next buttons pressed as we don't want
+  * to change the scroll position of the sidebar
+  * when the user actually clicks around the sidebar.
+  *
+  * @private
+  */
+private _scrollCurrentStepElementIntoView(): void
+{
+    // Wrap everything into setTimeout so we can make sure that the 'current-step' class points to correct element
+    setTimeout(() => {
+
+        // Get the current step element and scroll it into view
+        const currentStepElement = this._document.getElementsByClassName('current-step')[0];
+        if ( currentStepElement )
+        {
+            currentStepElement.scrollIntoView({
+                behavior: 'smooth',
+                block   : 'start'
+            });
+        }
+    });
+}
 }
