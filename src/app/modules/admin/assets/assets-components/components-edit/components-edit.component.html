@@ -1,186 +1,514 @@
-<div *ngIf="asset" class="flex flex-col flex-auto min-w-0">
-    <!-- Header -->
-    <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
+<div *ngIf="asset">
+    <form
+        [formGroup]="eventForm"
+        (ngSubmit)="updateComponent()"
+        class="absolute inset-0 flex flex-col min-w-0 overflow-hidden"
     >
-        <div class="flex-1 min-w-0">
-            <!-- Breadcrumbs -->
-            <div>
-                <div class="hidden sm:flex flex-wrap items-center font-medium">
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <a class="ml-1 text-primary-500">Components</a>
-                    </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon
-                            class="icon-size-5 text-secondary"
-                            [svgIcon]="'heroicons_solid:chevron-right'"
-                        ></mat-icon>
-                        <a
-                            class="ml-1 text-primary-500 cursor-pointer"
-                            [routerLink]="'/assets/components'"
-                            >Components List</a
-                        >
-                    </div>
-                    <div class="flex items-center ml-1 whitespace-nowrap">
-                        <mat-icon
-                            class="icon-size-5 text-secondary"
-                            [svgIcon]="'heroicons_solid:chevron-right'"
-                        ></mat-icon>
-                        <span class="ml-1 text-secondary">View </span>
-                    </div>
-                </div>
-                <div class="flex sm:hidden">
-                    <a
-                        class="inline-flex items-center -ml-1.5 text-secondary font-medium"
-                        [routerLink]="'/assets/components'"
-                    >
-                        <mat-icon
-                            class="icon-size-5 text-secondary"
-                            [svgIcon]="'heroicons_solid:chevron-left'"
-                        ></mat-icon>
-                        <span class="ml-1">Back</span>
-                    </a>
-                </div>
-            </div>
-            <!-- Title -->
-            <div class="mt-4 flex flex-col gap-4">
-                <!-- Image Section -->
-                <div class="flex flex-row gap-4">
-                    <img
-                        src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/inspiron-notebooks/14-2-in-1-7440-intel/media-gallery/notebook-inspiron-14-7440-t-ice-blue-gallery-17.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=1336&qlt=100,1&resMode=sharp2&size=1336,804&chrss=full"
-                        alt="Sample Image"
-                        class="h-28 w-32"
-                    />
-                    <div class="flex flex-col gap-2">
-                        <p class="font-semibold text-2xl">
-                            {{ asset.type }}
-                        </p>
-                        <p class="text-secondary font-semibold">
-                            Inventory Code:
-                            <span class="text-secondary font-medium">{{
-                                asset.uid || "N/A"
-                            }} {{
-                                asset.id || "N/A"
-                            }}</span>
-                        </p>
-                        <div class="flex flex-row gap-2">                      
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex flex-row gap-1"></div>
-            </div>
-        </div>
-        <div
-            class="hidden sm:flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4"
-        >
-            <button
-                class="ml-4"
-                mat-icon-button
-                [routerLink]="'/assets/components'"
+        <mat-drawer-container class="flex-auto h-full">
+            <!-- Drawer -->
+            <mat-drawer
+                class="w-90 dark:bg-gray-900"
+                [autoFocus]="false"
+                [mode]="drawerMode"
+                [opened]="drawerOpened"
+                #matDrawer
             >
-                <mat-icon [svgIcon]="'close'"></mat-icon>             
-            </button>
-        </div>
-    </div>
-
-    <div class="flex flex-col sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
-        <form [formGroup]="eventForm" (ngSubmit)="updateComponent()"
-            class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
-        >
-            <p class="text-lg font-bold text-2xl">Edit information</p>
-            <mat-divider class="mt-6 mb-4"></mat-divider>
-            <div class="flex flex-col w-full mt-2 gap-2">
-                <div class="flex flex-col flex-grow sm:flex-row gap-2">
-                    <div class="flex flex-row w-full">
-                        <div class="flex w-full ">
-                            <div class="flex flex-col items-center mr-5 md:w-32 w-64">
-                                <label
-                                    for="select-image"
-                                    class="cursor-pointer flex flex-col items-center"
-                                >
-                                    <img
-                                        id="preview-image"
-                                        src="https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg"
-                                        alt="Select Image"
-                                        class="h-32 w-32 object-contain border border-gray-300 rounded-md"
-                                    />
-                                    <span class="text-secondary text-regular mt-2">
-                                        <mat-icon
-                                            class="icon-size-4 mt-1 text-secondary"
-                                            [svgIcon]="'feather:edit'"
-                                        ></mat-icon>
-                                        Select new image
-                                    </span>
-                                </label>
-                                <input
-                                formControlName="image"
-                                    id="select-image"
-                                    type="file"
-                                    accept="image/*"
-                                    class="hidden"
-                                    (change)="previewSelectedImage($event)"
-                                />
-                            </div> 
-                            <div class="flex flex-col w-full">                               
-                                <mat-form-field class="w-full" appearance="fill">
-                                    <!-- Make mat-form-field take full width -->
-                                    <mat-label
-                                        class="text-primary font-semibold text-lg"
-                                        >Inventory code</mat-label
-                                    >
-                                    <mat-icon
-                                        svgIcon="feather:hash"
-                                        class="icon-size-4"
-                                    ></mat-icon>
-                                    <input matInput id="uid" formControlName="uid" />
-                                </mat-form-field>
-                                <mat-form-field class="w-full" appearance="fill">
-                                    <!-- Make mat-form-field take full width -->
-                                    <mat-label
-                                        class="text-primary font-semibold text-lg"
-                                        >Cost</mat-label
-                                    >
-                                    <mat-icon
-                                    svgIcon="mat_outline:attach_money"
-                                        class="icon-size-4"
-                                    ></mat-icon>
-                                    <input matInput id="cost" formControlName="cost" />
-                                </mat-form-field>
-                            </div>
-                           
-                        </div>
-                      
+                <div class="flex flex-col items-start p-8 border-b">
+                    <!-- Back to courses -->
+                    <a
+                        class="inline-flex items-center leading-6 text-primary hover:underline"
+                        [routerLink]="['..']"
+                    >
+                        <span class="inline-flex items-center">
+                            <mat-icon
+                                class="icon-size-5 text-current"
+                                [svgIcon]="'heroicons_solid:arrow-sm-left'"
+                            ></mat-icon>
+                            <span class="ml-1.5 font-medium leading-5"
+                                >Back to lists</span
+                            >
+                        </span>
+                    </a>
+                    <!-- Course title & description -->
+                    <div class="mt-7 text-2xl font-semibold">
+                        Add Accountability
                     </div>
+                    <div class="text-secondary">
+                        Select a computer and fill the employee details to
+                        create a accountability form.
+                    </div>
+                </div>
 
-                    <div class="flex flex-col w-full gap-4">
-                        <div class="flex flex-grow w-full justify-start">
-                            <!-- Make this div take full width -->
+                <!-- Steps -->
+                <div class="py-2 px-8">
+                    <ol>
+                        <div class="flex flex-col w-full gap-2">
+                            <mat-label class="font-semibold flex-col flex">
+                                Search Computer
+                                <span class="text-sm font-medium text-gray-500">
+                                    Fill all the required fields to update
+                                    peripheral
+                                </span>
+                            </mat-label>
                             <mat-form-field class="w-full" appearance="fill">
                                 <!-- Make mat-form-field take full width -->
-                                <mat-label
-                                    class="text-primary font-bold text-lg"
+                                <mat-label class="text-primary text-sm"
+                                    >Inventory code</mat-label
+                                >
+                                <mat-icon
+                                    svgIcon="feather:hash"
+                                    class="icon-size-4"
+                                ></mat-icon>
+                                <input
+                                    matInput
+                                    id="uid"
+                                    formControlName="uid"
+                                />
+                            </mat-form-field>
+                            <mat-form-field class="w-full" appearance="fill">
+                                <!-- Make mat-form-field take full width -->
+                                <mat-label class="text-primary text-sm"
+                                    >Cost</mat-label
+                                >
+                                <mat-icon
+                                    svgIcon="mat_outline:attach_money"
+                                    class="icon-size-4"
+                                ></mat-icon>
+                                <input
+                                    matInput
+                                    id="cost"
+                                    formControlName="cost"
+                                />
+                            </mat-form-field>
+                            <mat-form-field class="w-full" appearance="fill">
+                                <!-- Make mat-form-field take full width -->
+                                <mat-label class="text-primary text-sm"
                                     >Component Description</mat-label
                                 >
                                 <mat-icon
                                     svgIcon="feather:server"
                                     class="icon-size-4 mr-1"
                                 ></mat-icon>
-                                <input matInput id="description" formControlName="description" />
+                                <input
+                                    matInput
+                                    id="description"
+                                    formControlName="description"
+                                />
                             </mat-form-field>
-                        </div>                      
-                    </div>
+
+                            <button
+                                class="px-6"
+                                mat-flat-button
+                                type="submit"
+                                [color]="'primary'"
+                            >
+                                <mat-icon
+                                    class="icon-size-4"
+                                    svgIcon="mat_solid:subdirectory_arrow_right"
+                                ></mat-icon>
+                                <span class="ml-1 text-sm"> Save changes</span>
+                            </button>
+                        </div>
+                    </ol>
                 </div>
-            </div>    
-            <div
-            class="flex items-center justify-end border-t -mx-8 mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700"
-        >
-            <!-- <button mat-stroked-button>Reset Form</button> -->
-            <button class="px-6 ml-3" type="submit" mat-flat-button [color]="'primary'">
-                Save Changes
-            </button>
-            
-        </div>
-        </form>
-    </div>
+            </mat-drawer>
+
+            <!-- Drawer content -->
+            <mat-drawer-content class="flex flex-col overflow-hidden">
+                <!-- Header -->
+                <div
+                    class="lg:hidden flex flex-0 items-center py-2 pl-4 pr-6 sm:py-4 md:pl-6 md:pr-8 border-b lg:border-b-0 bg-card dark:bg-transparent"
+                >
+                    <!-- Title & Actions -->
+                    <button mat-icon-button [routerLink]="['..']">
+                        <mat-icon
+                            [svgIcon]="'heroicons_outline:arrow-sm-left'"
+                        ></mat-icon>
+                    </button>
+                    <h2
+                        class="ml-2.5 text-md sm:text-xl font-medium tracking-tight truncate"
+                    >
+                        Accountability Details
+                    </h2>
+                </div>
+                <mat-progress-bar
+                    class="hidden lg:block flex-0 h-0.5 w-full"
+                ></mat-progress-bar>
+
+                <!-- Main -->
+                <div class="flex-auto overflow-y-auto" cdkScrollable>
+                    <!-- Steps -->
+                    <mat-tab-group
+                        class="fuse-mat-no-header"
+                        [animationDuration]="'200'"
+                        #courseSteps
+                    >
+                        <mat-tab>
+                            <ng-template matTabContent>
+                                <div
+                                    class="mx-auto inset-0 min-w-0 text-center overflow-auto print:overflow-visible"
+                                    cdkScrollable
+                                >
+                                    <!-- A4 Wrapper -->
+                                    <div class="a4-container">
+                                        <!-- Page Content -->
+                                        <div
+                                            class="inline-block p-6 sm:p-10 text-left print:p-0"
+                                        >
+                                            <div
+                                                class="w-240 min-w-240 p-16 rounded-2xl shadow bg-card print:w-auto print:p-0 print:rounded-none print:shadow-none print:bg-transparent"
+                                            >
+                                                <div
+                                                    id="pdfFormArea"
+                                                    #pdfFormArea
+                                                >
+                                                    <div class="flex">
+                                                        <div
+                                                            class="flex flex-row gap-4 w-full"
+                                                        >
+                                                            <div
+                                                                class="flex gap-4"
+                                                            >
+                                                                <img
+                                                                    src="assets/images/logo/suylogo.png"
+                                                                    alt="Logo"
+                                                                    class="-ml-5 -mt-5 h-32 w-32"
+                                                                />
+                                                                <div
+                                                                    class="flex flex-col w-64 gap-1"
+                                                                >
+                                                                    <p
+                                                                        class="font-bold text-sm"
+                                                                    >
+                                                                        Ana's
+                                                                        Breeders
+                                                                        Farm
+                                                                        Inc.
+                                                                    </p>
+                                                                    <p
+                                                                        class="text-sm w-56"
+                                                                    >
+                                                                        Sitio
+                                                                        Sto.
+                                                                        Niño,
+                                                                        Pan
+                                                                        Philippine
+                                                                        Highway
+                                                                        Brgy.
+                                                                        Binugao,
+                                                                        Toril
+                                                                        District
+                                                                        Davao
+                                                                        City,
+                                                                        Davao
+                                                                        del Sur,
+                                                                        Philippines.
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Right-aligned Document Details -->
+                                                        <div
+                                                            class="flex flex-row gap-4 w-full justify-end"
+                                                        >
+                                                            <div
+                                                                class="flex flex-col w-64 gap-1 items-end"
+                                                            >
+                                                                <p
+                                                                    class="font-bold text-sm"
+                                                                >
+                                                                    Document
+                                                                    Number
+                                                                    <span
+                                                                        class="font-medium"
+                                                                        >A-60-FR-009</span
+                                                                    >
+                                                                </p>
+                                                                <!-- <p
+                                                                    class="font-bold text-sm"
+                                                                >
+                                                                    Effective
+                                                                    Date
+                                                                    <span
+                                                                        class="font-medium"
+                                                                        >{{
+                                                                            asset
+                                                                                ?.user_accountability_list
+                                                                                .date_created
+                                                                                ? (asset
+                                                                                      ?.user_accountability_list
+                                                                                      .date_created
+                                                                                  | date
+                                                                                      : "MMMM d, y")
+                                                                                : "N/A"
+                                                                        }}</span
+                                                                    >
+                                                                </p> -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <mat-divider
+                                                        class="mt-6 mb-4"
+                                                    ></mat-divider>
+                                                    <div
+                                                        class="flex flex-col mt-2 gap-4 uppercase"
+                                                    >
+                                                        <div
+                                                            class="flex flex-col sm:flex-row gap-2 justify-between"
+                                                        >
+                                                            <div
+                                                                class="flex flex-row flex-grow"
+                                                            >
+                                                                <div>
+                                                                    <img
+                                                                        src="https://pngimg.com/uploads/qr_code/small/qr_code_PNG7.png"
+                                                                        alt="Sample QR"
+                                                                        class="h-32 w-32"
+                                                                    />
+                                                                </div>
+                                                                <div
+                                                                    class="flex flex-col"
+                                                                >
+                                                                    <p
+                                                                        class="text-secondary"
+                                                                    >
+                                                                        Inventory
+                                                                        Code
+                                                                    </p>
+                                                                    <p
+                                                                        class="text-primary font-bold text-2xl"
+                                                                    >
+                                                                        {{
+                                                                            asset.uid ||
+                                                                                "N/A"
+                                                                        }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <mat-divider
+                                                                class="mx-1"
+                                                                vertical
+                                                            ></mat-divider>
+                                                            <div
+                                                                class="flex flex-col gap-4 grid grid-cols-3 gap-5 justify-between"
+                                                            >
+                                                                <div>
+                                                                    <p
+                                                                        class="text-primary font-bold text-lg"
+                                                                    >
+                                                                        Component
+                                                                        Description
+                                                                    </p>
+                                                                    <p
+                                                                        class="text-secondary"
+                                                                    >
+                                                                        {{
+                                                                            asset.description
+                                                                        }}
+                                                                    </p>
+                                                                </div>
+
+                                                                <div>
+                                                                    <p
+                                                                        class="text-primary font-bold text-lg"
+                                                                    >
+                                                                        Parent
+                                                                        Assent
+                                                                        Barcode
+                                                                    </p>
+                                                                    <p
+                                                                        class="text-secondary underline cursor-pointer text-blue-600"
+                                                                        *ngIf="
+                                                                            asset?.computer
+                                                                        "
+                                                                        [routerLink]="
+                                                                            '/assets/computers/view/' +
+                                                                            asset
+                                                                                ?.computer
+                                                                                ?.id
+                                                                        "
+                                                                    >
+                                                                        #
+                                                                        {{
+                                                                            asset
+                                                                                ?.computer
+                                                                                ?.asset_barcode ||
+                                                                                "N/A"
+                                                                        }}
+                                                                        <mat-icon
+                                                                            svgIcon="mat_outline:open_in_new"
+                                                                            class="icon-size-3 underline text-blue-600"
+                                                                        ></mat-icon>
+                                                                    </p>
+                                                                    <p
+                                                                        *ngIf="
+                                                                            !asset?.computer
+                                                                        "
+                                                                        class="text-secondary"
+                                                                    >
+                                                                        N/A
+                                                                    </p>
+                                                                </div>
+
+                                                                <div
+                                                                    class="flex flex-col flex-grow w-full"
+                                                                >
+                                                                    <p
+                                                                        class="text-primary font-bold text-lg"
+                                                                    >
+                                                                        Status
+                                                                    </p>
+                                                                    <p
+                                                                        class="text-secondary"
+                                                                    >
+                                                                        {{
+                                                                            asset.status
+                                                                        }}
+                                                                    </p>
+                                                                </div>
+                                                                <div
+                                                                    class="flex flex-col flex-grow w-full"
+                                                                >
+                                                                    <p
+                                                                        class="text-primary font-bold text-lg"
+                                                                    >
+                                                                        Cost
+                                                                    </p>
+                                                                    <p
+                                                                        class="text-secondary"
+                                                                    >
+                                                                        ₱
+                                                                        {{
+                                                                            asset.cost
+                                                                        }}
+                                                                    </p>
+                                                                </div>
+
+                                                                <div
+                                                                    class="flex flex-col flex-grow w-full"
+                                                                >
+                                                                    <p
+                                                                        class="text-primary font-bold text-lg"
+                                                                    >
+                                                                        Date
+                                                                        Acquired
+                                                                    </p>
+                                                                    <p
+                                                                        class="text-secondary"
+                                                                    >
+                                                                        {{
+                                                                            asset.date_acquired
+                                                                                ? (asset.date_acquired
+                                                                                  | date
+                                                                                      : "MMMM d, y")
+                                                                                : "N/A"
+                                                                        }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <mat-divider
+                                                        class="mt-6 mb-7"
+                                                    ></mat-divider>
+
+                                                    <p
+                                                        class="text-md font-medium uppercase"
+                                                    >
+                                                        Current Owner Details
+                                                    </p>
+                                                    <p
+                                                        class="text-secondary text-md mb-6 uppercase"
+                                                    >
+                                                        Current owner of the
+                                                        asset details.
+                                                    </p>
+
+                                                    <!-- Responsive Owner Details Section -->
+                                                    <div
+                                                        class="flex flex-col sm:flex-row gap-4 mb-6 uppercase text-md"
+                                                    >
+                                                        <div
+                                                            class="flex flex-col flex-grow gap-4"
+                                                        >
+                                                            <p
+                                                                class="flex flex-col font-medium text-medium"
+                                                            >
+                                                                Owner Name
+                                                                <span
+                                                                    class="text-secondary text-medium"
+                                                                >
+                                                                    {{
+                                                                        asset
+                                                                            ?.owner
+                                                                            ?.name ||
+                                                                            "N/A"
+                                                                    }}
+                                                                </span>
+                                                            </p>
+                                                            <p
+                                                                class="flex flex-col font-medium text-medium"
+                                                            >
+                                                                Company
+                                                                <span
+                                                                    class="text-secondary text-medium"
+                                                                >
+                                                                    {{
+                                                                        asset
+                                                                            ?.owner
+                                                                            ?.company ||
+                                                                            "N/A"
+                                                                    }}
+                                                                </span>
+                                                            </p>
+                                                            <p
+                                                                class="flex flex-col font-medium text-medium"
+                                                            >
+                                                                Department
+                                                                <span
+                                                                    class="text-secondary text-medium"
+                                                                >
+                                                                    {{
+                                                                        asset
+                                                                            ?.owner
+                                                                            ?.department ||
+                                                                            "N/A"
+                                                                    }}
+                                                                </span>
+                                                            </p>
+                                                        </div>
+                                                        <div
+                                                            class="flex flex-col flex-grow gap-4"
+                                                        >
+                                                            <p
+                                                                class="flex flex-col font-medium text-medium"
+                                                            >
+                                                                Employee ID
+                                                                <span
+                                                                    class="text-secondary text-medium"
+                                                                >
+                                                                    {{
+                                                                        asset
+                                                                            ?.owner
+                                                                            ?.employee_id ||
+                                                                            "N/A"
+                                                                    }}
+                                                                </span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+            </mat-drawer-content>
+        </mat-drawer-container>
+    </form>
 </div>
