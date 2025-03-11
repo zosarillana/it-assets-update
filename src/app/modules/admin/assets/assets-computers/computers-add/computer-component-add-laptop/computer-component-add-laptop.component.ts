@@ -6,7 +6,7 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { AlertService } from 'app/services/alert.service';
 import { ComponentsService } from 'app/services/components/components.service';
 import { Observable } from 'rxjs';
-import { ComputerComponentAddModalComponent } from '../computers-add/computer-component-add-modal/computer-component-add-modal.component';
+import { ComputerComponentAddModalComponent } from '../computer-component-add-modal/computer-component-add-modal.component';
 
 @Component({
   selector: 'app-computer-component-add-laptop',

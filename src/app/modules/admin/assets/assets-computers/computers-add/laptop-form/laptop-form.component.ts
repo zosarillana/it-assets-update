@@ -14,9 +14,9 @@ import { FormArray } from '@angular/forms';
 import { ComputerService } from 'app/services/computer/computer.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ComputerComponentAddModalComponent } from '../computer-component-add-modal/computer-component-add-modal.component';
-import { CopmuterAssetsAddModalComponent } from '../copmuter-assets-add-modal/copmuter-assets-add-modal.component';
+import { CopmuterAssetsAddModalComponent } from '../computer-assets-add-modal/computer-assets-add-modal.component';
 import { AlertService } from 'app/services/alert.service';
-import { ComputerComponentAddLaptopComponent } from '../../computer-component-add-laptop/computer-component-add-laptop.component';
+import { ComputerComponentAddLaptopComponent } from '../computer-component-add-laptop/computer-component-add-laptop.component';
 
 interface Asset {
     id: number;

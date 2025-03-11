@@ -1,7 +1,7 @@
 <div class="flex flex-col flex-auto min-w-0">
     <!-- Header -->
     <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between pt-8 px-10 border-b bg-card dark:bg-transparent"
     >
         <div class="flex-1 min-w-0">
             <!-- Breadcrumbs -->
@@ -45,14 +45,57 @@
             <!-- Title -->
             <div class="mt-2">
                 <h2
-                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate pb-4"
                 >
                     Add Computers
                 </h2>
             </div>
+
+            <!-- Dropdown Menu for Selecting Forms -->
+            <!-- Dropdown Menu for Selecting Forms -->
+            <div
+            class="relative flex self-start pt-2 pb-1 pl-5 pr-4 cursor-pointer overflow-hidden rounded-t-xl border border-b-0 bg-default w-48"
+            matRipple
+            [matMenuTriggerFor]="addForms"
+        >
+            <div class="flex items-center">
+                <div class="overflow-hidden">
+                    <div class="font-medium leading-6 truncate flex items-center">
+                        <!-- Show form name with conditional icon -->
+                        <ng-container *ngIf="selectedTab === 0">
+                            <mat-icon [svgIcon]="'heroicons_solid:check'" class="icon-size-5 mr-3"></mat-icon>
+                            Desktop Form
+                        </ng-container>
+                        <ng-container *ngIf="selectedTab === 1">
+                            <mat-icon [svgIcon]="'heroicons_solid:check'" class="icon-size-5 mr-3"></mat-icon>
+                            Laptop Form
+                        </ng-container>
+                        <ng-container *ngIf="selectedTab !== 0 && selectedTab !== 1">
+                            Select Form
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center pl-5">
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:chevron-down'"
+                    ></mat-icon>
+                </div>
+            </div>
         </div>
+
+<mat-menu #addForms="matMenu" [xPosition]="'before'">
+<button mat-menu-item (click)="openForm('desktop')">
+    Desktop Form
+</button>
+<button mat-menu-item (click)="openForm('laptop')">
+    Laptop Form
+</button>
+</mat-menu>
+        </div>
+
         <div
-            class="hidden sm:flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4"
+            class="hidden sm:flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4 mb-5"
         >
             <button
                 class="ml-4"
@@ -60,30 +103,16 @@
                 [routerLink]="'/assets/computers'"
             >
                 <mat-icon [svgIcon]="'close'"></mat-icon>
-                <!-- <span class="ml-2 mr-1">Go back</span> -->
             </button>
         </div>
     </div>
 
     <div class="flex flex-col h-full sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
-        <div class="inline-flex">
-            <button 
-              (click)="showForm('computer')" 
-              [ngClass]="{'bg-gray-500 text-white': activeForm === 'computer', 'bg-gray-300 text-gray-800': activeForm !== 'computer'}"
-              class="px-4 py-2 rounded-t-lg border-t border-l border-r hover:bg-gray-500 focus:outline-none">
-              Show Desktop Form
-            </button>
-          
-            <button 
-              (click)="showForm('laptop')" 
-              [ngClass]="{'bg-gray-500 text-white': activeForm === 'laptop', 'bg-gray-300 text-gray-800': activeForm !== 'laptop'}"
-              class="px-4 py-2 rounded-t-lg border-t border-l border-r hover:bg-gray-500 focus:outline-none">
-              Show Laptop Form
-            </button>
-          </div>
-          
-
-        <app-computer-form *ngIf="showComputerForm"></app-computer-form>
-        <app-laptop-form *ngIf="!showComputerForm"></app-laptop-form>
+        <div class="sm:px-2">
+            <div [ngSwitch]="selectedTab">
+                <app-computer-form *ngSwitchCase="0"></app-computer-form>
+                <app-laptop-form *ngSwitchCase="1"></app-laptop-form>
+            </div>
+        </div>
     </div>
 </div>

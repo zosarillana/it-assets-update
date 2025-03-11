@@ -9,9 +9,9 @@ import { Observable } from 'rxjs';
 import { ComputerComponentAddModalComponent } from '../computer-component-add-modal/computer-component-add-modal.component';
 
 @Component({
-  selector: 'app-copmuter-assets-add-modal',
-  templateUrl: './copmuter-assets-add-modal.component.html',
-  styleUrls: ['./copmuter-assets-add-modal.component.scss']
+  selector: 'app-computer-assets-add-modal',
+  templateUrl: './computer-assets-add-modal.component.html',
+  styleUrls: ['./computer-assets-add-modal.component.scss']
 })
 export class CopmuterAssetsAddModalComponent implements OnInit {
     eventForm!: FormGroup;

@@ -14,7 +14,7 @@ import { FormArray } from '@angular/forms';
 import { ComputerService } from 'app/services/computer/computer.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ComputerComponentAddModalComponent } from './computer-component-add-modal/computer-component-add-modal.component';
-import { CopmuterAssetsAddModalComponent } from './copmuter-assets-add-modal/copmuter-assets-add-modal.component';
+import { CopmuterAssetsAddModalComponent } from './computer-assets-add-modal/computer-assets-add-modal.component';
 import { AlertService } from 'app/services/alert.service';
 
 interface Asset {
@@ -603,27 +603,26 @@ export class ComputersAddComponent implements OnInit {
 
         console.log('Updated Assets Array:', this.assetsArray.value);
     }
-    // addAssets(assetData: any) {
-    //     console.log("Adding Asset:", assetData); // Debugging line
-
-    //     this.assetsArray.push(
-    //         this._formBuilder.group({
-    //             type: [assetData.type, Validators.required],
-    //             serial_no: [assetData.serial_no, Validators.required], // Ensure key name is consistent
-    //             asset_barcode: [assetData.asset_barcode, Validators.required],
-    //             date_acquired: [assetData.date_acquired, Validators.required],
-    //             warranty: [assetData.warranty, Validators.required],
-    //             po: [assetData.po || ''], // Ensure correct key mapping
-    //             brand: [assetData.brand, Validators.required],
-    //             model: [assetData.model, Validators.required],
-    //             cost: [Number(assetData.cost) || 0, Validators.required], // Convert to number
-    //         })
-    //     );
-
-    //     console.log("Updated Assets Array:", this.assetsArray.value);
-    // }
 
     removeRow(index: number) {
         this.componentsArray.removeAt(index);
     }
+
+    // Use a numeric property for the tab selection
+    selectedTab: number = 0;
+
+    // Map form types to tab indices
+    openForm(formType: string): void {
+        if (formType === 'desktop') {
+            this.selectedTab = 0;
+        } else if (formType === 'laptop') {
+            this.selectedTab = 1;
+        }
+
+        // You can also store the string value if needed for other purposes
+        this.selectedForm = formType;
+    }
+
+    // Add this property if you need the string representation
+    selectedForm: string = 'desktop'; // Default value
 }
