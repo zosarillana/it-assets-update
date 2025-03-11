@@ -8,6 +8,7 @@ import { ComponentsService } from 'app/services/components/components.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
 import { MatTabGroup } from '@angular/material/tabs';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'app-components-edit',
@@ -27,7 +28,8 @@ export class ComponentsEditComponent implements OnInit {
         private dialog: MatDialog,
         private alertService: AlertService,
         private router: Router,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private location: Location
     ) {}
     private initializeForm(): void {
         this.eventForm = this._formBuilder.group({
@@ -49,6 +51,10 @@ export class ComponentsEditComponent implements OnInit {
             color: [this.asset?.color || 'N/A', [Validators.required]],
         });
     }
+
+    goBack(): void {
+        this.location.back();
+      }
 
     ngOnInit(): void {
         const uid = this.route.snapshot.paramMap.get('uid');
@@ -203,4 +209,6 @@ export class ComponentsEditComponent implements OnInit {
             }
         });
     }
+
+   
 }

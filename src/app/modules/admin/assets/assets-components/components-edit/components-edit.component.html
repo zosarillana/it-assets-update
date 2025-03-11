@@ -17,7 +17,7 @@
                     <!-- Back to courses -->
                     <a
                         class="inline-flex items-center leading-6 text-primary hover:underline"
-                        [routerLink]="['..']"
+                        (click)="goBack()"
                     >
                         <span class="inline-flex items-center">
                             <mat-icon
@@ -25,7 +25,7 @@
                                 [svgIcon]="'heroicons_solid:arrow-sm-left'"
                             ></mat-icon>
                             <span class="ml-1.5 font-medium leading-5"
-                                >Back to lists</span
+                                >Go back</span
                             >
                         </span>
                     </a>
