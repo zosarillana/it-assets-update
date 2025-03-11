@@ -7,7 +7,7 @@
             <!-- Breadcrumbs -->
             <div>
                 <div class="hidden sm:flex flex-wrap items-center font-medium">
-                    <div class="flex items-center ml-1 whitespace-nowrap">
+                    <div class="flex items-center ml-1 whitespace-now rap">
                         <a class="ml-1 text-primary-500">Components</a>
                     </div>
                     <div class="flex items-center ml-1 whitespace-nowrap">
@@ -51,7 +51,7 @@
                         alt="Sample Image"
                         class="h-28 w-32"
                     />
-                    <div class="flex flex-col gap-2">
+                    <div class="flex flex-col gap-2 uppercase">
                         <p class="font-semibold text-2xl">
                             {{ asset.type }}
                         </p>
@@ -65,7 +65,10 @@
                             <button
                                 class="w-full sm:w-auto mt-4 sm:mt-0 flex items-center justify-center"
                                 [routerLink]="
-                                    '/assets/components/edit/' + asset.uid + '/' + asset.id
+                                    '/assets/components/edit/' +
+                                    asset.uid +
+                                    '/' +
+                                    asset.id
                                 "
                             >
                                 <mat-icon
@@ -108,98 +111,136 @@
         </div>
     </div>
 
-    <div class="flex flex-col  sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
+    <div class="flex flex-col sm:mx-0 md:mx-0 lg:mx-64 lg:my-4">
         <form
             class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
         >
-            <p class="text-lg font-bold text-2xl">Computer Information</p>
+            <div class="flex">
+                <div class="flex flex-row gap-4 w-full">
+                    <div class="flex gap-4">
+                        <img
+                            src="assets/images/logo/suylogo.png"
+                            alt="Logo"
+                            class="-ml-5 -mt-5 h-32 w-32"
+                        />
+                        <div class="flex flex-col w-64 gap-1">
+                            <p class="font-bold text-sm">
+                                Ana's Breeders Farm Inc.
+                            </p>
+                            <p class="text-sm w-56">
+                                Sitio Sto. Niño, Pan Philippine Highway Brgy.
+                                Binugao, Toril District Davao City, Davao del
+                                Sur, Philippines.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right-aligned Document Details -->
+                <div class="flex flex-row gap-4 w-full justify-end">
+                    <div class="flex flex-col w-64 gap-1 items-end">
+                        <p class="font-bold text-sm">
+                            Document Number
+                            <span class="font-medium">A-60-FR-009</span>
+                        </p>
+                        <p class="font-bold text-sm">
+                            Effective Date
+                            <span class="font-medium">{{
+                                asset.date_created
+                                    ? (asset.date_created | date : "MMMM d, y")
+                                    : "N/A"
+                            }}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
             <mat-divider class="mt-6 mb-4"></mat-divider>
-            <div class="flex flex-col mt-2 gap-4">
-                
-                <div class="flex flex-col sm:flex-row gap-2">
-                    <div class="flex flex-row">
+            <div class="flex flex-col mt-2 gap-4 uppercase ">
+                <div class="flex flex-col sm:flex-row gap-2 justify-between ">
+                    <div class="flex flex-row flex-grow ">
                         <div>
                             <img
-                            src="https://pngimg.com/uploads/qr_code/small/qr_code_PNG7.png"
-                            alt="Sample QR"
-                            class="h-32 w-32"
-                        />
+                                src="https://pngimg.com/uploads/qr_code/small/qr_code_PNG7.png"
+                                alt="Sample QR"
+                                class="h-32 w-32"
+                            />
                         </div>
-                    <div class="flex flex-col">
-                        <p class="text-secondary">
-                            Inventory Code
-                        </p>
-                        <p class="text-primary font-bold text-2xl">
-                            {{ asset.uid || 'N/A' }}
-                        </p>
-                     
+                        <div class="flex flex-col">
+                            <p class="text-secondary">Inventory Code</p>
+                            <p class="text-primary font-bold text-2xl">
+                                {{ asset.uid || "N/A" }}
+                            </p>
+                        </div>
                     </div>
-                     
-                    </div>
-                    <mat-divider class="mx-12" vertical></mat-divider>
-                    <div class="flex flex-col gap-4">
-                        <div class="flex flex-row gap-12">
-                            <div>
-                                <p class="text-primary font-bold text-lg">
-                                    Component Description
-                                </p>
-                                <p class="text-secondary">
-                                    {{ asset.description }}
-                                </p>
-                            </div>
+                    <mat-divider class="mx-1" vertical></mat-divider>
+                    <div
+                        class="flex flex-col gap-4 grid grid-cols-3 gap-5 justify-between "
+                    >
+                        <div>
+                            <p class="text-primary font-bold text-lg">
+                                Component Description
+                            </p>
+                            <p class="text-secondary">
+                                {{ asset.description }}
+                            </p>
+                        </div>
 
-                            <div>
-                                <p class="text-primary font-bold text-lg">
-                                    Parent Assent Barcode
-                                </p>
-                                <p class="text-secondary underline cursor-pointer text-blue-600"
+                        <div>
+                            <p class="text-primary font-bold text-lg">
+                                Parent Assent Barcode
+                            </p>
+                            <p
+                                class="text-secondary underline cursor-pointer text-blue-600"
                                 *ngIf="asset?.computer"
-                                [routerLink]="'/assets/computers/view/' + asset?.computer?.id">
-                                 # {{ asset?.computer?.asset_barcode || "N/A" }}
-                                 <mat-icon svgIcon="mat_outline:open_in_new" class="icon-size-3 underline text-blue-600"></mat-icon>
-                             </p>
-                             <p *ngIf="!asset?.computer" class="text-secondary">N/A</p>
-                            </div>
-                            
+                                [routerLink]="
+                                    '/assets/computers/view/' +
+                                    asset?.computer?.id
+                                "
+                            >
+                                # {{ asset?.computer?.asset_barcode || "N/A" }}
+                                <mat-icon
+                                    svgIcon="mat_outline:open_in_new"
+                                    class="icon-size-3 underline text-blue-600"
+                                ></mat-icon>
+                            </p>
+                            <p *ngIf="!asset?.computer" class="text-secondary">
+                                N/A
+                            </p>
                         </div>
-                        <div class="flex flex-row w-full flex-grow">
-                            <div class="flex flex-col flex-grow w-full">
-                                <p class="text-primary font-bold text-lg">Status</p>
-                                <p class="text-secondary">
-                                    {{ asset.status }}
-                                </p>
-                            </div>
-                            <div class="flex flex-col flex-grow w-full">
-                                <p class="text-primary font-bold text-lg">Cost</p>
-                                <p class="text-secondary">
-                                    ₱ {{ asset.cost }}
-                                </p>
-                            </div>
 
+                        <div class="flex flex-col flex-grow w-full">
+                            <p class="text-primary font-bold text-lg">Status</p>
+                            <p class="text-secondary">
+                                {{ asset.status }}
+                            </p>
                         </div>
-                        <div class="flex flex-row w-full flex-grow">
-                            <div class="flex flex-col flex-grow w-full">
-                                <p class="text-primary font-bold text-lg">Date Acquired</p>
-                                <p class="text-secondary">
-                                    {{ asset.computer.date_acquired || "N/A"}}
-                                </p>
-                            </div>                         
+                        <div class="flex flex-col flex-grow w-full">
+                            <p class="text-primary font-bold text-lg">Cost</p>
+                            <p class="text-secondary">₱ {{ asset.cost }}</p>
                         </div>
-                    
-                    
+
+                        <div class="flex flex-col flex-grow w-full">
+                            <p class="text-primary font-bold text-lg">
+                                Date Acquired
+                            </p>
+                            <p class="text-secondary">
+                                {{ asset.date_acquired ? (asset.date_acquired | date: 'MMMM d, y') : 'N/A' }}
+
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <mat-divider class="mt-6 mb-10"></mat-divider>
+            <mat-divider class="mt-6 mb-7"></mat-divider>
 
-            <p class="text-lg font-medium">Current Owner Details</p>
-            <p class="text-secondary mb-6">
+            <p class="text-md font-medium uppercase">Current Owner Details</p>
+            <p class="text-secondary text-md mb-6 uppercase">
                 Current owner of the asset details.
             </p>
 
             <!-- Responsive Owner Details Section -->
-            <div class="flex flex-col sm:flex-row gap-4">
+            <div class="flex flex-col sm:flex-row gap-4 mb-6 uppercase text-md">
                 <div class="flex flex-col flex-grow gap-4">
                     <p class="flex flex-col font-medium text-medium">
                         Owner Name
@@ -209,7 +250,9 @@
                     </p>
                     <p class="flex flex-col font-medium text-medium">
                         Company
-                        <span class="text-secondary text-medium">   {{ asset?.owner?.company || "N/A" }} </span>
+                        <span class="text-secondary text-medium">
+                            {{ asset?.owner?.company || "N/A" }}
+                        </span>
                     </p>
                     <p class="flex flex-col font-medium text-medium">
                         Department
@@ -227,10 +270,6 @@
                     </p>
                 </div>
             </div>
-        
-
-            <mat-divider class="mt-6 mb-10"></mat-divider>
-        
         </form>
     </div>
 </div>
