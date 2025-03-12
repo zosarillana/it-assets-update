@@ -608,16 +608,19 @@
                                         class="mt-4 w-48 opacity-80"
                                     />
                                 </div>
-                                <div class="flex flex-row gap-8 -mt-10">
+                                <div
+                                    *ngIf="user"
+                                    class="flex flex-row gap-8 -mt-10 uppercase"
+                                >
                                     <!-- Name and Role -->
-                                    <div class="flex flex-col items-start">
+                                    <div class="flex flex-col">
                                         <p class="text-md border-t m-1">
-                                            WILLIARD VARQUEZ PERNIA IV
+                                            {{ user?.name }}
                                         </p>
                                         <span
-                                            class="text-sm text-gray-600 ml-16"
+                                            class="text-sm text-gray-600 text-center items-center"
                                         >
-                                            IT Manager
+                                            {{ user.designation }}
                                         </span>
                                     </div>
                                     <p
@@ -643,14 +646,16 @@
                                         class="mt-4 w-48 opacity-80"
                                     />
                                 </div>
-                                <div class="flex flex-row gap-8 -mt-10">
+                                <div
+                                    class="flex flex-row gap-8 -mt-10 uppercase"
+                                >
                                     <!-- Name and Role -->
-                                    <div class="flex flex-col items-start">
+                                    <div class="flex flex-col">
                                         <p class="text-md border-t m-1">
                                             IRISH MARGOT FLORES LUNGAY
                                         </p>
                                         <span
-                                            class="text-sm text-gray-600 ml-4"
+                                            class="text-sm text-gray-600 text-center items-center"
                                         >
                                             Lead, IT/ OT Operations (DA)
                                         </span>
@@ -681,13 +686,15 @@
                                 </div>
 
                                 <!-- Name and Role -->
-                                <div class="flex flex-row gap-12 -mt-10">
-                                    <div class="flex flex-col items-start">
+                                <div
+                                    class="flex flex-row gap-12 -mt-10 uppercase"
+                                >
+                                    <div class="flex flex-col">
                                         <p class="text-md border-t">
                                             {{ asset.owner.name || "N/A" }}
                                         </p>
                                         <span
-                                            class="text-sm text-gray-600 ml-6"
+                                            class="text-sm text-gray-600 text-center items-center"
                                         >
                                             {{
                                                 asset.owner.designation || "N/A"
@@ -715,14 +722,29 @@
             </div>
         </div>
     </div>
-    <button
-        class="fixed bottom-4 right-4 bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
-        (click)="pdfForm()"
-        matTooltip="Generate PDF form"
-        aria-label="Generate PDF form"
-        style="width: 56px; height: 56px"
-    >
-        <img class="h-8 w-6" src="assets/images/svgs/pdf-svgrepo-com.svg" />
-        <!-- Ensure the image fits inside -->
-    </button>
+
+    <div class="grid-cols-1">
+        <button
+            class="fixed bottom-20 right-4 bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
+            (click)="checkByUser()"
+            matTooltip="Approve document"
+            matTooltipPosition="above"
+            aria-label="Approve document"
+            style="width: 56px; height: 56px"
+        >
+            <mat-icon svgIcon="mat_outline:thumb_up"></mat-icon>
+            <!-- Ensure the image fits inside -->
+        </button>
+        <button
+            class="fixed bottom-4 right-4 bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
+            (click)="pdfForm()"
+            matTooltip="Generate PDF form"
+            matTooltipPosition="above"
+            aria-label="Generate PDF form"
+            style="width: 56px; height: 56px"
+        >
+            <img class="h-8 w-6" src="assets/images/svgs/pdf-svgrepo-com.svg" />
+            <!-- Ensure the image fits inside -->
+        </button>
+    </div>
 </div>
