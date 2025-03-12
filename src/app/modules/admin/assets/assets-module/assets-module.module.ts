@@ -82,6 +82,7 @@ import { ModalPullinComponentComponent } from '../assets-computers/modal-pullin-
 import { MatListModule } from '@angular/material/list'; 
 import { BusinessUnitsComponent } from '../masterdata/business-units/business-units.component';
 import { ReturnAccountabilityComponent } from '../assets-accountability/return-accountability/return-accountability.component';
+import { ViewReturnAccountabilityResultComponent } from '../assets-accountability/view-return-accountability-result/view-return-accountability-result.component';
 
 
 const assetRoute: Route[] = [
@@ -195,6 +196,11 @@ const assetRoute: Route[] = [
         path: 'accountability/return/:id',
         component: ReturnAccountabilityComponent,
     },
+    {
+        path: 'accountability/return/result/:id',
+        component: ViewReturnAccountabilityResultComponent,
+      }
+      
 
 
 ];
@@ -248,7 +254,8 @@ const assetRoute: Route[] = [
         ModalPullinAssetsComponent,
         BusinessUnitsComponent,
         ModalPullinComponentComponent,
-        ReturnAccountabilityComponent,   
+        ReturnAccountabilityComponent,
+        ViewReturnAccountabilityResultComponent,   
         // AlertsComponentComponent,
     ],
     imports: [

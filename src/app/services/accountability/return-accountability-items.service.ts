@@ -39,4 +39,9 @@ export class ReturnAccountabilityItemsService {
   deleteReturnItem(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
+
+  // ✅ Get return items by accountability ID
+  getReturnItemsByAccountabilityId(accountabilityId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/accountability/${accountabilityId}`);
+  }
 }

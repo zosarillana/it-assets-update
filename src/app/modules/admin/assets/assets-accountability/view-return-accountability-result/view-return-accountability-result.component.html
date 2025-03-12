@@ -1,0 +1,206 @@
+<div class="mx-auto inset-0 min-w-0 text-center overflow-auto print:overflow-visible" cdkScrollable>
+    <div class="a4-container">
+        <div class="inline-block p-6 sm:p-10 text-left print:p-0">
+            <div
+                class="w-240 min-w-240 p-16 rounded-2xl shadow bg-card print:w-auto print:p-0 print:rounded-none print:shadow-none print:bg-transparent">
+                <div id="pdfFormArea" #pdfFormArea>
+                    <div class="flex">
+                        <div class="flex flex-row gap-4 w-full">
+                            <div class="flex gap-4">
+                                <img src="assets/images/logo/suylogo.png" alt="Logo" class="-ml-5 -mt-5 h-32 w-32" />
+                                <div class="flex flex-col w-64 gap-1">
+                                    <p class="font-bold text-sm">
+                                        Ana's Breeders Farm Inc.
+                                    </p>
+                                    <p class="text-sm w-56">
+                                        Sitio Sto. Niño, Pan Philippine Highway
+                                        Brgy. Binugao, Toril District Davao
+                                        City, Davao del Sur, Philippines.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right-aligned Document Details -->
+                        <div class="flex flex-row gap-4 w-full justify-end">
+                            <div class="flex flex-col w-64 gap-1 items-end">
+                                <p class="font-bold text-sm">
+                                    Document Number
+                                    <span class="font-medium">A-60-FR-009</span>
+                                </p>
+                                <p class="font-bold text-sm">
+                                    Effective Date
+                                    <!-- <span class="font-medium">{{
+                                asset?.user_accountability_list.date_created
+                                    ? (asset?.user_accountability_list
+                                          .date_created
+                                      | date : "MMMM d, y")
+                                    : "N/A"
+                            }}</span> -->
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="flex justify-center text-2xl font-semibold w-full">
+                        RETURN ACCOUNTABILITY FORM
+                    </p>
+
+                    <div class="flex flex-row w-full mx-auto mt-8 gap-12">
+                        <div class="flex flex-col gap-0.5 w-58">
+                            <p class="text-lg tracking-tight font-bold">ISSUED TO</p>
+
+                            <div class="flex flex-row gap-2 text-sm">
+                                <p class="text-regular tracking-tight font-bold">Employee Name</p>
+                                <span class="font-medium">
+                                    {{ returnItems[0]?.accountability?.owner?.name || 'N/A' }}
+                                </span>
+                            </div>
+
+                            <div class="flex flex-row gap-10 text-sm">
+                                <p class="text-regular tracking-tight font-bold">ID Number</p>
+                                <span class="font-medium">
+                                    {{ returnItems[0]?.accountability?.owner?.employee_id || 'N/A' }}
+                                </span>
+                            </div>
+
+                            <div class="flex flex-row gap-8 text-sm">
+                                <p class="text-regular tracking-tight font-bold">Designation</p>
+                                <span class="font-medium">
+                                    {{ returnItems[0]?.accountability?.owner?.designation || 'N/A' }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-0.5 w-58 mt-7">
+                            <div class="flex flex-row gap-15 text-sm">
+                                <p class="text-regular tracking-tight font-bold">Company</p>
+                                <span class="font-medium">
+                                    {{ returnItems[0]?.accountability?.owner?.company || 'N/A' }}
+                                </span>
+                            </div>
+
+                            <div class="flex flex-row gap-11 text-sm">
+                                <p class="text-regular tracking-tight font-bold">Department</p>
+                                <span class="font-medium">
+                                    {{ returnItems[0]?.accountability?.owner?.department || 'N/A' }}
+                                </span>
+                            </div>
+
+                            <div class="flex flex-row gap-9 text-sm">
+                                <p class="text-regular tracking-tight font-bold">Business Unit</p>
+                                <span class="font-medium">
+                                    {{ returnItems[0]?.accountability?.owner?.business_unit || 'N/A' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Page Break (If Needed) -->
+                    <div class="page-break"></div>
+                    <div class="flex flex-col my-4">
+                        <p class="text-sm font-semibold mt-5">
+                            Computer under accountability
+                        </p>
+                        <span class="text-secondary text-sm">
+                            (Desktop, Laptops, etc..)</span>
+                    </div>
+                    <div *ngIf="computers.length > 0">
+                        <table class="table-auto w-full border">
+                            <thead>
+                                <tr>
+                                    <th class="border px-4 py-2">Type</th>
+                                    <th class="border px-4 py-2">Model</th>
+                                    <th class="border px-4 py-2">Barcode</th>
+                                    <th class="border px-4 py-2">Remarks</th>
+                                    <th class="border px-4 py-2">Status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let computer of computers">
+                                    <td class="border px-4 py-2">{{ computer.computer?.type || 'N/A' }}</td>
+                                    <td class="border px-4 py-2">{{ computer.computer?.model || 'N/A' }}</td>
+                                    <td class="border px-4 py-2">{{ computer.computer?.asset_barcode || 'N/A' }}</td>
+                                    <td class="border px-4 py-2">{{ computer.remarks || 'N/A' }}</td>
+                                    <td class="border px-4 py-2">{{ computer.status || 'N/A' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="overflow-x-auto"></div>
+
+                    <div class="flex flex-col my-4">
+                        <p class="text-sm font-semibold mt-5">
+                            Computer Components under accountability
+                        </p>
+                        <span class="text-secondary text-sm">(Ram, ssd, hdd ...)</span>
+                    </div>
+
+                    <!-- ✅ Wrap the table inside a div -->
+                    <div *ngIf="components.length > 0">
+                        <table class="table-auto w-full border">
+                            <thead>
+                                <tr>
+                                    <th class="border px-4 py-2">Type</th>
+                                    <th class="border px-4 py-2">UID</th>
+                                    <th class="border px-4 py-2">Cost</th>
+                                    <th class="border px-4 py-2">Remarks</th>
+                                    <th class="border px-4 py-2">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let component of components">
+                                    <td class="border px-4 py-2">{{ component.components?.type || 'N/A' }}</td>
+                                    <td class="border px-4 py-2">{{ component.components?.uid || 'N/A' }}</td>
+                                    <td class="border px-4 py-2">{{ component.components?.cost || 'N/A' }}</td>
+                                    <td class="border px-4 py-2">{{ component.remarks || 'N/A' }}</td>
+                                    <td class="border px-4 py-2">{{ component.status || 'N/A' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="overflow-x-auto"></div>
+
+                </div>
+
+                <div class="flex flex-col my-4">
+                    <p class="text-sm font-semibold mt-5">
+                        Assets under accountability
+                    </p>
+                    <span class="text-secondary text-sm">
+                        (Mouse, Keyboards etc..)</span>
+                </div>
+
+                <!-- ✅ Wrap the table inside a div -->
+                <div *ngIf="assets.length > 0">
+                    <table class="table-auto w-full border">
+                        <thead>
+                            <tr>
+                                <th class="border px-4 py-2">Type</th>
+                                <th class="border px-4 py-2">Brand</th>
+                                <th class="border px-4 py-2">Barcode</th>
+                                <th class="border px-4 py-2">Remarks</th>
+                                <th class="border px-4 py-2">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let asset of assets">
+                                <td class="border px-4 py-2">{{ asset.asset?.type || 'N/A' }}</td>
+                                <td class="border px-4 py-2">{{ asset.asset?.brand || 'N/A' }}</td>
+                                <td class="border px-4 py-2">{{ asset.asset?.asset_barcode || 'N/A' }}</td>
+                                <td class="border px-4 py-2">{{ asset.remarks || 'N/A' }}</td>
+                                <td class="border px-4 py-2">{{ asset.status || 'N/A' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -180,4 +180,9 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
     returnItem(id: string): void {
         this.router.navigate(['/assets/accountability/return', id]);
       }
+
+      viewResult(id: number): void {
+        console.log(`Viewing result for accountability ID: ${id}`);
+        this.router.navigate(['/assets/accountability/return/result', id]);
+    }
 }
