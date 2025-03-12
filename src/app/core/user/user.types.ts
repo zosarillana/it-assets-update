@@ -1,12 +1,11 @@
-export interface User
-{
+export interface User {
     id: string;
+    employee_id: string;
     name: string;
     email: string;
-    company: string;
-    department: string;
-    position: string;
-    employee_id: string;
+    designation?: string; // Add this if missing
+    company?: string;
+    department?: string;
     avatar?: string;
     status?: string;
 }

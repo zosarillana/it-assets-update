@@ -30,7 +30,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
         private _navigationService: NavigationService,
         private _userService: UserService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _fuseNavigationService: FuseNavigationService
+        private _fuseNavigationService: FuseNavigationService,
     )
     {
     }
@@ -56,29 +56,29 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+        // Subscribe to the user service to get user data
+        this._userService.user$
+            .pipe(takeUntil(this._unsubscribeAll)) // Auto-unsubscribe when component is destroyed
+            .subscribe((user: User) => {
+                this.user = user;
+                console.log('🟢 User data loaded:', user);
+            });
+    
         // Subscribe to navigation data
         this._navigationService.navigation$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((navigation: Navigation) => {
                 this.navigation = navigation;
             });
-
-        // Subscribe to the user service
-        this._userService.user$
-            .pipe((takeUntil(this._unsubscribeAll)))
-            .subscribe((user: User) => {
-                this.user = user;
-            });
-
+    
         // Subscribe to media changes
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(({matchingAliases}) => {
-
-                // Check if the screen is small
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
     }
+    
 
     /**
      * On destroy

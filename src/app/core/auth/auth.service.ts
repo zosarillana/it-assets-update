@@ -68,78 +68,70 @@ export class AuthService {
         }
     
         return this._httpClient
-            .post(`${this._apiBaseUrl}/Auth/login`, credentials)
+            .post<{ token: string }>(`${this._apiBaseUrl}/Auth/login`, credentials)
             .pipe(
-                map((response: any) => {
-                    console.log("Login Response:", response); // Debugging
+                map((response) => {
+                    console.log('🟢 Login Response:', response);
     
                     if (!response.token) {
-                        throw new Error("No token in response!");
+                        throw new Error('❌ No token in response!');
                     }
     
-                    console.log("Received Token:", response.token);
+                    this.accessToken = response.token; // Store token
     
-                    this.accessToken = response.token;  // Store token correctly
+                    // Extract user details from token
+                    const user = this._extractUserFromToken(response.token);
+    
+                    // Store user in UserService + Local Storage
+                    this._userService.user = user;
+                    localStorage.setItem('user', JSON.stringify(user));  // Persist user
+    
+                    this._authenticated = true;
     
                     return {
                         accessToken: response.token,
-                        user: this._extractUserFromToken(response.token),
+                        user: this._userService.user
                     };
                 })
             );
     }
     
+    
+    
+
     /**
      * Extract user information from JWT token
      */
     private _extractUserFromToken(token: string): any {
         try {
-            // Decode JWT without verification (as we just want to extract the payload)
+            console.log("🔵 Decoding token:", token);
+    
             const tokenParts = token.split('.');
             if (tokenParts.length !== 3) {
                 throw new Error('Invalid token format');
             }
-
-            // Decode the payload (second part)
+    
             const payload = JSON.parse(atob(tokenParts[1]));
-
-            // Map JWT claims to user object
-            // Adjust according to your actual token claims and User model needs
+    
+            console.log("🟢 Decoded Token Payload:", payload);
+    
             return {
                 id: payload.sub,
-                name: payload.unique_name, // This would be employee_id based on your JWT setup
-                email: payload.unique_name, // You may want to adjust this if you have email in your token
-                // Add other user fields as needed
+                employee_id: payload.unique_name, 
+                name: payload.name || "Unknown",  
+                email: payload.email || "No Email",
+                company: payload.company || "No Company",
+                department: payload.department || "No Department",
+                designation: payload.designation || "No designation",
+                avatar: 'assets/images/avatars/default-profile.jpg',
+                status: 'online'
             };
         } catch (error) {
-            console.error('Failed to extract user info from token:', error);
+            console.error("❌ Failed to extract user info from token:", error);
             return {};
         }
     }
-
-    /**
-     * Sign in using the access token
-     */
-    // signInUsingToken(): Observable<any> {
-    //     // In your current backend setup, you might not have a refresh endpoint
-    //     // So we'll check if the token is valid and if it is, we'll extract user info
-    //     // If not, we'll return false
-
-    //     if (!this.accessToken || AuthUtils.isTokenExpired(this.accessToken)) {
-    //         return of(false);
-    //     }
-
-    //     const user = this._extractUserFromToken(this.accessToken);
-
-    //     // Set the authenticated flag to true
-    //     this._authenticated = true;
-
-    //     // Store the user on the user service
-    //     // this._userService.user = user;
-    //     this._userService.user = this._extractUserFromToken(response.token);
-    //     // Return true
-    //     return of(true);
-    // }
+    
     
     signInUsingToken(): Observable<any> {
         if (!this.accessToken || AuthUtils.isTokenExpired(this.accessToken)) {
@@ -148,14 +140,12 @@ export class AuthService {
     
         const user = this._extractUserFromToken(this.accessToken);
     
-        // Set the authenticated flag to true
         this._authenticated = true;
+        this._userService.user = user; // Store user details in the service
     
-        // Store the user on the user service
-        this._userService.user = user;
+        console.log("User Info:", user);
     
-        // Return true
-        return of(true);
+        return of(user); // Return user object
     }
     
 
@@ -184,13 +174,13 @@ export class AuthService {
         password: string;
         company: string;
     }): Observable<any> {
-       // Adapt to your backend's registration endpoint if you have one
-       return this._httpClient.post(`${this._apiBaseUrl}/Auth/register`, {
-        name: user.name,
-        employee_id: user.email, // Assuming you use email as employee_id for new users
-        password: user.password,
-        company: user.company
-    });
+        // Adapt to your backend's registration endpoint if you have one
+        return this._httpClient.post(`${this._apiBaseUrl}/Auth/register`, {
+            name: user.name,
+            employee_id: user.email, // Assuming you use email as employee_id for new users
+            password: user.password,
+            company: user.company,
+        });
     }
 
     /**
@@ -198,13 +188,19 @@ export class AuthService {
      *
      * @param credentials
      */
-    unlockSession(credentials: { email:string; password: string }): Observable<any> {
+    unlockSession(credentials: {
+        email: string;
+        password: string;
+    }): Observable<any> {
         const loginRequest = {
             employee_id: credentials.email,
-            password: credentials.password
+            password: credentials.password,
         };
 
-        return this._httpClient.post(`${this._apiBaseUrl}/Auth/login`, loginRequest);
+        return this._httpClient.post(
+            `${this._apiBaseUrl}/Auth/login`,
+            loginRequest
+        );
     }
 
     /**
@@ -229,4 +225,6 @@ export class AuthService {
         // If the access token exists and it didn't expire, sign in using it
         return this.signInUsingToken();
     }
+
+    
 }
