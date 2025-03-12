@@ -131,6 +131,7 @@ private _changeDetectorRef: ChangeDetectorRef) {}
      // Scroll the current step selector from sidenav into view
      this._scrollCurrentStepElementIntoView();
  }
+ 
 /**
   * Scrolls the current step element from
   * sidenav into the view. This only happens when
