@@ -562,4 +562,8 @@ checkByUser(): void {
             }
         );
     }
+
+
+    //image getter url 
+     public imageUrl: string = 'https://localhost:7062/api/images/esignature';
 }

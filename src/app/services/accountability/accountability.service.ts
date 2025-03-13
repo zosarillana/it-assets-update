@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AssetResponse } from 'app/models/Inventory/AssetResponse';
 import { Observable } from 'rxjs';
-import { Accountability } from 'app/models/Accountability/Accountability';
+import { Accountability, AccountabilityItem, PaginatedResponse } from 'app/models/Accountability/Accountability';
 @Injectable({
     providedIn: 'root',
 })
@@ -11,9 +11,9 @@ export class AccountabilityService {
 
     constructor(private http: HttpClient) {}
 
-    getAllAccountability(): Observable<string[]> {
-        const url = `${this.url}/api/UserAccountabilityList/get-all`;
-        return this.http.get<string[]>(url);
+    getAllAccountability(pageNumber: number = 1, pageSize: number = 10): Observable<PaginatedResponse<AccountabilityItem>> {
+        const url = `${this.url}/api/UserAccountabilityList/get-all?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+        return this.http.get<PaginatedResponse<AccountabilityItem>>(url);
     }
 
     getAccountabilityById(id: number): Observable<Accountability> {

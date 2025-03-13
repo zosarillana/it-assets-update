@@ -624,11 +624,13 @@
                                                 else defaultSignature
                                             "
                                             [src]="
+                                                imageUrl +
+                                                '/' +
                                                 accountabilityApproval
                                                     ?.checkedByUser?.e_signature
                                             "
                                             alt="Signature"
-                                            class="mt-4 h-18 w-48 opacity-50"
+                                            class="mt-4 h-20 w-48 opacity-50"
                                         />
                                     </ng-container>
                                 </div>
@@ -716,13 +718,14 @@
                                                         ?.e_signature;
                                                     else defaultSignature
                                                 "
-                                                [src]="
-                                                    accountabilityApproval
-                                                        ?.receivedByUser
-                                                        ?.e_signature
-                                                "
+                                                 [src]="
+                                                 imageUrl +
+                                                 '/' +
+                                                 accountabilityApproval
+                                                     ?.receivedByUser?.e_signature
+                                             "
                                                 alt="Signature"
-                                                class="mt-4 w-48 opacity-80"
+                                                class="mt-4 h-20 w-48 opacity-50"
                                             />
                                         </ng-container>
                                     </div>
@@ -757,7 +760,8 @@
                                                         ? accountabilityApproval
                                                               .receivedByUser
                                                               .name
-                                                        : user?.role === "admin"
+                                                        : user?.role ===
+                                                          "receiver"
                                                         ? user?.name
                                                         : "NOT AVAILABLE"
                                                 }}
@@ -773,9 +777,10 @@
                                                         ? accountabilityApproval
                                                               .receivedByUser
                                                               .designation
-                                                        : user?.role === "admin"
+                                                        : user?.role ===
+                                                          "receiver"
                                                         ? user?.designation
-                                                        : "IT MANAGER"
+                                                        : "IT/OT LEAD"
                                                 }}
                                             </span>
                                         </div>
@@ -797,14 +802,15 @@
                                                         ?.confirmedByUser
                                                         ?.e_signature;
                                                     else defaultSignature
-                                                "
+                                                "                                                
                                                 [src]="
-                                                    accountabilityApproval
-                                                        ?.confirmedByUser
-                                                        ?.e_signature
-                                                "
+                                                imageUrl +
+                                                '/' +
+                                                accountabilityApproval
+                                                    ?.confirmedByUser?.e_signature
+                                            "
                                                 alt="Signature"
-                                                class="mt-4 w-48 opacity-80"
+                                                class="mt-4 h-20 w-48 opacity-50"
                                             />
                                         </ng-container>
                                     </div>
@@ -839,7 +845,8 @@
                                                         ? accountabilityApproval
                                                               .confirmedByUser
                                                               .name
-                                                        : user?.role === "admin"
+                                                        : user?.role ===
+                                                          "checker"
                                                         ? user?.name
                                                         : "NOT AVAILABLE"
                                                 }}
@@ -855,9 +862,10 @@
                                                         ? accountabilityApproval
                                                               .confirmedByUser
                                                               .designation
-                                                        : user?.role === "admin"
+                                                        : user?.role ===
+                                                          "checker"
                                                         ? user?.designation
-                                                        : "IT MANAGER"
+                                                        : "IT/OT END "
                                                 }}
                                             </span>
                                         </div>
@@ -930,7 +938,7 @@
         <button
             *ngIf="user.role === 'receiver'"
             class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
-            (click)="checkByUser()"
+            (click)="receiveByUser()"
             matTooltip="Approve document"
             matTooltipPosition="above"
             aria-label="Approve document"
@@ -942,7 +950,7 @@
         <button
             *ngIf="user.role === 'admin'"
             class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
-            (click)="receiveByUser()"
+            (click)="checkByUser()"
             matTooltip="Approve document"
             matTooltipPosition="above"
             aria-label="Approve document"

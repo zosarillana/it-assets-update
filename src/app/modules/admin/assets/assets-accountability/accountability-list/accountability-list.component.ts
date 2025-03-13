@@ -9,6 +9,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalUniversalComponent } from '../../components/modal/modal-universal/modal-universal.component';
 import { AlertService } from 'app/services/alert.service';
+import { Router } from '@angular/router';
 
 // Define an interface for your accountability item
 interface AccountabilityItem {
@@ -48,11 +49,13 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
 
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
+    // router: any;
 
     constructor(
         private _service: AccountabilityService, 
         private alertService: AlertService, 
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private router: Router,
     ) {}
 
     ngOnInit(): void {
@@ -75,20 +78,19 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
         this.dataSource.paginator = this.paginator;
     }
 
-    // Updated to use the new interface and handle potential undefined values
     loadAccountabilityData(): void {
         this._service.getAllAccountability().subscribe({
             next: (response: any) => {
-                if (response && response.$values) {
-                    // Type assertion to ensure type safety
-                    this.data = response.$values as AccountabilityItem[];
+                if (response && response.items && response.items.$values) {
+                    // Assign data to the table's dataSource
+                    this.data = response.items.$values as AccountabilityItem[];
                     this.dataSource.data = this.data;
-
+    
                     // Extract unique accountability codes safely
                     this.allTypes = this.data
                         .map(item => item.accountability_code)
                         .filter(code => code != null); // Filter out any null/undefined values
-
+    
                     // Ensure paginator works after data loads
                     setTimeout(() => {
                         if (this.paginator) {
@@ -103,6 +105,7 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
             }
         });
     }
+    
 
     // Explicitly type the filter method
     private _filter(value: string): string[] {
@@ -172,5 +175,14 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
                 this.alertService.triggerError('Failed to delete item.');
             },
         });
+    }
+
+    returnItem(id: string): void {
+        this.router.navigate(['/assets/accountability/return', id]);
+      }
+
+      viewResult(id: number): void {
+        console.log(`Viewing result for accountability ID: ${id}`);
+        this.router.navigate(['/assets/accountability/return/result', id]);
     }
 }
