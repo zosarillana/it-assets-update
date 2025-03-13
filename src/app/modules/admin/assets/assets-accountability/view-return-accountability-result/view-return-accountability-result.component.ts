@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ReturnAccountabilityItemsService } from '../../../../../services/accountability/return-accountability-items.service'; // Adjust the path as needed
 import { UsersService } from 'app/services/user/users.service';
 import { ReturnItemApprovalService } from 'app/services/accountability/return-item-approval.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser'; // ✅ Import this
+
 
 @Component({
   selector: 'app-view-return-accountability-result',
@@ -24,7 +26,9 @@ export class ViewReturnAccountabilityResultComponent implements OnInit {
     private route: ActivatedRoute,
     private returnAccountabilityItemsService: ReturnAccountabilityItemsService,
     private usersService: UsersService,
-    private returnItemApprovalService: ReturnItemApprovalService
+    private returnItemApprovalService: ReturnItemApprovalService,
+    private sanitizer: DomSanitizer // ✅ Inject DomSanitizer
+
 
 
   ) {}
@@ -92,6 +96,10 @@ export class ViewReturnAccountabilityResultComponent implements OnInit {
           console.error('Error fetching return item approval:', error);
         }
       });
+  }
+
+  sanitizeImagePath(imagePath: string): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(imagePath);
   }
 
 
