@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ReturnAccountabilityItemsService } from '../../../../../services/accountability/return-accountability-items.service'; // Adjust the path as needed
+import { UsersService } from 'app/services/user/users.service';
+import { ReturnItemApprovalService } from 'app/services/accountability/return-item-approval.service';
 
 @Component({
   selector: 'app-view-return-accountability-result',
@@ -13,10 +15,18 @@ export class ViewReturnAccountabilityResultComponent implements OnInit {
   components: any[] = [];
   assets: any[] = [];
   accountabilityId!: number;
+  currentUser: any;
+  accountabilityApproval: any;
+
+
 
   constructor(
     private route: ActivatedRoute,
-    private returnAccountabilityItemsService: ReturnAccountabilityItemsService
+    private returnAccountabilityItemsService: ReturnAccountabilityItemsService,
+    private usersService: UsersService,
+    private returnItemApprovalService: ReturnItemApprovalService
+
+
   ) {}
 
   ngOnInit(): void {
@@ -25,7 +35,23 @@ export class ViewReturnAccountabilityResultComponent implements OnInit {
       const id = params.get('id');
       if (id) {
         this.accountabilityId = +id;
+        console.log(`Accountability ID passed to component: ${this.accountabilityId}`);
+
         this.loadReturnItems(this.accountabilityId);
+        this.getReturnItemApproval(this.accountabilityId);
+
+      }
+    });
+
+
+    // Fetch the current logged-in user
+    this.usersService.getCurrentUser().subscribe({
+      next: (user) => {
+        this.currentUser = user;
+        console.log('Current User:', this.currentUser);
+      },
+      error: (error) => {
+        console.error('Error fetching current user:', error);
       }
     });
   }
@@ -53,6 +79,92 @@ export class ViewReturnAccountabilityResultComponent implements OnInit {
           console.error('Error fetching return items:', error);
         }
       });
+  }
+
+  getReturnItemApproval(accountabilityId: number): void {
+    this.returnItemApprovalService.getApprovalByAccountabilityId(accountabilityId)
+      .subscribe({
+        next: (data: any) => {
+          this.accountabilityApproval = data;
+          console.log('Return Item Approval:', this.accountabilityApproval);
+        },
+        error: (error) => {
+          console.error('Error fetching return item approval:', error);
+        }
+      });
+  }
+
+
+  checkByUser(): void {
+    const accountabilityId = this.accountabilityId;
+    const userId = this.currentUser?.id;
+
+    console.log('Accountability ID:', accountabilityId, typeof accountabilityId);
+    console.log('User ID:', userId, typeof userId);
+
+    if (!accountabilityId || isNaN(accountabilityId) || !userId) {
+      console.error('Accountability ID or User ID is missing');
+      return;
+    }
+
+    this.returnItemApprovalService.checkByUser(accountabilityId, userId).subscribe(
+      response => {
+        console.log('Check by User response:', response);
+        // Refresh data after successful check
+        this.getReturnItemApproval(accountabilityId);
+      },
+      error => {
+        console.error('Error:', error);
+      }
+    );
+  }
+
+  receiveByUser(): void {
+    const id = this.accountabilityApproval?.id;
+    const userId = this.currentUser?.id;
+
+    console.log('ID for receive:', id, typeof id);
+    console.log('User ID for receive:', userId, typeof userId);
+
+    if (!id || isNaN(id) || !userId) {
+      console.error('ID or User ID is missing for receive');
+      return;
+    }
+
+    this.returnItemApprovalService.receiveByUser(id, userId).subscribe(
+      response => {
+        console.log('Received by User response:', response);
+        // Refresh data after successful receive
+        this.getReturnItemApproval(this.accountabilityId);
+      },
+      error => {
+        console.error('Error in receive:', error);
+      }
+    );
+  }
+
+  confirmByUser(): void {
+    const id = this.accountabilityApproval?.id;
+    const userId = this.currentUser?.id;
+
+    console.log('Accountability ID for confirm:', id, typeof id);
+    console.log('User ID for confirm:', userId, typeof userId);
+
+    if (!id || isNaN(id) || !userId) {
+      console.error('Accountability ID or User ID is missing for confirm');
+      return;
+    }
+
+    this.returnItemApprovalService.confirmByUser(id, userId).subscribe(
+      response => {
+        console.log('Confirmed by User response:', response);
+        // Refresh data after successful confirm
+        this.getReturnItemApproval(this.accountabilityId);
+      },
+      error => {
+        console.error('Error in confirm:', error);
+      }
+    );
   }
   
   

@@ -42,3 +42,23 @@ export interface Accountability {
   owner: Owner;
   assets: Asset[];
 }
+
+
+export interface PaginatedResponse<T> {
+  items: T[];
+  totalItems: number;
+  pageNumber: number;
+  pageSize: number;
+}
+
+
+export interface AccountabilityItem {
+  id: number;
+  accountability_code: string;
+  tracking_code: string;
+  owner_id: number;
+  asset_ids: string;
+  computer_ids: string;
+  date_created: string;
+  is_active: boolean;
+}

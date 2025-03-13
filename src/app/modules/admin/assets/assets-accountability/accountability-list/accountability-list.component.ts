@@ -78,20 +78,19 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
         this.dataSource.paginator = this.paginator;
     }
 
-    // Updated to use the new interface and handle potential undefined values
     loadAccountabilityData(): void {
         this._service.getAllAccountability().subscribe({
             next: (response: any) => {
-                if (response && response.$values) {
-                    // Type assertion to ensure type safety
-                    this.data = response.$values as AccountabilityItem[];
+                if (response && response.items && response.items.$values) {
+                    // Assign data to the table's dataSource
+                    this.data = response.items.$values as AccountabilityItem[];
                     this.dataSource.data = this.data;
-
+    
                     // Extract unique accountability codes safely
                     this.allTypes = this.data
                         .map(item => item.accountability_code)
                         .filter(code => code != null); // Filter out any null/undefined values
-
+    
                     // Ensure paginator works after data loads
                     setTimeout(() => {
                         if (this.paginator) {
@@ -106,6 +105,7 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
             }
         });
     }
+    
 
     // Explicitly type the filter method
     private _filter(value: string): string[] {

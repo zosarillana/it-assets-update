@@ -199,6 +199,103 @@
                     </table>
                 </div>
 
+                <div class="flex flex-col w-full gap-4 mt-12 lg:flex-row md:flex-row">
+                    <div class="flex-grow flex-col" *ngIf="accountabilityApproval?.checkedByUser">
+                        <!-- Checked By -->
+                        <div class="flex-grow flex-col">
+                            <div class="text-l font-bold text-gray-900 uppercase tracking-wider text-left">
+                                <span class="text-sm text-gray-600">Checked by:</span>
+                            </div>
+                
+                            <!-- Signature Image -->
+                            <div class="flex-grow text-center">
+                                <div class="flex justify-center items-center">
+                                    <img [src]="accountabilityApproval?.checkedByUser?.e_signature || 'https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg'"
+                                        alt="Signature" class="mt-4 w-48 opacity-80" />
+                                </div>
+                
+                                <!-- Name and Role -->
+                                <div class="flex flex-col items-center">
+                                    <p class="text-md border-t m-1">
+                                        {{ accountabilityApproval?.checkedByUser?.name || 'N/A' }}
+                                    </p>
+                                    <span class="text-sm text-gray-600">
+                                        {{ accountabilityApproval?.checkedByUser?.designation || 'N/A' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="flex-grow flex-col" *ngIf="accountabilityApproval?.receivedByUser">
+                        <!-- Received By -->
+                        <div class="flex-grow flex-col">
+                            <div class="text-l font-bold text-gray-900 uppercase tracking-wider text-left">
+                                <span class="text-sm text-gray-600">Received by:</span>
+                            </div>
+                
+                            <div class="flex-grow text-center">
+                                <div class="flex justify-center items-center">
+                                    <img [src]="accountabilityApproval?.receivedByUser?.e_signature || 'https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg'"
+                                        alt="Signature" class="mt-4 w-48 opacity-80" />
+                                </div>
+                
+                                <div class="flex flex-col items-center">
+                                    <p class="text-md border-t m-1">
+                                        {{ accountabilityApproval?.receivedByUser?.name || 'N/A' }}
+                                    </p>
+                                    <span class="text-sm text-gray-600">
+                                        {{ accountabilityApproval?.receivedByUser?.designation || 'N/A' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="flex-grow flex-col" *ngIf="accountabilityApproval?.confirmedByUser">
+                        <!-- Confirmed By -->
+                        <div class="flex-grow flex-col">
+                            <div class="text-l font-bold text-gray-900 uppercase tracking-wider text-left">
+                                <span class="text-sm text-gray-600">Confirmed by:</span>
+                            </div>
+                
+                            <div class="flex-grow text-center">
+                                <div class="flex justify-center items-center">
+                                    <img [src]="accountabilityApproval?.confirmedByUser?.e_signature || 'https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg'"
+                                        alt="Signature" class="mt-4 w-48 opacity-80" />
+                                </div>
+                
+                                <div class="flex flex-col items-center">
+                                    <p class="text-md border-t m-1">
+                                        {{ accountabilityApproval?.confirmedByUser?.name || 'N/A' }}
+                                    </p>
+                                    <span class="text-sm text-gray-600">
+                                        {{ accountabilityApproval?.confirmedByUser?.designation || 'N/A' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+
+                <div class="fixed bottom-4 right-4 flex flex-col space-y-2">
+                    <button (click)="checkByUser()"
+                            class="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600">
+                      Check by User
+                    </button>
+                    <button (click)="receiveByUser()"
+                            class="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600">
+                      Receive by User
+                    </button>
+                    <button (click)="confirmByUser()"
+                            class="bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-600">
+                      Confirm by User
+                    </button>
+                  </div>
+
 
             </div>
         </div>

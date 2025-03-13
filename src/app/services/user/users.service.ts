@@ -2,7 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Assets } from 'app/models/Inventory/Asset';
 import { AssetResponse } from 'app/models/Inventory/AssetResponse';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root',
@@ -34,4 +35,16 @@ export class UsersService {
             params,
         });
     }
+
+    // Add this method to fetch the current logged-in user
+    getCurrentUser() {
+        return this.http.get<any>('https://localhost:7062/api/Users/current')
+          .pipe(
+            catchError(error => {
+              console.error('Error fetching current user:', error);
+              // Return a user-friendly error or null
+              return of(null);
+            })
+          );
+      }
 }
