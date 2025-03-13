@@ -37,7 +37,14 @@
                             <div class="flex flex-col w-64 gap-1 items-end">
                                 <p class="font-bold text-sm">
                                     Document Number
-                                    <span class="font-medium">A-60-FR-009</span>
+                                    <span class="font-medium">{{
+                                        asset?.user_accountability_list
+                                            .accountability_code
+                                    }}</span>
+                                    -
+                                    <span class="font-medium">{{
+                                        asset?.user_accountability_list.id
+                                    }}</span>
                                 </p>
                                 <p class="font-bold text-sm">
                                     Effective Date
@@ -599,68 +606,264 @@
                             >
                                 Prepared by:
                             </p>
+
                             <!-- Signature Image -->
                             <div class="flex-grow text-start">
                                 <div class="flex justify-start items-start">
+                                    <ng-container
+                                        *ngIf="
+                                            accountabilityApproval?.checkedByUser;
+                                            else blankSignature
+                                        "
+                                    >
+                                        <img
+                                            *ngIf="
+                                                accountabilityApproval
+                                                    ?.checkedByUser
+                                                    ?.e_signature;
+                                                else defaultSignature
+                                            "
+                                            [src]="
+                                                accountabilityApproval
+                                                    ?.checkedByUser?.e_signature
+                                            "
+                                            alt="Signature"
+                                            class="mt-4 h-18 w-48 opacity-50"
+                                        />
+                                    </ng-container>
+                                </div>
+
+                                <!-- Blank Image Placeholder -->
+                                <ng-template #defaultSignature>
                                     <img
                                         src="assets/images/logo/signature.png"
-                                        alt="Signature"
-                                        class="mt-4 w-48 opacity-80"
+                                        alt="Default Signature"
+                                        class="mt-4 w-48 opacity-50"
                                     />
-                                </div>
+                                </ng-template>
+
+                                <!-- Blank Image Placeholder (Shown only if accountabilityApproval?.checkedByUser doesn't exist) -->
+                                <ng-template #blankSignature>
+                                    <img
+                                        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                                        alt="Blank Signature"
+                                        class="mt-4 w-20 opacity-0"
+                                    />
+                                </ng-template>
+
+                                <!-- Show Name & Role -->
                                 <div
-                                    *ngIf="user"
                                     class="flex flex-row gap-8 -mt-10 uppercase"
                                 >
-                                    <!-- Name and Role -->
-                                    <div class="flex flex-col">
-                                        <p class="text-md border-t m-1">
-                                            {{ user?.name }}
+                                    <div class="flex flex-col w-48">
+                                        <p
+                                            class="text-md border-t m-1 text-center items-center"
+                                        >
+                                            {{
+                                                accountabilityApproval
+                                                    ?.checkedByUser?.name
+                                                    ? accountabilityApproval
+                                                          .checkedByUser.name
+                                                    : user?.role === "admin"
+                                                    ? user?.name
+                                                    : "NOT AVAILABLE"
+                                            }}
                                         </p>
+
                                         <span
                                             class="text-sm text-gray-600 text-center items-center"
                                         >
-                                            {{ user.designation }}
+                                            {{
+                                                accountabilityApproval
+                                                    ?.checkedByUser?.designation
+                                                    ? accountabilityApproval
+                                                          .checkedByUser
+                                                          .designation
+                                                    : user?.role === "admin"
+                                                    ? user?.designation
+                                                    : "IT MANAGER"
+                                            }}
                                         </span>
                                     </div>
                                     <p
-                                        class="text-sm tracking-tight font-bold uppercase mt-1.5"
+                                        class="text-xs tracking-tight font-bold uppercase mt-1.5"
                                     >
                                         Date
                                         <span class="font-medium">
                                             {{
-                                                datenow
-                                                    ? (datenow
+                                                accountabilityApproval?.checked_date
+                                                    ? (accountabilityApproval.checked_date
                                                       | date : "MMMM d, y")
                                                     : "N/A"
-                                            }}</span
-                                        >
+                                            }}
+                                        </span>
                                     </p>
                                 </div>
                             </div>
-                            <div class="flex-grow text-start">
-                                <div class="flex justify-start items-start">
-                                    <img
-                                        src="assets/images/logo/signature.png"
-                                        alt="Signature"
-                                        class="mt-4 w-48 opacity-80"
-                                    />
-                                </div>
-                                <div
-                                    class="flex flex-row gap-8 -mt-10 uppercase"
-                                >
-                                    <!-- Name and Role -->
-                                    <div class="flex flex-col">
-                                        <p class="text-md border-t m-1">
-                                            IRISH MARGOT FLORES LUNGAY
-                                        </p>
-                                        <span
-                                            class="text-sm text-gray-600 text-center items-center"
+                            <div class="grid grid-cols-1 lg:grid-cols-2">
+                                <div class="flex-grow text-start">
+                                    <div class="flex justify-start items-start">
+                                        <ng-container
+                                            *ngIf="
+                                                accountabilityApproval?.receivedByUser;
+                                                else blankSignature
+                                            "
                                         >
-                                            Lead, IT/ OT Operations (DA)
-                                        </span>
+                                            <img
+                                                *ngIf="
+                                                    accountabilityApproval
+                                                        ?.receivedByUser
+                                                        ?.e_signature;
+                                                    else defaultSignature
+                                                "
+                                                [src]="
+                                                    accountabilityApproval
+                                                        ?.receivedByUser
+                                                        ?.e_signature
+                                                "
+                                                alt="Signature"
+                                                class="mt-4 w-48 opacity-80"
+                                            />
+                                        </ng-container>
+                                    </div>
+
+                                    <ng-template #defaultSignature>
+                                        <img
+                                            src="assets/images/logo/signature.png"
+                                            alt="Default Signature"
+                                            class="mt-4 w-48 opacity-50"
+                                        />
+                                    </ng-template>
+
+                                    <!-- Blank Image Placeholder (Shown only if accountabilityApproval?.checkedByUser doesn't exist) -->
+                                    <ng-template #blankSignature>
+                                        <img
+                                            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                                            alt="Blank Signature"
+                                            class="mt-4 w-20 opacity-0"
+                                        />
+                                    </ng-template>
+                                    <div
+                                        class="flex flex-row gap-8 -mt-10 uppercase"
+                                    >
+                                        <!-- Name and Role -->
+                                        <div class="flex flex-col w-48">
+                                            <p
+                                                class="text-md border-t m-1 text-center items-center"
+                                            >
+                                                {{
+                                                    accountabilityApproval
+                                                        ?.receivedByUser?.name
+                                                        ? accountabilityApproval
+                                                              .receivedByUser
+                                                              .name
+                                                        : user?.role === "admin"
+                                                        ? user?.name
+                                                        : "NOT AVAILABLE"
+                                                }}
+                                            </p>
+
+                                            <span
+                                                class="text-sm text-gray-600 text-center items-center"
+                                            >
+                                                {{
+                                                    accountabilityApproval
+                                                        ?.receivedByUser
+                                                        ?.designation
+                                                        ? accountabilityApproval
+                                                              .receivedByUser
+                                                              .designation
+                                                        : user?.role === "admin"
+                                                        ? user?.designation
+                                                        : "IT MANAGER"
+                                                }}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
+
+                                <!-- chcker -->
+                                <div class="flex-grow text-start">
+                                    <div class="flex justify-start items-start">
+                                        <ng-container
+                                            *ngIf="
+                                                accountabilityApproval?.confirmedByUser;
+                                                else blankSignature
+                                            "
+                                        >
+                                            <img
+                                                *ngIf="
+                                                    accountabilityApproval
+                                                        ?.confirmedByUser
+                                                        ?.e_signature;
+                                                    else defaultSignature
+                                                "
+                                                [src]="
+                                                    accountabilityApproval
+                                                        ?.confirmedByUser
+                                                        ?.e_signature
+                                                "
+                                                alt="Signature"
+                                                class="mt-4 w-48 opacity-80"
+                                            />
+                                        </ng-container>
+                                    </div>
+
+                                    <ng-template #defaultSignature>
+                                        <img
+                                            src="assets/images/logo/signature.png"
+                                            alt="Default Signature"
+                                            class="mt-4 w-48 opacity-50"
+                                        />
+                                    </ng-template>
+
+                                    <!-- Blank Image Placeholder (Shown only if accountabilityApproval?.checkedByUser doesn't exist) -->
+                                    <ng-template #blankSignature>
+                                        <img
+                                            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                                            alt="Blank Signature"
+                                            class="mt-4 w-20 opacity-0"
+                                        />
+                                    </ng-template>
+                                    <div
+                                        class="flex flex-row gap-8 -mt-10 uppercase"
+                                    >
+                                        <!-- Name and Role -->
+                                        <div class="flex flex-col w-48">
+                                            <p
+                                                class="text-md border-t m-1 text-center items-center"
+                                            >
+                                                {{
+                                                    accountabilityApproval
+                                                        ?.confirmedByUser?.name
+                                                        ? accountabilityApproval
+                                                              .confirmedByUser
+                                                              .name
+                                                        : user?.role === "admin"
+                                                        ? user?.name
+                                                        : "NOT AVAILABLE"
+                                                }}
+                                            </p>
+
+                                            <span
+                                                class="text-sm text-gray-600 text-center items-center"
+                                            >
+                                                {{
+                                                    accountabilityApproval
+                                                        ?.confirmedByUser
+                                                        ?.designation
+                                                        ? accountabilityApproval
+                                                              .confirmedByUser
+                                                              .designation
+                                                        : user?.role === "admin"
+                                                        ? user?.designation
+                                                        : "IT MANAGER"
+                                                }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- chcker -->
                             </div>
                         </div>
 
@@ -702,7 +905,7 @@
                                         </span>
                                     </div>
                                     <p
-                                        class="text-sm tracking-tight font-bold uppercase mt-1.5"
+                                        class="text-xs tracking-tight font-bold uppercase mt-1.5"
                                     >
                                         Date
                                         <span class="font-medium">
@@ -723,20 +926,46 @@
         </div>
     </div>
 
-    <div class="grid-cols-1">
+    <div class="fixed bottom-4 right-4 flex flex-col space-y-4">
         <button
-            class="fixed bottom-20 right-4 bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
+            *ngIf="user.role === 'receiver'"
+            class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
             (click)="checkByUser()"
             matTooltip="Approve document"
             matTooltipPosition="above"
             aria-label="Approve document"
             style="width: 56px; height: 56px"
         >
-            <mat-icon svgIcon="mat_outline:thumb_up"></mat-icon>
-            <!-- Ensure the image fits inside -->
+            <mat-icon svgIcon="verified" class="text-blue-500"></mat-icon>
         </button>
+
         <button
-            class="fixed bottom-4 right-4 bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
+            *ngIf="user.role === 'admin'"
+            class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
+            (click)="receiveByUser()"
+            matTooltip="Approve document"
+            matTooltipPosition="above"
+            aria-label="Approve document"
+            style="width: 56px; height: 56px"
+        >
+            <mat-icon svgIcon="verified" class="text-gray-500"></mat-icon>
+        </button>
+
+        <!-- New Button: Only visible if user.role is 'checker' -->
+        <button
+            *ngIf="user.role === 'checker'"
+            class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
+            (click)="confirmByUser()"
+            matTooltip="Receive document"
+            matTooltipPosition="above"
+            aria-label="Receive document"
+            style="width: 56px; height: 56px"
+        >
+            <mat-icon svgIcon="verified" class="text-green-500"></mat-icon>
+        </button>
+
+        <button
+            class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
             (click)="pdfForm()"
             matTooltip="Generate PDF form"
             matTooltipPosition="above"
@@ -744,7 +973,6 @@
             style="width: 56px; height: 56px"
         >
             <img class="h-8 w-6" src="assets/images/svgs/pdf-svgrepo-com.svg" />
-            <!-- Ensure the image fits inside -->
         </button>
     </div>
 </div>

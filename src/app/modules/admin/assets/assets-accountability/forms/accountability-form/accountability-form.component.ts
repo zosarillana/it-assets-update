@@ -12,6 +12,7 @@ import { User } from 'app/core/user/user.types';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { AccountabilityApprovalService } from 'app/services/accountability/accountability-approval.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 // Interfaces
 interface Accountability {
@@ -119,7 +120,8 @@ export class AccountabilityFormComponent implements OnInit {
         private _service: AccountabilityService,
         private pdfService: PdfService,
         private _userService: UserService,
-        private accountabilityApprovalService: AccountabilityApprovalService
+        private accountabilityApprovalService: AccountabilityApprovalService,
+        private snackBar: MatSnackBar
     ) {}
 
     @ViewChild('paginatorAssets') paginatorAssets!: MatPaginator;
@@ -138,10 +140,11 @@ export class AccountabilityFormComponent implements OnInit {
     asset!: Accountability;
 
     ngOnInit() {
-        this.handleOverflow();
+        this.getAccountabilityApproval(); // Load data automatically on component initialization
+    
         this.datenow = new Date().toLocaleString(); // You can adjust this format
+    
         // Subscribe to the user service to get user data
-
         this._userService.user$
             .pipe(takeUntil(this._unsubscribeAll)) // Auto-unsubscribe when component is destroyed
             .subscribe((user: User) => {
@@ -149,74 +152,56 @@ export class AccountabilityFormComponent implements OnInit {
                 this.userId = user?.id ? Number(user.id) : null; // Convert to number
                 console.log('🟢 User data loaded:', user);
             });
-
+    
         const id = Number(this.route.snapshot.paramMap.get('id'));
-
+    
         if (id) {
             this._service.getAccountabilityById(id).subscribe({
                 next: (data: any) => {
                     console.log('Fetched Data:', data);
                     this.asset = data;
-
+    
                     if (this.asset?.assets?.$values?.length) {
                         this.dataSourceAssets.data = this.asset.assets.$values;
                     }
-                    console.log(
-                        'Assets Data Source:',
-                        this.dataSourceAssets.data
-                    );
-
+                    console.log('Assets Data Source:', this.dataSourceAssets.data);
+    
                     if (this.asset?.computers?.$values?.length) {
-                        this.dataSourceComputers.data =
-                            this.asset.computers.$values;
+                        this.dataSourceComputers.data = this.asset.computers.$values;
                     }
-                    console.log(
-                        'Computers Data Source:',
-                        this.dataSourceComputers.data
-                    );
-
+                    console.log('Computers Data Source:', this.dataSourceComputers.data);
+    
+                    if (this.asset?.user_accountability_list?.id) {
+                        console.log("✅ Accountability ID Loaded:", this.asset.user_accountability_list.id);
+                        this.getAccountabilityApproval(); // Call here!
+                    }
+    
                     let assignedAssets: AssignedAssetData[] = [];
                     this.asset.computers?.$values.forEach((computer) => {
                         if (computer.assignedAssetDetails?.$values?.length) {
-                            assignedAssets.push(
-                                ...computer.assignedAssetDetails.$values
-                            );
+                            assignedAssets.push(...computer.assignedAssetDetails.$values);
                         }
                     });
                     this.dataSourceAssignedAssets.data = assignedAssets;
-                    console.log(
-                        'Assigned Assets Data Source:',
-                        this.dataSourceAssignedAssets.data
-                    );
-
+                    console.log('Assigned Assets Data Source:', this.dataSourceAssignedAssets.data);
+    
                     let assignedComponents: ComponentDetail[] = [];
                     this.asset.computers?.$values.forEach((computer) => {
-                        const componentTypes = [
-                            'ram',
-                            'ssd',
-                            'hdd',
-                            'gpu',
-                            'board',
-                        ];
+                        const componentTypes = ['ram', 'ssd', 'hdd', 'gpu', 'board'];
                         componentTypes.forEach((type) => {
                             const componentData = computer.components?.[type];
                             if (componentData?.values?.$values?.length) {
                                 assignedComponents.push(
-                                    ...componentData.values.$values.map(
-                                        (component) => ({
-                                            ...component,
-                                            type: type.toUpperCase(),
-                                        })
-                                    )
+                                    ...componentData.values.$values.map((component) => ({
+                                        ...component,
+                                        type: type.toUpperCase(),
+                                    }))
                                 );
                             }
                         });
                     });
                     this.dataSourceAssignedComponents.data = assignedComponents;
-                    console.log(
-                        'Assigned Components Data Source:',
-                        this.dataSourceAssignedComponents.data
-                    );
+                    console.log('Assigned Components Data Source:', this.dataSourceAssignedComponents.data);
                 },
                 error: (err) => console.error('Error fetching asset', err),
             });
@@ -380,106 +365,150 @@ export class AccountabilityFormComponent implements OnInit {
     userId!: number;
     accountabilityApproval: any = null;
 
-    getAccountabilityApproval(): void {
-        const accountabilityId = this.asset?.user_accountability_list?.id
-            ? Number(this.asset.user_accountability_list.id)
-            : null;
-
-        console.log(
-            'Accountability ID:',
-            accountabilityId,
-            typeof accountabilityId
-        );
-
-        if (!accountabilityId || isNaN(accountabilityId)) {
-            console.error('❌ Accountability ID is missing');
-            return;
+    setAsset(data: any) {
+        this.asset = data;
+        
+        if (this.asset?.user_accountability_list?.id) {
+            console.log("✅ Accountability ID Loaded:", this.asset.user_accountability_list.id);
+            this.getAccountabilityApproval(); // Call here!
         }
-
-        this.accountabilityApprovalService
-            .getByAccountabilityId(accountabilityId)
-            .subscribe(
-                (response) => {
-                    console.log(
-                        '✅ Accountability approval data received:',
-                        response
-                    );
-                    console.log('🔎 Checking properties:', {
-                        checkedByUser: response?.checkedByUser,
-                        receivedByUser: response?.receivedByUser,
-                        confirmedByUser: response?.confirmedByUser,
-                    });
-
-                    this.accountabilityApproval = response;
-                },
-                (error) => {
-                    console.error(
-                        '❌ Error fetching accountability approval:',
-                        error
-                    );
-                }
-            );
     }
 
-    checkByUser(): void {
-        const accountabilityId = this.asset?.user_accountability_list?.id
-            ? Number(this.asset.user_accountability_list.id)
-            : null;
+ getAccountabilityApproval(): void {
+    const accountabilityId = this.asset?.user_accountability_list?.id
+        ? Number(this.asset.user_accountability_list.id)
+        : null;
 
-        const userId = String(this.userId); // Now userId is set correctly
-
-        console.log(
-            'Accountability ID from API:',
-            accountabilityId,
-            typeof accountabilityId
-        );
-        console.log('User ID:', userId, typeof userId);
-
-        if (!accountabilityId || isNaN(accountabilityId) || !userId) {
-            console.error('Accountability ID or User ID is missing');
-            return;
-        }
-
-        this.accountabilityApprovalService
-            .checkByUser(accountabilityId, userId)
-            .subscribe(
-                (response) => {
-                    console.log('Check by User response:', response);
-                    // Refresh approval data after successful check
-                    this.getAccountabilityApproval();
-                },
-                (error) => {
-                    console.error('Error:', error);
-                }
-            );
+    if (!accountabilityId || isNaN(accountabilityId)) {
+        return;
     }
+
+    this.accountabilityApprovalService.getByAccountabilityId(accountabilityId).subscribe(
+        (response) => {
+            if (!response || (Array.isArray(response) && response.length === 0)) {
+                return;
+            }
+
+            // If response is an array, filter to get the correct entry
+            this.accountabilityApproval = Array.isArray(response)
+                ? response.find((item) => item.accountability_id === accountabilityId)
+                : response;
+
+            // Ensure checkedByUser is correctly assigned
+            if (this.accountabilityApproval?.checked_by_user_id) {
+                this.accountabilityApproval.checkedByUser = {
+                    id: this.accountabilityApproval.checked_by_user_id,
+                    name: this.accountabilityApproval.checkedByUser?.name || 'N/A',
+                    designation: this.accountabilityApproval.checkedByUser?.designation || 'N/A',
+                    e_signature: this.accountabilityApproval.checkedByUser?.e_signature || null,
+                };
+            }
+        },
+        (error) => {
+            console.error('Error fetching accountability approval:', error);
+        }
+    );
+}
+
+
+    
+
+checkByUser(): void {
+    const accountabilityId = this.asset?.user_accountability_list?.id
+        ? Number(this.asset.user_accountability_list.id)
+        : null;
+
+    const userId = String(this.userId); // Convert to string for consistency
+
+    if (!accountabilityId || isNaN(accountabilityId) || !userId) {
+        this.snackBar.open('Invalid accountability data. Please contact IT.', '', {
+            duration: 4000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'center',
+            panelClass: ['snackbar-error']
+        });
+        return;
+    }
+
+    this.accountabilityApprovalService.checkByUser(accountabilityId, userId).subscribe(
+        () => {
+            this.getAccountabilityApproval(); // Refresh data
+
+            // Show success MatSnackBar
+            this.snackBar.open(`Checked by ${this.user?.name}`, '', {
+                duration: 3000,
+                verticalPosition: 'bottom',
+                horizontalPosition: 'center',
+                panelClass: ['snackbar-success']
+            });
+        },
+        () => {
+            // Show error MatSnackBar on API failure
+            this.snackBar.open('Check failed. Please try again or contact support.', '', {
+                duration: 4000,
+                verticalPosition: 'bottom',
+                horizontalPosition: 'right',
+                panelClass: ['snackbar-error']
+            });
+        }
+    );
+}
+
 
     receiveByUser(): void {
         const id = this.accountabilityApproval?.id
             ? Number(this.accountabilityApproval.id)
             : null; // Convert to number
         const userId = this.userId ? String(this.userId) : null; // Convert userId to a string
-
+    
         console.log('ID for receive:', id, typeof id);
         console.log('User ID for receive:', userId, typeof userId);
-
+    
+        // Show Snackbar if id or userId is invalid
         if (!id || isNaN(id) || !userId) {
-            console.error(
-                'Accountability ID or User ID is missing or invalid for confirm'
-            );
-            return;
+            console.error('Accountability ID or User ID is missing or invalid for confirm');
+    
+            // Show error MatSnackBar immediately
+            this.snackBar.open('Needs to be approved by an upper level (e.g., IT MANAGER)', '', {
+                duration: 4000,
+                verticalPosition: 'bottom',
+                horizontalPosition: 'center',
+                panelClass: ['snackbar-error'] // This applies the custom styles
+            });
+            
+    
+            return; // Stop execution
         }
-
+    
         this.accountabilityApprovalService.receiveByUser(id, userId).subscribe(
             (response) => {
                 console.log('Received by User response:', response);
                 this.getAccountabilityApproval(); // Refresh after success
+    
+                // Show success MatSnackBar
+                this.snackBar.open(`Approved by ${this.user?.name}`, '', {
+                    duration: 3000,
+                    verticalPosition: 'bottom',
+                    horizontalPosition: 'center',
+                    panelClass: ['snackbar-success']
+                });
             },
             (error) => {
                 console.error('Error in receive:', error);
+                console.log('Executing snackbar error'); // Debugging line
+    
+                // Show error MatSnackBar on API error
+                this.snackBar.open('Needs to be approved by an upper level (e.g., IT MANAGER)', '', {
+                    duration: 4000,
+                    verticalPosition: 'bottom',
+                    horizontalPosition: 'center',
+                    panelClass: ['snackbar-error']
+                });
             }
         );
     }
+    
+
 
     confirmByUser(): void {
         const id = this.accountabilityApproval?.id
@@ -492,18 +521,44 @@ export class AccountabilityFormComponent implements OnInit {
 
         if (!id || isNaN(id) || !userId) {
             console.error(
-                'Accountability ID or User ID is missing or invalid for confirm'
-            );
-            return;
+                'Accountability ID or User ID is missing or invalid for confirm')
+
+                 // Show error MatSnackBar immediately
+            this.snackBar.open('Needs to be approved by an upper level (e.g., IT MANAGER)', '', {
+                duration: 4000,
+                verticalPosition: 'bottom',
+                horizontalPosition: 'center',
+                panelClass: ['snackbar-error'] // This applies the custom styles
+            });
+            
+    
+            return; // Stop execution
+         
         }
 
         this.accountabilityApprovalService.confirmByUser(id, userId).subscribe(
             (response) => {
                 console.log('Confirmed by User response:', response);
                 this.getAccountabilityApproval(); // Refresh after success
+                  // Show success MatSnackBar
+                  this.snackBar.open(`Approved by ${this.user?.name}`, '', {
+                    duration: 3000,
+                    verticalPosition: 'bottom',
+                    horizontalPosition: 'center',
+                    panelClass: ['snackbar-success']
+                });
             },
             (error) => {
-                console.error('Error in confirm:', error);
+                console.error('Error in receive:', error);
+                console.log('Executing snackbar error'); // Debugging line
+    
+                // Show error MatSnackBar on API error
+                this.snackBar.open('Needs to be approved by an upper level (e.g., IT MANAGER)', '', {
+                    duration: 4000,
+                    verticalPosition: 'bottom',
+                    horizontalPosition: 'center',
+                    panelClass: ['snackbar-error']
+                });
             }
         );
     }

@@ -84,7 +84,7 @@ export class AuthService {
     
                     // Store user in UserService + Local Storage
                     this._userService.user = user;
-                    localStorage.setItem('user', JSON.stringify(user));  // Persist user
+                    // localStorage.setItem('user', JSON.stringify(user));  // Persist user
     
                     this._authenticated = true;
     
@@ -123,6 +123,7 @@ export class AuthService {
                 company: payload.company || "No Company",
                 department: payload.department || "No Department",
                 designation: payload.designation || "No designation",
+                role: payload.role || "No role",
                 avatar: 'assets/images/avatars/default-profile.jpg',
                 status: 'online'
             };

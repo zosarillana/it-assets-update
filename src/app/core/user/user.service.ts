@@ -52,21 +52,21 @@ export class UserService
      */
     get(): Observable<User> {
         return new Observable<User>((observer) => {
-            const storedUser = localStorage.getItem('user');
+            // const storedUser = localStorage.getItem('user');
             
-            if (storedUser) {
-                console.log('🟢 Returning stored user:', JSON.parse(storedUser));
-                observer.next(JSON.parse(storedUser)); // Use stored user
-                observer.complete();
-                return;
-            }
+            // if (storedUser) {
+            //     console.log('🟢 Returning stored user:', JSON.parse(storedUser));
+            //     observer.next(JSON.parse(storedUser)); // Use stored user
+            //     observer.complete();
+            //     return;
+            // }
     
             // If no stored user, call API
             this._httpClient.get<User>('api/common/user').pipe(
                 tap((user) => {
                     if (user && user.id) {
                         this._user.next(user);
-                        localStorage.setItem('user', JSON.stringify(user)); // Persist user
+                        // localStorage.setItem('user', JSON.stringify(user)); // Persist user
                         console.log('✅ API User Loaded:', user);
                     } else {
                         console.warn('⚠️ API returned empty user, keeping stored user.');
@@ -98,26 +98,26 @@ export class UserService
         console.log('🟢 loadUserFromToken() called');
     
         const token = localStorage.getItem('accessToken');
-        const storedUser = localStorage.getItem('user');
+        // const storedUser = localStorage.getItem('user');
     
-        if (storedUser) {
-            console.log('🟢 User found in localStorage:', storedUser);
-            this.user = JSON.parse(storedUser);
-        } 
-        else if (token) {
-            console.log('🟢 Token found in localStorage:', token);
-            const userData = this.decodeToken(token);
+        // // if (storedUser) {
+        // //     console.log('🟢 User found in localStorage:', storedUser);
+        // //     this.user = JSON.parse(storedUser);
+        // // } 
+        // else if (token) {
+        //     console.log('🟢 Token found in localStorage:', token);
+        //     const userData = this.decodeToken(token);
             
-            if (userData && userData.id) {
-                this.user = userData; 
-                localStorage.setItem('user', JSON.stringify(userData)); // Persist user
-                console.log('✅ User Loaded from Token:', userData);
-            } else {
-                console.warn('⚠️ Decoded user is empty or invalid.');
-            }
-        } else {
-            console.warn('⚠️ No token or stored user found.');
-        }
+        //     if (userData && userData.id) {
+        //         this.user = userData; 
+        //         localStorage.setItem('user', JSON.stringify(userData)); // Persist user
+        //         console.log('✅ User Loaded from Token:', userData);
+        //     } else {
+        //         console.warn('⚠️ Decoded user is empty or invalid.');
+        //     }
+        // } else {
+        //     console.warn('⚠️ No token or stored user found.');
+        // }
     }
     
     
@@ -142,7 +142,7 @@ export class UserService
                 employee_id: payload.unique_name,
                 name: payload.name || 'Unknown', // Ensure name exists
                 designation: payload.designation || 'No Designation',
-
+                role: payload.role || "No role",
                 email: payload.email || 'No Email', // Ensure email exists
                 company: payload.company || 'No Company', // Ensure company exists
                 department: payload.department || 'No Department', // Ensure department exists
