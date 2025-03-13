@@ -16,7 +16,7 @@ export class ViewReturnAccountabilityResultComponent implements OnInit {
   assets: any[] = [];
   accountabilityId!: number;
   currentUser: any;
-  accountabilityApproval: any;
+  ReturnItemsApproval: any;
 
 
 
@@ -85,8 +85,8 @@ export class ViewReturnAccountabilityResultComponent implements OnInit {
     this.returnItemApprovalService.getApprovalByAccountabilityId(accountabilityId)
       .subscribe({
         next: (data: any) => {
-          this.accountabilityApproval = data;
-          console.log('Return Item Approval:', this.accountabilityApproval);
+          this.ReturnItemsApproval = data;
+          console.log('Return Item Approval:', this.ReturnItemsApproval);
         },
         error: (error) => {
           console.error('Error fetching return item approval:', error);
@@ -120,7 +120,7 @@ export class ViewReturnAccountabilityResultComponent implements OnInit {
   }
 
   receiveByUser(): void {
-    const id = this.accountabilityApproval?.id;
+    const id = this.ReturnItemsApproval?.id;
     const userId = this.currentUser?.id;
 
     console.log('ID for receive:', id, typeof id);
@@ -144,7 +144,7 @@ export class ViewReturnAccountabilityResultComponent implements OnInit {
   }
 
   confirmByUser(): void {
-    const id = this.accountabilityApproval?.id;
+    const id = this.ReturnItemsApproval?.id;
     const userId = this.currentUser?.id;
 
     console.log('Accountability ID for confirm:', id, typeof id);
