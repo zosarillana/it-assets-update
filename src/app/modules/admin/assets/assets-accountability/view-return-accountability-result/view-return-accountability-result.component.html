@@ -1,0 +1,583 @@
+<div
+    class="mx-auto inset-0 min-w-0 text-center overflow-auto print:overflow-visible"
+    cdkScrollable
+>
+    <div class="a4-container">
+        <div class="inline-block p-6 sm:p-10 text-left print:p-0">
+            <div
+                class="w-240 min-w-240 p-16 rounded-2xl shadow bg-card print:w-auto print:p-0 print:rounded-none print:shadow-none print:bg-transparent"
+            >
+                <div id="pdfFormArea" #pdfFormArea>
+                    <div class="flex">
+                        <div class="flex flex-row gap-4 w-full">
+                            <div class="flex gap-4">
+                                <img
+                                    src="assets/images/logo/suylogo.png"
+                                    alt="Logo"
+                                    class="-ml-5 -mt-5 h-32 w-32"
+                                />
+                                <div class="flex flex-col w-64 gap-1">
+                                    <p class="font-bold text-sm">
+                                        Ana's Breeders Farm Inc.
+                                    </p>
+                                    <p class="text-sm w-56">
+                                        Sitio Sto. Niño, Pan Philippine Highway
+                                        Brgy. Binugao, Toril District Davao
+                                        City, Davao del Sur, Philippines.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right-aligned Document Details -->
+                        <div class="flex flex-row gap-4 w-full justify-end">
+                            <div class="flex flex-col w-64 gap-1 items-end">
+                                <p class="font-bold text-sm">
+                                    Document Number
+                                    <span class="font-medium">A-60-FR-009</span>
+                                </p>
+                                <p class="font-bold text-sm">
+                                    Effective Date
+                                    <!-- <span class="font-medium">{{
+                                asset?.user_accountability_list.date_created
+                                    ? (asset?.user_accountability_list
+                                          .date_created
+                                      | date : "MMMM d, y")
+                                    : "N/A"
+                            }}</span> -->
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p
+                        class="flex justify-center text-2xl font-semibold w-full"
+                    >
+                        RETURN ACCOUNTABILITY FORM
+                    </p>
+
+                    <div class="flex flex-row w-full mx-auto mt-8 gap-12">
+                        <div class="flex flex-col gap-0.5 w-58">
+                            <p class="text-lg tracking-tight font-bold">
+                                ISSUED TO
+                            </p>
+
+                            <div class="flex flex-row gap-2 text-sm">
+                                <p
+                                    class="text-regular tracking-tight font-bold"
+                                >
+                                    Employee Name
+                                </p>
+                                <span class="font-medium">
+                                    {{
+                                        returnItems[0]?.accountability?.owner
+                                            ?.name || "N/A"
+                                    }}
+                                </span>
+                            </div>
+
+                            <div class="flex flex-row gap-10 text-sm">
+                                <p
+                                    class="text-regular tracking-tight font-bold"
+                                >
+                                    ID Number
+                                </p>
+                                <span class="font-medium">
+                                    {{
+                                        returnItems[0]?.accountability?.owner
+                                            ?.employee_id || "N/A"
+                                    }}
+                                </span>
+                            </div>
+
+                            <div class="flex flex-row gap-8 text-sm">
+                                <p
+                                    class="text-regular tracking-tight font-bold"
+                                >
+                                    Designation
+                                </p>
+                                <span class="font-medium">
+                                    {{
+                                        returnItems[0]?.accountability?.owner
+                                            ?.designation || "N/A"
+                                    }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-0.5 w-58 mt-7">
+                            <div class="flex flex-row gap-15 text-sm">
+                                <p
+                                    class="text-regular tracking-tight font-bold"
+                                >
+                                    Company
+                                </p>
+                                <span class="font-medium">
+                                    {{
+                                        returnItems[0]?.accountability?.owner
+                                            ?.company || "N/A"
+                                    }}
+                                </span>
+                            </div>
+
+                            <div class="flex flex-row gap-11 text-sm">
+                                <p
+                                    class="text-regular tracking-tight font-bold"
+                                >
+                                    Department
+                                </p>
+                                <span class="font-medium">
+                                    {{
+                                        returnItems[0]?.accountability?.owner
+                                            ?.department || "N/A"
+                                    }}
+                                </span>
+                            </div>
+
+                            <div class="flex flex-row gap-9 text-sm">
+                                <p
+                                    class="text-regular tracking-tight font-bold"
+                                >
+                                    Business Unit
+                                </p>
+                                <span class="font-medium">
+                                    {{
+                                        returnItems[0]?.accountability?.owner
+                                            ?.business_unit || "N/A"
+                                    }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Page Break (If Needed) -->
+                    <div class="page-break"></div>
+                    <div class="flex flex-col my-4">
+                        <p class="text-sm font-semibold mt-5">
+                            Computer under accountability
+                        </p>
+                        <span class="text-secondary text-sm">
+                            (Desktop, Laptops, etc..)</span
+                        >
+                    </div>
+                    <div *ngIf="computers.length > 0" class="overflow-x-auto">
+                        <mat-table
+                            [dataSource]="computers"
+                            matSort
+                            class="mat-elevation-z8 custom-mat-table"
+                        >
+                            <!-- Type Column -->
+                            <ng-container matColumnDef="type">
+                                <mat-header-cell
+                                    *matHeaderCellDef
+                                    mat-sort-header
+                                    >Type</mat-header-cell
+                                >
+                                <mat-cell
+                                    class="text-sm"
+                                    *matCellDef="let computer"
+                                    >{{
+                                        computer.computer?.type || "N/A"
+                                    }}</mat-cell
+                                >
+                            </ng-container>
+
+                            <!-- Model Column -->
+                            <ng-container matColumnDef="model">
+                                <mat-header-cell
+                                    *matHeaderCellDef
+                                    mat-sort-header
+                                    >Model</mat-header-cell
+                                >
+                                <mat-cell *matCellDef="let computer">{{
+                                    computer.computer?.model || "N/A"
+                                }}</mat-cell>
+                            </ng-container>
+
+                            <!-- Barcode Column -->
+                            <ng-container matColumnDef="assetBarcode">
+                                <mat-header-cell
+                                    *matHeaderCellDef
+                                    mat-sort-header
+                                    >Barcode</mat-header-cell
+                                >
+                                <mat-cell *matCellDef="let computer">{{
+                                    computer.computer?.asset_barcode || "N/A"
+                                }}</mat-cell>
+                            </ng-container>
+
+                            <!-- Remarks Column -->
+                            <ng-container matColumnDef="remarks">
+                                <mat-header-cell
+                                    *matHeaderCellDef
+                                    mat-sort-header
+                                    >Remarks</mat-header-cell
+                                >
+                                <mat-cell *matCellDef="let computer">{{
+                                    computer.remarks || "N/A"
+                                }}</mat-cell>
+                            </ng-container>
+
+                            <!-- Status Column -->
+                            <ng-container matColumnDef="status">
+                                <mat-header-cell
+                                    *matHeaderCellDef
+                                    mat-sort-header
+                                    >Status</mat-header-cell
+                                >
+                                <mat-cell *matCellDef="let computer">{{
+                                    computer.status || "N/A"
+                                }}</mat-cell>
+                            </ng-container>
+
+                            <mat-header-row
+                                *matHeaderRowDef="[
+                                    'type',
+                                    'model',
+                                    'assetBarcode',
+                                    'remarks',
+                                    'status'
+                                ]"
+                            ></mat-header-row>
+                            <mat-row
+                                *matRowDef="
+                                    let row;
+                                    columns: [
+                                        'type',
+                                        'model',
+                                        'assetBarcode',
+                                        'remarks',
+                                        'status'
+                                    ]
+                                "
+                                class="hover:bg-gray-100 h-12 cursor-pointer"
+                            ></mat-row>
+                        </mat-table>
+                    </div>
+
+                    <div class="overflow-x-auto"></div>
+
+                    <div class="flex flex-col my-4">
+                        <p class="text-sm font-semibold mt-5">
+                            Computer Components under accountability
+                        </p>
+                        <span class="text-secondary text-sm"
+                            >(Ram, ssd, hdd ...)</span
+                        >
+                    </div>
+
+                    <div *ngIf="components.length > 0" class="overflow-x-auto">
+                        <mat-table
+                            [dataSource]="components"
+                            matSort
+                            class="mat-elevation-z8 custom-mat-table"
+                        >
+                            <!-- Type Column -->
+                            <ng-container matColumnDef="type">
+                                <mat-header-cell
+                                    *matHeaderCellDef
+                                    mat-sort-header
+                                    >Type</mat-header-cell
+                                >
+                                <mat-cell
+                                    class="text-sm"
+                                    *matCellDef="let component"
+                                    >{{
+                                        component.components?.type || "N/A"
+                                    }}</mat-cell
+                                >
+                            </ng-container>
+
+                            <!-- UID Column -->
+                            <ng-container matColumnDef="uid">
+                                <mat-header-cell
+                                    *matHeaderCellDef
+                                    mat-sort-header
+                                    >UID</mat-header-cell
+                                >
+                                <mat-cell *matCellDef="let component">{{
+                                    component.components?.uid || "N/A"
+                                }}</mat-cell>
+                            </ng-container>
+
+                            <!-- Cost Column -->
+                            <ng-container matColumnDef="cost">
+                                <mat-header-cell
+                                    *matHeaderCellDef
+                                    mat-sort-header
+                                    >Cost</mat-header-cell
+                                >
+                                <mat-cell *matCellDef="let component">{{
+                                    component.components?.cost || "N/A"
+                                }}</mat-cell>
+                            </ng-container>
+
+                            <!-- Remarks Column -->
+                            <ng-container matColumnDef="remarks">
+                                <mat-header-cell
+                                    *matHeaderCellDef
+                                    mat-sort-header
+                                    >Remarks</mat-header-cell
+                                >
+                                <mat-cell *matCellDef="let component">{{
+                                    component.remarks || "N/A"
+                                }}</mat-cell>
+                            </ng-container>
+
+                            <!-- Status Column -->
+                            <ng-container matColumnDef="status">
+                                <mat-header-cell
+                                    *matHeaderCellDef
+                                    mat-sort-header
+                                    >Status</mat-header-cell
+                                >
+                                <mat-cell *matCellDef="let component">{{
+                                    component.status || "N/A"
+                                }}</mat-cell>
+                            </ng-container>
+
+                            <mat-header-row
+                                *matHeaderRowDef="[
+                                    'type',
+                                    'uid',
+                                    'cost',
+                                    'remarks',
+                                    'status'
+                                ]"
+                            ></mat-header-row>
+                            <mat-row
+                                *matRowDef="
+                                    let row;
+                                    columns: [
+                                        'type',
+                                        'uid',
+                                        'cost',
+                                        'remarks',
+                                        'status'
+                                    ]
+                                "
+                                class="hover:bg-gray-100 h-12 cursor-pointer"
+                            ></mat-row>
+                        </mat-table>
+                    </div>
+
+                    <div class="overflow-x-auto"></div>
+                </div>
+
+                <div class="flex flex-col my-4">
+                    <p class="text-sm font-semibold mt-5">
+                        Assets under accountability
+                    </p>
+                    <span class="text-secondary text-sm">
+                        (Mouse, Keyboards etc..)</span
+                    >
+                </div>
+
+                <div *ngIf="assets.length > 0" class="overflow-x-auto">
+                    <mat-table
+                        [dataSource]="assets"
+                        matSort
+                        class="mat-elevation-z8 custom-mat-table"
+                    >
+                        <!-- Type Column -->
+                        <ng-container matColumnDef="type">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header
+                                >Type</mat-header-cell
+                            >
+                            <mat-cell class="text-sm" *matCellDef="let asset">{{
+                                asset.asset?.type || "N/A"
+                            }}</mat-cell>
+                        </ng-container>
+
+                        <!-- Brand Column -->
+                        <ng-container matColumnDef="brand">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header
+                                >Brand</mat-header-cell
+                            >
+                            <mat-cell *matCellDef="let asset">{{
+                                asset.asset?.brand || "N/A"
+                            }}</mat-cell>
+                        </ng-container>
+
+                        <!-- Barcode Column -->
+                        <ng-container matColumnDef="assetBarcode">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header
+                                >Barcode</mat-header-cell
+                            >
+                            <mat-cell *matCellDef="let asset">{{
+                                asset.asset?.asset_barcode || "N/A"
+                            }}</mat-cell>
+                        </ng-container>
+
+                        <!-- Remarks Column -->
+                        <ng-container matColumnDef="remarks">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header
+                                >Remarks</mat-header-cell
+                            >
+                            <mat-cell *matCellDef="let asset">{{
+                                asset.remarks || "N/A"
+                            }}</mat-cell>
+                        </ng-container>
+
+                        <!-- Status Column -->
+                        <ng-container matColumnDef="status">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header
+                                >Status</mat-header-cell
+                            >
+                            <mat-cell *matCellDef="let asset">{{
+                                asset.status || "N/A"
+                            }}</mat-cell>
+                        </ng-container>
+
+                        <mat-header-row
+                            *matHeaderRowDef="[
+                                'type',
+                                'brand',
+                                'assetBarcode',
+                                'remarks',
+                                'status'
+                            ]"
+                        ></mat-header-row>
+                        <mat-row
+                            *matRowDef="
+                                let row;
+                                columns: [
+                                    'type',
+                                    'brand',
+                                    'assetBarcode',
+                                    'remarks',
+                                    'status'
+                                ]
+                            "
+                            class="hover:bg-gray-100 h-12 cursor-pointer"
+                        ></mat-row>
+                    </mat-table>
+                </div>
+
+                <div class="flex flex-col w-full gap-4 mt-12 lg:flex-row md:flex-row">
+                    <div class="flex-grow flex-col" *ngIf="ReturnItemsApproval?.checkedByUser">
+                      <!-- Checked By -->
+                      <div class="flex-grow flex-col">
+                        <div class="text-l font-bold text-gray-900 uppercase tracking-wider text-left">
+                          <span class="text-sm text-gray-600">Checked by:</span>
+                        </div>
+                  
+                        <!-- Signature Image -->
+                        <div class="flex-grow text-center">
+                          <div class="flex justify-center items-center">
+                            <img
+                              [src]="
+                                ReturnItemsApproval?.checkedByUser?.e_signature
+                                  ? sanitizeImagePath(ReturnItemsApproval?.checkedByUser?.e_signature)
+                                  : 'https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg'
+                              "
+                              alt="Signature"
+                              class="mt-4 w-48 opacity-80"
+                            />
+                          </div>
+                  
+                          <!-- Name and Role -->
+                          <div class="flex flex-col items-center">
+                            <p class="text-md border-t m-1">
+                              {{ ReturnItemsApproval?.checkedByUser?.name || 'N/A' }}
+                            </p>
+                            <span class="text-sm text-gray-600">
+                              {{ ReturnItemsApproval?.checkedByUser?.designation || 'N/A' }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <div class="flex-grow flex-col" *ngIf="ReturnItemsApproval?.receivedByUser">
+                      <!-- Received By -->
+                      <div class="flex-grow flex-col">
+                        <div class="text-l font-bold text-gray-900 uppercase tracking-wider text-left">
+                          <span class="text-sm text-gray-600">Received by:</span>
+                        </div>
+                  
+                        <div class="flex-grow text-center">
+                          <div class="flex justify-center items-center">
+                            <img
+                              [src]="
+                                ReturnItemsApproval?.receivedByUser?.e_signature
+                                  ? sanitizeImagePath(ReturnItemsApproval?.receivedByUser?.e_signature)
+                                  : 'https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg'
+                              "
+                              alt="Signature"
+                              class="mt-4 w-48 opacity-80"
+                            />
+                          </div>
+                  
+                          <div class="flex flex-col items-center">
+                            <p class="text-md border-t m-1">
+                              {{ ReturnItemsApproval?.receivedByUser?.name || 'N/A' }}
+                            </p>
+                            <span class="text-sm text-gray-600">
+                              {{ ReturnItemsApproval?.receivedByUser?.designation || 'N/A' }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <div class="flex-grow flex-col" *ngIf="ReturnItemsApproval?.confirmedByUser">
+                      <!-- Confirmed By -->
+                      <div class="flex-grow flex-col">
+                        <div class="text-l font-bold text-gray-900 uppercase tracking-wider text-left">
+                          <span class="text-sm text-gray-600">Confirmed by:</span>
+                        </div>
+                  
+                        <div class="flex-grow text-center">
+                          <div class="flex justify-center items-center">
+                            <img
+                              [src]="
+                                ReturnItemsApproval?.confirmedByUser?.e_signature
+                                  ? sanitizeImagePath(ReturnItemsApproval?.confirmedByUser?.e_signature)
+                                  : 'https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg'
+                              "
+                              alt="Signature"
+                              class="mt-4 w-48 opacity-80"
+                            />
+                          </div>
+                  
+                          <div class="flex flex-col items-center">
+                            <p class="text-md border-t m-1">
+                              {{ ReturnItemsApproval?.confirmedByUser?.name || 'N/A' }}
+                            </p>
+                            <span class="text-sm text-gray-600">
+                              {{ ReturnItemsApproval?.confirmedByUser?.designation || 'N/A' }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="fixed bottom-4 right-4 flex flex-col space-y-2">
+                    <button
+                      *ngIf="!ReturnItemsApproval?.checkedByUser && (user?.role === 'checker' || user?.role === 'receiver' || user?.role === 'admin')"
+                      (click)="checkByUser()"
+                      class="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
+                    >
+                      Check by User
+                    </button>
+                    <button
+                      *ngIf="ReturnItemsApproval?.checkedByUser && !ReturnItemsApproval?.receivedByUser && (user?.role === 'receiver' || user?.role === 'admin')"
+                      (click)="receiveByUser()"
+                      class="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600"
+                    >
+                      Receive by User
+                    </button>
+                    <button
+                      *ngIf="ReturnItemsApproval?.receivedByUser && !ReturnItemsApproval?.confirmedByUser && user?.role === 'admin'"
+                      (click)="confirmByUser()"
+                      class="bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-600"
+                    >
+                      Confirm by User
+                    </button>
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>
