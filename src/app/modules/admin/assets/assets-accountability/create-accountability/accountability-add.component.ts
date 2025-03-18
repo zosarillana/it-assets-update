@@ -72,10 +72,10 @@ export class AccoundabilityAddComponent implements OnInit {
     }
         
     ngOnInit(): void {
-        this.initializeForm(); // Ensure the form is created first
+        this.initializeForm();
         this.loadDepartments();
         this.loadComputers();
-        
+    
         this.filteredComputerOptions = this.eventForm.get('typeComputerControl')!.valueChanges.pipe(
             startWith(''),
             debounceTime(300),
@@ -127,18 +127,24 @@ export class AccoundabilityAddComponent implements OnInit {
             },
         });
     }
-    
-
-
 
     private _filterAutocompleteOptions(value: string): Observable<Assets[]> {
         const filterValue = value.toLowerCase();
         return of(
-            this.computersData.filter((option) =>
-                option.asset_barcode.toLowerCase().includes(filterValue)
-            )
+            this.computersData
+                .filter(option => option.status === "AVAILABLE") // Ensure only AVAILABLE computers are shown
+                .filter(option => option.asset_barcode.toLowerCase().includes(filterValue))
         );
     }
+    
+    // private _filterAutocompleteOptions(value: string): Observable<Assets[]> {
+    //     const filterValue = value.toLowerCase();
+    //     return of(
+    //         this.computersData.filter((option) =>
+    //             option.asset_barcode.toLowerCase().includes(filterValue)
+    //         )
+    //     );
+    // }
 
     onTypeSelected(option: Assets): void {
         if (option) {
