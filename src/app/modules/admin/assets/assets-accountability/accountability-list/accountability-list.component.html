@@ -201,7 +201,7 @@
                                         [ngClass]="{'bg-red-500': !element.user_accountability_list?.is_active, 'bg-green-500': element.user_accountability_list?.is_active}"
                                         class="flex w-2 h-2 mt-1.5 me-3 rounded-full"
                                     ></span>
-                                    <p class="ml-2 text-md">
+                                    <p class="ml-2 text-sm mt-0.5">
                                         {{ element.user_accountability_list?.is_active ? 'ACTIVE' : 'INACTIVE' }}
                                     </p>
                                 </div>
@@ -294,13 +294,20 @@
                                     <mat-icon class="icon-size-5" color="warn" svgIcon="feather:trash"></mat-icon>
                                     <p class="text-regular">Delete</p>
                                 </button>
-    
-                                <button mat-menu-item (click)="returnItem(element?.user_accountability_list?.id)">
-                                    <mat-icon class="icon-size-5" svgIcon="feather:corner-up-left"></mat-icon>
-                                    <p class="text-regular">Return</p>
-                                </button>
+                                <ng-container *ngIf="element.user_accountability_list?.is_active">
+                                    <button mat-menu-item (click)="returnItem(element?.user_accountability_list?.id)">
+                                        <mat-icon class="icon-size-5" svgIcon="feather:corner-up-left"></mat-icon>
+                                        <p class="text-regular">Return</p>
+                                    </button>
+                                </ng-container>
                                 
-                                                
+                                <ng-container *ngIf="!element.user_accountability_list?.is_active">
+                                    <button mat-menu-item (click)="viewResult(element?.user_accountability_list?.id)">
+                                      <mat-icon class="icon-size-5" svgIcon="feather:eye"></mat-icon>
+                                      <p class="text-regular">View Return Result</p>
+                                    </button>
+                                  </ng-container>
+          
                                 <!-- <button mat-menu-item>Option 2</button> -->
                             </mat-menu>
                         </td>
@@ -320,7 +327,7 @@
             <div>
                 <mat-paginator
                 [pageSizeOptions]="[10, 15, 20, 50, 100]"
-                [pageSize]="10"
+                [pageSize]="20"
                 showFirstLastButtons
             ></mat-paginator>
             

@@ -81,6 +81,8 @@ import { ModalPullinAssetsComponent } from '../assets-computers/modal-pullin-ass
 import { ModalPullinComponentComponent } from '../assets-computers/modal-pullin-component/modal-pullin-component.component';
 import { MatListModule } from '@angular/material/list'; 
 import { BusinessUnitsComponent } from '../masterdata/business-units/business-units.component';
+import { ReturnFormComponent } from '../assets-accountability/forms/return-form/return-form.component';
+import { ViewReturnComponent } from '../assets-accountability/views/view-return/view-return.component';
 
 const assetRoute: Route[] = [
     // {
@@ -140,6 +142,15 @@ const assetRoute: Route[] = [
         path: 'accountability/view/:id',
         component: AccountabilityFormComponent,
     },
+    {
+        path: 'accountability/return/:id',
+        component: ReturnFormComponent,
+    },
+    {
+        path: 'accountability/return/result/:id',
+        component: ViewReturnComponent,
+      },
+
     {
         path: 'accountability/add',
         component: AccoundabilityAddComponent,
@@ -241,7 +252,9 @@ const assetRoute: Route[] = [
         DepartmentsComponent,
         ModalPullinAssetsComponent,
         BusinessUnitsComponent,
-        ModalPullinComponentComponent   
+        ModalPullinComponentComponent,
+        ReturnFormComponent,
+        ViewReturnComponent   
         // AlertsComponentComponent,
     ],
     imports: [

@@ -1,24 +1,15 @@
-<div
-    *ngIf="asset"
-    class="mx-auto inset-0 min-w-0 text-center overflow-auto print:overflow-visible"
-    cdkScrollable
->
+<div *ngIf="asset" class="mx-auto inset-0 min-w-0 text-center overflow-auto print:overflow-visible" cdkScrollable>
     <!-- A4 Wrapper -->
     <div class="a4-container">
         <!-- Page Content -->
         <div class="inline-block p-6 sm:p-10 text-left print:p-0">
             <div
-                class="w-240 min-w-240 p-16 rounded-2xl shadow bg-card print:w-auto print:p-0 print:rounded-none print:shadow-none print:bg-transparent"
-            >
+                class="w-240 min-w-240 p-16 rounded-2xl shadow bg-card print:w-auto print:p-0 print:rounded-none print:shadow-none print:bg-transparent">
                 <div id="pdfFormArea" #pdfFormArea>
                     <div class="flex">
                         <div class="flex flex-row gap-4 w-full">
                             <div class="flex gap-4">
-                                <img
-                                    src="assets/images/logo/suylogo.png"
-                                    alt="Logo"
-                                    class="-ml-5 -mt-5 h-32 w-32"
-                                />
+                                <img src="assets/images/logo/suylogo.png" alt="Logo" class="-ml-5 -mt-5 h-32 w-32" />
                                 <div class="flex flex-col w-64 gap-1">
                                     <p class="font-bold text-sm">
                                         Ana's Breeders Farm Inc.
@@ -39,31 +30,29 @@
                                     Document Number
                                     <span class="font-medium">{{
                                         asset?.user_accountability_list
-                                            .accountability_code
-                                    }}</span>
+                                        .accountability_code
+                                        }}</span>
                                     -
                                     <span class="font-medium">{{
                                         asset?.user_accountability_list.id
-                                    }}</span>
+                                        }}</span>
                                 </p>
                                 <p class="font-bold text-sm">
                                     Effective Date
                                     <span class="font-medium">{{
                                         asset?.user_accountability_list
-                                            .date_created
-                                            ? (asset?.user_accountability_list
-                                                  .date_created
-                                              | date : "MMMM d, y")
-                                            : "N/A"
-                                    }}</span>
+                                        .date_created
+                                        ? (asset?.user_accountability_list
+                                        .date_created
+                                        | date : "MMMM d, y")
+                                        : "N/A"
+                                        }}</span>
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <p
-                        class="flex justify-center text-2xl font-semibold w-full"
-                    >
+                    <p class="flex justify-center text-2xl font-semibold w-full">
                         ACCOUNTABILITY FORM
                     </p>
 
@@ -73,70 +62,54 @@
                                 ISSUED TO
                             </p>
                             <div class="flex flex-row gap-2 text-sm">
-                                <p
-                                    class="text-regular tracking-tight font-bold"
-                                >
+                                <p class="text-regular tracking-tight font-bold">
                                     Employee Name
                                 </p>
                                 <span class="font-medium">{{
-                                    asset.owner.name || "N/A"
-                                }}</span>
+                                    asset.user_accountability_list.owner.name || "N/A"
+                                    }}</span>
                             </div>
                             <div class="flex flex-row gap-10 text-sm">
-                                <p
-                                    class="text-regular tracking-tight font-bold"
-                                >
+                                <p class="text-regular tracking-tight font-bold">
                                     ID Number
                                 </p>
                                 <span class="font-medium">
-                                    {{ asset.owner.employee_id || "N/A" }}</span
-                                >
+                                    {{ asset.user_accountability_list.owner.employee_id || "N/A" }}</span>
                             </div>
                             <div class="flex flex-row gap-8 text-sm">
-                                <p
-                                    class="text-regular tracking-tight font-bold"
-                                >
+                                <p class="text-regular tracking-tight font-bold">
                                     Designation
                                 </p>
                                 <span class="font-medium">
-                                    {{ asset.owner.designation || "N/A" }}</span
-                                >
+                                    {{ asset.user_accountability_list.owner.designation || "N/A" }}</span>
                             </div>
                         </div>
                         <div class="flex flex-col gap-0.5 w-58 mt-7">
                             <div class="flex flex-row gap-15 text-sm">
-                                <p
-                                    class="text-regular tracking-tight font-bold"
-                                >
+                                <p class="text-regular tracking-tight font-bold">
                                     Company
                                 </p>
                                 <span class="font-medium">
-                                    {{ asset.owner.company || "N/A" }}</span
-                                >
+                                    {{ asset.user_accountability_list.owner.company || "N/A" }}</span>
                             </div>
                             <div class="flex flex-row gap-11 text-sm">
-                                <p
-                                    class="text-regular tracking-tight font-bold"
-                                >
+                                <p class="text-regular tracking-tight font-bold">
                                     Department
                                 </p>
                                 <span class="font-medium">
-                                    {{ asset.owner.department || "N/A" }}</span
-                                >
+                                    {{ asset.user_accountability_list.owner.department || "N/A" }}</span>
                             </div>
                             <div class="flex flex-row gap-9 text-sm">
                                 <div class="flex flex-row gap-12 text-sm">
-                                    <p
-                                        class="text-regular tracking-tight font-bold"
-                                    >
+                                    <p class="text-regular tracking-tight font-bold">
                                         Date Hired
                                     </p>
                                     <span class="ml-1.5 font-medium">
                                         {{
-                                            asset.owner.date_hired
-                                                ? (asset.owner.date_hired?.value
-                                                  | date : "MMMM d, y")
-                                                : "N/A"
+                                        asset.user_accountability_list.owner.date_hired
+                                        ? (asset.user_accountability_list.owner.date_hired?.value
+                                        | date : "MMMM d, y")
+                                        : "N/A"
                                         }}
                                     </span>
                                 </div>
@@ -151,114 +124,52 @@
                             Computer under accountability
                         </p>
                         <span class="text-secondary text-sm">
-                            (Desktop, Laptops, etc..)</span
-                        >
+                            (Desktop, Laptops, etc..)</span>
                     </div>
                     <!-- Table -->
                     <div class="overflow-x-auto">
-                        <mat-table
-                            [dataSource]="dataSourceComputers"
-                            matSort
-                            class="mat-elevation-z8 custom-mat-table"
-                        >
+                        <mat-table [dataSource]="dataSourceComputers" matSort class="mat-elevation-z8 custom-mat-table">
                             <!-- Type Column -->
                             <ng-container matColumnDef="type">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    >Type</mat-header-cell
-                                >
-                                <mat-cell class="text-sm" *matCellDef="let e">{{
-                                    e.type || "N/A"
-                                }}</mat-cell>
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+                                <mat-cell class="text-sm" *matCellDef="let e">{{ e.type || "N/A" }}</mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="dateAcquired">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    class="-ml-7"
-                                    >Date Acquired</mat-header-cell
-                                >
+                                <mat-header-cell *matHeaderCellDef mat-sort-header class="-ml-7">Date
+                                    Acquired</mat-header-cell>
                                 <mat-cell *matCellDef="let e" class="-ml-7">
-                                    {{
-                                        e.date_acquired
-                                            ? (e.date_acquired
-                                              | date : "MMMM d, y")
-                                            : "N/A"
-                                    }}
+                                    {{ e.date_acquired ? (e.date_acquired | date : "MMMM d, y") : "N/A" }}
                                 </mat-cell>
                             </ng-container>
-                            <ng-container
-                                matColumnDef="assetBarcode"
-                                class="-ml-5"
-                            >
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    >Barcode</mat-header-cell
-                                >
-                                <mat-cell *matCellDef="let e">{{
-                                    e.asset_barcode || "N/A"
-                                }}</mat-cell>
+                            <ng-container matColumnDef="assetBarcode" class="-ml-5">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Barcode</mat-header-cell>
+                                <mat-cell *matCellDef="let e">{{ e.asset_barcode || "N/A" }}</mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="brand">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    >Brand</mat-header-cell
-                                >
-                                <mat-cell *matCellDef="let e">{{
-                                    e.brand || "N/A"
-                                }}</mat-cell>
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Brand</mat-header-cell>
+                                <mat-cell *matCellDef="let e">{{ e.brand || "N/A" }}</mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="model">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    >Model</mat-header-cell
-                                >
-                                <mat-cell *matCellDef="let e">{{
-                                    e.model || "N/A"
-                                }}</mat-cell>
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Model</mat-header-cell>
+                                <mat-cell *matCellDef="let e">{{ e.model || "N/A" }}</mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="personalHistory">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    style="white-space: normal; font-size: 11px"
-                                    >History</mat-header-cell
-                                >
-                                <mat-cell *matCellDef="let e">{{
-                                    e.history?.$values?.length
-                                        ? e.history.$values.join(", ").length >
-                                          50
-                                            ? e.history.$values
-                                                  .join(", ")
-                                                  .substring(0, 50) + "..."
-                                            : e.history.$values.join(", ")
-                                        : "N/A"
-                                }}</mat-cell>
+                                <mat-header-cell *matHeaderCellDef mat-sort-header
+                                    style="white-space: normal; font-size: 11px">History</mat-header-cell>
+                                <mat-cell *matCellDef="let e">
+                                    {{ e.history?.$values?.length ? e.history.$values.join(", ").length > 50 ?
+                                    e.history.$values.join(", ").substring(0, 50) + "..." : e.history.$values.join(", ")
+                                    : "N/A" }}
+                                </mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="status">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    >Status</mat-header-cell
-                                >
-                                <mat-cell *matCellDef="let e">{{
-                                    e.status || "N/A"
-                                }}</mat-cell>
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                                <mat-cell *matCellDef="let e">{{ e.status || "N/A" }}</mat-cell>
                             </ng-container>
-                            <mat-header-row
-                                *matHeaderRowDef="displayedColumns"
-                            ></mat-header-row>
-                            <mat-row
-                                *matRowDef="let row; columns: displayedColumns"
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns"
                                 class="hover:bg-gray-100 h-12 cursor-pointer"
-                                [routerLink]="
-                                    '/assets/computers/view/' + row.id
-                                "
-                            ></mat-row>
+                                [routerLink]="['/assets/computers/view/' + row.id]"></mat-row>
                         </mat-table>
                     </div>
 
@@ -266,131 +177,69 @@
                         <p class="text-sm font-semibold mt-5">
                             Computer Components under accountability
                         </p>
-                        <span class="text-secondary text-sm"
-                            >(Ram, ssd, hdd ...)</span
-                        >
+                        <span class="text-secondary text-sm">(Ram, ssd, hdd ...)</span>
                     </div>
 
                     <div class="overflow-x-auto">
-                        <mat-table
-                            [dataSource]="dataSourceAssignedComponents"
-                            matSort
-                            class="mat-elevation-z8 custom-mat-table"
-                        >
+                        <mat-table [dataSource]="dataSourceAssignedComponents" matSort
+                            class="mat-elevation-z8 custom-mat-table">
                             <!-- Type Column -->
                             <ng-container matColumnDef="type">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    >Type</mat-header-cell
-                                >
-                                <mat-cell
-                                    class="text-sm"
-                                    *matCellDef="let element"
-                                    >{{ element.type || "N/A" }}</mat-cell
-                                >
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+                                <mat-cell class="text-sm" *matCellDef="let element">{{ element.type || "N/A"
+                                    }}</mat-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="date_acquired">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    class="-ml-7"
-                                    >Date Acquired</mat-header-cell
-                                >
-                                <mat-cell
-                                    class="text-sm"
-                                    class="-ml-4"
-                                    *matCellDef="let element"
-                                    >{{
-                                        element.date_acquired
-                                            ? (element.date_acquired
-                                              | date : "MMMM d, y")
-                                            : "N/A"
-                                    }}</mat-cell
-                                >
+                                <mat-header-cell *matHeaderCellDef mat-sort-header class="-ml-7">Date
+                                    Acquired</mat-header-cell>
+                                <mat-cell class="text-sm" class="-ml-4" *matCellDef="let element">{{
+                                    element.date_acquired
+                                    ? (element.date_acquired
+                                    | date : "MMMM d, y")
+                                    : "N/A"
+                                    }}</mat-cell>
                             </ng-container>
 
                             <!-- Description Column -->
                             <ng-container matColumnDef="description">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    >Description</mat-header-cell
-                                >
-                                <mat-cell
-                                    class="text-sm ml-2"
-                                    *matCellDef="let element"
-                                    >{{
-                                        element.description || "N/A"
-                                    }}</mat-cell
-                                >
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+                                <mat-cell class="text-sm ml-2" *matCellDef="let element">{{
+                                    element.description || "N/A"
+                                    }}</mat-cell>
                             </ng-container>
 
                             <!-- UID Column -->
                             <ng-container matColumnDef="uid">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    class="-ml-5"
-                                    matTooltip="Inventory Code"
-                                >
+                                <mat-header-cell *matHeaderCellDef mat-sort-header class="-ml-5"
+                                    matTooltip="Inventory Code">
                                     Inventory Code
                                 </mat-header-cell>
-                                <mat-cell
-                                    class="text-sm"
-                                    *matCellDef="let element"
-                                >
+                                <mat-cell class="text-sm" *matCellDef="let element">
                                     {{ element.uid }}
                                 </mat-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="parent_barcode">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    class="-ml-7"
-                                    matTooltip="Parent Barcode"
-                                    >Parent Barcode</mat-header-cell
-                                >
-                                <mat-cell
-                                    class="text-sm"
-                                    *matCellDef="let element"
-                                    class=""
-                                    >{{
-                                        element.asset_barcode || "N/A"
-                                    }}</mat-cell
-                                >
+                                <mat-header-cell *matHeaderCellDef mat-sort-header class="-ml-7"
+                                    matTooltip="Parent Barcode">Parent Barcode</mat-header-cell>
+                                <mat-cell class="text-sm" *matCellDef="let element" class="">{{
+                                    element.asset_barcode || "N/A"
+                                    }}</mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="status" class="-ml-5">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    >Status</mat-header-cell
-                                >
-                                <mat-cell
-                                    class="text-sm"
-                                    *matCellDef="let element"
-                                    class="-ml-5"
-                                    >{{ element.status || "N/A" }}</mat-cell
-                                >
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                                <mat-cell class="text-sm" *matCellDef="let element" class="-ml-5">{{ element.status ||
+                                    "N/A" }}</mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="cost">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    >cost</mat-header-cell
-                                >
-                                <mat-cell
-                                    class="text-sm -ml-4"
-                                    *matCellDef="let element"
-                                    >₱ {{ element.cost || "N/A" }}</mat-cell
-                                >
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>cost</mat-header-cell>
+                                <mat-cell class="text-sm -ml-4" *matCellDef="let element">₱ {{ element.cost || "N/A"
+                                    }}</mat-cell>
                             </ng-container>
 
                             <!-- Header and Rows -->
-                            <mat-header-row
-                                *matHeaderRowDef="[
+                            <mat-header-row *matHeaderRowDef="[
                                     'type',
                                     'date_acquired',
                                     'uid',
@@ -398,10 +247,8 @@
                                     'cost',
                                     'parent_barcode',
                                     'status'
-                                ]"
-                            ></mat-header-row>
-                            <mat-row
-                                *matRowDef="
+                                ]"></mat-header-row>
+                            <mat-row *matRowDef="
                                     let row;
                                     columns: [
                                         'type',
@@ -412,14 +259,11 @@
                                         'parent_barcode',
                                         'status'
                                     ]
-                                "
-                                class="hover:bg-gray-100 cursor-pointer"
-                                [routerLink]="[
+                                " class="hover:bg-gray-100 cursor-pointer" [routerLink]="[
                                     '/assets/components/view/',
                                     row.uid,
                                     row.id
-                                ]"
-                            ></mat-row>
+                                ]"></mat-row>
                         </mat-table>
                     </div>
 
@@ -428,150 +272,91 @@
                             Assets under accountability
                         </p>
                         <span class="text-secondary text-sm">
-                            (Mouse, Keyboards etc..)</span
-                        >
+                            (Mouse, Keyboards etc..)</span>
                     </div>
 
                     <div class="overflow-x-auto">
-                        <mat-table
-                            [dataSource]="dataSourceAssignedAssets"
-                            matSort
-                            class="mat-elevation-z8 custom-mat-table custom-mat-table"
-                        >
+                        <mat-table [dataSource]="dataSourceAssignedAssets" matSort
+                            class="mat-elevation-z8 custom-mat-table custom-mat-table">
                             <!-- Type Column -->
                             <ng-container matColumnDef="type">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    >Type</mat-header-cell
-                                >
-                                <mat-cell
-                                    class="text-sm"
-                                    *matCellDef="let element"
-                                    >{{ element.type || "N/A" }}</mat-cell
-                                >
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+                                <mat-cell class="text-sm" *matCellDef="let element">{{ element.type || "N/A"
+                                    }}</mat-cell>
                             </ng-container>
 
                             <!-- Date Acquired Column -->
                             <ng-container matColumnDef="dateAcquired">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    class="-ml-5"
-                                    >Date Acquired</mat-header-cell
-                                >
-                                <mat-cell
-                                    class="text-sm"
-                                    *matCellDef="let element"
-                                    class="-ml-5"
-                                    >{{
-                                        element.date_acquired
-                                            ? (element.date_acquired
-                                              | date : "MMMM d, y")
-                                            : "N/A"
+                                <mat-header-cell *matHeaderCellDef mat-sort-header class="-ml-5">Date
+                                    Acquired</mat-header-cell>
+                                <mat-cell class="text-sm" *matCellDef="let element" class="-ml-5">{{
+                                    element.date_acquired
+                                    ? (element.date_acquired
+                                    | date : "MMMM d, y")
+                                    : "N/A"
                                     }}
                                 </mat-cell>
                             </ng-container>
 
                             <!-- Asset Barcode Column -->
                             <ng-container matColumnDef="assetBarcode">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                >
-                                    Barcode</mat-header-cell
-                                >
-                                <mat-cell
-                                    class="text-sm"
-                                    *matCellDef="let element"
-                                    >{{
-                                        element.asset_barcode || "N/A"
-                                    }}</mat-cell
-                                >
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    Barcode</mat-header-cell>
+                                <mat-cell class="text-sm" *matCellDef="let element">{{
+                                    element.asset_barcode || "N/A"
+                                    }}</mat-cell>
                             </ng-container>
 
                             <!-- Brand Column -->
                             <ng-container matColumnDef="brand">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    >Brand</mat-header-cell
-                                >
-                                <mat-cell
-                                    class="text-sm"
-                                    *matCellDef="let element"
-                                    >{{ element.brand || "N/A" }}</mat-cell
-                                >
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Brand</mat-header-cell>
+                                <mat-cell class="text-sm" *matCellDef="let element">{{ element.brand || "N/A"
+                                    }}</mat-cell>
                             </ng-container>
 
                             <!-- Model Column -->
                             <ng-container matColumnDef="model">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    >Model</mat-header-cell
-                                >
-                                <mat-cell
-                                    class="text-sm"
-                                    *matCellDef="let element"
-                                    >{{ element.model || "N/A" }}</mat-cell
-                                >
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Model</mat-header-cell>
+                                <mat-cell class="text-sm" *matCellDef="let element">{{ element.model || "N/A"
+                                    }}</mat-cell>
                             </ng-container>
 
                             <!-- Asset Personal History Column -->
                             <ng-container matColumnDef="personalHistory">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    style="width: 600px; white-space: normal"
-                                >
+                                <mat-header-cell *matHeaderCellDef mat-sort-header
+                                    style="width: 600px; white-space: normal">
                                     History
                                 </mat-header-cell>
-                                <mat-cell
-                                    class="text-sm truncate"
-                                    *matCellDef="let element"
-                                    style="width: 600px; white-space: normal"
-                                >
+                                <mat-cell class="text-sm truncate" *matCellDef="let element"
+                                    style="width: 600px; white-space: normal">
                                     {{
-                                        element.history?.$values?.length
-                                            ? element.history.$values.join(", ")
-                                                  .length > 50
-                                                ? element.history.$values
-                                                      .join(", ")
-                                                      .substring(0, 50) + "..."
-                                                : element.history.$values.join(
-                                                      ", "
-                                                  )
-                                            : "N/A"
+                                    element.history?.$values?.length
+                                    ? element.history.$values.join(", ")
+                                    .length > 50
+                                    ? element.history.$values
+                                    .join(", ")
+                                    .substring(0, 50) + "..."
+                                    : element.history.$values.join(
+                                    ", "
+                                    )
+                                    : "N/A"
                                     }}
                                 </mat-cell>
                             </ng-container>
 
                             <!-- Status Column -->
                             <ng-container matColumnDef="status">
-                                <mat-header-cell
-                                    *matHeaderCellDef
-                                    mat-sort-header
-                                    >Status</mat-header-cell
-                                >
-                                <mat-cell
-                                    class="text-sm"
-                                    *matCellDef="let element"
-                                    >{{ element.status || "N/A" }}</mat-cell
-                                >
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                                <mat-cell class="text-sm" *matCellDef="let element">{{ element.status || "N/A"
+                                    }}</mat-cell>
                             </ng-container>
 
                             <!-- Header and Rows -->
-                            <mat-header-row
-                                *matHeaderRowDef="displayedColumns"
-                            ></mat-header-row>
-                            <mat-row
-                                *matRowDef="let row; columns: displayedColumns"
-                                class="hover:bg-gray-100 cursor-pointer"
-                                [routerLink]="
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns"
+                                class="hover:bg-gray-100 cursor-pointer" [routerLink]="
                                     '/assets/inventory/view/' + row.id
-                                "
-                            >
+                                ">
                             </mat-row>
                         </mat-table>
                     </div>
@@ -597,106 +382,81 @@
                         </p>
                     </div>
 
-                    <div
-                        class="flex flex-col w-full gap-4 mt-12 lg:flex-row md:flex-row"
-                    >
+                    <div class="flex flex-col w-full gap-4 mt-12 lg:flex-row md:flex-row">
                         <div class="flex-grow flex-col">
-                            <p
-                                class="text-sm tracking-tight font-bold uppercase"
-                            >
+                            <p class="text-sm tracking-tight font-bold uppercase">
                                 Prepared by:
                             </p>
 
                             <!-- Signature Image -->
                             <div class="flex-grow text-start">
                                 <div class="flex justify-start items-start">
-                                    <ng-container
-                                        *ngIf="
+                                    <ng-container *ngIf="
                                             accountabilityApproval?.checkedByUser;
                                             else blankSignature
-                                        "
-                                    >
-                                        <img
-                                            *ngIf="
+                                        ">
+                                        <img *ngIf="
                                                 accountabilityApproval
                                                     ?.checkedByUser
                                                     ?.e_signature;
                                                 else defaultSignature
-                                            "
-                                            [src]="
+                                            " [src]="
                                                 imageUrl +
                                                 '/' +
                                                 accountabilityApproval
                                                     ?.checkedByUser?.e_signature
-                                            "
-                                            alt="Signature"
-                                            class="mt-4 h-20 w-48 opacity-50"
-                                        />
+                                            " alt="Signature" class="mt-4 h-20 w-48 opacity-50" />
                                     </ng-container>
                                 </div>
 
                                 <!-- Blank Image Placeholder -->
                                 <ng-template #defaultSignature>
-                                    <img
-                                        src="assets/images/logo/signature.png"
-                                        alt="Default Signature"
-                                        class="mt-4 w-48 opacity-50"
-                                    />
+                                    <img src="assets/images/logo/signature.png" alt="Default Signature"
+                                        class="mt-4 w-48 opacity-50" />
                                 </ng-template>
 
                                 <!-- Blank Image Placeholder (Shown only if accountabilityApproval?.checkedByUser doesn't exist) -->
                                 <ng-template #blankSignature>
-                                    <img
-                                        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                                        alt="Blank Signature"
-                                        class="mt-4 w-20 opacity-0"
-                                    />
+                                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                                        alt="Blank Signature" class="mt-4 w-20 opacity-0" />
                                 </ng-template>
 
                                 <!-- Show Name & Role -->
-                                <div
-                                    class="flex flex-row gap-8 -mt-10 uppercase"
-                                >
+                                <div class="flex flex-row gap-8 -mt-10 uppercase">
                                     <div class="flex flex-col w-48">
-                                        <p
-                                            class="text-md border-t m-1 text-center items-center"
-                                        >
+                                        <p class="text-md border-t m-1 text-center items-center">
                                             {{
-                                                accountabilityApproval
-                                                    ?.checkedByUser?.name
-                                                    ? accountabilityApproval
-                                                          .checkedByUser.name
-                                                    : user?.role === "admin"
-                                                    ? user?.name
-                                                    : "NOT AVAILABLE"
+                                            accountabilityApproval
+                                            ?.checkedByUser?.name
+                                            ? accountabilityApproval
+                                            .checkedByUser.name
+                                            : user?.role === "admin"
+                                            ? user?.name
+                                            : "NOT AVAILABLE"
                                             }}
                                         </p>
 
-                                        <span
-                                            class="text-sm text-gray-600 text-center items-center"
-                                        >
+                                        <span class="text-sm text-gray-600 text-center items-center">
                                             {{
-                                                accountabilityApproval
-                                                    ?.checkedByUser?.designation
-                                                    ? accountabilityApproval
-                                                          .checkedByUser
-                                                          .designation
-                                                    : user?.role === "admin"
-                                                    ? user?.designation
-                                                    : "IT MANAGER"
+                                            accountabilityApproval
+                                            ?.checkedByUser?.designation
+                                            ? accountabilityApproval
+                                            .checkedByUser
+                                            .designation
+                                            : user?.role === "admin"
+                                            ? user?.designation
+                                            : "IT MANAGER"
                                             }}
                                         </span>
                                     </div>
-                                    <p
-                                        class="text-xs tracking-tight font-bold uppercase mt-1.5"
-                                    >
+                                    <p class="text-xs tracking-tight font-bold uppercase mt-1.5">
                                         Date
                                         <span class="font-medium">
                                             {{
-                                                accountabilityApproval?.checked_date
-                                                    ? (accountabilityApproval.checked_date
-                                                      | date : "MMMM d, y")
-                                                    : "N/A"
+                                            accountabilityApproval?.checked_date
+                                            ? (accountabilityApproval.checked_date
+                                            | date : "MMMM d, y")
+                                            : "N/A"
                                             }}
                                         </span>
                                     </p>
@@ -705,82 +465,63 @@
                             <div class="grid grid-cols-1 lg:grid-cols-2">
                                 <div class="flex-grow text-start">
                                     <div class="flex justify-start items-start">
-                                        <ng-container
-                                            *ngIf="
+                                        <ng-container *ngIf="
                                                 accountabilityApproval?.receivedByUser;
                                                 else blankSignature
-                                            "
-                                        >
-                                            <img
-                                                *ngIf="
+                                            ">
+                                            <img *ngIf="
                                                     accountabilityApproval
                                                         ?.receivedByUser
                                                         ?.e_signature;
                                                     else defaultSignature
-                                                "
-                                                 [src]="
+                                                " [src]="
                                                  imageUrl +
                                                  '/' +
                                                  accountabilityApproval
                                                      ?.receivedByUser?.e_signature
-                                             "
-                                                alt="Signature"
-                                                class="mt-4 h-20 w-48 opacity-50"
-                                            />
+                                             " alt="Signature" class="mt-4 h-20 w-48 opacity-50" />
                                         </ng-container>
                                     </div>
 
                                     <ng-template #defaultSignature>
-                                        <img
-                                            src="assets/images/logo/signature.png"
-                                            alt="Default Signature"
-                                            class="mt-4 w-48 opacity-50"
-                                        />
+                                        <img src="assets/images/logo/signature.png" alt="Default Signature"
+                                            class="mt-4 w-48 opacity-50" />
                                     </ng-template>
 
                                     <!-- Blank Image Placeholder (Shown only if accountabilityApproval?.checkedByUser doesn't exist) -->
                                     <ng-template #blankSignature>
-                                        <img
-                                            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                                            alt="Blank Signature"
-                                            class="mt-4 w-20 opacity-0"
-                                        />
+                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                                            alt="Blank Signature" class="mt-4 w-20 opacity-0" />
                                     </ng-template>
-                                    <div
-                                        class="flex flex-row gap-8 -mt-10 uppercase"
-                                    >
+                                    <div class="flex flex-row gap-8 -mt-10 uppercase">
                                         <!-- Name and Role -->
                                         <div class="flex flex-col w-48">
-                                            <p
-                                                class="text-md border-t m-1 text-center items-center"
-                                            >
+                                            <p class="text-md border-t m-1 text-center items-center">
                                                 {{
-                                                    accountabilityApproval
-                                                        ?.receivedByUser?.name
-                                                        ? accountabilityApproval
-                                                              .receivedByUser
-                                                              .name
-                                                        : user?.role ===
-                                                          "receiver"
-                                                        ? user?.name
-                                                        : "NOT AVAILABLE"
+                                                accountabilityApproval
+                                                ?.receivedByUser?.name
+                                                ? accountabilityApproval
+                                                .receivedByUser
+                                                .name
+                                                : user?.role ===
+                                                "receiver"
+                                                ? user?.name
+                                                : "NOT AVAILABLE"
                                                 }}
                                             </p>
 
-                                            <span
-                                                class="text-sm text-gray-600 text-center items-center"
-                                            >
+                                            <span class="text-sm text-gray-600 text-center items-center">
                                                 {{
-                                                    accountabilityApproval
-                                                        ?.receivedByUser
-                                                        ?.designation
-                                                        ? accountabilityApproval
-                                                              .receivedByUser
-                                                              .designation
-                                                        : user?.role ===
-                                                          "receiver"
-                                                        ? user?.designation
-                                                        : "IT/OT LEAD"
+                                                accountabilityApproval
+                                                ?.receivedByUser
+                                                ?.designation
+                                                ? accountabilityApproval
+                                                .receivedByUser
+                                                .designation
+                                                : user?.role ===
+                                                "receiver"
+                                                ? user?.designation
+                                                : "IT/OT LEAD"
                                                 }}
                                             </span>
                                         </div>
@@ -790,82 +531,63 @@
                                 <!-- chcker -->
                                 <div class="flex-grow text-start">
                                     <div class="flex justify-start items-start">
-                                        <ng-container
-                                            *ngIf="
+                                        <ng-container *ngIf="
                                                 accountabilityApproval?.confirmedByUser;
                                                 else blankSignature
-                                            "
-                                        >
-                                            <img
-                                                *ngIf="
+                                            ">
+                                            <img *ngIf="
                                                     accountabilityApproval
                                                         ?.confirmedByUser
                                                         ?.e_signature;
                                                     else defaultSignature
-                                                "                                                
-                                                [src]="
+                                                " [src]="
                                                 imageUrl +
                                                 '/' +
                                                 accountabilityApproval
                                                     ?.confirmedByUser?.e_signature
-                                            "
-                                                alt="Signature"
-                                                class="mt-4 h-20 w-48 opacity-50"
-                                            />
+                                            " alt="Signature" class="mt-4 h-20 w-48 opacity-50" />
                                         </ng-container>
                                     </div>
 
                                     <ng-template #defaultSignature>
-                                        <img
-                                            src="assets/images/logo/signature.png"
-                                            alt="Default Signature"
-                                            class="mt-4 w-48 opacity-50"
-                                        />
+                                        <img src="assets/images/logo/signature.png" alt="Default Signature"
+                                            class="mt-4 w-48 opacity-50" />
                                     </ng-template>
 
                                     <!-- Blank Image Placeholder (Shown only if accountabilityApproval?.checkedByUser doesn't exist) -->
                                     <ng-template #blankSignature>
-                                        <img
-                                            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                                            alt="Blank Signature"
-                                            class="mt-4 w-20 opacity-0"
-                                        />
+                                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                                            alt="Blank Signature" class="mt-4 w-20 opacity-0" />
                                     </ng-template>
-                                    <div
-                                        class="flex flex-row gap-8 -mt-10 uppercase"
-                                    >
+                                    <div class="flex flex-row gap-8 -mt-10 uppercase">
                                         <!-- Name and Role -->
                                         <div class="flex flex-col w-48">
-                                            <p
-                                                class="text-md border-t m-1 text-center items-center"
-                                            >
+                                            <p class="text-md border-t m-1 text-center items-center">
                                                 {{
-                                                    accountabilityApproval
-                                                        ?.confirmedByUser?.name
-                                                        ? accountabilityApproval
-                                                              .confirmedByUser
-                                                              .name
-                                                        : user?.role ===
-                                                          "checker"
-                                                        ? user?.name
-                                                        : "NOT AVAILABLE"
+                                                accountabilityApproval
+                                                ?.confirmedByUser?.name
+                                                ? accountabilityApproval
+                                                .confirmedByUser
+                                                .name
+                                                : user?.role ===
+                                                "checker"
+                                                ? user?.name
+                                                : "NOT AVAILABLE"
                                                 }}
                                             </p>
 
-                                            <span
-                                                class="text-sm text-gray-600 text-center items-center"
-                                            >
+                                            <span class="text-sm text-gray-600 text-center items-center">
                                                 {{
-                                                    accountabilityApproval
-                                                        ?.confirmedByUser
-                                                        ?.designation
-                                                        ? accountabilityApproval
-                                                              .confirmedByUser
-                                                              .designation
-                                                        : user?.role ===
-                                                          "checker"
-                                                        ? user?.designation
-                                                        : "IT/OT END "
+                                                accountabilityApproval
+                                                ?.confirmedByUser
+                                                ?.designation
+                                                ? accountabilityApproval
+                                                .confirmedByUser
+                                                .designation
+                                                : user?.role ===
+                                                "checker"
+                                                ? user?.designation
+                                                : "IT/OT END "
                                                 }}
                                             </span>
                                         </div>
@@ -876,58 +598,37 @@
                         </div>
 
                         <div class="flex-grow flex-col">
-                            <!-- Signature Image -->
                             <div class="flex-grow text-start">
                                 <div class="flex flex-row gap-8">
-                                    <p
-                                        class="text-sm tracking-tight font-bold uppercase"
-                                    >
+                                    <p class="text-sm tracking-tight font-bold uppercase">
                                         Received by:
                                     </p>
                                 </div>
-
-                                <div
-                                    class="flex justify-start items-start mt-2"
-                                >
-                                    <img
-                                        src="assets/images/logo/signature.png"
-                                        alt="Signature"
-                                        class="mt-4 w-48 opacity-80"
-                                    />
+                        
+                                <div class="flex justify-start items-start mt-2">
+                                    <img src="assets/images/logo/signature.png" alt="Signature"
+                                        class="mt-4 w-48 opacity-80" />
                                 </div>
-
-                                <!-- Name and Role -->
-                                <div
-                                    class="flex flex-row gap-12 -mt-10 uppercase"
-                                >
+                        
+                                <div class="flex flex-row gap-12 -mt-10 uppercase">
                                     <div class="flex flex-col">
                                         <p class="text-md border-t">
-                                            {{ asset.owner.name || "N/A" }}
+                                            {{ asset.user_accountability_list.owner.name || "N/A" }}
                                         </p>
-                                        <span
-                                            class="text-sm text-gray-600 text-center items-center"
-                                        >
-                                            {{
-                                                asset.owner.designation || "N/A"
-                                            }}
+                                        <span class="text-sm text-gray-600 text-center items-center">
+                                            {{ asset.user_accountability_list.owner.designation || "N/A" }}
                                         </span>
                                     </div>
-                                    <p
-                                        class="text-xs tracking-tight font-bold uppercase mt-1.5"
-                                    >
+                                    <p class="text-xs tracking-tight font-bold uppercase mt-1.5">
                                         Date
                                         <span class="font-medium">
-                                            {{
-                                                datenow
-                                                    ? (datenow
-                                                      | date : "MMMM d, y")
-                                                    : "N/A"
-                                            }}</span
-                                        >
+                                            {{ datenow ? (datenow | date : "MMMM d, y") : "N/A" }}
+                                        </span>
                                     </p>
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -935,51 +636,32 @@
     </div>
 
     <div class="fixed bottom-4 right-4 flex flex-col space-y-4">
-        <button
-            *ngIf="user.role === 'receiver'"
+        <!-- <button
             class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
-            (click)="receiveByUser()"
-            matTooltip="Approve document"
-            matTooltipPosition="above"
-            aria-label="Approve document"
-            style="width: 56px; height: 56px"
-        >
+            (click)="receiveByUser()" matTooltip="Approve document" matTooltipPosition="above"
+            aria-label="Approve document" style="width: 56px; height: 56px">
             <mat-icon svgIcon="verified" class="text-blue-500"></mat-icon>
-        </button>
+        </button> -->
 
         <button
-            *ngIf="user.role === 'admin'"
             class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
-            (click)="checkByUser()"
-            matTooltip="Approve document"
-            matTooltipPosition="above"
-            aria-label="Approve document"
-            style="width: 56px; height: 56px"
-        >
-            <mat-icon svgIcon="verified" class="text-gray-500"></mat-icon>
+            (click)="preparedByUser()" matTooltip="Prepared by User" matTooltipPosition="above"
+            aria-label="Prepared by User" style="width: 56px; height: 56px">
+            <mat-icon svgIcon="verified" class="text-blue-500"></mat-icon>
         </button>
 
         <!-- New Button: Only visible if user.role is 'checker' -->
         <button
-            *ngIf="user.role === 'checker'"
             class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
-            (click)="confirmByUser()"
-            matTooltip="Receive document"
-            matTooltipPosition="above"
-            aria-label="Receive document"
-            style="width: 56px; height: 56px"
-        >
+            (click)="approvedByUser()" matTooltip="Receive document" matTooltipPosition="above"
+            aria-label="Receive document" style="width: 56px; height: 56px">
             <mat-icon svgIcon="verified" class="text-green-500"></mat-icon>
         </button>
 
         <button
             class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
-            (click)="pdfForm()"
-            matTooltip="Generate PDF form"
-            matTooltipPosition="above"
-            aria-label="Generate PDF form"
-            style="width: 56px; height: 56px"
-        >
+            (click)="pdfForm()" matTooltip="Generate PDF form" matTooltipPosition="above" aria-label="Generate PDF form"
+            style="width: 56px; height: 56px">
             <img class="h-8 w-6" src="assets/images/svgs/pdf-svgrepo-com.svg" />
         </button>
     </div>
