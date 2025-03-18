@@ -300,7 +300,13 @@
                                     <p class="text-regular">Return</p>
                                 </button>
                                 
-                                                
+                                <ng-container *ngIf="!element.user_accountability_list?.is_active">
+                                    <button mat-menu-item (click)="viewResult(element?.user_accountability_list?.id)">
+                                      <mat-icon class="icon-size-5" svgIcon="feather:eye"></mat-icon>
+                                      <p class="text-regular">View Return Result</p>
+                                    </button>
+                                  </ng-container>
+          
                                 <!-- <button mat-menu-item>Option 2</button> -->
                             </mat-menu>
                         </td>
