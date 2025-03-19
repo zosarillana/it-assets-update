@@ -1,291 +1,291 @@
 <div class="flex flex-col flex-auto min-w-0 items-center p-8 bg-gray-100 min-h-screen w-full"> 
-    <div class="bg-white shadow-xl rounded-lg p-10 w-full border border-gray-300 flex-grow"> 
-        <!-- Header Section --> 
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-6 mb-6"> 
-            <div class="text-center sm:text-left"> 
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">Return Accountability</h2> 
-            </div> 
-        </div>
-        
-        <!-- Content Section --> 
-        <div class="space-y-6 flex-grow w-full"> 
-            <div *ngIf="accountabilityItem" class="space-y-6"> 
-                <div class="flex flex-col md:flex-row gap-6 w-full"> 
-                    <!-- Accountability Details --> 
-                    <div class="border p-6 rounded-lg shadow-sm bg-gray-50 flex-1"> 
-                        <h2 class="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Accountability Details</h2> 
-                        <p class="text-gray-700"><strong>Accountability Code:</strong> {{ accountabilityItem.user_accountability_list.accountability_code }}</p> 
-                        <p class="text-gray-700"><strong>Tracking Code:</strong> {{ accountabilityItem.user_accountability_list.tracking_code }}</p> 
-                        <p class="text-gray-700"><strong>Date Created:</strong> {{ accountabilityItem.user_accountability_list.date_created | date }}</p> 
-                    </div> 
-                    
-                    <!-- Owner Details --> 
-                    <div class="border p-6 rounded-lg shadow-sm bg-gray-50 flex-1"> 
-                        <h2 class="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Owner Details</h2> 
-                        <p class="text-gray-700"><strong>Name:</strong> {{ accountabilityItem.owner.name }}</p> 
-                        <p class="text-gray-700"><strong>Company:</strong> {{ accountabilityItem.owner.company }}</p> 
-                        <p class="text-gray-700"><strong>Department:</strong> {{ accountabilityItem.owner.department }}</p> 
-                        <p class="text-gray-700"><strong>Employee ID:</strong> {{ accountabilityItem.owner.employee_id }}</p> 
-                        <p class="text-gray-700"><strong>Designation:</strong> {{ accountabilityItem.owner.designation }}</p> 
-                    </div> 
-                </div>
-                
-                <!-- Assets Table with Checkbox and Remarks -->
-                <div class="border p-6 rounded-lg shadow-sm bg-gray-50 w-full">
-                    <h2 class="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Assets</h2>
-                    <div class="overflow-x-auto">
-                        <table class="w-full border-collapse border border-gray-300">
-                            <thead>
-                                <tr class="bg-gray-200">
-                                    <th class="border p-2">Returned</th>
-                                    <th class="border p-2">Type</th>
-                                    <th class="border p-2">Asset Barcode</th>
-                                    <th class="border p-2">Brand</th>
-                                    <th class="border p-2">Model</th>
-                                    <th class="border p-2">Condition</th>
-                                    <th class="border p-2">Remarks</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <ng-container *ngIf="accountabilityItem.computers.$values">
-                                    <ng-container *ngFor="let computer of accountabilityItem.computers.$values">
-                                        <ng-container *ngIf="computer.assignedAssetDetails?.$values">
-                                            <tr *ngFor="let asset of computer.assignedAssetDetails.$values" class="border">
-                                                <td class="p-2 text-center">
-                                                    <div class="flex justify-center">
-                                                        <input type="checkbox" [(ngModel)]="asset.checked" class="w-6 h-6 rounded-md accent-blue-600">
-                                                    </div>
-                                                </td>
-                                                <td class="p-2">{{ asset.type }}</td>
-                                                <td class="p-2">{{ asset.asset_barcode }}</td>
-                                                <td class="p-2">{{ asset.brand }}</td>
-                                                <td class="p-2">{{ asset.model }}</td>
-                                                <td class="p-2">
-                                                    <select [(ngModel)]="asset.condition" class="w-full p-1 border rounded">
-                                                        <option value="Good">Good</option>
-                                                        <option value="Damaged">Damaged</option>
-                                                        <option value="Missing">Missing</option>
-                                                    </select>
-                                                </td>
-                                                <td class="p-2">
-                                                    <input type="text" [(ngModel)]="asset.remarks" placeholder="Remarks" class="w-full p-1 border rounded">
-                                                </td>
-                                            </tr>
-                                        </ng-container>
-                                    </ng-container>
-                                </ng-container>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <!-- Computers Table with Checkbox and Remarks -->
-                <div class="border p-6 rounded-lg shadow-sm bg-gray-50 w-full">
-                    <h2 class="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Computers</h2>
-                    <div class="overflow-x-auto">
-                        <table class="w-full border-collapse border border-gray-300">
-                            <thead>
-                                <tr class="bg-gray-200">
-                                    <th class="border p-2">Returned</th>
-                                    <th class="border p-2">Type</th>
-                                    <th class="border p-2">Asset Barcode</th>
-                                    <th class="border p-2">Brand</th>
-                                    <th class="border p-2">Model</th>
-                                    <th class="border p-2">Condition</th>
-                                    <th class="border p-2">Remarks</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let computer of accountabilityItem.computers.$values" class="border">
-                                    <td class="p-2 text-center">
-                                        <div class="flex justify-center">
-                                            <input type="checkbox" [(ngModel)]="computer.checked" class="w-6 h-6 rounded-md accent-blue-600">
-                                        </div>
-                                    </td>
-                                    <td class="p-2">{{ computer.type }}</td>
-                                    <td class="p-2">{{ computer.asset_barcode }}</td>
-                                    <td class="p-2">{{ computer.brand }}</td>
-                                    <td class="p-2">{{ computer.model }}</td>
-                                    <td class="p-2">
-                                        <select [(ngModel)]="computer.condition" class="w-full p-1 border rounded">
-                                            <option value="Good">Good</option>
-                                            <option value="Damaged">Damaged</option>
-                                            <option value="Missing">Missing</option>
-                                        </select>
-                                    </td>
-                                    <td class="p-2">
-                                        <input type="text" [(ngModel)]="computer.remarks" placeholder="Remarks" class="w-full p-1 border rounded">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <!-- Components Table with Checkbox and Remarks -->
-                <div class="border p-6 rounded-lg shadow-sm bg-gray-50 w-full">
-                    <h2 class="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Components</h2>
-                    <div *ngFor="let computer of accountabilityItem.computers.$values" class="mb-4">
-                        <h3 class="font-medium text-gray-700 mb-2">Computer: {{ computer.asset_barcode }} - {{ computer.brand }} {{ computer.model }}</h3>
-                        
-                        <div *ngFor="let componentType of ['ram', 'ssd', 'hdd', 'gpu', 'board']" class="mb-4">
-                            <div *ngIf="computer.components[componentType]?.values?.$values?.length > 0">
-                                <h4 class="text-md font-semibold capitalize text-gray-700 mb-2">{{ componentType | uppercase }}</h4>
-                                <div class="overflow-x-auto">
-                                    <table class="w-full border-collapse border border-gray-300">
-                                        <thead>
-                                            <tr class="bg-gray-200">
-                                                <th class="border p-2">Returned</th>
-                                                <th class="border p-2">Component ID</th>
-                                                <th class="border p-2">Description</th>
-                                                <th class="border p-2">Condition</th>
-                                                <th class="border p-2">Remarks</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let component of computer.components[componentType].values.$values" class="border">
-                                                <td class="p-2 text-center">
-                                                    <div class="flex justify-center">
-                                                        <input type="checkbox" [(ngModel)]="component.checked" class="w-6 h-6 rounded-md accent-blue-600">
-                                                    </div>
-                                                </td>
-                                                <td class="p-2">{{ component.uid }}</td>
-                                                <td class="p-2">{{ component.description }}</td>
-                                                <td class="p-2">
-                                                    <select [(ngModel)]="component.condition" class="w-full p-1 border rounded">
-                                                        <option value="Good">Good</option>
-                                                        <option value="Damaged">Damaged</option>
-                                                        <option value="Missing">Missing</option>
-                                                    </select>
-                                                </td>
-                                                <td class="p-2">
-                                                    <input type="text" [(ngModel)]="component.remarks" placeholder="Remarks" class="w-full p-1 border rounded">
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+  <div class="bg-white shadow-xl rounded-lg p-10 w-full border border-gray-300 flex-grow"> 
+      <!-- Header Section --> 
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b pb-6 mb-6"> 
+          <div class="text-center sm:text-left"> 
+              <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">Return Accountability</h2> 
+          </div> 
+      </div>
+      
+      <!-- Content Section --> 
+      <div class="space-y-6 flex-grow w-full"> 
+          <div *ngIf="accountabilityItem" class="space-y-6"> 
+              <div class="flex flex-col md:flex-row gap-6 w-full"> 
+                  <!-- Accountability Details --> 
+                  <div class="border p-6 rounded-lg shadow-sm bg-gray-50 flex-1"> 
+                      <h2 class="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Accountability Details</h2> 
+                      <p class="text-gray-700"><strong>Accountability Code:</strong> {{ accountabilityItem.user_accountability_list.accountability_code }}</p> 
+                      <p class="text-gray-700"><strong>Tracking Code:</strong> {{ accountabilityItem.user_accountability_list.tracking_code }}</p> 
+                      <p class="text-gray-700"><strong>Date Created:</strong> {{ accountabilityItem.user_accountability_list.date_created | date }}</p> 
+                  </div> 
+                  
+                  <!-- Owner Details --> 
+                  <div class="border p-6 rounded-lg shadow-sm bg-gray-50 flex-1">
+                    <h2 class="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Owner Details</h2>
+                    <p class="text-gray-700"><strong>Name:</strong> {{ accountabilityItem.user_accountability_list.owner.name }}</p>
+                    <p class="text-gray-700"><strong>Company:</strong> {{ accountabilityItem.user_accountability_list.owner.company }}</p>
+                    <p class="text-gray-700"><strong>Department:</strong> {{ accountabilityItem.user_accountability_list.owner.department }}</p>
+                    <p class="text-gray-700"><strong>Employee ID:</strong> {{ accountabilityItem.user_accountability_list.owner.employee_id }}</p>
+                    <p class="text-gray-700"><strong>Designation:</strong> {{ accountabilityItem.user_accountability_list.owner.designation }}</p>
+                </div> 
+              </div>
+              
+              <!-- Assets Table with Checkbox and Remarks -->
+              <div class="border p-6 rounded-lg shadow-sm bg-gray-50 w-full">
+                  <h2 class="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Assets</h2>
+                  <div class="overflow-x-auto">
+                      <table class="w-full border-collapse border border-gray-300">
+                          <thead>
+                              <tr class="bg-gray-200">
+                                  <th class="border p-2">Returned</th>
+                                  <th class="border p-2">Type</th>
+                                  <th class="border p-2">Asset Barcode</th>
+                                  <th class="border p-2">Brand</th>
+                                  <th class="border p-2">Model</th>
+                                  <th class="border p-2">Condition</th>
+                                  <th class="border p-2">Remarks</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <ng-container *ngIf="accountabilityItem.computers.$values">
+                                  <ng-container *ngFor="let computer of accountabilityItem.computers.$values">
+                                      <ng-container *ngIf="computer.assignedAssetDetails?.$values">
+                                          <tr *ngFor="let asset of computer.assignedAssetDetails.$values" class="border">
+                                              <td class="p-2 text-center">
+                                                  <div class="flex justify-center">
+                                                      <input type="checkbox" [(ngModel)]="asset.checked" class="w-6 h-6 rounded-md accent-blue-600">
+                                                  </div>
+                                              </td>
+                                              <td class="p-2">{{ asset.type }}</td>
+                                              <td class="p-2">{{ asset.asset_barcode }}</td>
+                                              <td class="p-2">{{ asset.brand }}</td>
+                                              <td class="p-2">{{ asset.model }}</td>
+                                              <td class="p-2">
+                                                  <select [(ngModel)]="asset.condition" class="w-full p-1 border rounded">
+                                                      <option value="Good">Good</option>
+                                                      <option value="Damaged">Damaged</option>
+                                                      <option value="Missing">Missing</option>
+                                                  </select>
+                                              </td>
+                                              <td class="p-2">
+                                                  <input type="text" [(ngModel)]="asset.remarks" placeholder="Remarks" class="w-full p-1 border rounded">
+                                              </td>
+                                          </tr>
+                                      </ng-container>
+                                  </ng-container>
+                              </ng-container>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+              
+              <!-- Computers Table with Checkbox and Remarks -->
+              <div class="border p-6 rounded-lg shadow-sm bg-gray-50 w-full">
+                  <h2 class="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Computers</h2>
+                  <div class="overflow-x-auto">
+                      <table class="w-full border-collapse border border-gray-300">
+                          <thead>
+                              <tr class="bg-gray-200">
+                                  <th class="border p-2">Returned</th>
+                                  <th class="border p-2">Type</th>
+                                  <th class="border p-2">Asset Barcode</th>
+                                  <th class="border p-2">Brand</th>
+                                  <th class="border p-2">Model</th>
+                                  <th class="border p-2">Condition</th>
+                                  <th class="border p-2">Remarks</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr *ngFor="let computer of accountabilityItem.computers.$values" class="border">
+                                  <td class="p-2 text-center">
+                                      <div class="flex justify-center">
+                                          <input type="checkbox" [(ngModel)]="computer.checked" class="w-6 h-6 rounded-md accent-blue-600">
+                                      </div>
+                                  </td>
+                                  <td class="p-2">{{ computer.type }}</td>
+                                  <td class="p-2">{{ computer.asset_barcode }}</td>
+                                  <td class="p-2">{{ computer.brand }}</td>
+                                  <td class="p-2">{{ computer.model }}</td>
+                                  <td class="p-2">
+                                      <select [(ngModel)]="computer.condition" class="w-full p-1 border rounded">
+                                          <option value="Good">Good</option>
+                                          <option value="Damaged">Damaged</option>
+                                          <option value="Missing">Missing</option>
+                                      </select>
+                                  </td>
+                                  <td class="p-2">
+                                      <input type="text" [(ngModel)]="computer.remarks" placeholder="Remarks" class="w-full p-1 border rounded">
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+              
+              <!-- Components Table with Checkbox and Remarks -->
+<div class="border p-6 rounded-lg shadow-sm bg-gray-50 w-full">
+<h2 class="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Components</h2>
+<div *ngFor="let computer of accountabilityItem.computers.$values" class="mb-4">
+    <h3 class="font-medium text-gray-700 mb-2">Computer: {{ computer.asset_barcode }} - {{ computer.brand }} {{ computer.model }}</h3>
+    
+    <div *ngFor="let componentType of ['RAM', 'SSD', 'HDD', 'GPU', 'BOARD']" class="mb-4">
+        <div *ngIf="computer.components[componentType]?.$values?.length > 0">
+            <h4 class="text-md font-semibold capitalize text-gray-700 mb-2">{{ componentType | uppercase }}</h4>
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse border border-gray-300">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="border p-2">Returned</th>
+                            <th class="border p-2">Component ID</th>
+                            <th class="border p-2">Description</th>
+                            <th class="border p-2">Condition</th>
+                            <th class="border p-2">Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let component of computer.components[componentType].$values" class="border">
+                            <td class="p-2 text-center">
+                                <div class="flex justify-center">
+                                    <input type="checkbox" [(ngModel)]="component.checked" class="w-6 h-6 rounded-md accent-blue-600">
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Submit Button -->
-                <div class="flex justify-end mt-8">
-                    <button class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-sm transition duration-150 ease-in-out" (click)="submitReturnChecklist()">
-                        Submit Return
-                    </button>
-                </div>
+                            </td>
+                            <td class="p-2">{{ component.uid }}</td>
+                            <td class="p-2">{{ component.description }}</td>
+                            <td class="p-2">
+                                <select [(ngModel)]="component.condition" class="w-full p-1 border rounded">
+                                    <option value="Good">Good</option>
+                                    <option value="Damaged">Damaged</option>
+                                    <option value="Missing">Missing</option>
+                                </select>
+                            </td>
+                            <td class="p-2">
+                                <input type="text" [(ngModel)]="component.remarks" placeholder="Remarks" class="w-full p-1 border rounded">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
+    </div>
+</div>
+</div>
+              
+              <!-- Submit Button -->
+              <div class="flex justify-end mt-8">
+                  <button class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-sm transition duration-150 ease-in-out" (click)="submitReturnChecklist()">
+                      Submit Return
+                  </button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- 
+
+<div class="p-4">
+  <h1 class="text-2xl font-bold mb-4">Return Accountability</h1>
+
+  <div *ngIf="accountabilityItem">
+    <div class="mb-4">
+      <h2 class="text-xl font-semibold">Accountability Details</h2>
+      <p><strong>Accountability Code:</strong> {{ accountabilityItem.user_accountability_list.accountability_code }}</p>
+      <p><strong>Tracking Code:</strong> {{ accountabilityItem.user_accountability_list.tracking_code }}</p>
+      <p><strong>Date Created:</strong> {{ accountabilityItem.user_accountability_list.date_created | date }}</p>
+    </div>
+
+    <div class="mb-4">
+      <h2 class="text-xl font-semibold">Owner Details</h2>
+      <p><strong>Name:</strong> {{ accountabilityItem.owner.name }}</p>
+      <p><strong>Company:</strong> {{ accountabilityItem.owner.company }}</p>
+      <p><strong>Department:</strong> {{ accountabilityItem.owner.department }}</p>
+      <p><strong>Employee ID:</strong> {{ accountabilityItem.owner.employee_id }}</p>
+      <p><strong>Designation:</strong> {{ accountabilityItem.owner.designation }}</p>
+    </div>
+
+    <div class="mb-4">
+      <h2 class="text-xl font-semibold">Assets</h2>
+      <div *ngIf="accountabilityItem.computers.$values">
+        <div *ngFor="let computer of accountabilityItem.computers.$values">
+          <div *ngIf="computer.assignedAssetDetails?.$values">
+            <div *ngFor="let asset of computer.assignedAssetDetails.$values; let i = index" class="mb-2 p-4 border rounded-lg">
+              <p><strong>Type:</strong> {{ asset.type }}</p>
+              <p><strong>Asset Barcode:</strong> {{ asset.asset_barcode }}</p>
+              <p><strong>Brand:</strong> {{ asset.brand }}</p>
+              <p><strong>Model:</strong> {{ asset.model }}</p>
+
+              <div class="mt-2">
+                <label>
+                  <input type="checkbox" [(ngModel)]="asset.checked" /> Returned
+                </label>
+                <select [(ngModel)]="asset.condition" class="ml-2 p-1 border rounded">
+                  <option value="Good">Good</option>
+                  <option value="Damaged">Damaged</option>
+                  <option value="Missing">Missing</option>
+                </select>
+                <input type="text" [(ngModel)]="asset.remarks" placeholder="Remarks (optional)" class="ml-2 p-1 border rounded" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <h2 class="text-xl font-semibold">Computers</h2>
+      <div *ngFor="let computer of accountabilityItem.computers.$values; let i = index" class="mb-2 p-4 border rounded-lg">
+        <p><strong>Type:</strong> {{ computer.type }}</p>
+        <p><strong>Asset Barcode:</strong> {{ computer.asset_barcode }}</p>
+        <p><strong>Brand:</strong> {{ computer.brand }}</p>
+        <p><strong>Model:</strong> {{ computer.model }}</p>
+
+        <div class="mt-2">
+          <label>
+            <input type="checkbox" [(ngModel)]="computer.checked" /> Returned
+          </label>
+          <select [(ngModel)]="computer.condition" class="ml-2 p-1 border rounded">
+            <option value="Good">Good</option>
+            <option value="Damaged">Damaged</option>
+            <option value="Missing">Missing</option>
+          </select>
+          <input type="text" [(ngModel)]="computer.remarks" placeholder="Remarks (optional)" class="ml-2 p-1 border rounded" />
+        </div>
+
+        <div class="mt-2">
+          <h3 class="text-lg font-semibold">Components</h3>
+          <div *ngFor="let componentType of ['ram', 'ssd', 'hdd', 'gpu', 'board']">
+            <div *ngIf="computer.components[componentType]?.values?.$values?.length > 0">
+              <h4 class="text-md font-semibold capitalize">{{ componentType }}</h4>
+              <ul>
+                <li *ngFor="let component of computer.components[componentType].values.$values">
+                  <p><strong>ID:</strong> {{ component.uid }}</p>
+                  <p><strong>Description:</strong> {{ component.description }}</p>
+
+                  <div class="mt-2">
+                    <label>
+                      <input type="checkbox" [(ngModel)]="component.checked" /> Returned
+                    </label>
+                    <select [(ngModel)]="component.condition" class="ml-2 p-1 border rounded">
+                      <option value="Good">Good</option>
+                      <option value="Damaged">Damaged</option>
+                      <option value="Missing">Missing</option>
+                    </select>
+                    <input type="text" [(ngModel)]="component.remarks" placeholder="Remarks (optional)" class="ml-2 p-1 border rounded" />
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <button class="p-2 bg-blue-500 text-white rounded" (click)="submitReturnChecklist()">Submit Return</button>
     </div>
   </div>
-  
-  
-  
-  
-  
-  <!-- 
-  
-  <div class="p-4">
-    <h1 class="text-2xl font-bold mb-4">Return Accountability</h1>
-  
-    <div *ngIf="accountabilityItem">
-      <div class="mb-4">
-        <h2 class="text-xl font-semibold">Accountability Details</h2>
-        <p><strong>Accountability Code:</strong> {{ accountabilityItem.user_accountability_list.accountability_code }}</p>
-        <p><strong>Tracking Code:</strong> {{ accountabilityItem.user_accountability_list.tracking_code }}</p>
-        <p><strong>Date Created:</strong> {{ accountabilityItem.user_accountability_list.date_created | date }}</p>
-      </div>
-  
-      <div class="mb-4">
-        <h2 class="text-xl font-semibold">Owner Details</h2>
-        <p><strong>Name:</strong> {{ accountabilityItem.owner.name }}</p>
-        <p><strong>Company:</strong> {{ accountabilityItem.owner.company }}</p>
-        <p><strong>Department:</strong> {{ accountabilityItem.owner.department }}</p>
-        <p><strong>Employee ID:</strong> {{ accountabilityItem.owner.employee_id }}</p>
-        <p><strong>Designation:</strong> {{ accountabilityItem.owner.designation }}</p>
-      </div>
-  
-      <div class="mb-4">
-        <h2 class="text-xl font-semibold">Assets</h2>
-        <div *ngIf="accountabilityItem.computers.$values">
-          <div *ngFor="let computer of accountabilityItem.computers.$values">
-            <div *ngIf="computer.assignedAssetDetails?.$values">
-              <div *ngFor="let asset of computer.assignedAssetDetails.$values; let i = index" class="mb-2 p-4 border rounded-lg">
-                <p><strong>Type:</strong> {{ asset.type }}</p>
-                <p><strong>Asset Barcode:</strong> {{ asset.asset_barcode }}</p>
-                <p><strong>Brand:</strong> {{ asset.brand }}</p>
-                <p><strong>Model:</strong> {{ asset.model }}</p>
-  
-                <div class="mt-2">
-                  <label>
-                    <input type="checkbox" [(ngModel)]="asset.checked" /> Returned
-                  </label>
-                  <select [(ngModel)]="asset.condition" class="ml-2 p-1 border rounded">
-                    <option value="Good">Good</option>
-                    <option value="Damaged">Damaged</option>
-                    <option value="Missing">Missing</option>
-                  </select>
-                  <input type="text" [(ngModel)]="asset.remarks" placeholder="Remarks (optional)" class="ml-2 p-1 border rounded" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <div class="mb-4">
-        <h2 class="text-xl font-semibold">Computers</h2>
-        <div *ngFor="let computer of accountabilityItem.computers.$values; let i = index" class="mb-2 p-4 border rounded-lg">
-          <p><strong>Type:</strong> {{ computer.type }}</p>
-          <p><strong>Asset Barcode:</strong> {{ computer.asset_barcode }}</p>
-          <p><strong>Brand:</strong> {{ computer.brand }}</p>
-          <p><strong>Model:</strong> {{ computer.model }}</p>
-  
-          <div class="mt-2">
-            <label>
-              <input type="checkbox" [(ngModel)]="computer.checked" /> Returned
-            </label>
-            <select [(ngModel)]="computer.condition" class="ml-2 p-1 border rounded">
-              <option value="Good">Good</option>
-              <option value="Damaged">Damaged</option>
-              <option value="Missing">Missing</option>
-            </select>
-            <input type="text" [(ngModel)]="computer.remarks" placeholder="Remarks (optional)" class="ml-2 p-1 border rounded" />
-          </div>
-  
-          <div class="mt-2">
-            <h3 class="text-lg font-semibold">Components</h3>
-            <div *ngFor="let componentType of ['ram', 'ssd', 'hdd', 'gpu', 'board']">
-              <div *ngIf="computer.components[componentType]?.values?.$values?.length > 0">
-                <h4 class="text-md font-semibold capitalize">{{ componentType }}</h4>
-                <ul>
-                  <li *ngFor="let component of computer.components[componentType].values.$values">
-                    <p><strong>ID:</strong> {{ component.uid }}</p>
-                    <p><strong>Description:</strong> {{ component.description }}</p>
-  
-                    <div class="mt-2">
-                      <label>
-                        <input type="checkbox" [(ngModel)]="component.checked" /> Returned
-                      </label>
-                      <select [(ngModel)]="component.condition" class="ml-2 p-1 border rounded">
-                        <option value="Good">Good</option>
-                        <option value="Damaged">Damaged</option>
-                        <option value="Missing">Missing</option>
-                      </select>
-                      <input type="text" [(ngModel)]="component.remarks" placeholder="Remarks (optional)" class="ml-2 p-1 border rounded" />
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <div class="mt-4">
-        <button class="p-2 bg-blue-500 text-white rounded" (click)="submitReturnChecklist()">Submit Return</button>
-      </div>
-    </div>
-  </div> -->
+</div> -->
