@@ -529,7 +529,7 @@ export class AccountabilityFormComponent implements OnInit {
 
             // Show error MatSnackBar immediately
             this.snackBar.open(
-                'Needs to be approved by an upper level (e.g., IT MANAGER)',
+                'Prepared by needs to be signed before procceeding',
                 '',
                 {
                     duration: 4000,
