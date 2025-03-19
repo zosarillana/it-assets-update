@@ -173,151 +173,59 @@ export class ViewReturnComponent implements OnInit {
   //print 
 
   // Function to generate the PDF
-      //pdf
-      @ViewChild('pdfFormArea') pdfFormArea!: ElementRef;
-      @ViewChild('acknowledgmentSection') acknowledgmentSection!: ElementRef;
-      asset!: Accountability;
-      
-  pdfForm(): void {
-    setTimeout(() => {
-        if (this.pdfFormArea && this.acknowledgmentSection) {
-            // First, convert both sections to canvas
-            Promise.all([
-                html2canvas(this.pdfFormArea.nativeElement, {
-                    scale: 2,
-                    useCORS: true,
-                }),
-                html2canvas(this.acknowledgmentSection.nativeElement, {
-                    scale: 2,
-                    useCORS: true,
-                }),
-            ])
-                .then(([mainCanvas, ackCanvas]) => {
-                    const mainImgData = mainCanvas.toDataURL('image/png');
-                    const ackImgData = ackCanvas.toDataURL('image/png');
+//pdf
+@ViewChild('pdfFormArea') pdfFormArea!: ElementRef;
+asset!: Accountability;
 
-                    const pdf = new jsPDF({
-                        orientation: 'portrait',
-                        unit: 'px',
-                        format: 'a4',
-                    });
+pdfForm(): void {
+  setTimeout(() => {
+      if (this.pdfFormArea) {
+          // Convert the main section to canvas
+          html2canvas(this.pdfFormArea.nativeElement, {
+              scale: 2,
+              useCORS: true,
+          })
+              .then((mainCanvas) => {
+                  const mainImgData = mainCanvas.toDataURL('image/png');
 
-                    // Define margin and usable page dimensions
-                    const margin = 20;
-                    const pageWidth = pdf.internal.pageSize.getWidth();
-                    const pageHeight = pdf.internal.pageSize.getHeight();
-                    const usableWidth = pageWidth - 2 * margin;
-                    const usableHeight = pageHeight - 2 * margin;
+                  const pdf = new jsPDF({
+                      orientation: 'portrait',
+                      unit: 'px',
+                      format: 'a4',
+                  });
 
-                    // Calculate scaled dimensions for main content
-                    const mainRatio = usableWidth / mainCanvas.width;
-                    const mainHeight = mainCanvas.height * mainRatio;
+                  // Define margin and usable page dimensions
+                  const margin = 20;
+                  const pageWidth = pdf.internal.pageSize.getWidth();
+                  const pageHeight = pdf.internal.pageSize.getHeight();
+                  const usableWidth = pageWidth - 2 * margin;
+                  const usableHeight = pageHeight - 2 * margin;
 
-                    // Calculate scaled dimensions for acknowledgment content
-                    const ackRatio = usableWidth / ackCanvas.width;
-                    const ackHeight = ackCanvas.height * ackRatio;
+                  // Calculate scaled dimensions for main content
+                  let mainRatio = Math.min(usableWidth / mainCanvas.width, usableHeight / mainCanvas.height);
+                  let mainWidth = mainCanvas.width * mainRatio;
+                  let mainHeight = mainCanvas.height * mainRatio;
 
-                    // Check if both sections can fit on one page
-                    if (mainHeight + ackHeight <= usableHeight) {
-                        // Both sections fit on one page
-                        // Add main content at the top
-                        pdf.addImage(
-                            mainImgData,
-                            'PNG',
-                            margin,
-                            margin,
-                            usableWidth,
-                            mainHeight
-                        );
+                  // Add main content scaled to fit one page
+                  pdf.addImage(
+                      mainImgData,
+                      'PNG',
+                      (pageWidth - mainWidth) / 2,
+                      (pageHeight - mainHeight) / 2,
+                      mainWidth,
+                      mainHeight
+                  );
 
-                        // Add acknowledgment section below the main content with a small gap
-                        const ackYPosition = margin + mainHeight + 10; // 10px gap between sections
-                        pdf.addImage(
-                            ackImgData,
-                            'PNG',
-                            margin,
-                            ackYPosition,
-                            usableWidth,
-                            ackHeight
-                        );
-                    } else {
-                        // Sections don't fit on one page, place on separate pages
-
-                        // Add main content on first page
-                        pdf.addImage(
-                            mainImgData,
-                            'PNG',
-                            margin,
-                            margin,
-                            usableWidth,
-                            mainHeight
-                        );
-
-                        // If main content overflows, handle pagination
-                        if (mainHeight > usableHeight) {
-                            let remainingHeight = mainHeight - usableHeight;
-                            let offsetY = usableHeight;
-
-                            while (remainingHeight > 0) {
-                                pdf.addPage();
-                                pdf.addImage(
-                                    mainImgData,
-                                    'PNG',
-                                    margin,
-                                    -offsetY + margin,
-                                    usableWidth,
-                                    mainHeight
-                                );
-                                offsetY += usableHeight;
-                                remainingHeight -= usableHeight;
-                            }
-                        }
-
-                        // Add acknowledgment on a new page
-                        pdf.addPage();
-                        pdf.addImage(
-                            ackImgData,
-                            'PNG',
-                            margin,
-                            margin,
-                            usableWidth,
-                            ackHeight
-                        );
-                    }
-
-                    // Save the PDF
-                    pdf.save('accountability-form.pdf');
-                })
-                .catch((error) => {
-                    console.error('Error generating PDF:', error);
-                });
-        } else {
-            console.error('Required elements not found');
-        }
-    }, 500);
-}
-
-// Handle content overflow and move to next page if necessary
-private handleOverflow(): void {
-    const pdfFormArea = document.querySelector('#pdfFormArea');
-
-    if (pdfFormArea) {
-        // Function to check if an element overflows
-        function isOverflowing(element: Element): boolean {
-            return (
-                element.scrollHeight > element.clientHeight ||
-                element.scrollWidth > element.clientWidth
-            );
-        }
-
-        if (isOverflowing(pdfFormArea)) {
-            // Forcing page break by adding a CSS class or dynamically splitting content
-            // If needed, you can add more complex logic here to split your content
-            pdfFormArea.classList.add('page-break'); // Custom class to handle page breaks
-        }
-    } else {
-        console.error('pdfFormArea element not found');
-    }
+                  // Save the PDF
+                  pdf.save('accountability-form.pdf');
+              })
+              .catch((error) => {
+                  console.error('Error generating PDF:', error);
+              });
+      } else {
+          console.error('Required elements not found');
+      }
+  }, 500);
 }
 
 printForm() {
