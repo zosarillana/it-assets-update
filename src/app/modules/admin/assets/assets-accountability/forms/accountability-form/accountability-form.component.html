@@ -431,7 +431,7 @@
                                             ?.checkedByUser?.name
                                             ? accountabilityApproval
                                             .checkedByUser.name
-                                            : user?.role === "receiver"
+                                            : (user?.role === 'receiver' || user?.role === 'checker') 
                                             ? user?.name
                                             : "NOT AVAILABLE"
                                             }}
@@ -444,7 +444,7 @@
                                             ? accountabilityApproval
                                             .checkedByUser
                                             .designation
-                                            : user?.role === "receiver"
+                                            : (user?.role === 'receiver' || user?.role === 'checker') 
                                             ? user?.designation
                                             : "IT/OT OPERATIONS"
                                             }}
@@ -661,20 +661,20 @@
             aria-label="Approve document" style="width: 56px; height: 56px">
             <mat-icon svgIcon="verified" class="text-blue-500"></mat-icon>
         </button> -->
-
-        <button *ngIf="user?.role !== 'admin'"
+        <button *ngIf="user?.role !== 'admin' && !accountabilityApproval?.checkedByUser?.e_signature"
         class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
         (click)="preparedByUser()" 
-        matTooltip="Prepare document (Admin role)" 
+        matTooltip="Prepare document" 
         matTooltipPosition="above"
-        aria-label="Prepare document (Admin role)" 
+        aria-label="Prepare document" 
         style="width: 56px; height: 56px">
     <mat-icon svgIcon="verified" class="text-gray-500"></mat-icon>
 </button>
 
 
+
         <!-- New Button: Only visible if user.role is 'checker' -->
-        <button *ngIf="user?.role === 'admin'"
+        <button *ngIf="user?.role === 'admin' && accountabilityApproval?.checkedByUser?.name && !accountabilityApproval?.receivedByUser?.e_signature"
         class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
         (click)="approvedByUser()" 
         matTooltip="Receive document" 
@@ -683,6 +683,7 @@
         style="width: 56px; height: 56px">
     <mat-icon svgIcon="verified" class="text-green-500"></mat-icon>
 </button>
+
 
 
         <button
