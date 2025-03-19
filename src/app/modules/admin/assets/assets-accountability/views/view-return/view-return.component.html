@@ -162,8 +162,9 @@
                             (Desktop, Laptops, etc..)</span
                         >
                     </div>
-                    <div *ngIf="computers.length > 0" class="overflow-x-auto">
+                    <div *ngIf="computers.length > 0" class="overflow-x-auto uppercase ">
                         <mat-table
+                        
                             [dataSource]="computers"
                             matSort
                             class="mat-elevation-z8 custom-mat-table"
@@ -171,12 +172,13 @@
                             <!-- Type Column -->
                             <ng-container matColumnDef="type">
                                 <mat-header-cell
+                                class="text-xs"
                                     *matHeaderCellDef
                                     mat-sort-header
                                     >Type</mat-header-cell
                                 >
                                 <mat-cell
-                                    class="text-sm"
+                                    class="text-xs"
                                     *matCellDef="let computer"
                                     >{{
                                         computer.computer?.type || "N/A"
@@ -186,12 +188,15 @@
 
                             <!-- Model Column -->
                             <ng-container matColumnDef="model">
-                                <mat-header-cell
+                                <mat-header-cell 
+                                class="text-xs"
                                     *matHeaderCellDef
                                     mat-sort-header
                                     >Model</mat-header-cell
                                 >
-                                <mat-cell *matCellDef="let computer">{{
+                                <mat-cell 
+                                class="text-xs"
+                                *matCellDef="let computer">{{
                                     computer.computer?.model || "N/A"
                                 }}</mat-cell>
                             </ng-container>
@@ -199,11 +204,12 @@
                             <!-- Barcode Column -->
                             <ng-container matColumnDef="assetBarcode">
                                 <mat-header-cell
+                                class="text-xs"
                                     *matHeaderCellDef
                                     mat-sort-header
                                     >Barcode</mat-header-cell
                                 >
-                                <mat-cell *matCellDef="let computer">{{
+                                <mat-cell   class="text-xs" *matCellDef="let computer">{{
                                     computer.computer?.asset_barcode || "N/A"
                                 }}</mat-cell>
                             </ng-container>
@@ -211,11 +217,12 @@
                             <!-- Remarks Column -->
                             <ng-container matColumnDef="remarks">
                                 <mat-header-cell
+                                class="text-xs"
                                     *matHeaderCellDef
                                     mat-sort-header
                                     >Remarks</mat-header-cell
                                 >
-                                <mat-cell *matCellDef="let computer">{{
+                                <mat-cell   class="text-xs" *matCellDef="let computer">{{
                                     computer.remarks || "N/A"
                                 }}</mat-cell>
                             </ng-container>
@@ -223,11 +230,14 @@
                             <!-- Status Column -->
                             <ng-container matColumnDef="status">
                                 <mat-header-cell
+                                class="text-xs"
                                     *matHeaderCellDef
                                     mat-sort-header
                                     >Status</mat-header-cell
                                 >
-                                <mat-cell *matCellDef="let computer">{{
+                                <mat-cell
+                                class="text-xs"
+                                 *matCellDef="let computer">{{
                                     computer.status || "N/A"
                                 }}</mat-cell>
                             </ng-container>
@@ -268,7 +278,7 @@
                         >
                     </div>
 
-                    <div *ngIf="components.length > 0" class="overflow-x-auto">
+                    <div *ngIf="components.length > 0" class="overflow-x-auto uppercase">
                         <mat-table
                             [dataSource]="components"
                             matSort
@@ -277,12 +287,13 @@
                             <!-- Type Column -->
                             <ng-container matColumnDef="type">
                                 <mat-header-cell
+                                class="text-xs"
                                     *matHeaderCellDef
                                     mat-sort-header
                                     >Type</mat-header-cell
                                 >
                                 <mat-cell
-                                    class="text-sm"
+                                class="text-xs"
                                     *matCellDef="let component"
                                     >{{
                                         component.components?.type || "N/A"
@@ -293,11 +304,14 @@
                             <!-- UID Column -->
                             <ng-container matColumnDef="uid">
                                 <mat-header-cell
+                                class="text-xs"
                                     *matHeaderCellDef
                                     mat-sort-header
                                     >UID</mat-header-cell
                                 >
-                                <mat-cell *matCellDef="let component">{{
+                                <mat-cell
+                                class="text-xs"
+                                 *matCellDef="let component">{{
                                     component.components?.uid || "N/A"
                                 }}</mat-cell>
                             </ng-container>
@@ -305,35 +319,39 @@
                             <!-- Cost Column -->
                             <ng-container matColumnDef="cost">
                                 <mat-header-cell
+                                class="text-xs"
                                     *matHeaderCellDef
                                     mat-sort-header
                                     >Cost</mat-header-cell
                                 >
-                                <mat-cell *matCellDef="let component">{{
+                                <mat-cell   class="text-xs"
+                                *matCellDef="let component">{{
                                     component.components?.cost || "N/A"
                                 }}</mat-cell>
                             </ng-container>
 
                             <!-- Remarks Column -->
                             <ng-container matColumnDef="remarks">
-                                <mat-header-cell
+                                <mat-header-cell  class="text-xs"
                                     *matHeaderCellDef
                                     mat-sort-header
                                     >Remarks</mat-header-cell
                                 >
-                                <mat-cell *matCellDef="let component">{{
+                                <mat-cell   class="text-xs"
+                                 *matCellDef="let component">{{
                                     component.remarks || "N/A"
                                 }}</mat-cell>
                             </ng-container>
 
                             <!-- Status Column -->
                             <ng-container matColumnDef="status">
-                                <mat-header-cell
+                                <mat-header-cell  class="text-xs"
                                     *matHeaderCellDef
                                     mat-sort-header
                                     >Status</mat-header-cell
                                 >
-                                <mat-cell *matCellDef="let component">{{
+                                <mat-cell  class="text-xs"
+                                 *matCellDef="let component">{{
                                     component.status || "N/A"
                                 }}</mat-cell>
                             </ng-container>
@@ -374,58 +392,72 @@
                         >
                     </div>
     
-                    <div *ngIf="assets.length > 0" class="overflow-x-auto">
+                    <div *ngIf="assets.length > 0" class="overflow-x-auto uppercase">
                         <mat-table
+                        class="text-xs"
                             [dataSource]="assets"
                             matSort
                             class="mat-elevation-z8 custom-mat-table"
                         >
                             <!-- Type Column -->
                             <ng-container matColumnDef="type">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header
+                                <mat-header-cell  class="text-xs"
+                                 *matHeaderCellDef mat-sort-header
                                     >Type</mat-header-cell
                                 >
-                                <mat-cell class="text-sm" *matCellDef="let asset">{{
+                                <mat-cell
+                                class="text-xs"
+                              *matCellDef="let asset">{{
                                     asset.asset?.type || "N/A"
                                 }}</mat-cell>
                             </ng-container>
     
                             <!-- Brand Column -->
                             <ng-container matColumnDef="brand">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header
+                                <mat-header-cell 
+                                class="text-xs"
+                                *matHeaderCellDef mat-sort-header
                                     >Brand</mat-header-cell
                                 >
-                                <mat-cell *matCellDef="let asset">{{
+                                <mat-cell   class="text-xs"
+                                *matCellDef="let asset">{{
                                     asset.asset?.brand || "N/A"
                                 }}</mat-cell>
                             </ng-container>
     
                             <!-- Barcode Column -->
                             <ng-container matColumnDef="assetBarcode">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header
+                                <mat-header-cell   class="text-xs"
+                                *matHeaderCellDef mat-sort-header
                                     >Barcode</mat-header-cell
                                 >
-                                <mat-cell *matCellDef="let asset">{{
+                                <mat-cell   class="text-xs"
+                                 *matCellDef="let asset">{{
                                     asset.asset?.asset_barcode || "N/A"
                                 }}</mat-cell>
                             </ng-container>
     
                             <!-- Remarks Column -->
                             <ng-container matColumnDef="remarks">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header
+                                <mat-header-cell   class="text-xs"
+                                 *matHeaderCellDef mat-sort-header
                                     >Remarks</mat-header-cell
                                 >
-                                <mat-cell *matCellDef="let asset">{{
+                                <mat-cell 
+                                class="text-xs"
+                                *matCellDef="let asset">{{
                                     asset.remarks || "N/A"
                                 }}</mat-cell>
                             </ng-container>
     
                             <!-- Status Column -->
                             <ng-container matColumnDef="status">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header
+                                <mat-header-cell   class="text-xs"
+                                *matHeaderCellDef mat-sort-header
                                     >Status</mat-header-cell
                                 >
-                                <mat-cell *matCellDef="let asset">{{
+                                <mat-cell   class="text-xs"
+                                *matCellDef="let asset">{{
                                     asset.status || "N/A"
                                 }}</mat-cell>
                             </ng-container>
