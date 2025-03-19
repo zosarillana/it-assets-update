@@ -466,42 +466,34 @@ export class AccountabilityFormComponent implements OnInit {
     }
 
     preparedByUser(): void {
-        const id = this.accountabilityApproval?.id
+        console.log('🔵 Accountability Approval Object:', this.accountabilityApproval);
+    
+        // Ensure accountabilityId is always an integer
+        const accountabilityId: number = this.accountabilityApproval?.id
             ? Number(this.accountabilityApproval.id)
-            : null; // Convert to number
-        const userId = this.userId ? String(this.userId) : null; // Convert userId to a string
-
-        console.log('ID for prepared by user:', id, typeof id);
-        console.log('User ID for prepared by user:', userId, typeof userId);
-
-        // Show Snackbar if id or userId is invalid
-        if (!id || isNaN(id) || !userId) {
-            console.error(
-                'Accountability ID or User ID is missing or invalid for prepared by user'
-            );
-
-            // Show error MatSnackBar immediately
-            this.snackBar.open(
-                'Needs to be approved by an upper level (e.g., IT MANAGER)',
-                '',
-                {
-                    duration: 4000,
-                    verticalPosition: 'bottom',
-                    horizontalPosition: 'center',
-                    panelClass: ['snackbar-error'], // This applies the custom styles
-                }
-            );
-
-            return; // Stop execution
+            : this.asset?.user_accountability_list?.id
+                ? Number(this.asset.user_accountability_list.id)
+                : 0;
+    
+        console.log('🟡 ID for prepared by user:', accountabilityId);
+    
+        if (!accountabilityId || accountabilityId === 0) {
+            console.error('❌ Error: Accountability ID is missing or 0!');
+            return;
         }
-
-        this.accountabilityApprovalService.preparedByUser(id, userId).subscribe(
+    
+        // Ensure userId is a string before passing it to the service
+        const userId: string = this.userId ? String(this.userId) : "0";
+    
+        console.log('🟢 Final Accountability ID:', accountabilityId, typeof accountabilityId);
+        console.log('🟢 Final User ID:', userId, typeof userId);
+    
+        this.accountabilityApprovalService.preparedByUser(accountabilityId, userId).subscribe(
             (response) => {
-                console.log('Prepared by User response:', response);
-                this.getAccountabilityApproval(); // Refresh after success
-
-                // Show success MatSnackBar
-                this.snackBar.open(`Prepared by ${this.user?.name}`, '', {
+                console.log('✅ Prepared by User response:', response);
+                this.getAccountabilityApproval();
+    
+                this.snackBar.open(`Prepared by ${this.user?.name || "Unknown User"}`, '', {
                     duration: 3000,
                     verticalPosition: 'bottom',
                     horizontalPosition: 'center',
@@ -509,23 +501,17 @@ export class AccountabilityFormComponent implements OnInit {
                 });
             },
             (error) => {
-                console.error('Error in prepared by user:', error);
-                console.log('Executing snackbar error'); // Debugging line
-
-                // Show error MatSnackBar on API error
-                this.snackBar.open(
-                    'Needs to be approved by an upper level (e.g., IT MANAGER)',
-                    '',
-                    {
-                        duration: 4000,
-                        verticalPosition: 'bottom',
-                        horizontalPosition: 'center',
-                        panelClass: ['snackbar-error'],
-                    }
-                );
+                console.error('❌ Error in prepared by user:', error);
+    
+                this.snackBar.open('An error occurred while preparing the approval.', '', {
+                    duration: 4000,
+                    verticalPosition: 'bottom',
+                    horizontalPosition: 'center',
+                    panelClass: ['snackbar-error'],
+                });
             }
         );
-    }
+    }        
 
     approvedByUser(): void {
         const id = this.accountabilityApproval?.id

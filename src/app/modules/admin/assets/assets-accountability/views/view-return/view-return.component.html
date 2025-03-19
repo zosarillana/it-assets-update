@@ -56,7 +56,7 @@
                         RETURN ACCOUNTABILITY FORM
                     </p>
 
-                    <div class="flex flex-row w-full mx-auto mt-8 gap-12">
+                    <div class="flex flex-row w-full mx-auto mt-8 gap-12 uppercase">
                         <div class="flex flex-col gap-0.5 w-58">
                             <p class="text-lg tracking-tight font-bold">
                                 ISSUED TO
@@ -90,7 +90,7 @@
                                 </span>
                             </div>
 
-                            <div class="flex flex-row gap-8 text-sm">
+                            <div class="flex flex-row gap-7 text-sm">
                                 <p
                                     class="text-regular tracking-tight font-bold"
                                 >
@@ -455,6 +455,48 @@
                 </div>
 
                 <div
+                id="acknowledgmentSection"
+                #acknowledgmentSection
+            >
+                <div
+                    class="flex flex-col w-full gap-4 mt-8 text-sm"
+                >
+                    <p>
+                        I HEREBY ACKNOWLEDGE
+                        RECEIPT OF AND ACCEPT
+                        RESPONSIBILITY OF THE
+                        ABOVE ASSETS ISSUED TO
+                        ME IN ACCORDANCE WITH
+                        THE COMPANY POLICY AND
+                        PROCEDURES. UPON
+                        SEPARATION FROM THE
+                        COMPANY, I WILL RETURN
+                        THE ITEM(S) ISSUED TO ME
+                        IN GOOD WORKING
+                        CONDITION (SUBJECT TO
+                        ASSESMENT OF ASSET'S
+                        WEAR AND TEAR).
+                    </p>
+                    <p>
+                        FURTHER UNDERSTAND THAT
+                        THE ISSUED ASSET(S)
+                        IS/ARE FOR COMPANY USE
+                        ONLY AND FAILTURE TO
+                        COMPLY WITH THE COMPANY
+                        POLICY AND PROCEDURES
+                        WILL BE SUBJECTED TO
+                        DISCIPLINARY ACTION.
+                        WITH PROPER
+                        INVESTIGATION, ANY
+                        DAMAGES OR LOSS DUE TO
+                        MY NEGLIGENCE WILL BE
+                        AUTOMATICALLY CHARGED
+                        AND/OR DEDUCTED TO MY
+                        SALARY.
+                    </p>
+                </div>
+
+                <div
                     class="grid grid-cols-2 w-full gap-4 mt-12 lg:flex-row md:flex-row"
                 >                 
                     <div class="flex-grow text-start">
@@ -510,18 +552,33 @@
                                 <p
                                     class="text-md border-t m-1 text-center items-center"
                                 >
-                                    {{
-                                        ReturnItemsApproval?.checkedByUser
-                                            ?.name || "N/A"
-                                    }}
+                                  
+                                        {{
+                                            ReturnItemsApproval
+                                            ?.confirmedByUser?.name
+                                            ? ReturnItemsApproval
+                                            .confirmedByUser
+                                            .name
+                                            : user?.role ===
+                                            "admin"
+                                            ? user?.name
+                                            : "NOT AVAILABLE"
+                                            }}
                                 </p>
                                 <span
                                     class="text-sm text-gray-600 text-center items-center"
                                 >
-                                    {{
-                                        ReturnItemsApproval?.checkedByUser
-                                            ?.designation || "N/A"
-                                    }}
+                                   
+                                        {{
+                                            ReturnItemsApproval
+                                            ?.checkedByUser?.designation
+                                            ? ReturnItemsApproval
+                                            .checkedByUser
+                                            .designation
+                                            : user?.role === "admin"
+                                            ? user?.designation
+                                            : "IT MANAGER"
+                                            }}
                                 </span>
                             </div>
                             <p
@@ -538,56 +595,72 @@
                                 </span>
                             </p>
                         </div>
-                    </div>
 
-                    <!-- <div
-                        class="flex-grow flex-col"
-                        *ngIf="ReturnItemsApproval?.checkedByUser"
-                    >                  
-                        <div class="flex-grow flex-col">
-                            <div
-                                class="text-l font-bold text-gray-900 uppercase tracking-wider text-left"
-                            >
-                                <span class="text-sm text-gray-600"
-                                    >Checked by:</span
-                                >
-                            </div>                                                    
-                                <div
-                                    class="flex flex-col items-center justify-center uppercase"
-                                >
-                                    <div
-                                        class="flex justify-center items-center w-48"
-                                    >
-                                        <img
-                                            [src]="
-                                                ReturnItemsApproval
-                                                    ?.checkedByUser?.e_signature
-                                                    ? sanitizeImagePath(
-                                                          ReturnItemsApproval
-                                                              ?.checkedByUser
-                                                              ?.e_signature
-                                                      )
-                                                    : 'https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg'
-                                            "
-                                            alt="Signature"
-                                            class="mt-4 -mb-6 h-16 w-48 opacity-80"
-                                        />
-                                    </div>                   
-                                    <p class="text-md border-t m-1">
+                        <div class="flex-grow text-start mt-2">
+                            <p class="text-sm tracking-tight font-bold uppercase">
+                                Confirmed By:
+                            </p>
+                            <div class="flex justify-start items-start">
+                                <ng-container *ngIf="ReturnItemsApproval?.confirmedByUser; else blankSignature">
+                                    <img *ngIf="ReturnItemsApproval?.confirmedByUser?.e_signature; else defaultSignature"
+                                        [src]="sanitizeImagePath(ReturnItemsApproval?.confirmedByUser?.e_signature)"
+                                        alt="Signature"
+                                        class="mt-4 h-20 w-48 opacity-50" />
+                                </ng-container>
+                            </div>
+                        
+                            <!-- Default Signature Placeholder -->
+                            <ng-template #defaultSignature>
+                                <img src="https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg"
+                                    alt="Default Signature" class="mt-4 w-48 opacity-50" />
+                            </ng-template>
+                        
+                            <!-- Blank Signature Placeholder -->
+                            <ng-template #blankSignature>
+                                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                                    alt="Blank Signature" class="mt-4 w-20 opacity-0" />
+                            </ng-template>
+                        
+                            <!-- Show Name & Role -->
+                            <div class="flex flex-row gap-8 -mt-10 uppercase">
+                                <div class="flex flex-col w-48">
+                                    <p class="text-md border-t m-1 text-center items-center">                                      
                                         {{
-                                            ReturnItemsApproval?.checkedByUser
-                                                ?.name || "N/A"
-                                        }}
+                                            ReturnItemsApproval
+                                            ?.confirmedByUser?.name
+                                            ? ReturnItemsApproval
+                                            .confirmedByUser
+                                            .name
+                                            : user?.role ===
+                                            "checker"
+                                            ? user?.name
+                                            : "NOT AVAILABLE"
+                                            }}
                                     </p>
-                                    <span class="text-sm text-gray-600">
+                                    <span class="text-sm text-gray-600 text-center items-center">                                      
                                         {{
-                                            ReturnItemsApproval?.checkedByUser
-                                                ?.designation || "N/A"
-                                        }}
+                                            ReturnItemsApproval
+                                            ?.confirmedByUser
+                                            ?.designation
+                                            ? ReturnItemsApproval
+                                            .confirmedByUser
+                                            .designation
+                                            : user?.role ===
+                                            "checker"
+                                            ? user?.designation
+                                            : "IT/OT END "
+                                            }}
                                     </span>
                                 </div>
+                                <p class="text-xs tracking-tight font-bold uppercase mt-1.5">
+                                    Date
+                                    <span class="font-medium">
+                                        {{ ReturnItemsApproval?.confirmed_date ? (ReturnItemsApproval.confirmed_date | date: "MMMM d, y") : "N/A" }}
+                                    </span>
+                                </p>
                             </div>
-                        </div>           -->
+                        </div>          
+                    </div>               
 
                         <div class="flex-grow text-start">
                             <p class="text-sm tracking-tight font-bold uppercase">
@@ -617,11 +690,32 @@
                             <!-- Show Name & Role -->
                             <div class="flex flex-row gap-8 -mt-10 uppercase">
                                 <div class="flex flex-col w-48">
-                                    <p class="text-md border-t m-1 text-center items-center">
-                                        {{ ReturnItemsApproval?.receivedByUser?.name || "N/A" }}
+                                    <p class="text-md border-t m-1 text-center items-center">                                      
+                                        {{
+                                            ReturnItemsApproval
+                                            ?.receivedByUser?.name
+                                            ? ReturnItemsApproval
+                                            .receivedByUser
+                                            .name
+                                            : user?.role ===
+                                            "receiver"
+                                            ? user?.name
+                                            : "NOT AVAILABLE"
+                                            }}
                                     </p>
-                                    <span class="text-sm text-gray-600 text-center items-center">
-                                        {{ ReturnItemsApproval?.receivedByUser?.designation || "N/A" }}
+                                    <span class="text-sm text-gray-600 text-center items-center">                                      
+                                        {{
+                                            ReturnItemsApproval
+                                            ?.receivedByUser
+                                            ?.designation
+                                            ? ReturnItemsApproval
+                                            .receivedByUser
+                                            .designation
+                                            : user?.role ===
+                                            "receiver"
+                                            ? user?.designation
+                                            : "IT/OT LEAD"
+                                            }}
                                     </span>
                                 </div>
                                 <p class="text-xs tracking-tight font-bold uppercase mt-1.5">
@@ -633,209 +727,68 @@
                             </div>
                         </div>
 
-                        
-                    <!-- <div
-                        class="flex-grow flex-col"
-                        *ngIf="ReturnItemsApproval?.receivedByUser"
-                    >
-                     
-                        <div class="flex-grow flex-col">
-                            <div
-                                class="text-l font-bold text-gray-900 uppercase tracking-wider text-left"
-                            >
-                                <span class="text-sm text-gray-600"
-                                    >Received by:</span
-                                >
-                            </div>
-
-                            <div class="flex flex-grow text-center uppercase">
-                                <div class="flex flex-col items-center w-48">
-                                    <img
-                                        [src]="
-                                            ReturnItemsApproval?.receivedByUser
-                                                ?.e_signature
-                                                ? sanitizeImagePath(
-                                                      ReturnItemsApproval
-                                                          ?.receivedByUser
-                                                          ?.e_signature
-                                                  )
-                                                : 'https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg'
-                                        "
-                                        alt="Signature"
-                                        class="mt-4 -mb-6 h-16 opacity-80"
-                                    />
-                                    <mat-divider
-                                        class="border-gray-300 border"
-                                    ></mat-divider>
-                                    <p class="text-md m-1">
-                                        {{
-                                            ReturnItemsApproval?.receivedByUser
-                                                ?.name || "N/A"
-                                        }}
-                                    </p>
-                                    <span class="text-sm text-gray-600">
-                                        {{
-                                            ReturnItemsApproval?.receivedByUser
-                                                ?.designation || "N/A"
-                                        }}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-                    <div class="flex-grow text-start">
-                        <p class="text-sm tracking-tight font-bold uppercase">
-                            Checked By:
-                        </p>
-                        <div class="flex justify-start items-start">
-                            <ng-container *ngIf="ReturnItemsApproval?.confirmedByUser; else blankSignature">
-                                <img *ngIf="ReturnItemsApproval?.confirmedByUser?.e_signature; else defaultSignature"
-                                    [src]="sanitizeImagePath(ReturnItemsApproval?.confirmedByUser?.e_signature)"
-                                    alt="Signature"
-                                    class="mt-4 h-20 w-48 opacity-50" />
-                            </ng-container>
-                        </div>
-                    
-                        <!-- Default Signature Placeholder -->
-                        <ng-template #defaultSignature>
-                            <img src="https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg"
-                                alt="Default Signature" class="mt-4 w-48 opacity-50" />
-                        </ng-template>
-                    
-                        <!-- Blank Signature Placeholder -->
-                        <ng-template #blankSignature>
-                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                                alt="Blank Signature" class="mt-4 w-20 opacity-0" />
-                        </ng-template>
-                    
-                        <!-- Show Name & Role -->
-                        <div class="flex flex-row gap-8 -mt-10 uppercase">
-                            <div class="flex flex-col w-48">
-                                <p class="text-md border-t m-1 text-center items-center">
-                                    {{ ReturnItemsApproval?.confirmedByUser?.name || "N/A" }}
-                                </p>
-                                <span class="text-sm text-gray-600 text-center items-center">
-                                    {{ ReturnItemsApproval?.confirmedByUser?.designation || "N/A" }}
-                                </span>
-                            </div>
-                            <p class="text-xs tracking-tight font-bold uppercase mt-1.5">
-                                Date
-                                <span class="font-medium">
-                                    {{ ReturnItemsApproval?.confirmed_date ? (ReturnItemsApproval.confirmed_date | date: "MMMM d, y") : "N/A" }}
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- <div
-                        class="flex-grow flex-col"
-                        *ngIf="ReturnItemsApproval?.confirmedByUser"
-                    >
-                        <div class="flex-grow flex-col">
-                            <div
-                                class="text-l font-bold text-gray-900 uppercase tracking-wider text-left"
-                            >
-                                <span class="text-sm text-gray-600"
-                                    >Confirmed by:</span
-                                >
-                            </div>
-
-                            <div class="flex-grow text-center">
-                                <div class="flex justify-center items-center">
-                                    <img
-                                        [src]="
-                                            ReturnItemsApproval?.confirmedByUser
-                                                ?.e_signature
-                                                ? sanitizeImagePath(
-                                                      ReturnItemsApproval
-                                                          ?.confirmedByUser
-                                                          ?.e_signature
-                                                  )
-                                                : 'https://www.morebusiness.com/wp-content/uploads/2020/09/handwritten-email-signature.jpg'
-                                        "
-                                        alt="Signature"
-                                        class="mt-4 w-48 opacity-80"
-                                    />
-                                </div>
-
-                                <div class="flex flex-col items-center">
-                                    <p class="text-md border-t m-1">
-                                        {{
-                                            ReturnItemsApproval?.confirmedByUser
-                                                ?.name || "N/A"
-                                        }}
-                                    </p>
-                                    <span class="text-sm text-gray-600">
-                                        {{
-                                            ReturnItemsApproval?.confirmedByUser
-                                                ?.designation || "N/A"
-                                        }}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-
                 </div>
             </div>
 
-            <div class="fixed bottom-4 right-4 flex flex-col space-y-4">
-                <button
-                    *ngIf="user.role === 'receiver'"
-                    class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
-                    (click)="receiveByUser()"
-                    matTooltip="Approve document"
-                    matTooltipPosition="above"
-                    aria-label="Approve document"
-                    style="width: 56px; height: 56px"
-                >
-                    <mat-icon
-                        svgIcon="verified"
-                        class="text-blue-500"
-                    ></mat-icon>
-                </button>
-
-                <button
-                    *ngIf="user.role === 'admin'"
-                    class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
-                    (click)="checkByUser()"
-                    matTooltip="Approve document"
-                    matTooltipPosition="above"
-                    aria-label="Approve document"
-                    style="width: 56px; height: 56px"
-                >
-                    <mat-icon
-                        svgIcon="verified"
-                        class="text-gray-500"
-                    ></mat-icon>
-                </button>
-
-                <!-- New Button: Only visible if user.role is 'checker' -->
-                <button
-                    *ngIf="user.role === 'checker'"
-                    class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
-                    (click)="confirmByUser()"
-                    matTooltip="Receive document"
-                    matTooltipPosition="above"
-                    aria-label="Receive document"
-                    style="width: 56px; height: 56px"
-                >
-                    <mat-icon
-                        svgIcon="verified"
-                        class="text-green-500"
-                    ></mat-icon>
-                </button>
-
-                <!-- <button
-                class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
-                (click)="pdfForm()"
-                matTooltip="Generate PDF form"
-                matTooltipPosition="above"
-                aria-label="Generate PDF form"
-                style="width: 56px; height: 56px"
-            >
-                <img class="h-8 w-6" src="assets/images/svgs/pdf-svgrepo-com.svg" />
-            </button> -->
-            </div>
+        
         </div>
+    </div>
+    <div class="fixed bottom-4 right-4 flex flex-col space-y-4">
+        <button
+            *ngIf="user.role === 'receiver'"
+            class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
+            (click)="receiveByUser()"
+            matTooltip="Approve document"
+            matTooltipPosition="above"
+            aria-label="Approve document"
+            style="width: 56px; height: 56px"
+        >
+            <mat-icon
+                svgIcon="verified"
+                class="text-blue-500"
+            ></mat-icon>
+        </button>
+
+        <button
+            *ngIf="user.role === 'admin'"
+            class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
+            (click)="checkByUser()"
+            matTooltip="Approve document"
+            matTooltipPosition="above"
+            aria-label="Approve document"
+            style="width: 56px; height: 56px"
+        >
+            <mat-icon
+                svgIcon="verified"
+                class="text-gray-500"
+            ></mat-icon>
+        </button>
+
+        <!-- New Button: Only visible if user.role is 'checker' -->
+        <button
+            *ngIf="user.role === 'checker'"
+            class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
+            (click)="confirmByUser()"
+            matTooltip="Receive document"
+            matTooltipPosition="above"
+            aria-label="Receive document"
+            style="width: 56px; height: 56px"
+        >
+            <mat-icon
+                svgIcon="verified"
+                class="text-green-500"
+            ></mat-icon>
+        </button>
+
+        <button
+        class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
+        (click)="pdfForm()"
+        matTooltip="Generate PDF form"
+        matTooltipPosition="above"
+        aria-label="Generate PDF form"
+        style="width: 56px; height: 56px"
+    >
+        <img class="h-8 w-6" src="assets/images/svgs/pdf-svgrepo-com.svg" />
+    </button>
     </div>
 </div>
