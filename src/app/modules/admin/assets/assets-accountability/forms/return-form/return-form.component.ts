@@ -6,6 +6,7 @@ import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-return-form',
@@ -13,11 +14,17 @@ import { Subject } from 'rxjs';
   styleUrls: ['./return-form.component.scss']
 })
 export class ReturnFormComponent implements OnInit {
-  accountabilityItem: any;
+  asset: any;
+  accountabilityItem: any = { computers: { $values: [] } };
   isSubmitting: boolean = false;
   user: User;
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
+  // Mat-Table Configuration
+  dataSource: MatTableDataSource<any>;
+  assetDataSource: MatTableDataSource<any>;
+  // Flattened components list
+  flattenedComponents: any[] = [];
   constructor(
     private route: ActivatedRoute,
     private accountabilityService: AccountabilityService,
@@ -29,13 +36,12 @@ export class ReturnFormComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
-        this.fetchAccountabilityItem(Number(id)); // Convert id to number
+        this.fetchAccountabilityItem(Number(id));
       }
     });
 
-    // Subscribe to the user service to get user data
     this._userService.user$
-      .pipe(takeUntil(this._unsubscribeAll)) // Auto-unsubscribe when component is destroyed
+      .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((user: User) => {
         this.user = user;
         console.log('🟢 User data loaded:', user);
@@ -47,47 +53,27 @@ export class ReturnFormComponent implements OnInit {
       next: (data) => {
         if (!data) {
           console.error('Error: Received null or undefined accountability data.');
+          return;
         }
+  
         this.accountabilityItem = data;
+        console.log('✅ Accountability Item:', JSON.stringify(this.accountabilityItem, null, 2));
+  
+        // Initialize checkbox values for computers and their components
+        this.initializeCheckboxValues();
+  
+        // Separate deep copies for both tables
+        this.flattenComponents();
+        this.dataSource = new MatTableDataSource(
+          JSON.parse(JSON.stringify(this.accountabilityItem.computers.$values)) // Deep copy for computers
+        );
 
-        // Initialize checkbox values for computers and their assets
-        this.accountabilityItem.computers?.$values?.forEach((computer: any) => {
-          computer.checked = false; // Default value for checkboxes
-          
-          // Initialize assigned assets
-          computer.assignedAssetDetails?.$values?.forEach((asset: any) => {
-            asset.checked = false; // Default value for assets
-          });
-          
-          // Initialize components with checked property
-          if (computer.components && typeof computer.components === 'object') {
-            const componentTypes = Object.keys(computer.components);
-            
-            for (const compType of componentTypes) {
-              const componentType = computer.components[compType];
-              
-              // Handle different possible component structures
-              if (componentType?.values?.$values && Array.isArray(componentType.values.$values)) {
-                componentType.values.$values.forEach((component: any) => {
-                  component.checked = false; // Initialize component checkbox
-                });
-              } else if (componentType?.$values && Array.isArray(componentType.$values)) {
-                componentType.$values.forEach((component: any) => {
-                  component.checked = false;
-                });
-              } else if (Array.isArray(componentType)) {
-                componentType.forEach((component: any) => {
-                  component.checked = false;
-                });
-              }
-            }
-          }
-        });
-        
-        // Initialize direct assets
-        this.accountabilityItem.assets?.$values?.forEach((asset: any) => {
-          asset.checked = false;
-        });
+        // Extract assigned assets from each computer and populate assetDataSource
+        const assignedAssets = this.accountabilityItem.computers.$values.flatMap((computer: any) => computer.assignedAssetDetails?.$values ?? []);
+        console.log('✅ Assigned Assets:', assignedAssets);
+
+        this.assetDataSource = new MatTableDataSource(assignedAssets);
+        console.log('✅ Asset Data Source:', this.assetDataSource.data);
       },
       error: (error) => {
         console.error('Error fetching accountability item:', error);
@@ -96,7 +82,71 @@ export class ReturnFormComponent implements OnInit {
     });
   }
 
+  initializeCheckboxValues(): void {
+    this.accountabilityItem.computers?.$values?.forEach((computer: any) => {
+      computer.checked = false; // Default value for checkboxes
+      
+      // Initialize assigned assets
+      computer.assignedAssetDetails?.$values?.forEach((asset: any) => {
+        asset.checked = false; // Default value for assets
+      });
+      
+      // Initialize components with checked property
+      if (computer.components && typeof computer.components === 'object') {
+        const componentTypes = Object.keys(computer.components);
+        
+        for (const compType of componentTypes) {
+          const componentType = computer.components[compType];
+          
+          // Handle different possible component structures
+          if (componentType?.values?.$values && Array.isArray(componentType.values.$values)) {
+            componentType.values.$values.forEach((component: any) => {
+              component.checked = false; // Initialize component checkbox
+            });
+          } else if (componentType?.$values && Array.isArray(componentType.$values)) {
+            componentType.$values.forEach((component: any) => {
+              component.checked = false;
+            });
+          } else if (Array.isArray(componentType)) {
+            componentType.forEach((component: any) => {
+              component.checked = false;
+            });
+          }
+        }
+      }
+    });
+    
+    // Initialize direct assets
+    this.accountabilityItem.assets?.$values?.forEach((asset: any) => {
+      asset.checked = false;
+    });
+  }
+  
+  flattenComponents(): void {
+    this.flattenedComponents = [];
+
+    if (this.accountabilityItem?.computers?.$values) {
+      this.accountabilityItem.computers.$values.forEach(computer => {
+        ['RAM', 'SSD', 'HDD', 'GPU', 'BOARD'].forEach(componentType => {
+          if (computer.components?.[componentType]?.$values?.length > 0) {
+            computer.components[componentType].$values.forEach(component => {
+              this.flattenedComponents.push({
+                componentType,
+                computer_id: computer.id, // ✅ Make sure each component knows which computer it belongs to
+                ...JSON.parse(JSON.stringify(component)) // Deep copy each component
+              });
+            });
+          }
+        });
+      });
+    }
+
+    console.log("✅ Flattened Components Data:", this.flattenedComponents);
+  }
+
   submitReturnChecklist(): void {
+    console.log("🔍 Debug: Flattened Components:", this.flattenedComponents);
+
     if (!this.accountabilityItem) {
       console.error('Error: Accountability item is missing.');
       alert('Error: Accountability details are not loaded.');
@@ -106,10 +156,10 @@ export class ReturnFormComponent implements OnInit {
     this.isSubmitting = true;
 
     try {
-      // Process direct assets from accountabilityItem.assets.$values
+      // ✅ Process direct assets
       const assetChecklist = (this.accountabilityItem.assets?.$values ?? []).map((asset: any) => ({
         accountability_id: this.accountabilityItem.user_accountability_list?.id ?? null,
-        user_id: this.user?.id ?? null, // Use the user ID from the user service
+        user_id: this.user?.id ?? null,
         asset_id: asset.id,
         computer_id: null,
         component_id: null,
@@ -119,7 +169,7 @@ export class ReturnFormComponent implements OnInit {
         validated_by: 1,
       }));
 
-      // Process computer-assigned assets
+      // ✅ Process assigned assets from computers
       const assignedAssetChecklist: any[] = [];
       if (this.accountabilityItem.computers?.$values) {
         for (const computer of this.accountabilityItem.computers.$values) {
@@ -127,9 +177,9 @@ export class ReturnFormComponent implements OnInit {
             for (const asset of computer.assignedAssetDetails.$values) {
               assignedAssetChecklist.push({
                 accountability_id: this.accountabilityItem.user_accountability_list?.id ?? null,
-                user_id: this.user?.id ?? null, // Use the user ID from the user service
+                user_id: this.user?.id ?? null,
                 asset_id: asset.id,
-                computer_id: computer.id, // Link to the parent computer
+                computer_id: computer.id,
                 component_id: null,
                 item_type: "Assets",
                 status: asset.checked ? asset.condition : 'missing',
@@ -141,10 +191,10 @@ export class ReturnFormComponent implements OnInit {
         }
       }
 
-      // Process computers
+      // ✅ Process computers
       const computerChecklist = (this.accountabilityItem.computers?.$values ?? []).map((computer: any) => ({
         accountability_id: this.accountabilityItem.user_accountability_list?.id ?? null,
-        user_id: this.user?.id ?? null, // Use the user ID from the user service
+        user_id: this.user?.id ?? null,
         asset_id: null,
         computer_id: computer.id,
         component_id: null,
@@ -154,65 +204,20 @@ export class ReturnFormComponent implements OnInit {
         validated_by: 1,
       }));
 
-      // Process components - MODIFIED SECTION
-      const componentChecklist: any[] = [];
-      if (this.accountabilityItem.computers?.$values) {
-        for (const computer of this.accountabilityItem.computers.$values) {
-          if (computer.components && typeof computer.components === 'object') {
-            const componentTypes = Object.keys(computer.components);
-            console.log('Component types found:', componentTypes);
+      // ✅ Process components  
+      const componentChecklist = this.flattenedComponents.map(component => ({
+        accountability_id: this.accountabilityItem.user_accountability_list?.id ?? null,
+        user_id: this.user?.id ?? null,
+        asset_id: null,
+        computer_id: component.computer_id,
+        component_id: component.id,
+        item_type: "Components",
+        status: component.checked ? component.condition : 'missing',
+        remarks: component.remarks || '',
+        validated_by: 1,
+      }));
 
-            for (const compType of componentTypes) {
-              const componentType = computer.components[compType];
-              console.log(`Components of type ${compType}:`, componentType);
-              
-              // Try to locate components in multiple possible locations in the structure
-              let componentArray: any[] = [];
-              
-              // Check if components are in values.$values
-              if (componentType?.values?.$values && Array.isArray(componentType.values.$values)) {
-                componentArray = componentType.values.$values;
-              } 
-              // Check if components are directly in $values
-              else if (componentType?.$values && Array.isArray(componentType.$values)) {
-                componentArray = componentType.$values;
-              }
-              // Check if componentType itself is an array
-              else if (Array.isArray(componentType)) {
-                componentArray = componentType;
-              }
-              // Check if in .components property
-              else if (componentType?.components?.$values && Array.isArray(componentType.components.$values)) {
-                componentArray = componentType.components.$values;
-              }
-              
-              console.log(`Component array for ${compType}:`, componentArray);
-              
-              // Process the found components
-              for (const component of componentArray) {
-                if (component && component.id) {
-                  console.log(`Processing component: ${component.id}`, component);
-                  componentChecklist.push({
-                    accountability_id: this.accountabilityItem.user_accountability_list?.id ?? null,
-                    user_id: this.user?.id ?? null,
-                    asset_id: null,
-                    computer_id: computer.id,
-                    component_id: component.id,
-                    item_type: "Components",
-                    status: component.checked ? component.condition : 'missing',
-                    remarks: component.remarks || '',
-                    validated_by: 1,
-                  });
-                }
-              }
-            }
-          }
-        }
-      }
-      
-      console.log('Processed component checklist:', componentChecklist);
-
-      // Combine all checklists
+      // ✅ Combine all checklists  
       const checklist = [...assetChecklist, ...assignedAssetChecklist, ...computerChecklist, ...componentChecklist];
 
       console.log('Checklist items being sent:', checklist);
@@ -221,12 +226,9 @@ export class ReturnFormComponent implements OnInit {
         throw new Error('No items to return.');
       }
 
-      // Use Promise.all to track all API calls
-      const promises: Promise<any>[] = [];
-
-      for (const item of checklist) {
-        console.log('Submitting item:', item);
-        const promise = new Promise<any>((resolve, reject) => {
+      // ✅ Send data to API
+      const promises: Promise<any>[] = checklist.map(item =>
+        new Promise<any>((resolve, reject) => {
           this.returnItemService.createReturnItem(item).subscribe({
             next: (response) => {
               console.log('Item submitted successfully:', response);
@@ -234,15 +236,13 @@ export class ReturnFormComponent implements OnInit {
             },
             error: (error) => {
               console.error('Error submitting item:', error);
-              console.error('Request payload:', item); // Log the request payload
               reject(error);
             }
           });
-        });
-        promises.push(promise);
-      }
+        })
+      );
 
-      // Wait for all submissions to complete
+      // ✅ Handle API responses
       Promise.all(promises)
         .then(() => {
           this.isSubmitting = false;

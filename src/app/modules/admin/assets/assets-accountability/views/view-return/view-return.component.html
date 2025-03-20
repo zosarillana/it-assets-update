@@ -228,12 +228,12 @@
                             </ng-container>
 
                             <!-- Status Column -->
-                            <ng-container matColumnDef="status">
+                            <ng-container matColumnDef="condition">
                                 <mat-header-cell
                                 class="text-xs"
                                     *matHeaderCellDef
                                     mat-sort-header
-                                    >Status</mat-header-cell
+                                    >Condition</mat-header-cell
                                 >
                                 <mat-cell
                                 class="text-xs"
@@ -247,8 +247,10 @@
                                     'type',
                                     'model',
                                     'assetBarcode',
-                                    'remarks',
-                                    'status'
+                                    'condition',
+                                    'remarks'
+
+                                
                                 ]"
                             ></mat-header-row>
                             <mat-row
@@ -258,8 +260,8 @@
                                         'type',
                                         'model',
                                         'assetBarcode',
-                                        'remarks',
-                                        'status'
+                                             'condition',
+                                    'remarks'
                                     ]
                                 "
                                 class="hover:bg-gray-100 h-12 cursor-pointer"
@@ -344,11 +346,11 @@
                             </ng-container>
 
                             <!-- Status Column -->
-                            <ng-container matColumnDef="status">
+                            <ng-container matColumnDef="condition">
                                 <mat-header-cell  class="text-xs"
                                     *matHeaderCellDef
                                     mat-sort-header
-                                    >Status</mat-header-cell
+                                    >condition</mat-header-cell
                                 >
                                 <mat-cell  class="text-xs"
                                  *matCellDef="let component">{{
@@ -361,8 +363,8 @@
                                     'type',
                                     'uid',
                                     'cost',
-                                    'remarks',
-                                    'status'
+                                    'condition',
+                                    'remarks'
                                 ]"
                             ></mat-header-row>
                             <mat-row
@@ -372,8 +374,8 @@
                                         'type',
                                         'uid',
                                         'cost',
-                                        'remarks',
-                                        'status'
+                                        'condition',
+                                        'remarks'
                                     ]
                                 "
                                 class="hover:bg-gray-100 h-12 cursor-pointer"
@@ -451,10 +453,10 @@
                             </ng-container>
     
                             <!-- Status Column -->
-                            <ng-container matColumnDef="status">
+                            <ng-container matColumnDef="condition">
                                 <mat-header-cell   class="text-xs"
                                 *matHeaderCellDef mat-sort-header
-                                    >Status</mat-header-cell
+                                    >condition</mat-header-cell
                                 >
                                 <mat-cell   class="text-xs"
                                 *matCellDef="let asset">{{
@@ -467,8 +469,8 @@
                                     'type',
                                     'brand',
                                     'assetBarcode',
-                                    'remarks',
-                                    'status'
+                                    'condition',
+                                    'remarks'
                                 ]"
                             ></mat-header-row>
                             <mat-row
@@ -478,8 +480,8 @@
                                         'type',
                                         'brand',
                                         'assetBarcode',
-                                        'remarks',
-                                        'status'
+                                        'condition',
+                                        'remarks'
                                     ]
                                 "
                                 class="hover:bg-gray-100 h-12 cursor-pointer"

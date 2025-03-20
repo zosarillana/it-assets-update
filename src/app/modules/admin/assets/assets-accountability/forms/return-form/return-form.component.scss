@@ -1,0 +1,17 @@
+.custom-mat-table {
+    .mat-header-cell,
+    .mat-cell {
+        font-size: 10px !important; /* Ensures smaller text */
+        padding: 8px 12px !important; /* Adjusts spacing between cells */
+        line-height: 1.4 !important; /* Improves readability */
+        text-transform: uppercase; /* Converts text to uppercase */
+    }
+
+    .mat-header-row,
+    .mat-row {
+        height: 40px !important; /* Adjust row height for even spacing */
+    }
+}
+.page-break {
+    page-break-before: always;
+}
