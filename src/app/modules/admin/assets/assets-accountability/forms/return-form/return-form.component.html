@@ -211,6 +211,7 @@
                                     >
                                         <!-- Computer Checkbox -->
                                         <mat-checkbox
+                               
                                             [(ngModel)]="computer.checked"
                                             class="w-6 h-6"
                                         ></mat-checkbox>
@@ -402,6 +403,7 @@
                                     >
                                         <!-- Component Checkbox -->
                                         <mat-checkbox
+                                        
                                             [(ngModel)]="component.checked"
                                         ></mat-checkbox>
                                     </mat-cell>
@@ -547,6 +549,7 @@
                                     >
                                     <mat-cell *matCellDef="let asset">
                                         <mat-checkbox
+                                     
                                             [(ngModel)]="asset.checked"
                                             class="w-6 h-6 rounded-md accent-blue-600"
                                         ></mat-checkbox>
@@ -677,19 +680,22 @@
                                 </mat-row>
                             </mat-table>
                         </div>
-
-                        <!-- Submit Button -->
-                        <div class="flex justify-end mt-8">
-                            <button
-                                class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-sm transition duration-150 ease-in-out"
-                                (click)="submitReturnChecklist()"
-                            >
-                                Submit Return
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="fixed bottom-4 right-4 flex flex-col space-y-4">
+          <button
+          class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
+          (click)="submitReturnChecklist()"
+          [disabled]="!allCheckboxesChecked()"
+          matTooltip="Submit form"
+          matTooltipPosition="above"
+          aria-label="Submit form"
+          style="width: 56px; height: 56px"
+        >
+          <mat-icon svgIcon="check" class="text-gray-500"></mat-icon>
+        </button>
         </div>
     </div>
 </div>

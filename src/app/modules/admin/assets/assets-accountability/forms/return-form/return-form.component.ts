@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccountabilityService } from 'app/services/accountability/accountability.service';
 import { ReturnService } from 'app/services/accountability/return.service';
 import { UserService } from 'app/core/user/user.service';
@@ -7,6 +7,7 @@ import { User } from 'app/core/user/user.types';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-return-form',
@@ -29,9 +30,12 @@ export class ReturnFormComponent implements OnInit {
     private route: ActivatedRoute,
     private accountabilityService: AccountabilityService,
     private returnItemService: ReturnService,
-    private _userService: UserService
+    private _userService: UserService,
+    private snackBar: MatSnackBar,
+    private router: Router
   ) { }
 
+  
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -120,6 +124,32 @@ export class ReturnFormComponent implements OnInit {
     this.accountabilityItem.assets?.$values?.forEach((asset: any) => {
       asset.checked = false;
     });
+  }
+
+  allCheckboxesChecked(): boolean {
+    // Check if there are no assets or computers to validate
+    if ((!this.accountabilityItem.assets?.$values || this.accountabilityItem.assets.$values.length === 0) &&
+        (!this.accountabilityItem.computers?.$values || this.accountabilityItem.computers.$values.length === 0)) {
+      return false;
+    }
+  
+    // Check if all assets are checked
+    const allAssetsChecked = !this.accountabilityItem.assets?.$values?.length || 
+      this.accountabilityItem.assets.$values.every((asset: any) => asset.checked);
+  
+    // Check if all assigned assets are checked
+    const allAssignedAssetsChecked = !this.assetDataSource?.data.length || 
+      this.assetDataSource?.data.every((asset: any) => asset.checked);
+  
+    // Check if all computers are checked
+    const allComputersChecked = !this.accountabilityItem.computers?.$values?.length || 
+      this.accountabilityItem.computers.$values.every((computer: any) => computer.checked);
+  
+    // Check if all components are checked
+    const allComponentsChecked = !this.flattenedComponents.length || 
+      this.flattenedComponents.every((component: any) => component.checked);
+  
+    return allAssetsChecked && allAssignedAssetsChecked && allComputersChecked && allComponentsChecked;
   }
   
   flattenComponents(): void {
@@ -246,7 +276,10 @@ export class ReturnFormComponent implements OnInit {
       Promise.all(promises)
         .then(() => {
           this.isSubmitting = false;
-          alert('Return process completed successfully!');
+          this.snackBar.open('Return process completed successfully!', 'Close', {
+            duration: 3000,
+          });
+          this.router.navigate(['/assets/accountability']);
         })
         .catch((error) => {
           console.error('Error in batch submission:', error);

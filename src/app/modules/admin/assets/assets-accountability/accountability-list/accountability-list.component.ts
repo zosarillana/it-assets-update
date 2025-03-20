@@ -39,8 +39,13 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
         'action'
     ];
 
-    data: AccountabilityItem[] = [];
     dataSource = new MatTableDataSource<AccountabilityItem>([]);
+    pageSize = 10;
+    sortOrder = 'asc';
+    searchTerm = '';
+    totalItems = 0;
+    pageSizeOptions = [5, 10, 25, 50];
+    isLoading = false;
     
     // Explicitly type allTypes as string[]
     allTypes: string[] = []; 
@@ -49,7 +54,6 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
 
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
-    // router: any;
 
     constructor(
         private _service: AccountabilityService, 
@@ -59,7 +63,7 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
     ) {}
 
     ngOnInit(): void {
-        this.loadAccountabilityData();
+        this.loadAccountabilityData(1, this.pageSize);
 
         // Set up filtering for autocomplete
         this.filteredTypeOptions = this.typeFilterControl.valueChanges.pipe(
@@ -69,44 +73,56 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
 
         // Listen for changes and apply filter dynamically
         this.typeFilterControl.valueChanges.subscribe((value) => {
-            this.applyFilter(value);
+            this.searchTerm = value;
+            if (this.paginator) {
+                this.paginator.pageIndex = 0;
+            }
+            this.loadAccountabilityData(1, this.pageSize);
         });
     }
 
     ngAfterViewInit() {
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
+        this.paginator.page.subscribe((event) => {
+            this.loadAccountabilityData(event.pageIndex + 1, event.pageSize);
+        });
+
+        this.sort.sortChange.subscribe(() => {
+            this.sortOrder = this.sort.direction;
+            this.paginator.pageIndex = 0;
+            this.loadAccountabilityData(1, this.pageSize);
+        });
     }
 
-    loadAccountabilityData(): void {
-        this._service.getAllAccountability().subscribe({
+    loadAccountabilityData(pageIndex: number = 1, pageSize: number = 10): void {
+        this.isLoading = true;
+        
+        this._service.getAllAccountability(pageIndex, pageSize, this.sortOrder, this.searchTerm).subscribe({
             next: (response: any) => {
                 if (response && response.items && response.items.$values) {
                     // Assign data to the table's dataSource
-                    this.data = response.items.$values as AccountabilityItem[];
-                    this.dataSource.data = this.data;
+                    this.dataSource.data = response.items.$values as AccountabilityItem[];
+    
+                    // Update total items for paginator
+                    this.totalItems = response.totalItems;
+                    this.paginator.length = this.totalItems;
     
                     // Extract unique accountability codes safely
-                    this.allTypes = this.data
-                        .map(item => item.accountability_code)
-                        .filter(code => code != null); // Filter out any null/undefined values
-    
-                    // Ensure paginator works after data loads
-                    setTimeout(() => {
-                        if (this.paginator) {
-                            this.dataSource.paginator = this.paginator;
-                        }
-                    });
+                    this.allTypes = [...new Set(
+                        this.dataSource.data
+                            .map(item => item.accountability_code)
+                            .filter(code => code != null)
+                    )];
                 }
+                this.isLoading = false;
             },
             error: (error) => {
                 console.error('Error fetching accountability data', error);
                 this.alertService.triggerError('Failed to load accountability data');
+                this.isLoading = false;
             }
         });
     }
     
-
     // Explicitly type the filter method
     private _filter(value: string): string[] {
         const filterValue = value.toLowerCase();
@@ -119,35 +135,55 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
     // Apply filter when a type is selected
     onTypeSelected(selectedType?: string): void {
         if (!selectedType) {
-            this.dataSource.data = this.data; // Reset data if empty
-            return;
+            this.searchTerm = '';
+        } else {
+            this.searchTerm = selectedType;
         }
-
-        this.dataSource.data = this.data.filter((item) =>
-            item.accountability_code.toLowerCase().includes(selectedType.toLowerCase())
-        );
 
         if (this.paginator) {
-            this.paginator.firstPage(); // Reset pagination on filter
+            this.paginator.pageIndex = 0;
         }
+        
+        this.loadAccountabilityData(1, this.pageSize);
     }
 
     // General filter application method
     applyFilter(value: string): void {
-        if (!value) {
-            this.dataSource.data = this.data; // Reset to all data
-        } else {
-            this.dataSource.data = this.data.filter((item) =>
-                item.accountability_code.toLowerCase().includes(value.toLowerCase())
-            );
-        }
-
+        this.searchTerm = value.trim().toLowerCase();
+        
         if (this.paginator) {
-            this.paginator.firstPage(); // Reset paginator on filter change
+            this.paginator.pageIndex = 0;
         }
+        
+        this.loadAccountabilityData(1, this.pageSize);
     }
 
-    // Rest of the methods remain the same
+    onSearch(): void {
+        if (this.paginator) {
+            this.paginator.pageIndex = 0;
+        }
+        this.loadAccountabilityData(1, this.pageSize);
+    }
+
+    announceSortChange(event: any): void {
+        this.sortOrder = event.direction;
+        if (this.paginator) {
+            this.paginator.pageIndex = 0;
+        }
+        this.loadAccountabilityData(1, this.pageSize);
+    }
+
+    resetDataSource(): void {
+        this.dataSource.data = [];
+        this.totalItems = 0;
+        this.searchTerm = '';
+        this.typeFilterControl.setValue('');
+        if (this.paginator) {
+            this.paginator.pageIndex = 0;
+        }
+        this.loadAccountabilityData(1, this.pageSize);
+    }
+
     openDeleteDialog(id: string): void {
         const dialogRef = this.dialog.open(ModalUniversalComponent, {
             width: '400px',
@@ -165,10 +201,8 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
         this._service.deleteEvent(id).subscribe({
             next: () => {
                 this.alertService.triggerSuccess('Item deleted successfully!');
-                // Reload the page after successful deletion
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000); // Small delay for the alert to be visible
+                // Reload the data after successful deletion
+                this.loadAccountabilityData(this.paginator.pageIndex + 1, this.pageSize);
             },
             error: (err) => {
                 console.error('Error deleting item:', err);
@@ -179,9 +213,9 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
 
     returnItem(id: string): void {
         this.router.navigate(['/assets/accountability/return', id]);
-      }
+    }
 
-      viewResult(id: number): void {
+    viewResult(id: number): void {
         console.log(`Viewing result for accountability ID: ${id}`);
         this.router.navigate(['/assets/accountability/return/result', id]);
     }

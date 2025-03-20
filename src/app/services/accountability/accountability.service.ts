@@ -11,9 +11,28 @@ export class AccountabilityService {
 
     constructor(private http: HttpClient) {}
 
-    getAllAccountability(pageNumber: number = 1, pageSize: number = 10): Observable<PaginatedResponse<AccountabilityItem>> {
-        const url = `${this.url}/api/UserAccountabilityList/get-all?pageNumber=${pageNumber}&pageSize=${pageSize}`;
-        return this.http.get<PaginatedResponse<AccountabilityItem>>(url);
+    getAllAccountability(
+        pageNumber: number = 1, 
+        pageSize: number = 10,
+        sortOrder: string = 'asc',
+        searchTerm?: string
+    ): Observable<PaginatedResponse<AccountabilityItem>> {
+        // Ensure pageNumber is never less than 1
+        pageNumber = Math.max(1, pageNumber);
+    
+        let params = new HttpParams()
+            .set('pageNumber', pageNumber.toString())
+            .set('pageSize', pageSize.toString())
+            .set('sortOrder', sortOrder);
+    
+        if (searchTerm) {
+            params = params.set('searchTerm', searchTerm);
+        }
+    
+        return this.http.get<PaginatedResponse<AccountabilityItem>>(
+            `${this.url}/api/UserAccountabilityList/get-all`,
+            { params }
+        );
     }
 
     getAccountabilityById(id: number): Observable<Accountability> {
