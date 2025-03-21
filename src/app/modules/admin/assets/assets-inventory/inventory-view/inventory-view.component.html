@@ -46,11 +46,41 @@
             <div class="mt-4 flex flex-col gap-4">
                 <!-- Image Section -->
                 <div class="flex flex-row gap-4">
-                    <img
-                        src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/inspiron-notebooks/14-2-in-1-7440-intel/media-gallery/notebook-inspiron-14-7440-t-ice-blue-gallery-17.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=1336&qlt=100,1&resMode=sharp2&size=1336,804&chrss=full"
-                        alt="Sample Image"
-                        class="h-28 w-32"
-                    />
+                      <!-- Laptop image (default case you provided) -->
+    <img *ngIf="asset.type === 'MONITOR'" 
+    src="https://upload.wikimedia.org/wikipedia/commons/7/76/MonitorLCDlcd.svg"
+    alt="Laptop Image"
+    class="h-28 w-32">
+
+<!-- HDD image -->
+<img *ngIf="asset.type === 'KEYBOARD USB'" 
+    src="https://upload.wikimedia.org/wikipedia/commons/a/a2/LenovoKeyboard.jpg"
+    alt="HDD Image"
+    class="h-28 w-32">
+
+<!-- GPU image -->
+<img *ngIf="asset.type === 'MOUSE USB'" 
+    src="https://upload.wikimedia.org/wikipedia/commons/2/22/3-Tasten-Maus_Microsoft.jpg"
+    alt="GPU Image"
+    class="h-28 w-32">
+
+<!-- SSD image -->
+<img *ngIf="asset.type === 'BAG'" 
+    src="https://www.eshopping.com.ph/cdn/shop/products/c07956174_474x355.png?v=1668488201"
+    alt="SSD Image"
+    class="h-28 w-32">
+
+<!-- Motherboard image -->
+<img *ngIf="asset.type === 'USB-C ADAPTER'" 
+    src="https://mm.digikey.com/Volume0/opasdata/d220001/derivates/6/002/156/841/MFG_USB31CAADP_primary_web%28640x640%29.jpg"
+    alt="Motherboard Image"
+    class="h-28 w-32">
+
+<!-- Default "No Image Available" for any other type -->
+<img *ngIf="asset.type !== 'MONITOR' && asset.type !== 'USB-C ADAPTER' && asset.type !== 'BAG' && asset.type !== 'MOUSE USB' && asset.type !== 'KEYBOARD USB'" 
+    src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
+    alt="No Image Available"
+    class="h-28 w-32">
                     <div class="flex flex-col gap-2">
                         <p class="font-semibold text-2xl">
                             {{ asset.model || "N/A" }} ({{

@@ -34,7 +34,7 @@ export class ComputersViewComponent implements OnInit {
     dataSource: any[] = [];
     repairLogs: any;  // Declare the property here
     dataSourceRepairLogs: any[] = []; // Declare data source for repair logs
-
+    hasLaptop: boolean = true;
     constructor(
         private route: ActivatedRoute,
         private assetService: AssetsService,
@@ -440,7 +440,7 @@ export class ComputersViewComponent implements OnInit {
                 company: this.asset?.owner?.company || 'N/A',
             })) || [];
     }
-
+    
     getHistoryById(): void {
         if (this.asset && this.asset.id) {
             console.log('📋 Fetching repair logs for asset ID:', this.asset.id);
