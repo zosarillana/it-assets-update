@@ -184,46 +184,44 @@ pdfForm(): void {
           html2canvas(this.pdfFormArea.nativeElement, {
               scale: 2,
               useCORS: true,
-          })
-              .then((mainCanvas) => {
-                  const mainImgData = mainCanvas.toDataURL('image/png');
+          }).then((mainCanvas) => {
+              const mainImgData = mainCanvas.toDataURL('image/png');
 
-                  const pdf = new jsPDF({
-                      orientation: 'portrait',
-                      unit: 'px',
-                      format: 'a4',
-                  });
-
-                  // Define margin and usable page dimensions
-                  const margin = 20;
-                  const pageWidth = pdf.internal.pageSize.getWidth();
-                  const pageHeight = pdf.internal.pageSize.getHeight();
-                  const usableWidth = pageWidth - 2 * margin;
-                  const usableHeight = pageHeight - 2 * margin;
-
-                  // Calculate scaled dimensions for main content
-                  let mainRatio = Math.min(usableWidth / mainCanvas.width, usableHeight / mainCanvas.height);
-                  let mainWidth = mainCanvas.width * mainRatio;
-                  let mainHeight = mainCanvas.height * mainRatio;
-
-                  // Add main content scaled to fit one page
-                  pdf.addImage(
-                      mainImgData,
-                      'PNG',
-                      (pageWidth - mainWidth) / 2,
-                      (pageHeight - mainHeight) / 2,
-                      mainWidth,
-                      mainHeight
-                  );
-
-                  // Save the PDF
-                  pdf.save('return-form.pdf');
-              })
-              .catch((error) => {
-                  console.error('Error generating PDF:', error);
+              const pdf = new jsPDF({
+                  orientation: 'portrait',
+                  unit: 'px',
+                  format: 'a4',
               });
+
+              // Define margin and usable page dimensions
+              const margin = 20;
+              const pageWidth = pdf.internal.pageSize.getWidth();
+              const pageHeight = pdf.internal.pageSize.getHeight();
+              const usableWidth = pageWidth - 2 * margin;
+              const usableHeight = pageHeight - 2 * margin;
+
+              // Calculate scaled dimensions for main content
+              const mainRatio = usableWidth / mainCanvas.width;
+              const mainHeight = mainCanvas.height * mainRatio;
+
+              // Ensure content fits within a single page
+              const scaledHeight = Math.min(mainHeight, usableHeight);
+
+              pdf.addImage(
+                  mainImgData,
+                  'PNG',
+                  margin,
+                  margin,
+                  usableWidth,
+                  scaledHeight
+              );
+
+              pdf.save('return-form.pdf');
+          }).catch((error) => {
+              console.error('Error generating PDF:', error);
+          });
       } else {
-          console.error('Required elements not found');
+          console.error('Required element not found');
       }
   }, 500);
 }
