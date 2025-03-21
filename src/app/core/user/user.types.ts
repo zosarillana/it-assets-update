@@ -9,4 +9,6 @@ export interface User {
     department?: string;
     avatar?: string;
     status?: string;
+    prepared_date?: string;
+    
 }
