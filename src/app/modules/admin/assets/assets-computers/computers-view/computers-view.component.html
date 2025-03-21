@@ -775,7 +775,7 @@
                                 <mat-header-cell
                                     *matHeaderCellDef
                                     mat-sort-header
-                                    >Company</mat-header-cell
+                                    >Business Unit</mat-header-cell
                                 >
                                 <mat-cell
                                     class="text-sm"
@@ -883,6 +883,7 @@
                                     class="text-sm"
                                     *matCellDef="let element"
                                     >{{ element.inventory_code }}</mat-cell
+                                    
                                 >
                             </ng-container>
 
@@ -955,19 +956,26 @@
                                 ]"
                             ></mat-header-row>
                             <mat-row
-                                *matRowDef="
-                                    let row;
-                                    columns: [
-                                        'inventory_code',
-                                        'type',
-                                        'action',
-                                        'remarks',
-                                        'timestamp'
-                                    ]
-                                "
-                                class="hover:bg-gray-100"
-                            >
-                            </mat-row>
+                            mat-row
+                            ngClass="cursor-pointer"
+                            [routerLink]="['/assets/' + (['RAM', 'HDD', 'BOARD', 'SSD', 'GPU'].includes(row.type) ? 'components/view' : 'inventory/view')].concat(
+                                ['RAM', 'HDD', 'BOARD', 'SSD', 'GPU'].includes(row.type) ? [row.inventory_code, row.id] : [row.id]
+                            )"
+                            *matRowDef="
+                                let row;
+                                columns: [
+                                    'inventory_code',
+                                    'type',
+                                    'action',
+                                    'remarks',
+                                    'timestamp'
+                                ]
+                            "
+                            class="hover:bg-gray-100"
+                        >
+                        </mat-row>
+                        
+
                         </mat-table>
 
                         <!-- Show a message when no repair logs are available -->
@@ -1004,7 +1012,7 @@
                         <p
                             class="text-sm flex flex-col font-medium text-medium"
                         >
-                            Company
+                            Business Unit
                             <span class="text-sm text-secondary text-medium">
                                 {{ asset.owner?.company || "N/A" }}
                             </span>

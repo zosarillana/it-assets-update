@@ -112,7 +112,7 @@
                                 <p
                                     class="text-regular tracking-tight font-bold"
                                 >
-                                    Company
+                                    Business Unit
                                 </p>
                                 <span class="font-medium">
                                     {{
@@ -818,7 +818,7 @@
             *ngIf="user.role === 'receiver' && ReturnItemsApproval?.checkedByUser?.name"
             class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
             (click)="receiveByUser()"
-            matTooltip="Approve document"
+            matTooltip="Approve Document"
             matTooltipPosition="above"
             aria-label="Approve document"
             style="width: 56px; height: 56px"
@@ -831,7 +831,7 @@
                 *ngIf="user.role === 'checker'"
                 class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
                 (click)="checkByUser()"
-                matTooltip="Approve document"
+                matTooltip="Approve Document"
                 matTooltipPosition="above"
                 aria-label="Approve document"
                 style="width: 56px; height: 56px"
@@ -848,7 +848,7 @@
                 "
                 class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
                 (click)="confirmByUser()"
-                matTooltip="Receive document"
+                matTooltip="Receive Document"
                 matTooltipPosition="above"
                 aria-label="Receive document"
                 style="width: 56px; height: 56px"
@@ -859,7 +859,7 @@
             <button
                 class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
                 (click)="pdfForm()"
-                matTooltip="Generate PDF form"
+                matTooltip="Download Return Form"
                 matTooltipPosition="above"
                 aria-label="Generate PDF form"
                 style="width: 56px; height: 56px"
