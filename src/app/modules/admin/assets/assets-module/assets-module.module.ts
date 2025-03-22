@@ -83,6 +83,7 @@ import { MatListModule } from '@angular/material/list';
 import { BusinessUnitsComponent } from '../masterdata/business-units/business-units.component';
 import { ReturnFormComponent } from '../assets-accountability/forms/return-form/return-form.component';
 import { ViewReturnComponent } from '../assets-accountability/views/view-return/view-return.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const assetRoute: Route[] = [
     // {
@@ -298,6 +299,7 @@ const assetRoute: Route[] = [
         MatDialogModule,
         MatSnackBarModule,
         MatListModule,
+        MatProgressSpinnerModule,
         RouterModule.forChild(assetRoute),
     ],
     // schemas: [NO_ERRORS_SCHEMA] // Add this line

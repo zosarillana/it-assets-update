@@ -1,6 +1,13 @@
+<!-- Add this loader somewhere in your template -->
+<div *ngIf="loading" class="loader">
+    <mat-spinner></mat-spinner> <!-- Angular Material spinner -->
+    <p class="text-lg font-bold">Loading...</p>
+</div>
+<div *ngIf="!loading" class="mx-auto">
+
 <div
     *ngIf="asset"
-    class="mx-auto inset-0 min-w-0 text-center overflow-auto print:overflow-visible"
+    class="inset-0 min-w-0 text-center overflow-auto print:overflow-visible"
     cdkScrollable
 >
     <!-- A4 Wrapper -->
@@ -593,25 +600,21 @@
                             </mat-row>
                         </mat-table>
                     </div>
-                    <!-- <div id="acknowledgmentSection" #acknowledgmentSection> -->
-                    <div class="flex flex-col w-full gap-4 mt-8 text-sm">
+                    <div class="flex flex-col w-full gap-4 mt-8 text-xs text-justify">
                         <p>
-                            I HEREBY ACKNOWLEDGE RECEIPT OF AND ACCEPT
-                            RESPONSIBILITY OF THE ABOVE ASSETS ISSUED TO ME IN
-                            ACCORDANCE WITH THE COMPANY POLICY AND PROCEDURES.
-                            UPON SEPARATION FROM THE COMPANY, I WILL RETURN THE
-                            ITEM(S) ISSUED TO ME IN GOOD WORKING CONDITION
-                            (SUBJECT TO ASSESMENT OF ASSET'S WEAR AND TEAR).
+                            I HEREBY ACKNOWLEDGE RECEIPT OF AND ACCEPT RESPONSIBILITY OF THE ABOVE 
+                            ASSETS ISSUED TO ME IN ACCORDANCE WITH THE COMPANY POLICY AND PROCEDURES. 
+                            UPON SEPARATION FROM THE COMPANY, I WILL RETURN THE ITEM(S) ISSUED TO ME 
+                            IN GOOD WORKING CONDITION (SUBJECT TO ASSESSMENT OF ASSET'S WEAR AND TEAR).
                         </p>
                         <p>
-                            FURTHER UNDERSTAND THAT THE ISSUED ASSET(S) IS/ARE
-                            FOR COMPANY USE ONLY AND FAILTURE TO COMPLY WITH THE
-                            COMPANY POLICY AND PROCEDURES WILL BE SUBJECTED TO
-                            DISCIPLINARY ACTION. WITH PROPER INVESTIGATION, ANY
-                            DAMAGES OR LOSS DUE TO MY NEGLIGENCE WILL BE
-                            AUTOMATICALLY CHARGED AND/OR DEDUCTED TO MY SALARY.
+                            FURTHER UNDERSTAND THAT THE ISSUED ASSET(S) IS/ARE FOR COMPANY USE ONLY 
+                            AND FAILURE TO COMPLY WITH THE COMPANY POLICY AND PROCEDURES WILL BE SUBJECTED 
+                            TO DISCIPLINARY ACTION. WITH PROPER INVESTIGATION, ANY DAMAGES OR LOSS DUE TO 
+                            MY NEGLIGENCE WILL BE AUTOMATICALLY CHARGED AND/OR DEDUCTED TO MY SALARY.
                         </p>
                     </div>
+                    
 
                     <div
                         class="grid grid-cols-3 w-full gap-4 mt-12 lg:flex-row md:flex-row"
@@ -1018,3 +1021,4 @@
         </button>
     </div>
 </div>
+<div>

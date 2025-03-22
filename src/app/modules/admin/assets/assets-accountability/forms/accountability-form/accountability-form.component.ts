@@ -113,6 +113,8 @@ export class AccountabilityFormComponent implements OnInit {
     dataSourceAssignedAssets = new MatTableDataSource<AssignedAssetData>();
     dataSourceAssignedComponents = new MatTableDataSource<ComponentDetail>();
     datenow: string;
+
+    loading: boolean = false; // Add this line
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
@@ -156,91 +158,69 @@ export class AccountabilityFormComponent implements OnInit {
         const id = Number(this.route.snapshot.paramMap.get('id'));
 
         if (id) {
-            this._service.getAccountabilityById(id).subscribe({
-                next: (data: any) => {
-                    console.log('Fetched Data:', data);
-                    this.asset = data;
+    this.loading = true; // Show loader before API call
 
-                    // ✅ Fix mapping of assets
-                    if (this.asset?.assets?.$values?.length) {
-                        this.dataSourceAssets.data = this.asset.assets.$values;
-                    }
-                    console.log(
-                        'Assets Data Source:',
-                        this.dataSourceAssets.data
-                    );
+    this._service.getAccountabilityById(id).subscribe({
+        next: (data: any) => {
+            console.log('Fetched Data:', data);
+            this.asset = data;
 
-                    // ✅ Fix mapping of computers (ensure we get $values inside computers)
-                    if (this.asset?.computers?.$values?.length) {
-                        this.dataSourceComputers.data = this.asset.computers.$values; // ✅ Corrected
-                    }
-                    console.log('Computers Data Source:', this.dataSourceComputers.data);
-                    
+            // ✅ Fix mapping of assets
+            if (this.asset?.assets?.$values?.length) {
+                this.dataSourceAssets.data = this.asset.assets.$values;
+            }
+            console.log('Assets Data Source:', this.dataSourceAssets.data);
 
-                    if (this.asset?.user_accountability_list?.id) {
-                        console.log(
-                            '✅ Accountability ID Loaded:',
-                            this.asset.user_accountability_list.id
-                        );
-                        this.getAccountabilityApproval(); // Call here!
-                    }
+            // ✅ Fix mapping of computers
+            if (this.asset?.computers?.$values?.length) {
+                this.dataSourceComputers.data = this.asset.computers.$values;
+            }
+            console.log('Computers Data Source:', this.dataSourceComputers.data);
 
-                    // ✅ Fix Assigned Assets Mapping
-                    let assignedAssets: AssignedAssetData[] = [];
-                    this.dataSourceComputers.data.forEach((computer) => {
-                        if (computer.assignedAssetDetails?.$values?.length) {
-                            assignedAssets.push(
-                                ...computer.assignedAssetDetails.$values
+            if (this.asset?.user_accountability_list?.id) {
+                console.log('✅ Accountability ID Loaded:', this.asset.user_accountability_list.id);
+                this.getAccountabilityApproval(); // Call here!
+            }
+
+            // ✅ Fix Assigned Assets Mapping
+            let assignedAssets: AssignedAssetData[] = [];
+            this.dataSourceComputers.data.forEach((computer) => {
+                if (computer.assignedAssetDetails?.$values?.length) {
+                    assignedAssets.push(...computer.assignedAssetDetails.$values);
+                }
+            });
+            this.dataSourceAssignedAssets.data = assignedAssets;
+            console.log('Assigned Assets Data Source:', this.dataSourceAssignedAssets.data);
+
+            // ✅ Fix Components Mapping
+            let assignedComponents: ComponentDetail[] = [];
+            this.dataSourceComputers.data.forEach((computer) => {
+                if (computer.components) {
+                    const componentTypes = ['RAM', 'SSD', 'HDD', 'GPU', 'BOARD'];
+                    componentTypes.forEach((type) => {
+                        const componentData = computer.components[type];
+                        if (componentData?.$values?.length) {
+                            assignedComponents.push(
+                                ...componentData.$values.map((component) => ({
+                                    ...component,
+                                    type: type.toUpperCase(),
+                                }))
                             );
                         }
                     });
-                    this.dataSourceAssignedAssets.data = assignedAssets;
-                    console.log(
-                        'Assigned Assets Data Source:',
-                        this.dataSourceAssignedAssets.data
-                    );
-
-                    // ✅ Fix Components Mapping
-                    let assignedComponents: ComponentDetail[] = [];
-                    this.dataSourceComputers.data.forEach((computer) => {
-                        if (computer.components) {
-                            const componentTypes = [
-                                'RAM',
-                                'SSD',
-                                'HDD',
-                                'GPU',
-                                'BOARD',
-                            ];
-                            componentTypes.forEach((type) => {
-                                const componentData = computer.components[type];
-                                if (componentData?.$values?.length) {
-                                    assignedComponents.push(
-                                        ...componentData.$values.map(
-                                            (component) => ({
-                                                ...component,
-                                                type: type.toUpperCase(),
-                                            })
-                                        )
-                                    );
-                                }
-                            });
-                        }
-                    });
-                    this.dataSourceAssignedComponents.data = assignedComponents;
-                    console.log(
-                        'Assigned Components Data Source:',
-                        this.dataSourceAssignedComponents.data
-                    );
-
-                    this.dataSourceAssignedComponents.data = assignedComponents;
-                    console.log(
-                        'Assigned Components Data Source:',
-                        this.dataSourceAssignedComponents.data
-                    );
-                },
-                error: (err) => console.error('Error fetching asset', err),
+                }
             });
-        }
+            this.dataSourceAssignedComponents.data = assignedComponents;
+            console.log('Assigned Components Data Source:', this.dataSourceAssignedComponents.data);
+
+            this.loading = false; // Hide loader after data is loaded
+        },
+        error: (err) => {
+            console.error('Error fetching asset', err);
+            this.loading = false; // Hide loader on error
+        },
+    });
+}
     }
 
     // Function to generate the PDF
