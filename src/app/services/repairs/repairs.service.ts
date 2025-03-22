@@ -8,12 +8,13 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class RepairsService {
-  private url = 'https://localhost:7062';
+  // private url = 'https://localhost:7062';
+  private url = 'api';
 
   constructor(private http: HttpClient) {}
 
   public getRepairLogsById(id: number): Observable<RepairLogs> {
-    return this.http.get<RepairLogs>(`${this.url}/api/RepairLogs/byComputer/${id}`);
+    return this.http.get<RepairLogs>(`${this.url}/RepairLogs/byComputer/${id}`);
   }
 
 }

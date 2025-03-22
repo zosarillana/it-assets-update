@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
     providedIn: 'root',
 })
 export class ComputerService {
-    private url = 'https://localhost:7062';
+    // private url = 'https://localhost:7062';
+    private url = 'api';
 
     constructor(private http: HttpClient) {}
 
@@ -37,7 +38,7 @@ export class ComputerService {
         }
 
         return this.http.get<AssetResponse>(
-            `${this.url}/api/Computer/ComputerItems`,
+            `${this.url}/Computer/ComputerItems`,
             { params }
         );
     }
@@ -48,7 +49,7 @@ export class ComputerService {
     }
 
     getComputersById(id: number): Observable<Assets> {
-        return this.http.get<Assets>(`${this.url}/api/Computer/Computers/${id}`);
+        return this.http.get<Assets>(`${this.url}/Computer/Computers/${id}`);
     }
 
     // public postEvent(data: any): Observable<any> {
@@ -56,14 +57,14 @@ export class ComputerService {
     // }
 
     public postEvent(data: any): Observable<any> {
-        return this.http.post(`${this.url}/api/Assets`, data);
+        return this.http.post(`${this.url}/Assets`, data);
     }
 
     public putEvent(id: string, data: any): Observable<any> {
-        return this.http.put(`${this.url}/api/Computer/update-computer/${id}`, data);
+        return this.http.put(`${this.url}/Computer/update-computer/${id}`, data);
     }    
     
     public deleteEvent(id: string): Observable<any>{
-        return this.http.delete(`${this.url}/api/Computer/delete-computer/${id}`);
+        return this.http.delete(`${this.url}/Computer/delete-computer/${id}`);
     }
 }

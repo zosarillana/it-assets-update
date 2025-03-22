@@ -214,13 +214,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         icon: 'mat_outline:domain',
                         link: '/masterdata/departments',
                     },
-                    {
-                        id: 'data.asset.table',
-                        title: 'Business Unit',
-                        type: 'basic',
-                        icon: 'mat_outline:cases',
-                        link: '/masterdata/business-units',
-                    },
+                    // {
+                    //     id: 'data.asset.table',
+                    //     title: 'Business Unit',
+                    //     type: 'basic',
+                    //     icon: 'mat_outline:cases',
+                    //     link: '/masterdata/business-units',
+                    // },
                     // {
                     //     id: 'data.asset.table',
                     //     title: 'Movement',

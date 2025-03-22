@@ -98,15 +98,19 @@
                         }
                     },
                     "defaultConfiguration": "production"
-                },
+                },                
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "browserTarget": "fuse:build:production"
+                            "browserTarget": "fuse:build:production",
+                            "proxyConfig": "proxy.conf.json"
+
                         },
                         "development": {
-                            "browserTarget": "fuse:build:development"
+                            "browserTarget": "fuse:build:development",
+                            "proxyConfig": "proxy.conf.json"
+
                         }
                     },
                     "defaultConfiguration": "development"

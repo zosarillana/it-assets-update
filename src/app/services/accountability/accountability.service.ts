@@ -7,7 +7,8 @@ import { Accountability, AccountabilityItem, PaginatedResponse } from 'app/model
     providedIn: 'root',
 })
 export class AccountabilityService {
-    private url = 'https://localhost:7062';
+    private url = 'api';
+    // private url = 'https://localhost:7062';
 
     constructor(private http: HttpClient) {}
 
@@ -30,20 +31,20 @@ export class AccountabilityService {
         }
     
         return this.http.get<PaginatedResponse<AccountabilityItem>>(
-            `${this.url}/api/UserAccountabilityList/get-all`,
+            `${this.url}/UserAccountabilityList/get-all`,
             { params }
         );
     }
 
     getAccountabilityById(id: number): Observable<Accountability> {
-        return this.http.get<Accountability>(`${this.url}/api/UserAccountabilityList/${id}`);
+        return this.http.get<Accountability>(`${this.url}/UserAccountabilityList/${id}`);
     }
 
     public postEvent(data: any): Observable<any> {
-        return this.http.post(`${this.url}/api/UserAccountabilityList/add-accountability`, data);
+        return this.http.post(`${this.url}/UserAccountabilityList/add-accountability`, data);
     } 
    
     public deleteEvent(id: string): Observable<any>{
-        return this.http.delete(`${this.url}/api/UserAccountabilityList/delete/${id}`);
+        return this.http.delete(`${this.url}/UserAccountabilityList/delete/${id}`);
     }
 }

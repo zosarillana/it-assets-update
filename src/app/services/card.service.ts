@@ -6,7 +6,9 @@ import { CardPcs } from 'app/models/Card';
     providedIn: 'root',
 })
 export class CardService {
-    private url = 'https://localhost:7233';
+    // private url = 'https://localhost:7233';
+    private url = 'api';
+
     constructor(private http: HttpClient) {}
 
     public getCardData(): Observable<CardPcs[]> {

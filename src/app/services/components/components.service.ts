@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ComponentsService {
- private url = 'https://localhost:7062';
-
+//  private url = 'https://localhost:7062';
+private url = 'api';
     constructor(private http: HttpClient) {}
 
     public getComponents(
@@ -31,7 +31,7 @@ export class ComponentsService {
         }
 
         return this.http.get<AssetResponse>(
-            `${this.url}/api/ComputerComponents/Components`,
+            `${this.url}/ComputerComponents/Components`,
             { params }
         );
     }
@@ -40,27 +40,27 @@ export class ComponentsService {
     //     return this.http.get<Assets>(`${this.url}/api/ComputerComponents/${asset_barcode}?uid=${uid}`);
     // }
     getComponentsById(uid: string): Observable<Assets> {
-        return this.http.get<Assets>(`${this.url}/api/ComputerComponents/${uid}`);
+        return this.http.get<Assets>(`${this.url}/ComputerComponents/${uid}`);
     }
     
     public postEvent(data: any): Observable<any> {
-        return this.http.post(`${this.url}/api/ComputerComponents`, data);
+        return this.http.post(`${this.url}/ComputerComponents`, data);
     }
     
     public deleteEvent(id: string): Observable<any>{
-        return this.http.delete(`${this.url}/api/ComputerComponents/${id}`);
+        return this.http.delete(`${this.url}/ComputerComponents/${id}`);
     }
 
     public putEvent(id: string, data: any): Observable<any> {
-        return this.http.put(`${this.url}/api/ComputerComponents/${id}`, data);
+        return this.http.put(`${this.url}/ComputerComponents/${id}`, data);
     }  
     
     public pullOutComponent(id: number, remark: string): Observable<any> {
-        return this.http.put(`${this.url}/api/ComputerComponents/pullout/${id}`,{ remarks: remark });
+        return this.http.put(`${this.url}/ComputerComponents/pullout/${id}`,{ remarks: remark });
     }
     
     public pullInComponent(data: { computer_id: number; component_uid: string; remarks: string }): Observable<any> {
-        return this.http.post(`${this.url}/api/ComputerComponents/pull_in_component`, data);
+        return this.http.post(`${this.url}/ComputerComponents/pull_in_component`, data);
     }
     
     
