@@ -13,7 +13,7 @@ import { ModalUniversalComponent } from '../../components/modal/modal-universal/
 })
 export class InventoryViewComponent implements OnInit {
   asset!: Assets;
-
+  loading: boolean = false; // Add this line
   constructor(private route: ActivatedRoute, 
     private assetsService: AssetsService,
     private alertService: AlertService,
@@ -24,11 +24,19 @@ export class InventoryViewComponent implements OnInit {
   ngOnInit(): void {
       const id = Number(this.route.snapshot.paramMap.get('id'));
       if (id) {
-          this.assetsService.getAssetById(id).subscribe({
-              next: (data) => this.asset = data,
-              error: (err) => console.error('Error fetching asset', err)
-          });
-      }
+        this.loading = true; // Show loader before API call
+    
+        this.assetsService.getAssetById(id).subscribe({
+            next: (data) => {
+                this.asset = data;
+                this.loading = false; // Hide loader after successful data fetch
+            },
+            error: (err) => {
+                console.error('Error fetching asset', err);
+                this.loading = false; // Hide loader on error
+            }
+        });
+    }
   }
 
    openDeleteDialog(id: string): void {

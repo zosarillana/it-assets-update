@@ -25,8 +25,7 @@ export class ViewReturnComponent implements OnInit {
     accountabilityId!: number;
     user: User;
     ReturnItemsApproval: any;
-
-    loading: boolean = false; // Add this line
+  
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     // Image base URL
@@ -60,7 +59,8 @@ export class ViewReturnComponent implements OnInit {
             }
         });
     }
-
+    
+    loading: boolean = false; // Add this line
     loadReturnItems(accountabilityId: number): void {
         this.loading = true; // Show loader before API call
 

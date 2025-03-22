@@ -18,6 +18,7 @@ import { Location } from '@angular/common';
 export class InventoryEditComponent implements OnInit {
     asset!: Assets;
     eventForm!: FormGroup;
+    loading: boolean = false; // Add this line
     private serialSubscription: Subscription;
     constructor(
         @Inject(DOCUMENT) private _document: Document,
@@ -185,43 +186,33 @@ export class InventoryEditComponent implements OnInit {
         this.assetsService.putEvent(id, updatedAsset).subscribe({
             next: (response) => {
                 console.log('API Response:', response);
-              
-                // Trigger success alert for asset added or updated
                 this.alertService.triggerSuccess('Asset successfully added!');
-              
-                // If this is for an update (based on the previous example), change the message accordingly
-                // Example: for asset update success:
-                // alert('Asset updated successfully!'); // or use this line instead of alertService if needed
-              
-                // ✅ Reload without resetting fields manually
+                
+                // Reload page after 1 second
                 setTimeout(() => {
                   window.location.reload();
-                }, 1000); // Small delay for the alert to be visible
-              },
-              
-              error: (error) => {
+                }, 1000);
+            },
+            
+            error: (error) => {
                 console.error('API Error:', error);
-              
-                // Trigger error alert for both add and update failures
                 this.alertService.triggerError('Failed to add asset. Please try again.');
-              
-                // For validation errors, handle them dynamically as in the update example
+                
+                // Handle validation errors
                 if (error.status === 400 && error.error?.errors) {
-                  let errorMessages = [];
-              
-                  // Iterate over all error fields and collect messages
-                  Object.keys(error.error.errors).forEach((key) => {
-                    errorMessages.push(
-                      `${key}: ${error.error.errors[key].join(', ')}`
-                    );
-                  });
-              
-                  // Display error messages in an alert or console
-                  alert('Validation Errors:\n' + errorMessages.join('\n'));
+                    let errorMessages = [];
+                    
+                    Object.keys(error.error.errors).forEach((key) => {
+                        errorMessages.push(
+                            `${key}: ${error.error.errors[key].join(', ')}`
+                        );
+                    });
+                    
+                    alert('Validation Errors:\n' + errorMessages.join('\n'));
                 } else {
-                  alert('Failed to add asset.'); // Or 'Failed to update asset.' depending on context
+                    alert('Failed to add asset.');
                 }
-              },
+            },
         });
     }
 
