@@ -1,8 +1,18 @@
 <!-- Add this loader somewhere in your template -->
-<div *ngIf="loading" class="loader">
-    <mat-spinner></mat-spinner> <!-- Angular Material spinner -->
-    <p class="text-lg font-bold">Loading...</p>
+<div  *ngIf="loading" class="loader">
+    <img
+        class="-mb-5"
+        style="height: 65px; width: 65px"
+        src="assets/images/logo/favicon-192x192.png"
+        alt="It Assets Logo"
+    />
+    <div class="spinner w-16">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
 </div>
+
 <div *ngIf="!loading" class="mx-auto">
 
 <div

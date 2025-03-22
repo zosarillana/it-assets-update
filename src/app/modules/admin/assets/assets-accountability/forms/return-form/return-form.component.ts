@@ -21,6 +21,8 @@ export class ReturnFormComponent implements OnInit {
   user: User;
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
+  
+  loading: boolean = false; // Add this line
   // Mat-Table Configuration
   dataSource: MatTableDataSource<any>;
   assetDataSource: MatTableDataSource<any>;
@@ -53,39 +55,45 @@ export class ReturnFormComponent implements OnInit {
   }
 
   fetchAccountabilityItem(id: number): void {
+    this.loading = true; // Show loader before API call
+      
     this.accountabilityService.getAccountabilityById(id).subscribe({
       next: (data) => {
         if (!data) {
           console.error('Error: Received null or undefined accountability data.');
+          this.loading = false; // Hide loader when no data
           return;
         }
-  
+    
         this.accountabilityItem = data;
         console.log('✅ Accountability Item:', JSON.stringify(this.accountabilityItem, null, 2));
-  
+    
         // Initialize checkbox values for computers and their components
         this.initializeCheckboxValues();
-  
+    
         // Separate deep copies for both tables
         this.flattenComponents();
         this.dataSource = new MatTableDataSource(
           JSON.parse(JSON.stringify(this.accountabilityItem.computers.$values)) // Deep copy for computers
         );
-
+  
         // Extract assigned assets from each computer and populate assetDataSource
         const assignedAssets = this.accountabilityItem.computers.$values.flatMap((computer: any) => computer.assignedAssetDetails?.$values ?? []);
         console.log('✅ Assigned Assets:', assignedAssets);
-
+  
         this.assetDataSource = new MatTableDataSource(assignedAssets);
         console.log('✅ Asset Data Source:', this.assetDataSource.data);
+        
+        this.loading = false; // Hide loader after processing data
       },
       error: (error) => {
         console.error('Error fetching accountability item:', error);
         alert(`Failed to load accountability details: ${error.message}`);
+        this.loading = false; // Hide loader on error
       }
     });
   }
-
+  
   initializeCheckboxValues(): void {
     this.accountabilityItem.computers?.$values?.forEach((computer: any) => {
       computer.checked = false; // Default value for checkboxes

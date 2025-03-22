@@ -15,3 +15,74 @@
 .page-break {
     page-break-before: always;
 }
+
+.loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #111827;
+    color: #F9FAFB;
+    z-index: 999999;
+    pointer-events: none;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.loader img {
+    height: 65px;
+    width: 65px;
+}
+
+.loader .spinner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 40px;
+    width: 56px;
+}
+
+.loader .spinner > div {
+    width: 12px;
+    height: 12px;
+    background-color: #ffffff;
+    border-radius: 100%;
+    display: inline-block;
+    animation: loader-bouncedelay 1s infinite ease-in-out both;
+}
+
+.loader .spinner .bounce1 {
+    animation-delay: -0.32s;
+}
+
+.loader .spinner .bounce2 {
+    animation-delay: -0.16s;
+}
+
+.loader .spinner .bounce3 {
+    animation-delay: 0s;
+}
+
+@keyframes loader-bouncedelay {
+    0%, 80%, 100% {
+        transform: scale(0);
+    }
+    40% {
+        transform: scale(1.0);
+    }
+}
+
+body:not(.loader-hidden) {
+    overflow: hidden;
+}
+
+body.loader-hidden .loader {
+    visibility: hidden;
+    opacity: 0;
+}
