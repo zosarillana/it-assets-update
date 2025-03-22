@@ -35,6 +35,8 @@ export class ComputersViewComponent implements OnInit {
     repairLogs: any;  // Declare the property here
     dataSourceRepairLogs: any[] = []; // Declare data source for repair logs
     hasLaptop: boolean = true;
+    loading: boolean = false; // Add this line
+    
     constructor(
         private route: ActivatedRoute,
         private assetService: AssetsService,
@@ -50,10 +52,10 @@ export class ComputersViewComponent implements OnInit {
     ngOnInit(): void {
         const id = Number(this.route.snapshot.paramMap.get('id'));
         if (id) {
+            this.loading = true; // Show loading indicator before making API call
             this.assetsService.getComputersById(id).subscribe({
                 next: (data) => {
                     this.asset = data;
-    
                     // Initialize the data source
                     this.dataSource = [];
                 
@@ -81,17 +83,13 @@ export class ComputersViewComponent implements OnInit {
                             });
                         }
                     };
-    
-                    // Add RAM (multiple entries)
+                    // Add components to dataSource
                     addToDataSource('Ram', 'feather:server', this.asset?.ram?.values?.$values);
-    
-                    // Add other components (single entries)
                     addToDataSource('SSD', 'feather:hard-drive', this.asset?.ssd?.values?.$values?.[0]);
                     addToDataSource('HDD', 'feather:hard-drive', this.asset?.hdd?.values?.$values?.[0]);
                     addToDataSource('GPU', 'feather:monitor', this.asset?.gpu?.values?.$values?.[0]);
                     addToDataSource('BOARD', 'feather:info', this.asset?.board?.values?.$values?.[0]);
-    
-                    // Assigned Assets DataSource
+                    // Create assigned assets data source
                     this.dataSourceAssignedAssets = this.asset?.assigned_assets?.values?.$values?.map(asset => ({
                         name: `${asset.type}`,
                         icon: 'feather:package',
@@ -101,21 +99,23 @@ export class ComputersViewComponent implements OnInit {
                         serial_no: asset.serial_no || 'N/A',
                         action: '',
                     })) || [];
-    
-                    // History DataSource
+                    // Create history data source
                     this.dataSourceHistory = this.asset?.history?.values?.$values?.map((historyItem, index) => ({
                         id: index + 1,
-                        name: historyItem?.name ?? 'Unknown', // ✅ Extracts the actual name or defaults to 'Unknown'
+                        name: historyItem?.name ?? 'Unknown',
                         department: this.asset?.owner?.department || 'N/A',
                         company: this.asset?.owner?.company || 'N/A',
                     })) || [];
-    
                     console.log('Data Source History:', this.dataSourceHistory);
-    
                     // Fetch repair logs after asset data is loaded
                     this.getHistoryById();
+                    
+                    this.loading = false; // Hide loading indicator after processing data
                 },
-                error: (err) => console.error('Error fetching asset', err),
+                error: (err) => {
+                    console.error('Error fetching asset', err);
+                    this.loading = false; // Hide loading indicator on error
+                },
             });
         }
     }

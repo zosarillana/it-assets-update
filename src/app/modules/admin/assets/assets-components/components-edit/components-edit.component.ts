@@ -19,6 +19,8 @@ export class ComponentsEditComponent implements OnInit {
     // asset!: Assets;
     asset: Assets | null = null;
     eventForm!: FormGroup;
+    loading: boolean = false; // Add this line
+    
     constructor(
         @Inject(DOCUMENT) private _document: Document,
         private _changeDetectorRef: ChangeDetectorRef,
@@ -63,9 +65,13 @@ export class ComponentsEditComponent implements OnInit {
             this.assetsService.getComponentsById(uid).subscribe({
                 next: (data) => {
                     this.asset = data;
+                    this.loading = false;
                     this.initializeForm(); // Initialize form only after asset is available
                 },
-                error: (err) => console.error('Error fetching asset', err),
+                error: (err) => {
+                    console.error('Error fetching asset', err);
+                    this.loading = false; // Hide loader on error
+                },        
             });
         } else {
             this.initializeForm(); // Initialize with default values if no asset is found

@@ -15,22 +15,29 @@ import { ModalUniversalComponent } from '../../components/modal/modal-universal/
 export class ComponentsViewComponent implements OnInit {
     // asset!: Assets;
     asset: Assets | null = null;
+    loading: boolean = false; // Add this line
     constructor(
         private route: ActivatedRoute,
         private assetsService: ComponentsService,
         private dialog: MatDialog,
-        private alertService:AlertService,
+        private alertService: AlertService,
         private router: Router
     ) {}
 
     ngOnInit(): void {
-      const uid = this.route.snapshot.paramMap.get('uid');
-      const asset_barcode = this.route.snapshot.paramMap.get('asset_barcode');
+        const uid = this.route.snapshot.paramMap.get('uid');
+        const asset_barcode = this.route.snapshot.paramMap.get('asset_barcode');
 
         if (uid) {
+            this.loading = true; // Show loader before API call
             this.assetsService.getComponentsById(uid).subscribe({
-                next: (data) => (this.asset = data),
-                error: (err) => console.error('Error fetching asset', err),
+                next: (data) => {
+                    (this.asset = data), (this.loading = false);
+                },
+                error: (err) => {
+                    console.error('Error fetching asset', err);
+                    this.loading = false; // Hide loader on error
+                },
             });
         }
     }
@@ -56,28 +63,28 @@ export class ComponentsViewComponent implements OnInit {
 
     openDeleteDialog(id: string): void {
         const dialogRef = this.dialog.open(ModalUniversalComponent, {
-          width: '400px',
-          data: { name: 'Are you sure you want to delete this item?' }
+            width: '400px',
+            data: { name: 'Are you sure you want to delete this item?' },
         });
-        
-        dialogRef.afterClosed().subscribe(result => {
-          if (result) {
-            this.deleteItem(id);
-          }
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                this.deleteItem(id);
+            }
         });
-      }
-    
-      private deleteItem(id: string): void {
+    }
+
+    private deleteItem(id: string): void {
         this.assetsService.deleteEvent(id).subscribe({
-          next: () => {
-            this.alertService.triggerSuccess('Item deleted successfully!');
-            // Redirect to '/assets/components' on success
-            this.router.navigate(['/assets/components']);
-          },
-          error: (err) => {
-            console.error('Error deleting item:', err);
-            this.alertService.triggerError('Failed to delete item.');
-          }
+            next: () => {
+                this.alertService.triggerSuccess('Item deleted successfully!');
+                // Redirect to '/assets/components' on success
+                this.router.navigate(['/assets/components']);
+            },
+            error: (err) => {
+                console.error('Error deleting item:', err);
+                this.alertService.triggerError('Failed to delete item.');
+            },
         });
-      }
+    }
 }
