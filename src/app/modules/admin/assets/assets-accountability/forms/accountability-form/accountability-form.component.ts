@@ -158,69 +158,95 @@ export class AccountabilityFormComponent implements OnInit {
         const id = Number(this.route.snapshot.paramMap.get('id'));
 
         if (id) {
-    this.loading = true; // Show loader before API call
+            this.loading = true; // Show loader before API call
 
-    this._service.getAccountabilityById(id).subscribe({
-        next: (data: any) => {
-            console.log('Fetched Data:', data);
-            this.asset = data;
+            this._service.getAccountabilityById(id).subscribe({
+                next: (data: any) => {
+                    console.log('Fetched Data:', data);
+                    this.asset = data;
 
-            // ✅ Fix mapping of assets
-            if (this.asset?.assets?.$values?.length) {
-                this.dataSourceAssets.data = this.asset.assets.$values;
-            }
-            console.log('Assets Data Source:', this.dataSourceAssets.data);
+                    // ✅ Fix mapping of assets
+                    if (this.asset?.assets?.$values?.length) {
+                        this.dataSourceAssets.data = this.asset.assets.$values;
+                    }
+                    console.log(
+                        'Assets Data Source:',
+                        this.dataSourceAssets.data
+                    );
 
-            // ✅ Fix mapping of computers
-            if (this.asset?.computers?.$values?.length) {
-                this.dataSourceComputers.data = this.asset.computers.$values;
-            }
-            console.log('Computers Data Source:', this.dataSourceComputers.data);
+                    // ✅ Fix mapping of computers
+                    if (this.asset?.computers?.$values?.length) {
+                        this.dataSourceComputers.data =
+                            this.asset.computers.$values;
+                    }
+                    console.log(
+                        'Computers Data Source:',
+                        this.dataSourceComputers.data
+                    );
 
-            if (this.asset?.user_accountability_list?.id) {
-                console.log('✅ Accountability ID Loaded:', this.asset.user_accountability_list.id);
-                this.getAccountabilityApproval(); // Call here!
-            }
+                    if (this.asset?.user_accountability_list?.id) {
+                        console.log(
+                            '✅ Accountability ID Loaded:',
+                            this.asset.user_accountability_list.id
+                        );
+                        this.getAccountabilityApproval(); // Call here!
+                    }
 
-            // ✅ Fix Assigned Assets Mapping
-            let assignedAssets: AssignedAssetData[] = [];
-            this.dataSourceComputers.data.forEach((computer) => {
-                if (computer.assignedAssetDetails?.$values?.length) {
-                    assignedAssets.push(...computer.assignedAssetDetails.$values);
-                }
-            });
-            this.dataSourceAssignedAssets.data = assignedAssets;
-            console.log('Assigned Assets Data Source:', this.dataSourceAssignedAssets.data);
-
-            // ✅ Fix Components Mapping
-            let assignedComponents: ComponentDetail[] = [];
-            this.dataSourceComputers.data.forEach((computer) => {
-                if (computer.components) {
-                    const componentTypes = ['RAM', 'SSD', 'HDD', 'GPU', 'BOARD'];
-                    componentTypes.forEach((type) => {
-                        const componentData = computer.components[type];
-                        if (componentData?.$values?.length) {
-                            assignedComponents.push(
-                                ...componentData.$values.map((component) => ({
-                                    ...component,
-                                    type: type.toUpperCase(),
-                                }))
+                    // ✅ Fix Assigned Assets Mapping
+                    let assignedAssets: AssignedAssetData[] = [];
+                    this.dataSourceComputers.data.forEach((computer) => {
+                        if (computer.assignedAssetDetails?.$values?.length) {
+                            assignedAssets.push(
+                                ...computer.assignedAssetDetails.$values
                             );
                         }
                     });
-                }
-            });
-            this.dataSourceAssignedComponents.data = assignedComponents;
-            console.log('Assigned Components Data Source:', this.dataSourceAssignedComponents.data);
+                    this.dataSourceAssignedAssets.data = assignedAssets;
+                    console.log(
+                        'Assigned Assets Data Source:',
+                        this.dataSourceAssignedAssets.data
+                    );
 
-            this.loading = false; // Hide loader after data is loaded
-        },
-        error: (err) => {
-            console.error('Error fetching asset', err);
-            this.loading = false; // Hide loader on error
-        },
-    });
-}
+                    // ✅ Fix Components Mapping
+                    let assignedComponents: ComponentDetail[] = [];
+                    this.dataSourceComputers.data.forEach((computer) => {
+                        if (computer.components) {
+                            const componentTypes = [
+                                'RAM',
+                                'SSD',
+                                'HDD',
+                                'GPU',
+                                'BOARD',
+                            ];
+                            componentTypes.forEach((type) => {
+                                const componentData = computer.components[type];
+                                if (componentData?.$values?.length) {
+                                    assignedComponents.push(
+                                        ...componentData.$values.map(
+                                            (component) => ({
+                                                ...component,
+                                                type: type.toUpperCase(),
+                                            })
+                                        )
+                                    );
+                                }
+                            });
+                        }
+                    });
+                    this.dataSourceAssignedComponents.data = assignedComponents;
+                    console.log(
+                        'Assigned Components Data Source:',
+                        this.dataSourceAssignedComponents.data
+                    );
+
+                    this.loading = false; // Hide loader after data is loaded
+                },
+                error: (err) => {
+                    console.error('Error fetching asset', err);
+                    this.loading = false; // Hide loader on error
+                },
+            });
+        }
     }
 
     // Function to generate the PDF
@@ -231,48 +257,49 @@ export class AccountabilityFormComponent implements OnInit {
                 html2canvas(this.pdfFormArea.nativeElement, {
                     scale: 2,
                     useCORS: true,
-                }).then((mainCanvas) => {
-                    const mainImgData = mainCanvas.toDataURL('image/png');
-    
-                    const pdf = new jsPDF({
-                        orientation: 'portrait',
-                        unit: 'px',
-                        format: 'a4',
+                })
+                    .then((mainCanvas) => {
+                        const mainImgData = mainCanvas.toDataURL('image/png');
+
+                        const pdf = new jsPDF({
+                            orientation: 'portrait',
+                            unit: 'px',
+                            format: 'a4',
+                        });
+
+                        // Define margin and usable page dimensions
+                        const margin = 20;
+                        const pageWidth = pdf.internal.pageSize.getWidth();
+                        const pageHeight = pdf.internal.pageSize.getHeight();
+                        const usableWidth = pageWidth - 2 * margin;
+                        const usableHeight = pageHeight - 2 * margin;
+
+                        // Calculate scaled dimensions for main content
+                        const mainRatio = usableWidth / mainCanvas.width;
+                        const mainHeight = mainCanvas.height * mainRatio;
+
+                        // Ensure content fits within a single page
+                        const scaledHeight = Math.min(mainHeight, usableHeight);
+
+                        pdf.addImage(
+                            mainImgData,
+                            'PNG',
+                            margin,
+                            margin,
+                            usableWidth,
+                            scaledHeight
+                        );
+
+                        pdf.save('accountability-form.pdf');
+                    })
+                    .catch((error) => {
+                        console.error('Error generating PDF:', error);
                     });
-    
-                    // Define margin and usable page dimensions
-                    const margin = 20;
-                    const pageWidth = pdf.internal.pageSize.getWidth();
-                    const pageHeight = pdf.internal.pageSize.getHeight();
-                    const usableWidth = pageWidth - 2 * margin;
-                    const usableHeight = pageHeight - 2 * margin;
-    
-                    // Calculate scaled dimensions for main content
-                    const mainRatio = usableWidth / mainCanvas.width;
-                    const mainHeight = mainCanvas.height * mainRatio;
-    
-                    // Ensure content fits within a single page
-                    const scaledHeight = Math.min(mainHeight, usableHeight);
-    
-                    pdf.addImage(
-                        mainImgData,
-                        'PNG',
-                        margin,
-                        margin,
-                        usableWidth,
-                        scaledHeight
-                    );
-    
-                    pdf.save('accountability-form.pdf');
-                }).catch((error) => {
-                    console.error('Error generating PDF:', error);
-                });
             } else {
                 console.error('Required element not found');
             }
         }, 500);
     }
-    
 
     // Handle content overflow and move to next page if necessary
     private handleOverflow(): void {
@@ -377,52 +404,69 @@ export class AccountabilityFormComponent implements OnInit {
     }
 
     preparedByUser(): void {
-        console.log('🔵 Accountability Approval Object:', this.accountabilityApproval);
-    
+        console.log(
+            '🔵 Accountability Approval Object:',
+            this.accountabilityApproval
+        );
+
         // Ensure accountabilityId is always an integer
         const accountabilityId: number = this.accountabilityApproval?.id
             ? Number(this.accountabilityApproval.id)
             : this.asset?.user_accountability_list?.id
-                ? Number(this.asset.user_accountability_list.id)
-                : 0;
-    
+            ? Number(this.asset.user_accountability_list.id)
+            : 0;
+
         console.log('🟡 ID for prepared by user:', accountabilityId);
-    
+
         if (!accountabilityId || accountabilityId === 0) {
             console.error('❌ Error: Accountability ID is missing or 0!');
             return;
         }
-    
+
         // Ensure userId is a string before passing it to the service
-        const userId: string = this.userId ? String(this.userId) : "0";
-    
-        console.log('🟢 Final Accountability ID:', accountabilityId, typeof accountabilityId);
-        console.log('🟢 Final User ID:', userId, typeof userId);
-    
-        this.accountabilityApprovalService.preparedByUser(accountabilityId, userId).subscribe(
-            (response) => {
-                console.log('✅ Prepared by User response:', response);
-                this.getAccountabilityApproval();
-    
-                this.snackBar.open(`Prepared by ${this.user?.name || "Unknown User"}`, '', {
-                    duration: 3000,
-                    verticalPosition: 'bottom',
-                    horizontalPosition: 'center',
-                    panelClass: ['snackbar-success'],
-                });
-            },
-            (error) => {
-                console.error('❌ Error in prepared by user:', error);
-    
-                this.snackBar.open('An error occurred while preparing the approval.', '', {
-                    duration: 4000,
-                    verticalPosition: 'bottom',
-                    horizontalPosition: 'center',
-                    panelClass: ['snackbar-error'],
-                });
-            }
+        const userId: string = this.userId ? String(this.userId) : '0';
+
+        console.log(
+            '🟢 Final Accountability ID:',
+            accountabilityId,
+            typeof accountabilityId
         );
-    }        
+        console.log('🟢 Final User ID:', userId, typeof userId);
+
+        this.accountabilityApprovalService
+            .preparedByUser(accountabilityId, userId)
+            .subscribe(
+                (response) => {
+                    console.log('✅ Prepared by User response:', response);
+                    this.getAccountabilityApproval();
+
+                    this.snackBar.open(
+                        `Prepared by ${this.user?.name || 'Unknown User'}`,
+                        '',
+                        {
+                            duration: 3000,
+                            verticalPosition: 'bottom',
+                            horizontalPosition: 'center',
+                            panelClass: ['snackbar-success'],
+                        }
+                    );
+                },
+                (error) => {
+                    console.error('❌ Error in prepared by user:', error);
+
+                    this.snackBar.open(
+                        'An error occurred while preparing the approval.',
+                        '',
+                        {
+                            duration: 4000,
+                            verticalPosition: 'bottom',
+                            horizontalPosition: 'center',
+                            panelClass: ['snackbar-error'],
+                        }
+                    );
+                }
+            );
+    }
 
     approvedByUser(): void {
         const id = this.accountabilityApproval?.id

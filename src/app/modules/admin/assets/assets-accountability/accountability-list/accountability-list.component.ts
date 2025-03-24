@@ -29,10 +29,11 @@ interface AccountabilityItem {
 })
 export class AccountabilityListComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
+        // 'image',
         'accountability_code',
         'tracking_code',
-        'computer',
-        'assets',
+        // 'computer',
+        // 'assets',
         'owner',
         'department',
         'status',
