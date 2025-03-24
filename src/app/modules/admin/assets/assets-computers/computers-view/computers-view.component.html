@@ -981,9 +981,10 @@
                             <mat-row
                             mat-row
                             ngClass="cursor-pointer"
-                            [routerLink]="['/assets/' + (['RAM', 'HDD', 'BOARD', 'SSD', 'GPU'].includes(row.type) ? 'components/view' : 'inventory/view')].concat(
-                                ['RAM', 'HDD', 'BOARD', 'SSD', 'GPU'].includes(row.type) ? [row.inventory_code, row.id] : [row.id]
+                            [routerLink]="['/assets/' + (row.inventory_code.startsWith('UID') ? 'components/view' : 'inventory/view')].concat(
+                                row.inventory_code.startsWith('UID') ? [row.inventory_code, row.item_id] : [row.item_id]
                             )"
+                            (click)="logRowDetails(row)"
                             *matRowDef="
                                 let row;
                                 columns: [
@@ -997,6 +998,8 @@
                             class="hover:bg-gray-100"
                         >
                         </mat-row>
+                        
+
                         
 
                         </mat-table>
