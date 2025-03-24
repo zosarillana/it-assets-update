@@ -104,13 +104,13 @@ export class AccoundabilityAddComponent implements OnInit {
                     this.computersData = response.items.$values
                         .filter(computer => computer.status === "AVAILABLE")
                         .map(computer => {
-                            console.log(`Raw Assigned Assets:`, computer.assigned_assets);
+                            // console.log(`Raw Assigned Assets:`, computer.assigned_assets);
     
                             const assetIds = Array.isArray(computer.assigned_assets?.$values)
                                 ? computer.assigned_assets.$values.map(asset => asset.id)
                                 : [];
     
-                            console.log(`Computer ID: ${computer.id}, Asset IDs:`, assetIds);
+                            // console.log(`Computer ID: ${computer.id}, Asset IDs:`, assetIds);
                             return {
                                 ...computer,
                                 asset_ids: assetIds
@@ -188,7 +188,7 @@ export class AccoundabilityAddComponent implements OnInit {
                 // Extract unique department codes (if needed elsewhere)
                 this.allTypes = [...new Set(data.map((dept) => dept.code))];
     
-                console.log("Departments Loaded:", this.departments); // Debugging log
+                // console.log("Departments Loaded:", this.departments); // Debugging log
             },
             error: (error) => {
                 console.error('Error fetching departments', error);
@@ -201,13 +201,13 @@ export class AccoundabilityAddComponent implements OnInit {
         this.eventForm.markAllAsTouched(); // ✅ Force validation to show errors
         this.eventForm.updateValueAndValidity();
     
-        console.log('Form Status:', this.eventForm.status);
-        console.log('Form Controls:', this.eventForm.controls);
-        console.log('Form Errors:', this.eventForm.errors);
+        // console.log('Form Status:', this.eventForm.status);
+        // console.log('Form Controls:', this.eventForm.controls);
+        // console.log('Form Errors:', this.eventForm.errors);
     
         if (this.eventForm.invalid) {
             Object.keys(this.eventForm.controls).forEach(key => {
-                console.log(`Field: ${key}, Status: ${this.eventForm.controls[key].status}, Errors:`, this.eventForm.controls[key].errors);
+                // console.log(`Field: ${key}, Status: ${this.eventForm.controls[key].status}, Errors:`, this.eventForm.controls[key].errors);
             });
     
             this.alertService.triggerError('Please fill in all required fields.');
@@ -215,7 +215,7 @@ export class AccoundabilityAddComponent implements OnInit {
         }
         
         const formData = this.eventForm.value;
-        console.log('Form Data:', formData);
+        // console.log('Form Data:', formData);
     
         const payload = {
             owner_id: 0,
@@ -232,11 +232,11 @@ export class AccoundabilityAddComponent implements OnInit {
             is_deleted: "false"
         };
     
-        console.log('Payload being submitted:', payload);
+        // console.log('Payload being submitted:', payload);
     
         this.accountabilityService.postEvent(payload).subscribe({
             next: (response) => {
-                console.log('Successfully submitted:', response);
+                // console.log('Successfully submitted:', response);
                 this.alertService.triggerSuccess('Accountability successfully added!');
     
                 setTimeout(() => {
@@ -244,7 +244,7 @@ export class AccoundabilityAddComponent implements OnInit {
                 }, 1000);
             },
             error: (error) => {
-                console.error('Error submitting data:', error);
+                // console.error('Error submitting data:', error);
                 this.alertService.triggerError('Failed to submit accountability.');
             },
         });

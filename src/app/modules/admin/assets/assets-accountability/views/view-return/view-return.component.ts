@@ -46,7 +46,7 @@ export class ViewReturnComponent implements OnInit {
             .pipe(takeUntil(this._unsubscribeAll)) // Auto-unsubscribe when component is destroyed
             .subscribe((user: User) => {
                 this.user = user;
-                console.log('🟢 User data loaded:', user);
+                // console.log('🟢 User data loaded:', user);
             });
 
         // Get the accountability ID from the route parameters
@@ -82,9 +82,9 @@ export class ViewReturnComponent implements OnInit {
                             (item) => item.item_type === 'Assets'
                         );
 
-                        console.log('Computers:', this.computers);
-                        console.log('Components:', this.components);
-                        console.log('Assets:', this.assets);
+                        // console.log('Computers:', this.computers);
+                        // console.log('Components:', this.components);
+                        // console.log('Assets:', this.assets);
                     } else {
                         this.returnItems = [];
                     }
@@ -103,10 +103,10 @@ export class ViewReturnComponent implements OnInit {
             .subscribe({
                 next: (data: any) => {
                     this.ReturnItemsApproval = data;
-                    console.log(
-                        'Return Item Approval:',
-                        this.ReturnItemsApproval
-                    );
+                    // console.log(
+                    //     'Return Item Approval:',
+                    //     this.ReturnItemsApproval
+                    // );
                 },
                 error: (error) => {
                     console.error(

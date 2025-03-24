@@ -51,7 +51,7 @@ export class ComponentsListComponent implements OnInit {
     constructor(private assetService: ComponentsService, private dialog: MatDialog, private alertService: AlertService ) {}
 
     ngOnInit(): void {
-        console.log(this.dataSource.data);
+        // console.log(this.dataSource.data);
         this.loadAssets(1, this.pageSize);
 
         // Set up the autocomplete filter
@@ -103,7 +103,7 @@ export class ComponentsListComponent implements OnInit {
             .getComponents(pageIndex, pageSize, this.sortOrder, this.searchTerm)
             .subscribe({
                 next: (response: AssetResponse) => {
-                    console.log('API Response:', response);
+                    // console.log('API Response:', response);
 
                     // Extract $values safely
                     this.dataSource.data =

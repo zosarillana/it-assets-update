@@ -106,14 +106,14 @@ export class ComputersViewComponent implements OnInit {
                         department: this.asset?.owner?.department || 'N/A',
                         company: this.asset?.owner?.company || 'N/A',
                     })) || [];
-                    console.log('Data Source History:', this.dataSourceHistory);
+                    // console.log('Data Source History:', this.dataSourceHistory);
                     // Fetch repair logs after asset data is loaded
                     this.getHistoryById();
                     
                     this.loading = false; // Hide loading indicator after processing data
                 },
                 error: (err) => {
-                    console.error('Error fetching asset', err);
+                    // console.error('Error fetching asset', err);
                     this.loading = false; // Hide loading indicator on error
                 },
             });
@@ -171,15 +171,15 @@ export class ComputersViewComponent implements OnInit {
                 this.router.navigate(['/assets/computers']);
             },
             error: (err) => {
-                console.error('Error deleting item:', err);
+                // console.error('Error deleting item:', err);
                 this.alertService.triggerError('Failed to delete item.');
             },
         });
     }
 
     handlePullOut(componentId: number | null): void {
-        console.log('Pull Out button clicked!');
-        console.log('Component ID received:', componentId);
+        // console.log('Pull Out button clicked!');
+        // console.log('Component ID received:', componentId);
     
         if (!componentId) {
             this.snackBar.open('Invalid component ID', 'Close', {
@@ -199,10 +199,10 @@ export class ComputersViewComponent implements OnInit {
             });
     
             dialogRef.afterClosed().subscribe((result) => {
-                console.log('Dialog result:', result);
+                // console.log('Dialog result:', result);
     
                 if (result && result.remark) {  // Ensure we use 'remark', not 'remarks'
-                    console.log('User submitted remark:', result.remark);
+                    // console.log('User submitted remark:', result.remark);
     
                     // Proceed with API call including remarks
                     this.componentsService
@@ -226,7 +226,7 @@ export class ComputersViewComponent implements OnInit {
                             },
                         });
                 } else {
-                    console.log('Pull-out canceled or no remark provided.');
+                    // console.log('Pull-out canceled or no remark provided.');
                 }
             });
         }, 0);
@@ -236,8 +236,8 @@ export class ComputersViewComponent implements OnInit {
     
 
     handleAssetPullOut(assetId: number | null): void {
-        console.log('Pull Out button clicked!');
-        console.log('Asset ID received:', assetId);
+        // console.log('Pull Out button clicked!');
+        // console.log('Asset ID received:', assetId);
     
         if (!assetId) {
             this.snackBar.open('Invalid asset ID', 'Close', { duration: 3000 });
@@ -255,12 +255,12 @@ export class ComputersViewComponent implements OnInit {
     
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log('User submitted remark:', result.remark);
+                // console.log('User submitted remark:', result.remark);
     
                 // Proceed with API call after getting remark
                 this.assetService.pullOutAsset(assetId, result.remark).subscribe({
                     next: (response) => {
-                        console.log('Pull out successful:', response);
+                        // console.log('Pull out successful:', response);
                         this.snackBar.open(response.message, 'Close', { duration: 3000 });
 
                         this.reloadAssetData();
@@ -271,35 +271,35 @@ export class ComputersViewComponent implements OnInit {
                     }
                 });
             } else {
-                console.log('Pull out cancelled or no remark provided.');
+                // console.log('Pull out cancelled or no remark provided.');
             }
         });
     }
 
     logElement(element: any): void {
-        console.log('Full Element Data:', element);
+        // console.log('Full Element Data:', element);
     }
 
     getComponentId(element: any): number | null {
-        console.log('Element received in getComponentId:', element);
+        // console.log('Element received in getComponentId:', element);
 
         if (element && element.id) {
-            console.log('Component ID found:', element.id);
+            // console.log('Component ID found:', element.id);
             return element.id;
         } else {
-            console.warn('Component ID is missing or null');
+            // console.warn('Component ID is missing or null');
             return null;
         }
     }
 
     getAssetId(asset: any): number | null {
-        console.log('Asset received in getAssetId:', asset);
+        // console.log('Asset received in getAssetId:', asset);
 
         if (asset && asset.id) {
-            console.log('Correct Asset ID found:', asset.id);
+            // console.log('Correct Asset ID found:', asset.id);
             return asset.id;
         } else {
-            console.warn('Asset ID is missing or null');
+            // console.warn('Asset ID is missing or null');
             return null;
         }
     }
@@ -337,7 +337,7 @@ export class ComputersViewComponent implements OnInit {
     
         dialogRef.afterClosed().subscribe(result => {
             if (result && result.remark) {
-                console.log('User submitted remark:', result.remark);
+                // console.log('User submitted remark:', result.remark);
     
                 // Proceed with API call after getting remark
                 this.assetService.pullOutAsset(assetId, result.remark).subscribe({
@@ -345,7 +345,7 @@ export class ComputersViewComponent implements OnInit {
                         this.snackBar.open('Asset successfully pulled out!', 'Close', {
                             duration: 3000,
                         });
-                        console.log('Pull-out successful:', response);
+                        // console.log('Pull-out successful:', response);
     
                         // 🔄 Refresh data after successful pullout
                         this.reloadAssetData();
@@ -358,11 +358,11 @@ export class ComputersViewComponent implements OnInit {
                                 duration: 3000,
                             }
                         );
-                        console.error('Error pulling out asset:', error);
+                        // console.error('Error pulling out asset:', error);
                     }
                 });
             } else {
-                console.log('Pull out cancelled or no remark provided.');
+                // console.log('Pull out cancelled or no remark provided.');
             }
         });
     }
@@ -443,11 +443,11 @@ export class ComputersViewComponent implements OnInit {
     
     getHistoryById(): void {
         if (this.asset && this.asset.id) {
-            console.log('📋 Fetching repair logs for asset ID:', this.asset.id);
+            // console.log('📋 Fetching repair logs for asset ID:', this.asset.id);
     
             this.repairService.getRepairLogsById(this.asset.id).subscribe({
                 next: (data: any) => {
-                    console.log('✅ Repair Logs Data:', data);
+                    // console.log('✅ Repair Logs Data:', data);
     
                     // Ensure we have a valid response and an array of values
                     this.dataSourceRepairLogs = data?.$values?.map((log: any, index: number) => ({
@@ -462,12 +462,12 @@ export class ComputersViewComponent implements OnInit {
                         timestamp: log.timestamp || 'N/A',
                     })) || [];
     
-                    console.log('🛠️ Repair Logs Data Source:', this.dataSourceRepairLogs);
+                    // console.log('🛠️ Repair Logs Data Source:', this.dataSourceRepairLogs);
                 },
-                error: (err) => console.error('❌ Error fetching repair logs:', err),
+                // error: (err) => console.error('❌ Error fetching repair logs:', err),
             });
         } else {
-            console.warn('⚠️ Asset ID is not available. Current asset:', this.asset);
+            // console.warn('⚠️ Asset ID is not available. Current asset:', this.asset);
         }
     }
 
@@ -480,7 +480,7 @@ export class ComputersViewComponent implements OnInit {
         });
     
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed', result);
+            // console.log('The dialog was closed', result);
     
             if (result && result.length > 0) {
                 // ✅ Call service to pull in each component
@@ -509,7 +509,7 @@ export class ComputersViewComponent implements OnInit {
                                 duration: 3000
                             });
     
-                            console.error('Error pulling in component:', error);
+                            // console.error('Error pulling in component:', error);
                         }
                     });
                 });
@@ -524,7 +524,7 @@ export class ComputersViewComponent implements OnInit {
         });
     
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed', result);
+            // console.log('The dialog was closed', result);
     
             if (result && result.length > 0) {
                 // ✅ Prepare request data correctly
@@ -553,7 +553,7 @@ export class ComputersViewComponent implements OnInit {
                             duration: 3000
                         });
     
-                        console.error('Error pulling in assets:', error);
+                        // console.error('Error pulling in assets:', error);
                     }
                 });
             }

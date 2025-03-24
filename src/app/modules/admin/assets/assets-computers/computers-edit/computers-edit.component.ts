@@ -178,11 +178,11 @@ export class ComputersEditComponent implements OnInit {
         };
 
         // Log the final updated asset before submitting
-        console.log('Submitting updated asset:', updatedAsset);
+        // console.log('Submitting updated asset:', updatedAsset);
 
         this.assetsService.putEvent(id, updatedAsset).subscribe({
             next: (response) => {
-                console.log('Asset updated successfully', response);
+                // console.log('Asset updated successfully', response);
                 this.alertService.triggerSuccess('Asset updated successfully!');
                 setTimeout(() => {
                     window.location.reload();
@@ -190,7 +190,7 @@ export class ComputersEditComponent implements OnInit {
             
             },
             error: (err) => {
-                console.error('Error updating asset', err);
+                // console.error('Error updating asset', err);
 
                 if (err.status === 400 && err.error?.errors) {
                     let errorMessages = [];

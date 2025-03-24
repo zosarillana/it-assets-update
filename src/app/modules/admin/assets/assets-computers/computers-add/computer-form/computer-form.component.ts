@@ -159,11 +159,11 @@ export class ComputerFormComponent implements OnInit {
                             );
                         });
 
-                        console.log('Filtered Assets:', this.assetList);
+                        // console.log('Filtered Assets:', this.assetList);
                     }
                 },
                 (error) => {
-                    console.error('Error fetching assets:', error);
+                    // console.error('Error fetching assets:', error);
                 }
             );
     }
@@ -254,11 +254,11 @@ export class ComputerFormComponent implements OnInit {
                             (component) => component.status === 'INACTIVE'
                         );
                         this.cdr.detectChanges();
-                        console.log('Filtered Components:', this.componentList);
+                        // console.log('Filtered Components:', this.componentList);
                     }
                 },
                 (error) => {
-                    console.error('Error fetching Components:', error);
+                    // console.error('Error fetching Components:', error);
                 }
             );
     }
@@ -295,15 +295,15 @@ export class ComputerFormComponent implements OnInit {
       
     submitForm(): void {
         const rawData = this.eventForm.value;
-        console.log("Raw Form Data:", rawData);
+        // console.log("Raw Form Data:", rawData);
     
         const mappedData = this.mapResponseToForm(rawData);
-        console.log("Mapped Form Data:", mappedData);
+        // console.log("Mapped Form Data:", mappedData);
     
         this.eventForm.patchValue(mappedData);
     
         if (!this.eventForm.valid) {
-            console.error("Form submission failed: Invalid form data", this.getFormValidationErrors());
+            // console.error("Form submission failed: Invalid form data", this.getFormValidationErrors());
             return;
         }
     
@@ -315,7 +315,7 @@ export class ComputerFormComponent implements OnInit {
             }, 1000); // Small delay for the alert to be visible
             },
             error: (err) => {
-                console.error("Error submitting form:", err);
+                // console.error("Error submitting form:", err);
                 this.alertService.triggerError('Failed to add asset. Please try again.');
     
                 if (err.error) {
@@ -438,7 +438,7 @@ openComponentAdd() {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-        console.log("Component Modal Result:", result);
+        // console.log("Component Modal Result:", result);
         if (result) {
             this.addComponent(result);
         }
@@ -457,7 +457,7 @@ addComponent(componentData: any) {
         })
     );
 
-    console.log("Updated Components Array:", this.componentsArray.value);
+    // console.log("Updated Components Array:", this.componentsArray.value);
 }
 
 // **Open Modal to Add or Edit Component**
@@ -503,7 +503,7 @@ editComponent(index: number) {
 updateComponent(index: number, newComponent: any) {
     if (index !== undefined && this.componentsArray.at(index)) {
         this.componentsArray.at(index).patchValue(newComponent);
-        console.log("Updated Components Array:", this.componentsArray.value);
+        // console.log("Updated Components Array:", this.componentsArray.value);
     }
 }
 
@@ -568,7 +568,7 @@ editAsset(index: number) {
 updateAsset(index: number, newAsset: any) {
     if (index !== undefined && this.assetsArray.at(index)) {
         this.assetsArray.at(index).patchValue(newAsset);
-        console.log("Updated Assets Array:", this.assetsArray.value);
+        // console.log("Updated Assets Array:", this.assetsArray.value);
     }
 }
 
@@ -587,7 +587,7 @@ updateAsset(index: number, newAsset: any) {
             })
         );
     
-        console.log("Updated Assets Array:", this.assetsArray.value);
+        // console.log("Updated Assets Array:", this.assetsArray.value);
     }
     // addAssets(assetData: any) {
     //     console.log("Adding Asset:", assetData); // Debugging line

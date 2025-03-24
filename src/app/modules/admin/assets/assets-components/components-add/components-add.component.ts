@@ -43,7 +43,7 @@ private _changeDetectorRef: ChangeDetectorRef) {}
       
         this.service.postEvent(this.eventForm.value).subscribe({
           next: (response) => {
-            console.log('Upload successful:', response);
+            // console.log('Upload successful:', response);
             this.alertService.triggerSuccess('Upload successful!');
       
             // ✅ Reload the page after success

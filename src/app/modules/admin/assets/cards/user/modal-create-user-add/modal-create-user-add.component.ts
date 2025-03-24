@@ -233,7 +233,7 @@ export class ModalCreateUserAddComponent implements OnInit {
             if (result === 'confirmed') {
                 this.submitForm(); // Call the submit form method if confirmed
             } else {
-                console.log('Submission canceled');
+                // console.log('Submission canceled');
             }
         });
     }
@@ -266,12 +266,12 @@ export class ModalCreateUserAddComponent implements OnInit {
         };
     
         // Log the cardData before sending it
-        console.log('Submitted Card Data:', cardData);
+        // console.log('Submitted Card Data:', cardData);
     
         // Submit the data via cardService
         this.cardService.CreateCardData(cardData).subscribe(
             (response) => {
-                console.log('Card created successfully:', response);
+                // console.log('Card created successfully:', response);
                 this.successMessage = 'Card created successfully!'; // Set success message
                 this.successVisible = true; // Show success alert
     

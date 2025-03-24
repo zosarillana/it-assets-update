@@ -60,25 +60,25 @@ export class SidePanelMonitorComponent implements OnInit {
       
     openSidenav() {
         this.isSidenavOpen = true;
-        console.log('Opening side panel with ID:', this.elementId);
+        // console.log('Opening side panel with ID:', this.elementId);
     
         if (this.elementId) {
-            console.log('Attempting to fetch Monitor data for ID:', this.elementId);
+            // console.log('Attempting to fetch Monitor data for ID:', this.elementId);
             this.service.getMonitorById(this.elementId).subscribe(
                 (data) => {
                     this.cardData = data;
-                    console.log('Fetched Monitor data:', data);
+                    // console.log('Fetched Monitor data:', data);
     
                     // Check if userHistory is present
                     if (this.cardData.userHistory) {
-                        console.log('User History:', this.cardData.userHistory);
-                        console.log('Set History:', this.cardData.setHistory);
+                        // console.log('User History:', this.cardData.userHistory);
+                        // console.log('Set History:', this.cardData.setHistory);
                     } else {
-                        console.log('No userHistory found in the fetched data.');
+                        // console.log('No userHistory found in the fetched data.');
                     }
                 },
                 (error) => {
-                    console.error('Error fetching Monitor data:', error);
+                    // console.error('Error fetching Monitor data:', error);
                 }
             );
         }
@@ -119,10 +119,10 @@ export class SidePanelMonitorComponent implements OnInit {
                 .UpdatePeripheral(this.editData.id, formData)
                 .subscribe({
                     next: (response) => {
-                        console.log(
-                            'Peripheral updated successfully',
-                            response
-                        );
+                        // console.log(
+                        //     'Peripheral updated successfully',
+                        //     response
+                        // );
                         this.alertService.triggerSuccess(
                             'Peripheral updated successfully'
                         );
@@ -130,14 +130,14 @@ export class SidePanelMonitorComponent implements OnInit {
                         this.closeEditSidenav(); // Optionally close the side panel after the update
                     },
                     error: (error) => {
-                        console.error('Error updating peripheral', error);
+                        // console.error('Error updating peripheral', error);
                         this.alertService.triggerError(
                             'Error updating peripheral'
                         );
                     },
                 });
         } else {
-            console.log('Form is invalid');
+            // console.log('Form is invalid');
             this.alertService.triggerError(
                 'Please complete the form correctly.'
             );

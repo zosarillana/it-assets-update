@@ -152,7 +152,7 @@ export class AccountabilityFormComponent implements OnInit {
             .subscribe((user: User) => {
                 this.user = user;
                 this.userId = user?.id ? Number(user.id) : null; // Convert to number
-                console.log('🟢 User data loaded:', user);
+                // console.log('🟢 User data loaded:', user);
             });
 
         const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -162,33 +162,33 @@ export class AccountabilityFormComponent implements OnInit {
 
             this._service.getAccountabilityById(id).subscribe({
                 next: (data: any) => {
-                    console.log('Fetched Data:', data);
+                    // console.log('Fetched Data:', data);
                     this.asset = data;
 
                     // ✅ Fix mapping of assets
                     if (this.asset?.assets?.$values?.length) {
                         this.dataSourceAssets.data = this.asset.assets.$values;
                     }
-                    console.log(
-                        'Assets Data Source:',
-                        this.dataSourceAssets.data
-                    );
+                    // console.log(
+                    //     'Assets Data Source:',
+                    //     this.dataSourceAssets.data
+                    // );
 
                     // ✅ Fix mapping of computers
                     if (this.asset?.computers?.$values?.length) {
                         this.dataSourceComputers.data =
                             this.asset.computers.$values;
                     }
-                    console.log(
-                        'Computers Data Source:',
-                        this.dataSourceComputers.data
-                    );
+                    // console.log(
+                    //     'Computers Data Source:',
+                    //     this.dataSourceComputers.data
+                    // );
 
                     if (this.asset?.user_accountability_list?.id) {
-                        console.log(
-                            '✅ Accountability ID Loaded:',
-                            this.asset.user_accountability_list.id
-                        );
+                        // console.log(
+                        //     '✅ Accountability ID Loaded:',
+                        //     this.asset.user_accountability_list.id
+                        // );
                         this.getAccountabilityApproval(); // Call here!
                     }
 
@@ -202,10 +202,10 @@ export class AccountabilityFormComponent implements OnInit {
                         }
                     });
                     this.dataSourceAssignedAssets.data = assignedAssets;
-                    console.log(
-                        'Assigned Assets Data Source:',
-                        this.dataSourceAssignedAssets.data
-                    );
+                    // console.log(
+                    //     'Assigned Assets Data Source:',
+                    //     this.dataSourceAssignedAssets.data
+                    // );
 
                     // ✅ Fix Components Mapping
                     let assignedComponents: ComponentDetail[] = [];
@@ -234,10 +234,10 @@ export class AccountabilityFormComponent implements OnInit {
                         }
                     });
                     this.dataSourceAssignedComponents.data = assignedComponents;
-                    console.log(
-                        'Assigned Components Data Source:',
-                        this.dataSourceAssignedComponents.data
-                    );
+                    // console.log(
+                    //     'Assigned Components Data Source:',
+                    //     this.dataSourceAssignedComponents.data
+                    // );
 
                     this.loading = false; // Hide loader after data is loaded
                 },
@@ -342,10 +342,10 @@ export class AccountabilityFormComponent implements OnInit {
         this.asset = data;
 
         if (this.asset?.user_accountability_list?.id) {
-            console.log(
-                '✅ Accountability ID Loaded:',
-                this.asset.user_accountability_list.id
-            );
+            // console.log(
+            //     '✅ Accountability ID Loaded:',
+            //     this.asset.user_accountability_list.id
+            // );
             this.getAccountabilityApproval(); // Call here!
         }
     }
@@ -404,10 +404,10 @@ export class AccountabilityFormComponent implements OnInit {
     }
 
     preparedByUser(): void {
-        console.log(
-            '🔵 Accountability Approval Object:',
-            this.accountabilityApproval
-        );
+        // console.log(
+        //     '🔵 Accountability Approval Object:',
+        //     this.accountabilityApproval
+        // );
 
         // Ensure accountabilityId is always an integer
         const accountabilityId: number = this.accountabilityApproval?.id
@@ -416,7 +416,7 @@ export class AccountabilityFormComponent implements OnInit {
             ? Number(this.asset.user_accountability_list.id)
             : 0;
 
-        console.log('🟡 ID for prepared by user:', accountabilityId);
+        // console.log('🟡 ID for prepared by user:', accountabilityId);
 
         if (!accountabilityId || accountabilityId === 0) {
             console.error('❌ Error: Accountability ID is missing or 0!');
@@ -426,18 +426,18 @@ export class AccountabilityFormComponent implements OnInit {
         // Ensure userId is a string before passing it to the service
         const userId: string = this.userId ? String(this.userId) : '0';
 
-        console.log(
-            '🟢 Final Accountability ID:',
-            accountabilityId,
-            typeof accountabilityId
-        );
-        console.log('🟢 Final User ID:', userId, typeof userId);
+        // console.log(
+        //     '🟢 Final Accountability ID:',
+        //     accountabilityId,
+        //     typeof accountabilityId
+        // );
+        // console.log('🟢 Final User ID:', userId, typeof userId);
 
         this.accountabilityApprovalService
             .preparedByUser(accountabilityId, userId)
             .subscribe(
                 (response) => {
-                    console.log('✅ Prepared by User response:', response);
+                    // console.log('✅ Prepared by User response:', response);
                     this.getAccountabilityApproval();
 
                     this.snackBar.open(
@@ -474,8 +474,8 @@ export class AccountabilityFormComponent implements OnInit {
             : null; // Ensure ID is a number
         const userId = this.userId ? String(this.userId) : null; // Convert userId to a string
 
-        console.log('Accountability ID for approve:', id, typeof id);
-        console.log('User ID for approve:', userId, typeof userId);
+        // console.log('Accountability ID for approve:', id, typeof id);
+        // console.log('User ID for approve:', userId, typeof userId);
 
         if (!id || isNaN(id) || !userId) {
             console.error(
@@ -499,7 +499,7 @@ export class AccountabilityFormComponent implements OnInit {
 
         this.accountabilityApprovalService.approvedByUser(id, userId).subscribe(
             (response) => {
-                console.log('Approved by User response:', response);
+                // console.log('Approved by User response:', response);
                 this.getAccountabilityApproval(); // Refresh after success
                 // Show success MatSnackBar
                 this.snackBar.open(`Approved by ${this.user?.name}`, '', {
@@ -510,8 +510,8 @@ export class AccountabilityFormComponent implements OnInit {
                 });
             },
             (error) => {
-                console.error('Error in approve:', error);
-                console.log('Executing snackbar error'); // Debugging line
+                // console.error('Error in approve:', error);
+                // console.log('Executing snackbar error'); // Debugging line
 
                 // Show error MatSnackBar on API error
                 this.snackBar.open(

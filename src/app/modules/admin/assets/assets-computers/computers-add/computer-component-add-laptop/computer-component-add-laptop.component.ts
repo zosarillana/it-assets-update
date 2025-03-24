@@ -30,7 +30,7 @@ export class ComputerComponentAddLaptopComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        console.log(this.data.serial_number);
+        // console.log(this.data.serial_number);
         this.initializeForm();
     }
 

@@ -20,7 +20,7 @@ export class UserCardComponent implements OnInit {
 
       // Optionally handle the dialog close event and get the result
       dialogRef.afterClosed().subscribe((result) => {
-          console.log('Dialog closed, result:', result);
+          // console.log('Dialog closed, result:', result);
       });
   }
 }

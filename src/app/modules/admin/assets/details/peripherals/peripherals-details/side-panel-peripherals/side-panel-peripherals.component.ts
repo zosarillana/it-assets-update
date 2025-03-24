@@ -44,20 +44,20 @@ export class SidePanelPeripheralsComponent implements OnInit {
 
     openSidenav() {
         this.isSidenavOpen = true;
-        console.log('Opening side panel with ID:', this.elementId);
+        // console.log('Opening side panel with ID:', this.elementId);
 
         if (this.elementId) {
-            console.log(
-                'Attempting to fetch card data for ID:',
-                this.elementId
-            );
+            // console.log(
+            //     'Attempting to fetch card data for ID:',
+            //     this.elementId
+            // );
             this.service.getItotPeripheralsId(this.elementId).subscribe(
                 (data) => {
                     this.cardData = data;
-                    console.log('Fetched card data:', data);
+                    // console.log('Fetched card data:', data);
                 },
                 (error) => {
-                    console.error('Error fetching card data:', error);
+                    // console.error('Error fetching card data:', error);
                 }
             );
         }
@@ -98,10 +98,10 @@ export class SidePanelPeripheralsComponent implements OnInit {
                 .UpdatePeripheral(this.editData.id, formData)
                 .subscribe({
                     next: (response) => {
-                        console.log(
-                            'Peripheral updated successfully',
-                            response
-                        );
+                        // console.log(
+                        //     'Peripheral updated successfully',
+                        //     response
+                        // );
                         this.alertService.triggerSuccess(
                             'Peripheral updated successfully'
                         );
@@ -109,14 +109,14 @@ export class SidePanelPeripheralsComponent implements OnInit {
                         this.closeEditSidenav(); // Optionally close the side panel after the update
                     },
                     error: (error) => {
-                        console.error('Error updating peripheral', error);
+                        // console.error('Error updating peripheral', error);
                         this.alertService.triggerError(
                             'Error updating peripheral'
                         );
                     },
                 });
         } else {
-            console.log('Form is invalid');
+            // console.log('Form is invalid');
             this.alertService.triggerError(
                 'Please complete the form correctly.'
             );

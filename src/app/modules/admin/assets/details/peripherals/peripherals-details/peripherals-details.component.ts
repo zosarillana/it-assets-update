@@ -43,7 +43,7 @@ export class PeripheralsDetailsComponent implements OnInit {
 
     loadItots(): void {
         this.itotService.getItotPeripherals().subscribe((result: ItotPeripheral[]) => {
-            console.log('Updated peripherals list after delete:', result);
+            // console.log('Updated peripherals list after delete:', result);
             this.dataSource = new MatTableDataSource(result);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
@@ -91,14 +91,14 @@ export class PeripheralsDetailsComponent implements OnInit {
         });
     
         dialogRef.afterClosed().subscribe((result) => {
-            console.log('Dialog closed, result:', result);
+            // console.log('Dialog closed, result:', result);
     
             // Check if the result indicates success
             if (result && result.success) {
-                console.log('Peripheral created successfully.');
+                // console.log('Peripheral created successfully.');
                 this.loadItots(); // Reload the peripherals list after creation
             } else {
-                console.log('Peripheral creation was cancelled or failed.');
+                // console.log('Peripheral creation was cancelled or failed.');
             }
         });
     }
@@ -111,20 +111,20 @@ export class PeripheralsDetailsComponent implements OnInit {
     
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log(`Deleting peripheral with ID ${id}`);
+                // console.log(`Deleting peripheral with ID ${id}`);
                 this.itotService.DeletePeripheral(id).subscribe({
                     next: () => {
-                        console.log(`Peripheral with ID ${id} deleted successfully.`);
+                        // console.log(`Peripheral with ID ${id} deleted successfully.`);
                         this.alertService.triggerSuccess('Peripheral deleted successfully.'); // Show success alert
                         this.loadItots(); // Reload the list after deletion
                     },
                     error: (err) => {
-                        console.error('Error deleting peripheral:', err);
+                        // console.error('Error deleting peripheral:', err);
                         this.alertService.triggerError('Error deleting peripheral.'); // Show error alert
                     }
                 });
             } else {
-                console.log('Deletion cancelled by the user.');
+                // console.log('Deletion cancelled by the user.');
                 // Optionally, you can show an alert if you want to notify that deletion was cancelled.
                 // Example: this.alertService.triggerInfo('Deletion cancelled');
             }

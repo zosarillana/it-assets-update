@@ -50,17 +50,17 @@ export class SidePanelPcCardComponent implements OnInit {
 
     openSidenav() {
         this.isSidenavOpen = true;
-        console.log('Opening side panel with ID:', this.elementId);
+        // console.log('Opening side panel with ID:', this.elementId);
 
         // Fetch the data only if elementId is available
         if (this.elementId) {
             this.cardService.getCardDataId(this.elementId).subscribe(
                 (data) => {
                     this.cardData = data;
-                    console.log('Fetched card data:', data);
+                    // console.log('Fetched card data:', data);
                 },
                 (error) => {
-                    console.error('Error fetching card data:', error);
+                    // console.error('Error fetching card data:', error);
                 }
             );
         }

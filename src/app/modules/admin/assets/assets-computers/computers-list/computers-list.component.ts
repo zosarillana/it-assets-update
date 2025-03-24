@@ -58,7 +58,7 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     ) {}
 
     ngOnInit(): void {
-        console.log(this.dataSource.data);
+        // console.log(this.dataSource.data);
         this.loadAssets(1, this.pageSize);
 
         // Set up the autocomplete filter
@@ -110,7 +110,7 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
             .getAssets(pageIndex, pageSize, this.sortOrder, this.searchTerm, typeFilter, fetchAll)
             .subscribe({
                 next: (response: AssetResponse) => {
-                    console.log('API Response:', response);
+                    // console.log('API Response:', response);
 
                     // Extract $values safely
                     this.dataSource.data =
@@ -251,7 +251,7 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     // Handle the modal result after it's closed
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('Remark Submitted:', result);
+        // console.log('Remark Submitted:', result);
         this.submitRemark(result.id, result.remark); // Handle the submission logic here
       }
     });
@@ -291,21 +291,21 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
         date_acquired: ""
       };
   
-      console.log('Submitting remark:', updatedAsset);
+    //   console.log('Submitting remark:', updatedAsset);
   
       // Call the API to update the asset
       this.assetService.putEvent(id.toString(), updatedAsset).subscribe({
         next: (response) => {
-          console.log('Remark successfully submitted:', response);
+        //   console.log('Remark successfully submitted:', response);
           this.alertService.triggerSuccess('Remark submitted successfully!');
         },
         error: (err) => {
-          console.error('Error submitting remark:', err);
+        //   console.error('Error submitting remark:', err);
           this.alertService.triggerError('Failed to submit remark.');
         },
       });
     } else {
-      console.log('Remark cannot be empty.');
+    //   console.log('Remark cannot be empty.');
       this.alertService.triggerError('Remark cannot be empty.');
     }
   }

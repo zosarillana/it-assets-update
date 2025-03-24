@@ -228,7 +228,7 @@ export class PeripheralModalCreateComponent implements OnInit {
             if (result === 'confirmed') {
                 this.submitForm(); // Call the submit form method if confirmed
             } else {
-                console.log('Submission canceled');
+                // console.log('Submission canceled');
             }
         });
     }
@@ -258,22 +258,22 @@ export class PeripheralModalCreateComponent implements OnInit {
             };
     
             console.log('Submitted Data:', Data);
-    
+    // 
             // Always create a new peripheral
             this.itotService.CreatePeripheral(Data).subscribe(
                 (response) => {
-                    console.log('Peripheral created successfully', response);
+                    // console.log('Peripheral created successfully', response);
                     this.alertService.triggerSuccess('Peripheral created successfully');
                     this.dialogRef.close({ success: true }); // Close with success result
                 },
                 (error) => {
-                    console.error('Error creating peripheral', error);
+                    // console.error('Error creating peripheral', error);
                     this.alertService.triggerError('Error creating peripheral');
                     this.dialogRef.close({ success: false }); // Close with failure result
                 }
             );
         } else {
-            console.log('Form is invalid');
+            // console.log('Form is invalid');
             this.alertService.triggerError('Please complete the form correctly.');
         }
     }    

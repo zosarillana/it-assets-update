@@ -61,7 +61,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll)) // Auto-unsubscribe when component is destroyed
             .subscribe((user: User) => {
                 this.user = user;
-                console.log('🟢 User data loaded:', user);
+                // console.log('🟢 User data loaded:', user);
             });
     
         // Subscribe to navigation data

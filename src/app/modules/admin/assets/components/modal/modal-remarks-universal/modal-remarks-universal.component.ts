@@ -36,7 +36,7 @@ export class ModalRemarksUniversalComponent implements OnInit {
         remark: this.remarkForm.value.remark
       };
   
-      console.log('Remark Data:', remarkData);
+      // console.log('Remark Data:', remarkData);
       this.dialogRef.close(remarkData); // Send data back to parent
     }
   }

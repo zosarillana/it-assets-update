@@ -35,7 +35,7 @@ export class UserService
             return; // Prevent emitting empty user
         }
         this._user.next(value);
-        console.log('✅ UserService emitted user:', value);
+        // console.log('✅ UserService emitted user:', value);
     }
 
     get user$(): Observable<User> 
@@ -67,9 +67,9 @@ export class UserService
                     if (user && user.id) {
                         this._user.next(user);
                         // localStorage.setItem('user', JSON.stringify(user)); // Persist user
-                        console.log('✅ API User Loaded:', user);
+                        // console.log('✅ API User Loaded:', user);
                     } else {
-                        console.warn('⚠️ API returned empty user, keeping stored user.');
+                        // console.warn('⚠️ API returned empty user, keeping stored user.');
                     }
                 })
             ).subscribe(observer);
@@ -95,7 +95,7 @@ export class UserService
      * Load user details from stored JWT token
      */
     private loadUserFromToken(): void {
-        console.log('🟢 loadUserFromToken() called');
+        // console.log('🟢 loadUserFromToken() called');
     
         const token = localStorage.getItem('accessToken');
         // const storedUser = localStorage.getItem('user');

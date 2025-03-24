@@ -21,14 +21,14 @@ export class ModalPullinAssetsComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        console.log('Received computer ID:', this.data.computerId);
+        // console.log('Received computer ID:', this.data.computerId);
         this.fetchInactiveAssets();
     }
 
     fetchInactiveAssets(): void {
         this.assetsService.getAssets(1, 100, 'asc', 'AVAILABLE').subscribe({
             next: (response) => {
-                console.log('Response:', response);
+                // console.log('Response:', response);
                 this.inactiveAssets = response.items.$values.filter(asset => asset.status === 'AVAILABLE');
             },
             error: (error) => {
@@ -50,7 +50,7 @@ export class ModalPullinAssetsComponent implements OnInit {
         const selectedAssets = this.assetsList.selectedOptions.selected.map(option => option.value);
         const selectedAssetIds = selectedAssets.map(asset => asset.id);
 
-        console.log('Selected Assets:', selectedAssetIds);
+        // console.log('Selected Assets:', selectedAssetIds);
 
         if (selectedAssetIds.length === 0) {
             this.dialogRef.close();

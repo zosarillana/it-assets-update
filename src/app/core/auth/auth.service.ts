@@ -71,7 +71,7 @@ export class AuthService {
             .post<{ token: string }>(`${this._apiBaseUrl}/Auth/login`, credentials)
             .pipe(
                 map((response) => {
-                    console.log('🟢 Login Response:', response);
+                    // console.log('🟢 Login Response:', response);
     
                     if (!response.token) {
                         throw new Error('❌ No token in response!');
@@ -104,7 +104,7 @@ export class AuthService {
      */
     private _extractUserFromToken(token: string): any {
         try {
-            console.log("🔵 Decoding token:", token);
+            // console.log("🔵 Decoding token:", token);
     
             const tokenParts = token.split('.');
             if (tokenParts.length !== 3) {
@@ -113,7 +113,7 @@ export class AuthService {
     
             const payload = JSON.parse(atob(tokenParts[1]));
     
-            console.log("🟢 Decoded Token Payload:", payload);
+            // console.log("🟢 Decoded Token Payload:", payload);
     
             return {
                 id: payload.sub,
@@ -144,7 +144,7 @@ export class AuthService {
         this._authenticated = true;
         this._userService.user = user; // Store user details in the service
     
-        console.log("User Info:", user);
+        // console.log("User Info:", user);
     
         return of(user); // Return user object
     }

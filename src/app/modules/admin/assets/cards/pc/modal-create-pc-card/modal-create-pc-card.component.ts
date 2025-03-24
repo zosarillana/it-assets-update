@@ -235,7 +235,7 @@ export class ModalCreatePcCardComponent implements OnInit {
             if (result === 'confirmed') {
                 this.submitForm(); // Call the submit form method if confirmed
             } else {
-                console.log('Submission canceled');
+                // console.log('Submission canceled');
             }
         });
     }
@@ -268,14 +268,14 @@ export class ModalCreatePcCardComponent implements OnInit {
         };
 
         // Log the cardData before sending it
-        console.log('Submitted Card Data:', cardData);
+        // console.log('Submitted Card Data:', cardData);
 
         // Submit the data via cardService
         if (this.horizontalStepperForm.valid) {
             // Submit the data via cardService
             this.cardService.CreateCardData(cardData).subscribe({
                 next: (response) => {
-                    console.log('PC Card created successfully', response);
+                    // console.log('PC Card created successfully', response);
                     this.alertService.triggerSuccess('PC Card created successfully');
                     this.dialogRef.close({ success: true }); // Close with success result
                 },
@@ -286,7 +286,7 @@ export class ModalCreatePcCardComponent implements OnInit {
                 },
             });
         } else {
-            console.log('Form is invalid');
+            // console.log('Form is invalid');
             this.alertService.triggerError(
                 'Please complete the form correctly.'
             );

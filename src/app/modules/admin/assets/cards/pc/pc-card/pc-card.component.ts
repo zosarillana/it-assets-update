@@ -91,14 +91,14 @@ export class PcCardComponent implements OnInit {
 
         // Optionally handle the dialog close event and get the result
         dialogRef.afterClosed().subscribe((result) => {
-            console.log('Dialog closed, result:', result);
+            // console.log('Dialog closed, result:', result);
     
             // Check if the result indicates success
             if (result && result.success) {
-                console.log('Card created successfully.');
+                // console.log('Card created successfully.');
                 this.loadCards(); // Reload the peripherals list after creation
             } else {
-                console.log('Card creation was cancelled or failed.');
+                // console.log('Card creation was cancelled or failed.');
             }
         });
     }

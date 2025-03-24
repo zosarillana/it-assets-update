@@ -50,7 +50,7 @@ export class ReturnFormComponent implements OnInit {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((user: User) => {
         this.user = user;
-        console.log('🟢 User data loaded:', user);
+        // console.log('🟢 User data loaded:', user);
       });
   }
 
@@ -60,13 +60,13 @@ export class ReturnFormComponent implements OnInit {
     this.accountabilityService.getAccountabilityById(id).subscribe({
       next: (data) => {
         if (!data) {
-          console.error('Error: Received null or undefined accountability data.');
+          // console.error('Error: Received null or undefined accountability data.');
           this.loading = false; // Hide loader when no data
           return;
         }
     
         this.accountabilityItem = data;
-        console.log('✅ Accountability Item:', JSON.stringify(this.accountabilityItem, null, 2));
+        // console.log('✅ Accountability Item:', JSON.stringify(this.accountabilityItem, null, 2));
     
         // Initialize checkbox values for computers and their components
         this.initializeCheckboxValues();
@@ -79,15 +79,15 @@ export class ReturnFormComponent implements OnInit {
   
         // Extract assigned assets from each computer and populate assetDataSource
         const assignedAssets = this.accountabilityItem.computers.$values.flatMap((computer: any) => computer.assignedAssetDetails?.$values ?? []);
-        console.log('✅ Assigned Assets:', assignedAssets);
+        // console.log('✅ Assigned Assets:', assignedAssets);
   
         this.assetDataSource = new MatTableDataSource(assignedAssets);
-        console.log('✅ Asset Data Source:', this.assetDataSource.data);
+        // console.log('✅ Asset Data Source:', this.assetDataSource.data);
         
         this.loading = false; // Hide loader after processing data
       },
       error: (error) => {
-        console.error('Error fetching accountability item:', error);
+        // console.error('Error fetching accountability item:', error);
         alert(`Failed to load accountability details: ${error.message}`);
         this.loading = false; // Hide loader on error
       }
@@ -179,11 +179,11 @@ export class ReturnFormComponent implements OnInit {
       });
     }
 
-    console.log("✅ Flattened Components Data:", this.flattenedComponents);
+    // console.log("✅ Flattened Components Data:", this.flattenedComponents);
   }
 
   submitReturnChecklist(): void {
-    console.log("🔍 Debug: Flattened Components:", this.flattenedComponents);
+    // console.log("🔍 Debug: Flattened Components:", this.flattenedComponents);
 
     if (!this.accountabilityItem) {
       console.error('Error: Accountability item is missing.');
@@ -258,7 +258,7 @@ export class ReturnFormComponent implements OnInit {
       // ✅ Combine all checklists  
       const checklist = [...assetChecklist, ...assignedAssetChecklist, ...computerChecklist, ...componentChecklist];
 
-      console.log('Checklist items being sent:', checklist);
+      // console.log('Checklist items being sent:', checklist);
 
       if (!checklist.length) {
         throw new Error('No items to return.');
@@ -269,7 +269,7 @@ export class ReturnFormComponent implements OnInit {
         new Promise<any>((resolve, reject) => {
           this.returnItemService.createReturnItem(item).subscribe({
             next: (response) => {
-              console.log('Item submitted successfully:', response);
+              // console.log('Item submitted successfully:', response);
               resolve(response);
             },
             error: (error) => {

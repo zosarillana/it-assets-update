@@ -181,11 +181,11 @@ export class InventoryEditComponent implements OnInit {
         };
 
         // Log the final updated asset before submitting
-        console.log('Submitting updated asset:', updatedAsset);
+        // console.log('Submitting updated asset:', updatedAsset);
 
         this.assetsService.putEvent(id, updatedAsset).subscribe({
             next: (response) => {
-                console.log('API Response:', response);
+                // console.log('API Response:', response);
                 this.alertService.triggerSuccess('Asset successfully added!');
                 
                 // Reload page after 1 second
@@ -195,7 +195,7 @@ export class InventoryEditComponent implements OnInit {
             },
             
             error: (error) => {
-                console.error('API Error:', error);
+                // console.error('API Error:', error);
                 this.alertService.triggerError('Failed to add asset. Please try again.');
                 
                 // Handle validation errors

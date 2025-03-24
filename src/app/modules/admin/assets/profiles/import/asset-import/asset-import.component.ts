@@ -54,7 +54,7 @@ export class AssetImportComponent implements OnInit {
       const sheetName = workbook.SheetNames[0]; // Get the first sheet
       const worksheet = workbook.Sheets[sheetName];
       this.data = XLSX.utils.sheet_to_json(worksheet, { header: 1 }); // Parse the data
-      console.log("Data loaded from Excel:", this.data);
+      // console.log("Data loaded from Excel:", this.data);
       
       this.fileSelected = true; // Mark file as selected
     };
@@ -114,17 +114,17 @@ export class AssetImportComponent implements OnInit {
       history: String(row[16] || " "),
     }));
   
-    console.log("Data to be uploaded:", JSON.stringify(formattedData, null, 2));
+    // console.log("Data to be uploaded:", JSON.stringify(formattedData, null, 2));
   
     this.itotService.uploadExcelData(formattedData).subscribe(
       (response) => {
-        console.log("Upload successful:", response);
+        // console.log("Upload successful:", response);
         this.alertService.triggerSuccess("Upload successful!"); // Trigger success alert
         this.fileSelected = false; // Reset file selection after upload
         this.selectedFileName = ""; // Reset selected file name
       },
       (error) => {
-        console.error("Upload failed:", error);
+        // console.error("Upload failed:", error);
         this.alertService.triggerError("Upload failed. Please try again."); // Trigger error alert
       }
     );

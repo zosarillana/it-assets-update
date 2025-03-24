@@ -20,7 +20,7 @@ export class AccountabilityApprovalService {
   preparedByUser(accountabilityId: number, userId: string) {
     const url = `${this.url}/AccountabilityApproval/prepared-by-user-id?accountabilityId=${accountabilityId}&userId=${userId}`;
     
-    console.log('Sending preparedByUser request with:', { accountabilityId, userId });
+    // console.log('Sending preparedByUser request with:', { accountabilityId, userId });
   
     return this.http.post(url, null); // Use null for body since backend expects query params
   }

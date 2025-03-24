@@ -93,7 +93,7 @@ export class InventoryAddComponent implements OnInit {
         // Submit data to the API
         this.assetService.postEvent(mappedData).subscribe({
           next: (response) => {
-            console.log('API Response:', response);
+            // console.log('API Response:', response);
             this.alertService.triggerSuccess('Asset successfully added!');
       
             // ✅ Reload without resetting fields manually

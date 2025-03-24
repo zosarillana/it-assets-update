@@ -217,7 +217,7 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
     }
 
     viewResult(id: number): void {
-        console.log(`Viewing result for accountability ID: ${id}`);
+        // console.log(`Viewing result for accountability ID: ${id}`);
         this.router.navigate(['/assets/accountability/return/result', id]);
     }
 }

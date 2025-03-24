@@ -172,7 +172,7 @@ export class ComputersAddComponent implements OnInit {
                             );
                         });
 
-                        console.log('Filtered Assets:', this.assetList);
+                        // console.log('Filtered Assets:', this.assetList);
                     }
                 },
                 (error) => {
@@ -267,7 +267,7 @@ export class ComputersAddComponent implements OnInit {
                             (component) => component.status === 'INACTIVE'
                         );
                         this.cdr.detectChanges();
-                        console.log('Filtered Components:', this.componentList);
+                        // console.log('Filtered Components:', this.componentList);
                     }
                 },
                 (error) => {
@@ -308,10 +308,10 @@ export class ComputersAddComponent implements OnInit {
 
     submitForm(): void {
         const rawData = this.eventForm.value;
-        console.log('Raw Form Data:', rawData);
+        // console.log('Raw Form Data:', rawData);
 
         const mappedData = this.mapResponseToForm(rawData);
-        console.log('Mapped Form Data:', mappedData);
+        // console.log('Mapped Form Data:', mappedData);
 
         this.eventForm.patchValue(mappedData);
 
@@ -451,7 +451,7 @@ export class ComputersAddComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe((result) => {
-            console.log('Component Modal Result:', result);
+            // console.log('Component Modal Result:', result);
             if (result) {
                 this.addComponent(result);
             }
@@ -469,7 +469,7 @@ export class ComputersAddComponent implements OnInit {
             })
         );
 
-        console.log('Updated Components Array:', this.componentsArray.value);
+        // console.log('Updated Components Array:', this.componentsArray.value);
     }
 
     // **Open Modal to Add or Edit Component**
@@ -514,10 +514,10 @@ export class ComputersAddComponent implements OnInit {
     updateComponent(index: number, newComponent: any) {
         if (index !== undefined && this.componentsArray.at(index)) {
             this.componentsArray.at(index).patchValue(newComponent);
-            console.log(
-                'Updated Components Array:',
-                this.componentsArray.value
-            );
+            // console.log(
+            //     'Updated Components Array:',
+            //     this.componentsArray.value
+            // );
         }
     }
 
@@ -582,7 +582,7 @@ export class ComputersAddComponent implements OnInit {
     updateAsset(index: number, newAsset: any) {
         if (index !== undefined && this.assetsArray.at(index)) {
             this.assetsArray.at(index).patchValue(newAsset);
-            console.log('Updated Assets Array:', this.assetsArray.value);
+            // console.log('Updated Assets Array:', this.assetsArray.value);
         }
     }
 
@@ -601,7 +601,7 @@ export class ComputersAddComponent implements OnInit {
             })
         );
 
-        console.log('Updated Assets Array:', this.assetsArray.value);
+        // console.log('Updated Assets Array:', this.assetsArray.value);
     }
 
     removeRow(index: number) {

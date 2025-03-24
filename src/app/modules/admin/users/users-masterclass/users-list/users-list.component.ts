@@ -148,19 +148,19 @@ export class UsersListComponent implements OnInit {
         }));
 
         // Check the final data structure
-        console.log(
-            'Data to be uploaded:',
-            JSON.stringify(formattedData, null, 2)
-        );
+        // console.log(
+        //     'Data to be uploaded:',
+        //     JSON.stringify(formattedData, null, 2)
+        // );
 
         // Send the formatted data to your backend
         this.itotService.uploadExcelData(formattedData).subscribe(
             (response) => {
-                console.log('Upload successful:', response);
+                // console.log('Upload successful:', response);
                 alert('Upload successful!');
             },
             (error) => {
-                console.error('Upload failed:', error);
+                // console.error('Upload failed:', error);
                 alert('Upload failed. Please try again.');
             }
         );
@@ -174,14 +174,14 @@ export class UsersListComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe((result) => {
-            console.log('Dialog closed, result:', result);
+            // console.log('Dialog closed, result:', result);
 
             // Check if the result indicates success
             if (result && result.success) {
-                console.log('Peripheral created successfully.');
+                // console.log('Peripheral created successfully.');
                 this.loadItots(); // Reload the peripherals list after creation
             } else {
-                console.log('Peripheral creation was cancelled or failed.');
+                // console.log('Peripheral creation was cancelled or failed.');
             }
         });
     }
@@ -268,26 +268,26 @@ export class UsersListComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(`Deleting peripheral with ID ${id}`);
+                // console.log(`Deleting peripheral with ID ${id}`);
                 this.itotService.DeletePc(id).subscribe({
                     next: () => {
-                        console.log(
-                            `Peripheral with ID ${id} deleted successfully.`
-                        );
+                        // console.log(
+                        //     `Peripheral with ID ${id} deleted successfully.`
+                        // );
                         this.alertService.triggerSuccess(
                             'Peripheral deleted successfully.'
                         ); // Show success alert
                         this.loadItots(); // Reload the list after deletion
                     },
                     error: (err) => {
-                        console.error('Error deleting peripheral:', err);
+                        // console.error('Error deleting peripheral:', err);
                         this.alertService.triggerError(
                             'Error deleting peripheral.'
                         ); // Show error alert
                     },
                 });
             } else {
-                console.log('Deletion cancelled by the user.');
+                // console.log('Deletion cancelled by the user.');
                 // Optionally, you can show an alert if you want to notify that deletion was cancelled.
                 // Example: this.alertService.triggerInfo('Deletion cancelled');
             }
@@ -300,7 +300,7 @@ export class UsersListComponent implements OnInit {
     selectedTypes: string = 'All';
 
     onCategoryChange(selectedValue: string): void {
-        console.log('Selected category:', selectedValue);
+        // console.log('Selected category:', selectedValue);
         // Add your logic here
     }
 }

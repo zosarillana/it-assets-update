@@ -86,7 +86,7 @@ export class ImportMasterdataComponent implements OnInit {
     }
 
     private excelDateToString(value: any): string {
-      console.log('Parsing date value:', value);  // Log the value being parsed
+    //   console.log('Parsing date value:', value);  // Log the value being parsed
       if (!value) return 'N/A';
   
       try {
@@ -137,10 +137,10 @@ export class ImportMasterdataComponent implements OnInit {
                     defval: '', // Fill empty cells with an empty string
                 });
 
-                console.log('Raw Excel data:', data);
+                // console.log('Raw Excel data:', data);
                 this.data = data;
             } catch (error) {
-                console.error('Error reading Excel file:', error);
+                // console.error('Error reading Excel file:', error);
                 this.alertService.triggerError('Error reading Excel file');
             }
         };
@@ -167,7 +167,7 @@ export class ImportMasterdataComponent implements OnInit {
   
       try {
           const dataRows = this.data.slice(1);
-          console.log('Raw data rows:', dataRows); // Debugging
+        //   console.log('Raw data rows:', dataRows); // Debugging
           const formattedData = dataRows
               .filter((row) => {
                   const isValid = row && row.length > 0;
@@ -215,20 +215,20 @@ export class ImportMasterdataComponent implements OnInit {
   
           this.itotService.uploadExcelData(formData).subscribe({
               next: (response) => {
-                  console.log('Upload successful:', response);
+                //   console.log('Upload successful:', response);
                   this.alertService.triggerSuccess('Upload successful!');
                   this.resetForm();
               },
               error: (error) => {
-                  console.error('Upload failed:', error);
-                  console.error('Error response:', error.error);
+                //   console.error('Upload failed:', error);
+                //   console.error('Error response:', error.error);
                   this.alertService.triggerError(
                       error.error?.message || 'Upload failed. Please try again.'
                   );
               },
           });
       } catch (error: any) {
-          console.error('Error processing data:', error);
+        //   console.error('Error processing data:', error);
           this.alertService.triggerError(
               error.message || 'Error processing file data'
           );

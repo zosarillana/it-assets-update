@@ -240,7 +240,7 @@ export class PcModalCreateComponent implements OnInit {
             if (result === 'confirmed') {
                 this.submitForm(); // Call the submit form method if confirmed
             } else {
-                console.log('Submission canceled');
+                // console.log('Submission canceled');
             }
         });
     }
@@ -277,19 +277,19 @@ export class PcModalCreateComponent implements OnInit {
         };
 
         // Log the cardData before sending it
-        console.log('Submitted Card Data:', cardData);
+        // console.log('Submitted Card Data:', cardData);
 
         // Submit the data via cardService
         if (this.horizontalStepperForm.valid) {
             // Submit the data via cardService
             this.itotService.CreatePc(cardData).subscribe({
                 next: (response) => {
-                    console.log('PC created successfully', response);
+                    // console.log('PC created successfully', response);
                     this.alertService.triggerSuccess('PC created successfully');
                     this.dialogRef.close({ success: true }); // Close with success result
                 },
                 error: (error: HttpErrorResponse) => {
-                    console.error('Error creating PC', error.error);
+                    // console.error('Error creating PC', error.error);
         
                     // Check if error contains a specific message
                     let errorMessage = 'An unexpected error occurred.';
@@ -305,7 +305,7 @@ export class PcModalCreateComponent implements OnInit {
                 },
             });
         } else {
-            console.log('Form is invalid');
+            // console.log('Form is invalid');
             this.alertService.triggerError(
                 'Please complete the form correctly.'
             );
