@@ -1,0 +1,118 @@
+<mat-sidenav-container class="sidenav-container">
+    <!-- Sidebar Icon Button (Not toggling the panel) -->
+    <button mat-icon-button class="absolute top-4 right-4">
+        <mat-icon svgIcon="feather:sidebar"></mat-icon>
+    </button>
+
+    <!-- In side-panel-computer.component.html -->
+    <mat-sidenav #sidenav mode="over" position="end" [(opened)]="isPanelOpen">
+        <div class="p-3">
+            <div class="flex items-center justify-end">
+                <button mat-icon-button (click)="closeSidenav()">
+                    <mat-icon [svgIcon]="'heroicons_outline:x'"></mat-icon>
+                </button>
+            </div>
+
+            <!-- Add the filter toggle group here -->
+            <div class="text-lg font-medium uppercase flex text-gray-900">
+                <mat-icon
+                    svgIcon="mat_outline:filter_alt"
+                    class="text-gray-900"
+                ></mat-icon>
+                Filter by Type
+            </div>
+            <!-- <mat-button-toggle-group
+            class="gap-3 text-gray-900 w-full mt-4 custom-toggle-group column-layout"
+            name="typeFilter"
+            aria-label="Type Filter"
+            [(ngModel)]="selectedTypeToggle"
+            (change)="onTypeSelected()"
+            multiple
+        >
+            <mat-button-toggle
+                *ngFor="let type of allTypes"
+                class="custom-toggle-button"
+                [value]="type"
+            >
+                <mat-icon
+                    *ngIf="selectedTypeToggle.includes(type)"
+                    class="ml-2 icon-size-3"
+                    svgIcon="mat_outline:check"
+                ></mat-icon>
+                {{ type }}
+            </mat-button-toggle>
+        </mat-button-toggle-group> -->
+        <div class="flex flex-col gap-3 w-full mt-4">
+            <button
+                *ngFor="let type of allTypes"
+                class="custom-button rounded-sm"
+                [ngClass]="{ selected: selectedTypeToggle.includes(type) }"
+                (click)="toggleType(type)"
+            >
+                <!-- Show check icon if selected -->
+                <mat-icon
+                    svgIcon="mat_outline:check"
+                    *ngIf="selectedTypeToggle.includes(type)"
+                    class="mr-2 icon-size-3 text-white"
+                ></mat-icon>
+        
+                <!-- Show appropriate icons based on type -->
+                <mat-icon
+                    *ngIf="type === 'CPU'"
+                    svgIcon="feather:cpu"
+                    class="icon-size-3 mr-2"
+                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
+                ></mat-icon>
+        
+                <mat-icon
+                    *ngIf="type === 'LAPTOP'"
+                    svgIcon="mat_outline:computer"
+                    class="icon-size-3 mr-2"
+                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
+                ></mat-icon>
+        
+                <mat-icon
+                    *ngIf="type === 'HDD'"
+                    svgIcon="feather:hard-drive"
+                    class="icon-size-3 mr-2"
+                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
+                ></mat-icon>
+        
+                <mat-icon
+                    *ngIf="type === 'SSD'"
+                    svgIcon="feather:server"
+                    class="icon-size-3 mr-2"
+                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
+                ></mat-icon>
+        
+                <mat-icon
+                    *ngIf="type === 'RAM'"
+                    svgIcon="mat_outline:memory"
+                    class="icon-size-3 mr-2"
+                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
+                ></mat-icon>
+        
+                <mat-icon
+                    *ngIf="type === 'BOARD'"
+                    svgIcon="mat_outline:developer_board"
+                    class="icon-size-3 mr-2"
+                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
+                ></mat-icon>
+        
+                <mat-icon
+                    *ngIf="type === 'GPU'"
+                    svgIcon="mat_outline:graphic_eq"
+                    class="icon-size-3 mr-2"
+                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
+                ></mat-icon>
+        
+                {{ type }}
+            </button>
+        </div>
+        
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <ng-content></ng-content>
+    </mat-sidenav-content>
+</mat-sidenav-container>

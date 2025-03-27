@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { AssetsService } from 'app/services/assets/assets.service';
 import { Assets } from 'app/models/Inventory/Asset';
 import { AssetResponse } from 'app/models/Inventory/AssetResponse';
 import { FormControl } from '@angular/forms';
@@ -14,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ModalUniversalComponent } from '../../components/modal/modal-universal/modal-universal.component';
 import { ModalRemarksUniversalComponent } from '../../components/modal/modal-remarks-universal/modal-remarks-universal.component';
+import { SidePanelComputerComponent } from './side-panel-computer/side-panel-computer.component';
 
 @Component({
     selector: 'app-computers-list',
@@ -49,7 +49,7 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
-
+    @ViewChild('sidePanel') sidePanel!: SidePanelComputerComponent;
     constructor(
         private assetService: ComputerService,
         private alertService: AlertService,
@@ -72,6 +72,10 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
             this.applyTypeFilter(value);
         });
     }
+
+    loadPanel(): void {
+        this.sidePanel.openPanel();
+    }    
 
     private _filter(value: string): string[] {
         const filterValue = value.toLowerCase();
@@ -103,11 +107,23 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
         });
     }
 
-    loadAssets(pageIndex: number, pageSize: number, typeFilter?: string[], fetchAll?: boolean): void {
+    loadAssets(
+        pageIndex: number,
+        pageSize: number,
+        typeFilter?: string[],
+        fetchAll?: boolean
+    ): void {
         this.isLoading = true;
 
         this.assetService
-            .getAssets(pageIndex, pageSize, this.sortOrder, this.searchTerm, typeFilter, fetchAll)
+            .getAssets(
+                pageIndex,
+                pageSize,
+                this.sortOrder,
+                this.searchTerm,
+                typeFilter,
+                fetchAll
+            )
             .subscribe({
                 next: (response: AssetResponse) => {
                     // console.log('API Response:', response);
@@ -182,28 +198,22 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
         );
     }
 
-    onTypeSelected(selectedType?: string): void {
-        if (selectedType) {
-            this.selectedTypeToggle = [selectedType]; // Set selected type in the toggle buttons
+    onTypeSelected(selectedTypes?: string[]): void {
+        if (selectedTypes) {
+            this.selectedTypeToggle = selectedTypes;
         }
-    
-        // Set the filter predicate to check the selected types
+
         this.dataSource.filterPredicate = (data: Assets) => {
-            // If no filters are selected, show all data
             if (!this.selectedTypeToggle.length) {
                 return true;
             }
-            // Return true if the data type is in the selected filters
             return this.selectedTypeToggle.includes(data.type);
         };
-    
-        // Update the filter value to ensure Angular detects changes
-        this.dataSource.filter = JSON.stringify(this.selectedTypeToggle);
 
-        // Load data from server with the selected filter
-        this.loadAssets(1, this.pageSize, this.selectedTypeToggle, true); // fetchAll set to true
+        this.dataSource.filter = JSON.stringify(this.selectedTypeToggle);
+        this.loadAssets(1, this.pageSize, this.selectedTypeToggle, true);
     }
-    
+
     isValidDate(date: any): boolean {
         return date && !isNaN(new Date(date).getTime());
     }
@@ -238,75 +248,78 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
             },
         });
     }
-  
-  // Method to open the remarks modal
-  openRemarkModal(id: number): void {
-    const dialogRef = this.dialog.open(ModalRemarksUniversalComponent, {
-      width: '400px',
-      data: { id,
-         title: 'Set remark for computer' 
-      }, // Pass the ID to the modal
-    });
 
-    // Handle the modal result after it's closed
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        // console.log('Remark Submitted:', result);
-        this.submitRemark(result.id, result.remark); // Handle the submission logic here
-      }
-    });
-  }
+    // Method to open the remarks modal
+    openRemarkModal(id: number): void {
+        const dialogRef = this.dialog.open(ModalRemarksUniversalComponent, {
+            width: '400px',
+            data: { id, title: 'Set remark for computer' }, // Pass the ID to the modal
+        });
 
-  // Method to submit the remark to the API
-  submitRemark(id: number, remark: string): void {
-    // Ensure the remark is not null, undefined, or empty (even after trimming)
-    const trimmedRemark = (remark || '').trim();
-  
-    if (trimmedRemark.length > 0) {
-      const updatedAsset = {
-        asset_id: id.toString(),
-        updated_by: "Admin",
-        remarks: trimmedRemark,
-        department: "",
-        type: "",
-        date_updated: new Date().toISOString().split('T')[0], // YYYY-MM-DD format
-        asset_barcode: "",
-        brand: "",
-        model: "",
-        ram: "",
-        hdd: "",
-        ssd: "",
-        gpu: "",
-        motherboard: "",
-        size: "",
-        color: "",
-        serial_no: "",
-        po: "",
-        warranty: "",
-        cost: 0,
-        history: ["Asset remarks updated on " + new Date().toISOString().split('T')[0]],
-        li_description: "",
-        company: "",
-        user_name: "",
-        date_acquired: ""
-      };
-  
-    //   console.log('Submitting remark:', updatedAsset);
-  
-      // Call the API to update the asset
-      this.assetService.putEvent(id.toString(), updatedAsset).subscribe({
-        next: (response) => {
-        //   console.log('Remark successfully submitted:', response);
-          this.alertService.triggerSuccess('Remark submitted successfully!');
-        },
-        error: (err) => {
-        //   console.error('Error submitting remark:', err);
-          this.alertService.triggerError('Failed to submit remark.');
-        },
-      });
-    } else {
-    //   console.log('Remark cannot be empty.');
-      this.alertService.triggerError('Remark cannot be empty.');
+        // Handle the modal result after it's closed
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                // console.log('Remark Submitted:', result);
+                this.submitRemark(result.id, result.remark); // Handle the submission logic here
+            }
+        });
     }
-  }
+
+    // Method to submit the remark to the API
+    submitRemark(id: number, remark: string): void {
+        // Ensure the remark is not null, undefined, or empty (even after trimming)
+        const trimmedRemark = (remark || '').trim();
+
+        if (trimmedRemark.length > 0) {
+            const updatedAsset = {
+                asset_id: id.toString(),
+                updated_by: 'Admin',
+                remarks: trimmedRemark,
+                department: '',
+                type: '',
+                date_updated: new Date().toISOString().split('T')[0], // YYYY-MM-DD format
+                asset_barcode: '',
+                brand: '',
+                model: '',
+                ram: '',
+                hdd: '',
+                ssd: '',
+                gpu: '',
+                motherboard: '',
+                size: '',
+                color: '',
+                serial_no: '',
+                po: '',
+                warranty: '',
+                cost: 0,
+                history: [
+                    'Asset remarks updated on ' +
+                        new Date().toISOString().split('T')[0],
+                ],
+                li_description: '',
+                company: '',
+                user_name: '',
+                date_acquired: '',
+            };
+
+            //   console.log('Submitting remark:', updatedAsset);
+
+            // Call the API to update the asset
+            this.assetService.putEvent(id.toString(), updatedAsset).subscribe({
+                next: (response) => {
+                    //   console.log('Remark successfully submitted:', response);
+                    this.alertService.triggerSuccess(
+                        'Remark submitted successfully!'
+                    );
+                },
+                error: (err) => {
+                    //   console.error('Error submitting remark:', err);
+                    this.alertService.triggerError('Failed to submit remark.');
+                },
+            });
+        } else {
+            //   console.log('Remark cannot be empty.');
+            this.alertService.triggerError('Remark cannot be empty.');
+        }
+    }
 }

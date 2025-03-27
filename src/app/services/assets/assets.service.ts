@@ -19,7 +19,9 @@ export class AssetsService {
         pageNumber: number,
         pageSize: number,
         sortOrder: string,
-        searchTerm?: string
+        searchTerm?: string,
+        typeFilter?: string[],
+        fetchAll?: boolean
     ): Observable<any> {
         // Ensure pageNumber is never less than 1
         pageNumber = Math.max(1, pageNumber);

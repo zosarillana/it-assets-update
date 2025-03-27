@@ -11,6 +11,7 @@ import { map, startWith } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalUniversalComponent } from '../../components/modal/modal-universal/modal-universal.component';
 import { AlertService } from 'app/services/alert.service';
+import { SidePanelComputerComponent } from '../../assets-computers/computers-list/side-panel-computer/side-panel-computer.component';
 
 @Component({
     selector: 'app-inventory-list',
@@ -46,6 +47,7 @@ export class InventoryListComponent implements OnInit, AfterViewInit {
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
+    @ViewChild('sidePanel') sidePanel!: SidePanelComputerComponent;
 
     constructor(
         private assetService: AssetsService,
@@ -99,11 +101,27 @@ export class InventoryListComponent implements OnInit, AfterViewInit {
         });
     }
 
-    loadAssets(pageIndex: number, pageSize: number): void {
+    loadPanel(): void {
+        this.sidePanel.openPanel();
+    }
+
+    loadAssets(
+        pageIndex: number,
+        pageSize: number,
+        typeFilter?: string[],
+        fetchAll?: boolean
+    ): void {
         this.isLoading = true;
 
         this.assetService
-            .getAssets(pageIndex, pageSize, this.sortOrder, this.searchTerm)
+            .getAssets(
+                pageIndex,
+                pageSize,
+                this.sortOrder,
+                this.searchTerm,
+                typeFilter,
+                fetchAll
+            )
             .subscribe({
                 next: (response: AssetResponse) => {
                     // console.log('API Response:', response);
@@ -175,24 +193,20 @@ export class InventoryListComponent implements OnInit, AfterViewInit {
     }
 
     // New method to handle selection from autocomplete
-    onTypeSelected(selectedType?: string): void {
-        // If selectedType is provided from autocomplete, use it
-        if (selectedType) {
-            this.selectedTypeToggle = [selectedType]; // Set it in the toggle buttons
+    onTypeSelected(selectedTypes?: string[]): void {
+        if (selectedTypes) {
+            this.selectedTypeToggle = selectedTypes;
         }
 
-        // Create a filter predicate that checks for the selected types
         this.dataSource.filterPredicate = (data: Assets) => {
-            // If no filters are selected, show all data
-            if (this.selectedTypeToggle.length === 0) {
+            if (!this.selectedTypeToggle.length) {
                 return true;
             }
-            // Filter the table based on selected types
             return this.selectedTypeToggle.includes(data.type);
         };
 
-        // Apply the filter
-        this.dataSource.filter = 'applyFilter'; // Triggers filtering
+        this.dataSource.filter = JSON.stringify(this.selectedTypeToggle);
+        this.loadAssets(1, this.pageSize, this.selectedTypeToggle, true);
     }
 
     isValidDate(date: any): boolean {

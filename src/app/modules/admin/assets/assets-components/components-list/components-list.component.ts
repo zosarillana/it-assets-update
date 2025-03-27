@@ -13,6 +13,7 @@ import { ComponentsService } from 'app/services/components/components.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalUniversalComponent } from '../../components/modal/modal-universal/modal-universal.component';
 import { AlertService } from 'app/services/alert.service';
+import { SidePanelComponentComponent } from './side-panel-component/side-panel-component.component';
 
 @Component({
     selector: 'app-components-list',
@@ -40,6 +41,7 @@ export class ComponentsListComponent implements OnInit {
     pageSizeOptions = [5, 10, 25, 50];
     isLoading = false;
     selectedTypeToggle: string[] = [];
+
     // Auto-complete
     typeFilterControl = new FormControl('');
     filteredTypeOptions: Observable<string[]>;
@@ -47,6 +49,7 @@ export class ComponentsListComponent implements OnInit {
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
+    @ViewChild('sidePanel') sidePanel!: SidePanelComponentComponent;
 
     constructor(private assetService: ComponentsService, private dialog: MatDialog, private alertService: AlertService ) {}
 
@@ -73,6 +76,11 @@ export class ComponentsListComponent implements OnInit {
         );
     }
 
+    
+    loadPanel(): void {
+        this.sidePanel.openPanel();
+    }
+
     //   loadAllTypes(): void {
     //       this.assetService.getAllTypes().subscribe({
     //           next: (types: string[]) => {
@@ -96,11 +104,24 @@ export class ComponentsListComponent implements OnInit {
         });
     }
 
-    loadAssets(pageIndex: number, pageSize: number): void {
+    
+    loadAssets(
+        pageIndex: number,
+        pageSize: number,
+        typeFilter?: string[],
+        fetchAll?: boolean
+    ): void {
         this.isLoading = true;
 
         this.assetService
-            .getComponents(pageIndex, pageSize, this.sortOrder, this.searchTerm)
+            .getComponents(
+                pageIndex,
+                pageSize,
+                this.sortOrder,
+                this.searchTerm,
+                typeFilter,
+                fetchAll
+            )
             .subscribe({
                 next: (response: AssetResponse) => {
                     // console.log('API Response:', response);
@@ -163,7 +184,7 @@ export class ComponentsListComponent implements OnInit {
 
         this.loadAssets(1, this.pageSize);
     }
-
+    
     filterTypes(value: string): string[] {
         const filterValue = value.toLowerCase();
         return this.allTypes.filter((type) =>
@@ -171,26 +192,24 @@ export class ComponentsListComponent implements OnInit {
         );
     }
 
+
     // New method to handle selection from autocomplete
-    onTypeSelected(selectedType?: string): void {
-        // If selectedType is provided from autocomplete, use it
-        if (selectedType) {
-            this.selectedTypeToggle = [selectedType]; // Set it in the toggle buttons
+    onTypeSelected(selectedTypes?: string[]): void {
+        if (selectedTypes) {
+            this.selectedTypeToggle = selectedTypes;
         }
 
-        // Create a filter predicate that checks for the selected types
         this.dataSource.filterPredicate = (data: Assets) => {
-            // If no filters are selected, show all data
-            if (this.selectedTypeToggle.length === 0) {
+            if (!this.selectedTypeToggle.length) {
                 return true;
             }
-            // Filter the table based on selected types
             return this.selectedTypeToggle.includes(data.type);
         };
 
-        // Apply the filter
-        this.dataSource.filter = 'applyFilter'; // Triggers filtering
+        this.dataSource.filter = JSON.stringify(this.selectedTypeToggle);
+        this.loadAssets(1, this.pageSize, this.selectedTypeToggle, true);
     }
+    
     isValidDate(date: any): boolean {
         return date && !isNaN(new Date(date).getTime());
     }

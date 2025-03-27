@@ -84,6 +84,9 @@ import { BusinessUnitsComponent } from '../masterdata/business-units/business-un
 import { ReturnFormComponent } from '../assets-accountability/forms/return-form/return-form.component';
 import { ViewReturnComponent } from '../assets-accountability/views/view-return/view-return.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SidePanelComputerComponent } from '../assets-computers/computers-list/side-panel-computer/side-panel-computer.component';
+import { SidePanelComponentComponent } from '../assets-components/components-list/side-panel-component/side-panel-component.component';
+import { SidePanelInventoryComponent } from '../assets-inventory/inventory-list/side-panel-inventory/side-panel-inventory.component';
 
 const assetRoute: Route[] = [
     // {
@@ -255,7 +258,10 @@ const assetRoute: Route[] = [
         BusinessUnitsComponent,
         ModalPullinComponentComponent,
         ReturnFormComponent,
-        ViewReturnComponent   
+        ViewReturnComponent,
+        SidePanelComputerComponent,
+        SidePanelComponentComponent,
+        SidePanelInventoryComponent
         // AlertsComponentComponent,
     ],
     imports: [
@@ -300,6 +306,7 @@ const assetRoute: Route[] = [
         MatSnackBarModule,
         MatListModule,
         MatProgressSpinnerModule,
+        MatSidenavModule,
         RouterModule.forChild(assetRoute),
     ],
     // schemas: [NO_ERRORS_SCHEMA] // Add this line
