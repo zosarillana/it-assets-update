@@ -1,0 +1,82 @@
+<div class="w-full h-full flex flex-col uppercase">
+    <form class="flex flex-col flex-grow bg-card shadow overflow-hidden">
+        <!-- Header Section -->
+        <div class="bg-gray-50 dark:bg-gray-700 p-8 border-t border-b">
+            <p class="text-lg font-semibold">Profile</p>
+            <p class="text-secondary">
+                Welcome to your profile! Here’s where you can manage your
+                personal information.
+            </p>
+        </div>
+
+        <!-- Content Section -->
+        <div class="grid grid-cols-12 gap-8 py-12">
+            <!-- Left Column -->
+            <!-- <div class="col-span-3 flex flex-col gap-4 items-center"> -->
+            <!-- Single Field -->
+            <!-- <div class="rounded-full">
+                    <img
+                        class="w-36 h-36 rounded-full ring-4 ring-bg-card"
+                        src="assets/images/avatars/lalaki.jpg"
+                        alt="User avatar"
+                    />
+                    <span class="flex mt-2 flex-col font-medium text-center"
+                        >Silent Sanctuary
+                        <span class="text-sm text-center text-secondary"
+                            >211-125</span
+                        >
+                    </span>
+                </div>
+            </div> -->
+
+            <!-- Right Column -->
+            <div class="col-span-12 lg:cok-span-9 flex flex-col gap-4 px-6">
+                <!-- Single Image -->
+                <div
+                    class="flex lg:flex-row items-center flex-col lg:items-start md:items-start rounded-full lg:justify-start"
+                >
+                    <img
+                        class="w-36 h-36 rounded-full ring-4 ring-bg-card border border-gray-200"
+                        [src]="user?.avatar"
+                        alt="User avatar"
+                    />
+                    <div class="flex flex-row lg:flex-col lg:pt-20 mt-4">
+                        <span
+                            class="px-6 flex text-lg flex-col font-semibold text-center lg:text-left md:text-left"
+                        >
+                            {{ user?.name }} - {{ user.employee_id }}
+                            <span class="text-md font-normal text-secondary">
+                                {{ user.designation }}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <mat-divider class="mt-4 mb-8"></mat-divider>
+                <!-- Row 1: Department, BU, Position -->
+                <div class="grid grid-cols-2 gap-4">
+                    <ng-container>
+                        <mat-form-field class="fuse-mat-dense">
+                            <mat-label>Role</mat-label>
+                            <input
+                                matInput
+                                class="uppercase"
+                                [value]="user.role"
+                                readonly
+                            />
+                        </mat-form-field>
+                        <mat-form-field class="fuse-mat-dense">
+                            <mat-label>Position</mat-label>
+                            <input
+                                matInput
+                                class="uppercase"
+                                [value]="user.designation"
+                                readonly
+                            />
+                        </mat-form-field>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col flex-grow"></div>
+    </form>
+</div>

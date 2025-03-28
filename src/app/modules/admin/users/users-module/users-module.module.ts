@@ -32,6 +32,10 @@ import { FuseCardModule } from '@fuse/components/card';
 import { FuseHighlightModule } from '@fuse/components/highlight';
 import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
 import { SharedModule } from 'app/shared/shared.module';
+import { UserSetttingsComponent } from 'app/layout/common/user/profile/user-setttings/user-setttings.component';
+import { SecurityComponent } from 'app/layout/common/user/profile/security/security.component';
+import { UserProfileComponent } from 'app/layout/common/user/profile/user-profile/user-profile.component';
+// import { ProfileComponent } from '../profile/profile.component';
 
 const userRoute: Route[] = [
     {
@@ -46,10 +50,22 @@ const userRoute: Route[] = [
         path: 'list/add',
         component: UsersAddComponent,
     },
+    //For profile
+    {
+        path: 'profile',
+        component: UserSetttingsComponent,
+    },
 ];
 
 @NgModule({
-    declarations: [UsersListComponent, UsersViewComponent, UsersAddComponent],
+    declarations: [
+        UsersListComponent,
+        UsersViewComponent,
+        UsersAddComponent,
+        UserSetttingsComponent,
+        SecurityComponent,
+        UserProfileComponent,
+    ],
     imports: [
         CommonModule,
         FuseAlertModule,
