@@ -14,32 +14,57 @@ import { Subject } from 'rxjs';
 import { AccountabilityApprovalService } from 'app/services/accountability/accountability-approval.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-// Interfaces
 interface Accountability {
-    owner: any;
-    assets: {
-        $id: string;
-        $values: AssetData[];
+    user_accountability_list: {
+        id: number;
+        accountability_code: string;
+        tracking_code: string;
+        date_created: string;
+        owner: {
+            id: number;
+            name: string;
+            company: string;
+            department: string;
+            employee_id: string | null;
+            designation: string | null;
+        };
     };
-    computers: {
-        $id: string;
-        $values: ComputerData[];
-    };
-    user_accountability_list: { id?: number };
+    computers: Array<ComputerData>;
 }
 
-interface AssetData {
+interface ComputerData {
     id: number;
     type: string;
     asset_barcode: string;
     brand: string;
     model: string;
+    size: string;
+    color: string;
+    serial_no: string | null;
     date_created: string;
-    history: {
-        $id: string;
+    date_acquired: string;
+    status: string;
+    history: null | {
         $values: string[];
     };
-    is_deleted: boolean;
+    assignedAssetDetails: AssignedAssetData[];
+    components: {
+        BOARD?: Array<ComponentDetail>;
+        RAM?: Array<ComponentDetail>;
+        HDD?: Array<ComponentDetail>;
+        SSD?: Array<ComponentDetail>;
+        GPU?: Array<ComponentDetail>;
+    };
+}
+
+interface ComponentDetail {
+    id: number;
+    uid: string;
+    description: string;
+    date_acquired: string;
+    asset_barcode: string;
+    cost: number;
+    status: string;
 }
 
 interface AssignedAssetData {
@@ -50,47 +75,40 @@ interface AssignedAssetData {
     model: string;
     date_acquired: string;
     status: string;
+    history_details: any[];
+    root_history: any[];
 }
 
-interface ComputerData {
+
+interface AccountabilityApproval {
     id: number;
-    type: string;
-    asset_barcode: string;
-    brand: string;
-    model: string;
-    date_created: string;
-    history: {
-        $id: string;
-        $values: string[];
+    accountability_id: number;
+    prepared_by_user_id?: number;
+    checked_by_user_id?: number;
+    approved_by_user_id?: number;
+    prepared_date?: string;
+    checked_date?: string;
+    approved_date?: string;
+    preparedByUser?: {
+        id: number;
+        name: string;
+        designation: string;
+        e_signature: string;
     };
-    is_deleted: boolean;
-    assignedAssetDetails?: {
-        $id: string;
-        $values: AssignedAssetData[];
+    checkedByUser?: {
+        id: number;
+        name: string;
+        designation: string;
+        e_signature: string;
     };
-    components?: {
-        ram?: ComponentData;
-        ssd?: ComponentData;
-        hdd?: ComponentData;
-        gpu?: ComponentData;
-        board?: ComponentData;
-    };
-}
-
-interface ComponentData {
-    idProperty: string;
-    values: {
-        $id: string;
-        $values: ComponentDetail[];
+    approvedByUser?: {
+        id: number;
+        name: string;
+        designation: string;
+        e_signature: string;
     };
 }
 
-interface ComponentDetail {
-    id: number;
-    description: string;
-    uid: string;
-    status: string;
-}
 
 @Component({
     selector: 'app-accountability-form',
@@ -108,7 +126,7 @@ export class AccountabilityFormComponent implements OnInit {
         'status',
     ];
     user: User;
-    dataSourceAssets = new MatTableDataSource<AssetData>();
+    // dataSourceAssets = new MatTableDataSource<AssetData>();
     dataSourceComputers = new MatTableDataSource<ComputerData>();
     dataSourceAssignedAssets = new MatTableDataSource<AssignedAssetData>();
     dataSourceAssignedComponents = new MatTableDataSource<ComponentDetail>();
@@ -142,111 +160,122 @@ export class AccountabilityFormComponent implements OnInit {
     asset!: Accountability;
 
     ngOnInit() {
-        this.getAccountabilityApproval(); // Load data automatically on component initialization
-
-        this.datenow = new Date().toLocaleString(); // Adjust format if needed
-
-        // Subscribe to the user service to get user data
+        // Get user data first
         this._userService.user$
-            .pipe(takeUntil(this._unsubscribeAll)) // Auto-unsubscribe when component is destroyed
+            .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((user: User) => {
                 this.user = user;
-                this.userId = user?.id ? Number(user.id) : null; // Convert to number
-                // console.log('🟢 User data loaded:', user);
+                this.userId = user?.id ? Number(user.id) : null;
             });
-
+    
+        // Get the ID from route
         const id = Number(this.route.snapshot.paramMap.get('id'));
-
+    
         if (id) {
-            this.loading = true; // Show loader before API call
-
+            this.loading = true;
+    
+            // Get accountability data
             this._service.getAccountabilityById(id).subscribe({
                 next: (data: any) => {
-                    // console.log('Fetched Data:', data);
                     this.asset = data;
-
-                    // ✅ Fix mapping of assets
-                    if (this.asset?.assets?.$values?.length) {
-                        this.dataSourceAssets.data = this.asset.assets.$values;
-                    }
-                    // console.log(
-                    //     'Assets Data Source:',
-                    //     this.dataSourceAssets.data
-                    // );
-
-                    // ✅ Fix mapping of computers
-                    if (this.asset?.computers?.$values?.length) {
-                        this.dataSourceComputers.data =
-                            this.asset.computers.$values;
-                    }
-                    // console.log(
-                    //     'Computers Data Source:',
-                    //     this.dataSourceComputers.data
-                    // );
-
+                    
+                    // Only call getAccountabilityApproval after asset is loaded
                     if (this.asset?.user_accountability_list?.id) {
-                        // console.log(
-                        //     '✅ Accountability ID Loaded:',
-                        //     this.asset.user_accountability_list.id
-                        // );
-                        this.getAccountabilityApproval(); // Call here!
+                        this.getAccountabilityApproval();
                     }
-
-                    // ✅ Fix Assigned Assets Mapping
+    
+                    // Update table data sources
+                    if (this.asset?.computers?.length) {
+                        this.dataSourceComputers.data = this.asset.computers;
+                    }
+    
                     let assignedAssets: AssignedAssetData[] = [];
-                    this.dataSourceComputers.data.forEach((computer) => {
-                        if (computer.assignedAssetDetails?.$values?.length) {
-                            assignedAssets.push(
-                                ...computer.assignedAssetDetails.$values
-                            );
+                    this.asset?.computers?.forEach(computer => {
+                        if (computer.assignedAssetDetails?.length) {
+                            assignedAssets.push(...computer.assignedAssetDetails);
                         }
                     });
                     this.dataSourceAssignedAssets.data = assignedAssets;
-                    // console.log(
-                    //     'Assigned Assets Data Source:',
-                    //     this.dataSourceAssignedAssets.data
-                    // );
-
-                    // ✅ Fix Components Mapping
+    
                     let assignedComponents: ComponentDetail[] = [];
-                    this.dataSourceComputers.data.forEach((computer) => {
+                    this.asset?.computers?.forEach(computer => {
                         if (computer.components) {
-                            const componentTypes = [
-                                'RAM',
-                                'SSD',
-                                'HDD',
-                                'GPU',
-                                'BOARD',
-                            ];
-                            componentTypes.forEach((type) => {
-                                const componentData = computer.components[type];
-                                if (componentData?.$values?.length) {
-                                    assignedComponents.push(
-                                        ...componentData.$values.map(
-                                            (component) => ({
-                                                ...component,
-                                                type: type.toUpperCase(),
-                                            })
-                                        )
-                                    );
+                            Object.entries(computer.components).forEach(([type, components]) => {
+                                if (Array.isArray(components)) {
+                                    assignedComponents.push(...components.map(component => ({
+                                        ...component,
+                                        type: type.toUpperCase()
+                                    })));
                                 }
                             });
                         }
                     });
                     this.dataSourceAssignedComponents.data = assignedComponents;
-                    // console.log(
-                    //     'Assigned Components Data Source:',
-                    //     this.dataSourceAssignedComponents.data
-                    // );
-
-                    this.loading = false; // Hide loader after data is loaded
+    
+                    this.loading = false;
                 },
                 error: (err) => {
                     console.error('Error fetching asset', err);
-                    this.loading = false; // Hide loader on error
-                },
+                    this.loading = false;
+                }
             });
         }
+    }
+    
+    getAccountabilityApproval(): void {
+        const accountabilityId = this.asset?.user_accountability_list?.id;
+    
+        if (!accountabilityId) {
+            console.warn('No accountability ID available');
+            return;
+        }
+    
+        this.accountabilityApprovalService
+            .getByAccountabilityId(accountabilityId)
+            .subscribe({
+                next: (response: any) => {
+                    if (!response) {
+                        this.accountabilityApproval = null;
+                        return;
+                    }
+    
+                    // Map the response to match your interface
+                    this.accountabilityApproval = {
+                        id: response.id,
+                        accountability_id: response.accountability_id,
+                        prepared_by_user_id: response.prepared_by_user_id ? Number(response.prepared_by_user_id) : undefined,
+                        approved_by_user_id: response.approved_by_user_id ? Number(response.approved_by_user_id) : undefined,
+                        prepared_date: response.prepared_date,
+                        approved_date: response.approved_date,
+                        preparedByUser: response.preparedByUser ? {
+                            id: Number(response.preparedByUser.employee_id), // Using employee_id as id
+                            name: response.preparedByUser.name,
+                            designation: response.preparedByUser.designation,
+                            e_signature: response.preparedByUser.e_signature
+                        } : undefined,
+                        approvedByUser: response.approvedByUser ? {
+                            id: Number(response.approvedByUser.employee_id),
+                            name: response.approvedByUser.name,
+                            designation: response.approvedByUser.designation,
+                            e_signature: response.approvedByUser.e_signature
+                        } : undefined
+                    };
+    
+                    console.log('Mapped accountability approval:', this.accountabilityApproval);
+                },
+                error: (error) => {
+                    console.error('Error fetching accountability approval:', error);
+                    this.accountabilityApproval = null;
+                }
+            });
+    }
+    
+    // Add helper method for handling file paths
+    getFileName(path: string | undefined): string {
+        if (!path) return '';
+        // Extract just the filename from the full path
+        const parts = path.split('\\');
+        return parts[parts.length - 1];
     }
 
     // Function to generate the PDF
@@ -350,58 +379,59 @@ export class AccountabilityFormComponent implements OnInit {
         }
     }
 
-    getAccountabilityApproval(): void {
-        const accountabilityId = this.asset?.user_accountability_list?.id
-            ? Number(this.asset.user_accountability_list.id)
-            : null;
-
-        if (!accountabilityId || isNaN(accountabilityId)) {
-            return;
-        }
-
-        this.accountabilityApprovalService
-            .getByAccountabilityId(accountabilityId)
-            .subscribe(
-                (response) => {
-                    if (
-                        !response ||
-                        (Array.isArray(response) && response.length === 0)
-                    ) {
-                        return;
-                    }
-
-                    // If response is an array, filter to get the correct entry
-                    this.accountabilityApproval = Array.isArray(response)
-                        ? response.find(
-                              (item) =>
-                                  item.accountability_id === accountabilityId
-                          )
-                        : response;
-
-                    // Ensure checkedByUser is correctly assigned
-                    if (this.accountabilityApproval?.checked_by_user_id) {
-                        this.accountabilityApproval.checkedByUser = {
-                            id: this.accountabilityApproval.checked_by_user_id,
-                            name:
-                                this.accountabilityApproval.checkedByUser
-                                    ?.name || 'N/A',
-                            designation:
-                                this.accountabilityApproval.checkedByUser
-                                    ?.designation || 'N/A',
-                            e_signature:
-                                this.accountabilityApproval.checkedByUser
-                                    ?.e_signature || null,
-                        };
-                    }
-                },
-                (error) => {
-                    console.error(
-                        'Error fetching accountability approval:',
-                        error
-                    );
-                }
-            );
-    }
+    // getAccountabilityApproval(): void {
+    //     const accountabilityId = this.asset?.user_accountability_list?.id
+    //         ? Number(this.asset.user_accountability_list.id)
+    //         : null;
+    
+    //     if (!accountabilityId || isNaN(accountabilityId)) {
+    //         return;
+    //     }
+    
+    //     this.accountabilityApprovalService
+    //         .getByAccountabilityId(accountabilityId)
+    //         .subscribe({
+    //             next: (response: any) => {
+    //                 if (!response || (Array.isArray(response) && response.length === 0)) {
+    //                     this.accountabilityApproval = null;
+    //                     return;
+    //                 }
+    
+    //                 // If response is an array, get the correct entry
+    //                 const approval = Array.isArray(response)
+    //                     ? response.find(item => item.accountability_id === accountabilityId)
+    //                     : response;
+    
+    //                 if (!approval) {
+    //                     this.accountabilityApproval = null;
+    //                     return;
+    //                 }
+    
+    //                 // Map the response to match our interface
+    //                 this.accountabilityApproval = {
+    //                     ...approval,
+    //                     preparedByUser: approval.prepared_by_user ? {
+    //                         id: approval.prepared_by_user.id,
+    //                         name: approval.prepared_by_user.name || 'N/A',
+    //                         designation: approval.prepared_by_user.designation || 'N/A',
+    //                         e_signature: approval.prepared_by_user.e_signature || null
+    //                     } : null,
+    //                     checkedByUser: approval.checked_by_user ? {
+    //                         id: approval.checked_by_user.id,
+    //                         name: approval.checked_by_user.name || 'N/A',
+    //                         designation: approval.checked_by_user.designation || 'N/A',
+    //                         e_signature: approval.checked_by_user.e_signature || null
+    //                     } : null
+    //                 };
+    
+    //                 console.log('Mapped accountability approval:', this.accountabilityApproval);
+    //             },
+    //             error: (error) => {
+    //                 console.error('Error fetching accountability approval:', error);
+    //                 this.accountabilityApproval = null;
+    //             }
+    //         });
+    // }
 
     preparedByUser(): void {
         // console.log(
@@ -529,5 +559,5 @@ export class AccountabilityFormComponent implements OnInit {
     }
 
     //image getter url
-    public imageUrl: string = 'https://localhost:7062/api/images/esignature';
+    public imageUrl: string = 'https://localhost:7062/api/api/Image/esignature';
 }

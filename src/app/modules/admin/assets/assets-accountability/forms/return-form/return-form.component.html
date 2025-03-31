@@ -201,17 +201,14 @@
 
                         <div
                             class="overflow-x-auto"
-                            *ngIf="
-                                accountabilityItem?.computers?.$values?.length
-                            "
+                            *ngIf="accountabilityItem?.computers?.length"
+
                         >
-                            <mat-table
-                                [dataSource]="
-                                    accountabilityItem.computers.$values
-                                "
-                                matSort
-                                class="mat-elevation-z8 custom-mat-table"
-                            >
+                        <mat-table
+                        [dataSource]="accountabilityItem.computers"
+                        matSort
+                        class="mat-elevation-z8 custom-mat-table"
+                    >
                                 <!-- Returned Column -->
                                 <ng-container matColumnDef="returned">
                                     <mat-header-cell
@@ -225,10 +222,10 @@
                                     >
                                         <!-- Computer Checkbox -->
                                         <mat-checkbox
-                               
-                                            [(ngModel)]="computer.checked"
-                                            class="w-6 h-6"
-                                        ></mat-checkbox>
+    [(ngModel)]="computer.checked"
+    (change)="updateButtonState()"
+    class="w-6 h-6"
+></mat-checkbox>
                                     </mat-cell>
                                 </ng-container>
 
@@ -394,15 +391,17 @@
                                         class="text-xs"
                                         *matHeaderCellDef
                                         mat-sort-header
-                                        >Component Type</mat-header-cell
                                     >
+                                        Component Type
+                                    </mat-header-cell>
                                     <mat-cell
                                         class="text-xs text-gray-700"
                                         *matCellDef="let component"
                                     >
-                                        {{ component.componentType }}
+                                        {{ getComponentType(component.componentType) }}
                                     </mat-cell>
                                 </ng-container>
+                                
 
                                 <!-- Returned Column -->
                                 <ng-container matColumnDef="returned">
@@ -417,9 +416,9 @@
                                     >
                                         <!-- Component Checkbox -->
                                         <mat-checkbox
-                                        
-                                            [(ngModel)]="component.checked"
-                                        ></mat-checkbox>
+    [(ngModel)]="component.checked"
+    (change)="updateButtonState()"
+></mat-checkbox>
                                     </mat-cell>
                                 </ng-container>
 
@@ -547,7 +546,7 @@
                         <div
                             class="overflow-x-auto"
                             *ngIf="
-                                accountabilityItem?.computers?.$values?.length
+                                accountabilityItem?.computers?.length
                             "
                         >
                             <!-- Assets Table -->
@@ -563,10 +562,10 @@
                                     >
                                     <mat-cell *matCellDef="let asset">
                                         <mat-checkbox
-                                     
-                                            [(ngModel)]="asset.checked"
-                                            class="w-6 h-6 rounded-md accent-blue-600"
-                                        ></mat-checkbox>
+    [(ngModel)]="asset.checked"
+    (change)="updateButtonState()"
+    class="w-6 h-6 rounded-md accent-blue-600"
+></mat-checkbox>
                                     </mat-cell>
                                 </ng-container>
 

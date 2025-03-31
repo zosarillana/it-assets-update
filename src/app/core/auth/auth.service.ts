@@ -68,7 +68,7 @@ export class AuthService {
         }
     
         return this._httpClient
-            .post<{ token: string }>(`${this._apiBaseUrl}/Auth/login`, credentials)
+            .post<{ token: string }>(`${this._apiBaseUrl}/api/Auth/login`, credentials)
             .pipe(
                 map((response) => {
                     // console.log('🟢 Login Response:', response);

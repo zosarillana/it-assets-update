@@ -13,7 +13,7 @@ export class BusinessUnitService {
  constructor(private http: HttpClient) {}
  
    public getDepartments(): Observable<BusinessUnit[]> {
-     return this.http.get<any>(`${this.url}/BusinessUnits`).pipe(
+     return this.http.get<any>(`${this.url}/api/BusinessUnits`).pipe(
        map(response => {
          if (response.$values) {
            return response.$values; // If response has $values, return it

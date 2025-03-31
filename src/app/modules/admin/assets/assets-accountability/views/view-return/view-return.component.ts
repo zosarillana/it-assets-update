@@ -17,7 +17,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     templateUrl: './view-return.component.html',
     styleUrls: ['./view-return.component.scss'],
 })
+
+
 export class ViewReturnComponent implements OnInit {
+    
+    
+    
     returnItems: any[] = [];
     computers: any[] = [];
     components: any[] = [];
@@ -29,7 +34,7 @@ export class ViewReturnComponent implements OnInit {
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     // Image base URL
-    public imageUrl: string = 'https://localhost:7062/api/images/esignature';
+    public imageUrl: string = 'https://localhost:7062/api/api/images/esignature';
 
     constructor(
         private route: ActivatedRoute,
@@ -62,37 +67,80 @@ export class ViewReturnComponent implements OnInit {
     
     loading: boolean = false; // Add this line
     loadReturnItems(accountabilityId: number): void {
-        this.loading = true; // Show loader before API call
-
+        this.loading = true;
+        console.log('Loading items for accountability ID:', accountabilityId);
+    
         this.returnAccountabilityItemsService
             .getReturnItemsByAccountabilityId(accountabilityId)
             .subscribe({
                 next: (data: any) => {
-                    if (data && data.$values) {
-                        this.returnItems = data.$values;
-
-                        // 🔹 Filter items based on their `item_type`
-                        this.computers = this.returnItems.filter(
-                            (item) => item.item_type === 'Computers'
-                        );
-                        this.components = this.returnItems.filter(
-                            (item) => item.item_type === 'Components'
-                        );
-                        this.assets = this.returnItems.filter(
-                            (item) => item.item_type === 'Assets'
-                        );
-
-                        // console.log('Computers:', this.computers);
-                        // console.log('Components:', this.components);
-                        // console.log('Assets:', this.assets);
-                    } else {
-                        this.returnItems = [];
+                    console.log('Raw API Response:', data);
+    
+                    // Store the accountability data
+                    this.returnItems = [{
+                        accountability: {
+                            ...data.user_accountability_list,
+                            owner: data.user_accountability_list.owner
+                        },
+                        return_date: data.user_accountability_list.date_created
+                    }];
+                    console.log('Processed returnItems:', this.returnItems);
+    
+                    // Store the computers data
+                    if (data.computers && data.computers.length > 0) {
+                        this.computers = data.computers.map(computer => ({
+                            computer: {
+                                type: computer.type,
+                                model: computer.model,
+                                asset_barcode: computer.asset_barcode,
+                                brand: computer.brand
+                            },
+                            status: computer.status,
+                            remarks: computer.remarks || 'N/A'
+                        }));
+                        console.log('Processed computers:', this.computers);
+    
+                        // Map components from the first computer
+                        const computerComponents = data.computers[0].components;
+                        if (computerComponents) {
+                            this.components = [];
+                            Object.entries(computerComponents).forEach(([type, items]: [string, any[]]) => {
+                                items.forEach(item => {
+                                    this.components.push({
+                                        components: {
+                                            type: type,
+                                            uid: item.uid,
+                                            description: item.description,
+                                            cost: item.cost
+                                        },
+                                        status: item.status,
+                                        remarks: item.remarks || 'N/A'
+                                    });
+                                });
+                            });
+                            console.log('Processed components:', this.components);
+                        }
+    
+                        // Map assigned assets
+                        if (data.computers[0].assignedAssetDetails) {
+                            this.assets = data.computers[0].assignedAssetDetails.map(asset => ({
+                                asset: {
+                                    type: asset.type,
+                                    brand: asset.brand,
+                                    asset_barcode: asset.asset_barcode
+                                },
+                                status: asset.status,
+                                remarks: asset.remarks || 'N/A'
+                            }));
+                            console.log('Processed assets:', this.assets);
+                        }
                     }
-                    this.loading = false; // Hide loader on error
+    
+                    this.loading = false;
                 },
                 error: (error) => {
                     console.error('Error fetching return items:', error);
-                    this.loading = false; // Hide loader on error
+                    this.loading = false;
                 },
             });
     }

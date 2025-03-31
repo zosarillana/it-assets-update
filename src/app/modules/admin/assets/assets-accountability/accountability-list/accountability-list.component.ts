@@ -12,15 +12,35 @@ import { AlertService } from 'app/services/alert.service';
 import { Router } from '@angular/router';
 
 // Define an interface for your accountability item
+// interface AccountabilityItem {
+//     accountability_code: string;
+//     tracking_code: string;
+//     computer: string;
+//     assets: string;
+//     owner: string;
+//     department: string;
+//     status: string;
+// }
 interface AccountabilityItem {
-    accountability_code: string;
-    tracking_code: string;
-    computer: string;
-    assets: string;
-    owner: string;
-    department: string;
-    status: string;
+    user_accountability_list: {
+        id: number;
+        accountability_code: string;
+        tracking_code: string;
+        date_created: string;
+        is_active: boolean;
+    };
+    owner: {
+        id: number;
+        name: string;
+        company: string;
+        department: string;
+        employee_id: string | null;
+        designation: string | null;
+    };
+    assets: any[];
+    computers: any[];
 }
+
 
 @Component({
     selector: 'app-accountability-list',
@@ -99,21 +119,22 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
         
         this._service.getAllAccountability(pageIndex, pageSize, this.sortOrder, this.searchTerm).subscribe({
             next: (response: any) => {
-                if (response && response.items && response.items.$values) {
-                    // Assign data to the table's dataSource
-                    this.dataSource.data = response.items.$values as AccountabilityItem[];
+                // Assign data directly - no $values property in this response
+                this.dataSource.data = response.items as AccountabilityItem[];
     
-                    // Update total items for paginator
-                    this.totalItems = response.totalItems;
+                // Update total items for paginator
+                this.totalItems = response.totalItems;
+                if (this.paginator) {
                     this.paginator.length = this.totalItems;
-    
-                    // Extract unique accountability codes safely
-                    this.allTypes = [...new Set(
-                        this.dataSource.data
-                            .map(item => item.accountability_code)
-                            .filter(code => code != null)
-                    )];
                 }
+    
+                // Extract unique accountability codes safely
+                this.allTypes = [...new Set(
+                    this.dataSource.data
+                        .map(item => item.user_accountability_list?.accountability_code)
+                        .filter(code => code != null)
+                )];
+                
                 this.isLoading = false;
             },
             error: (error) => {

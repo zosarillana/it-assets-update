@@ -7,7 +7,7 @@ import { CardPcs } from 'app/models/Card';
 })
 export class CardService {
     // private url = 'https://localhost:7233';
-    private url = 'api';
+    private url = 'api/api';
 
     constructor(private http: HttpClient) {}
 

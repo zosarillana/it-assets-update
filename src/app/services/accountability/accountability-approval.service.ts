@@ -18,7 +18,7 @@ export class AccountabilityApprovalService {
   // }
   // Corrected Angular Service Code
   preparedByUser(accountabilityId: number, userId: string) {
-    const url = `${this.url}/AccountabilityApproval/prepared-by-user-id?accountabilityId=${accountabilityId}&userId=${userId}`;
+    const url = `${this.url}/api/AccountabilityApproval/prepared-by-user-id?accountabilityId=${accountabilityId}&userId=${userId}`;
     
     // console.log('Sending preparedByUser request with:', { accountabilityId, userId });
   
@@ -28,10 +28,10 @@ export class AccountabilityApprovalService {
 
   // Approved by User
   approvedByUser(approvalId: number, userId: string): Observable<any> {
-    return this.http.put(`${this.url}/AccountabilityApproval/approved-by-user-id?id=${approvalId}&userId=${userId}`, {});
+    return this.http.put(`${this.url}/api/AccountabilityApproval/approved-by-user-id?id=${approvalId}&userId=${userId}`, {});
   }
 
   getByAccountabilityId(accountabilityId: number) {
-    return this.http.get<any>(`${this.url}/AccountabilityApproval/by-accountability/${accountabilityId}`);
+    return this.http.get<any>(`${this.url}/api/AccountabilityApproval/by-accountability/${accountabilityId}`);
   }
 }

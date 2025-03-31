@@ -13,6 +13,6 @@ export class ImportMasterdataService {
 
    // In your ItotService
    uploadExcelData(formData: FormData): Observable<any> {
-    return this.http.post(`${this.url}/Assets/import`, formData);
+    return this.http.post(`${this.url}/api/Asset/import`, formData);
   }
 }

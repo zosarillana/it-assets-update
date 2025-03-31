@@ -14,7 +14,7 @@ export class DepartmentService {
   constructor(private http: HttpClient) {}
 
   public getDepartments(): Observable<Department[]> {
-    return this.http.get<any>(`${this.url}/Departments`).pipe(
+    return this.http.get<any>(`${this.url}/api/Departments`).pipe(
       map(response => {
         if (response.$values) {
           return response.$values; // If response has $values, return it

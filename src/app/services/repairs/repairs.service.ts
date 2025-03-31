@@ -14,7 +14,7 @@ export class RepairsService {
   constructor(private http: HttpClient) {}
 
   public getRepairLogsById(id: number): Observable<RepairLogs> {
-    return this.http.get<RepairLogs>(`${this.url}/RepairLogs/byComputer/${id}`);
+    return this.http.get<RepairLogs>(`${this.url}/api/RepairLogs/byComputer/${id}`);
   }
 
 }
