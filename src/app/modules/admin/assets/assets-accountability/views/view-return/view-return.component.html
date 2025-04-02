@@ -183,13 +183,11 @@
                                 (Desktop, Laptops, etc..)</span
                             >
                         </div>
-                        <div *ngIf="computers.length > 0">
-                            Length: {{computers.length}}
-                            First item: {{computers[0] | json}}
-                        <!-- <div
+                        
+                        <div
                             *ngIf="computers.length > 0"
                             class="overflow-x-auto uppercase"
-                        > -->
+                        >
                             <mat-table
                                 [dataSource]="computers"
                                 matSort

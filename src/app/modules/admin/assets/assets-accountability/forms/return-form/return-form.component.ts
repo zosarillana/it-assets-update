@@ -16,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ReturnFormComponent implements OnInit {
     asset: any;
-    accountabilityItem: any = { computers: { $values: [] } };
+    accountabilityItem: any = { computers: { $values: [] }, assets: { $values: [] } };
     isSubmitting: boolean = false;
     user: User;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -54,141 +54,124 @@ export class ReturnFormComponent implements OnInit {
     }
 
     fetchAccountabilityItem(id: number): void {
-      this.loading = true;
-  
-      this.accountabilityService.getAccountabilityById(id).subscribe({
-          next: (data) => {
-              console.log('Fetched accountability item:', data);
-              
-              if (!data) {
-                  this.loading = false;
-                  return;
-              }
-  
-              this.accountabilityItem = data;
-  
-              // ✅ Log the entire accountability item to check its structure
-              console.log('Accountability Item Structure:', this.accountabilityItem);
-              console.log('Assets:', this.accountabilityItem.assets?.$values);
-              console.log('Computers:', this.accountabilityItem.computers?.$values);
-              
-              // Initialize checkbox values for computers and their components
-              this.initializeCheckboxValues();
-              
-              // Separate deep copies for both tables
-              this.flattenComponents();
-  
-              // ✅ Check the structure of computers data
-              const computersArray =
-                  Array.isArray(this.accountabilityItem.computers)
-                      ? this.accountabilityItem.computers
-                      : this.accountabilityItem.computers?.$values
-                      ? this.accountabilityItem.computers.$values
-                      : [];
-              
-              console.log('Processed Computers Array:', computersArray);
-  
-              // Create deep copy safely
-              try {
-                  this.dataSource = new MatTableDataSource(
-                      JSON.parse(JSON.stringify(computersArray))
-                  );
-                  console.log('DataSource initialized successfully');
-              } catch (e) {
-                  console.error('Error creating data source:', e);
-                  this.dataSource = new MatTableDataSource([]);
-              }
-  
-              // ✅ Extract assigned assets with better error handling
-              try {
-                  const assignedAssets = [].concat(
-                      ...computersArray.map(
-                          (computer: any) =>
-                              computer.assignedAssetDetails?.$values ||
-                              (Array.isArray(computer.assignedAssetDetails)
-                                  ? computer.assignedAssetDetails
-                                  : [])
-                      )
-                  );
-                  console.log('Processed Assigned Assets:', assignedAssets);
-                  this.assetDataSource = new MatTableDataSource(assignedAssets);
-              } catch (e) {
-                  console.error('Error processing assigned assets:', e);
-                  this.assetDataSource = new MatTableDataSource([]);
-              }
-  
-              this.loading = false;
-          },
-          error: (error) => {
-              alert(`Failed to load accountability details: ${error.message}`);
-              this.loading = false;
-          },
-      });
-  }
+        this.loading = true;
+    
+        this.accountabilityService.getAccountabilityById(id).subscribe({
+            next: (data) => {
+                console.log('Fetched accountability item:', data);
+                
+                if (!data) {
+                    this.loading = false;
+                    return;
+                }
+    
+                this.accountabilityItem = data;
+    
+                // ✅ Log the entire accountability item to check its structure
+                console.log('Accountability Item Structure:', this.accountabilityItem);
+                console.log('Assets:', this.accountabilityItem.assets?.$values || 'No assets found');
+                console.log('Computers:', this.accountabilityItem.computers?.$values || 'No computers found');
+                console.log('Components:', this.accountabilityItem.computers?.map((computer: any) => computer.components));
+    
+                // Initialize checkbox values for computers and their components
+                this.initializeCheckboxValues();
+                
+                // Separate deep copies for both tables
+                this.flattenComponents();
+    
+                // ✅ Check the structure of computers data
+                const computersArray =
+                    Array.isArray(this.accountabilityItem.computers)
+                        ? this.accountabilityItem.computers
+                        : this.accountabilityItem.computers?.$values
+                        ? this.accountabilityItem.computers.$values
+                        : [];
+                
+                console.log('Processed Computers Array:', computersArray);
+    
+                // ✅ Check the structure of components data
+                const componentsArray = computersArray.flatMap(computer => {
+                    const { BOARD, HDD, RAM, SSD } = computer.components;
+                    return [...(BOARD || []), ...(HDD || []), ...(RAM || []), ...(SSD || [])];
+                });
+                console.log('Processed Components Array:', componentsArray);
+    
+                // Create deep copy safely
+                try {
+                    this.dataSource = new MatTableDataSource(
+                        JSON.parse(JSON.stringify(computersArray))
+                    );
+                    console.log('DataSource initialized successfully');
+                } catch (e) {
+                    console.error('Error creating data source:', e);
+                    this.dataSource = new MatTableDataSource([]);
+                }
+    
+                // ✅ Extract assigned assets with better error handling
+                try {
+                    const assignedAssets = [].concat(
+                        ...computersArray.map(
+                            (computer: any) =>
+                                computer.assignedAssetDetails?.$values ||
+                                (Array.isArray(computer.assignedAssetDetails)
+                                    ? computer.assignedAssetDetails
+                                    : [])
+                        )
+                    );
+                    console.log('Processed Assigned Assets:', assignedAssets);
+                    this.assetDataSource = new MatTableDataSource(assignedAssets);
+                } catch (e) {
+                    console.error('Error processing assigned assets:', e);
+                    this.assetDataSource = new MatTableDataSource([]);
+                }
+    
+                this.loading = false;
+            },
+            error: (error) => {
+                alert(`Failed to load accountability details: ${error.message}`);
+                this.loading = false;
+            },
+        });
+    }
 
     initializeCheckboxValues(): void {
-  
-      // Initialize computers
-      if (this.accountabilityItem.computers?.$values) {
-          this.accountabilityItem.computers.$values.forEach((computer: any) => {
-              console.log('Initializing computer:', computer.id);
-              computer.checked = false;
-              computer.condition = computer.condition || 'good'; // Default condition
-  
-              // Initialize assigned assets
-              if (computer.assignedAssetDetails?.$values) {
-                  computer.assignedAssetDetails.$values.forEach((asset: any) => {
-                      console.log('Initializing assigned asset:', asset.id);
-                      asset.checked = false;
-                      asset.condition = asset.condition || 'good';
-                  });
-              }
-  
-              // Initialize components
-              if (computer.components && typeof computer.components === 'object') {
-                  const componentTypes = Object.keys(computer.components);
-  
-                  for (const compType of componentTypes) {
-                      const componentType = computer.components[compType];
-                      console.log(`Initializing ${compType} components...`);
-  
-                      // Handle different possible component structures
-                      if (componentType?.values?.$values && Array.isArray(componentType.values.$values)) {
-                          componentType.values.$values.forEach((component: any) => {
-                              console.log('Initializing component:', component.id);
-                              component.checked = false;
-                              component.condition = component.condition || 'good';
-                          });
-                      } else if (componentType?.$values && Array.isArray(componentType.$values)) {
-                          componentType.$values.forEach((component: any) => {
-                              console.log('Initializing component:', component.id);
-                              component.checked = false;
-                              component.condition = component.condition || 'good';
-                          });
-                      } else if (Array.isArray(componentType)) {
-                          componentType.forEach((component: any) => {
-                              console.log('Initializing component:', component.id);
-                              component.checked = false;
-                              component.condition = component.condition || 'good';
-                          });
-                      }
-                  }
-              }
-          });
-      }
-  
-      // Initialize direct assets
-      if (this.accountabilityItem.assets?.$values) {
-          this.accountabilityItem.assets.$values.forEach((asset: any) => {
-              console.log('Initializing direct asset:', asset.id);
-              asset.checked = false;
-              asset.condition = asset.condition || 'good';
-          });
-      }
-  
-      console.log('Checkbox initialization complete');
-      this.cdr.detectChanges(); // Force UI update
-  }
+        // Initialize computers
+        if (this.accountabilityItem.computers?.$values) {
+            this.accountabilityItem.computers.$values.forEach((computer: any) => {
+                computer.checked = false;
+                computer.condition = computer.condition || 'good';
+    
+                // Initialize assigned assets
+                if (computer.assignedAssetDetails?.$values) {
+                    computer.assignedAssetDetails.$values.forEach((asset: any) => {
+                        asset.checked = false;
+                        asset.condition = asset.condition || 'good';
+                    });
+                }
+    
+                // Initialize components
+                if (computer.components && typeof computer.components === 'object') {
+                    Object.keys(computer.components).forEach((compType) => {
+                        const componentType = computer.components[compType];
+                        if (Array.isArray(componentType)) {
+                            componentType.forEach((component: any) => {
+                                component.checked = false;
+                                component.condition = component.condition || 'good';
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    
+        // Initialize direct assets
+        if (this.accountabilityItem.assets?.$values) {
+            this.accountabilityItem.assets.$values.forEach((asset: any) => {
+                asset.checked = false;
+                asset.condition = asset.condition || 'good';
+            });
+        }
+    }
 
     allCheckboxesChecked(): boolean {
   
@@ -244,99 +227,85 @@ export class ReturnFormComponent implements OnInit {
         return;
     }
 
+    const ownerId = this.accountabilityItem.user_accountability_list?.owner_id ?? null;
+
     this.isSubmitting = true;
 
     try {
         console.log('Starting checklist submission...');
 
-        // ✅ Ensure assets and computers data exist
-        console.log('Assets:', this.accountabilityItem.assets?.$values);
-        console.log('Computers:', this.accountabilityItem.computers?.$values);
+        // Ensure computers data exist
+        console.log('Accountability Item:', this.accountabilityItem);
+        console.log('Computers:', this.accountabilityItem.computers || 'No computers found');
 
-        // ✅ Process direct assets
-        const assetChecklist = (this.accountabilityItem.assets?.$values ?? []).map((asset: any) => {
-            const assetItem = {
-                accountability_id: this.accountabilityItem.user_accountability_list?.id ?? null,
-                user_id: this.user?.id ?? null,
-                asset_id: asset.id,
-                computer_id: null,
-                component_id: null,
-                item_type: 'Assets',
-                status: asset.checked !== undefined ? (asset.checked ? asset.condition : 'missing') : 'unchecked',
-                remarks: asset.remarks || '',
-                validated_by: 1,
-            };
-            console.log('Processing asset:', assetItem);
-            return assetItem;
-        });
+        // Process computers along with their assigned assets and components
+        const checklist: any[] = [];
+        if (this.accountabilityItem.computers && Array.isArray(this.accountabilityItem.computers)) {
+            for (const computer of this.accountabilityItem.computers) {
+                console.log('Processing computer:', computer);
 
-        // ✅ Process assigned assets from computers
-        const assignedAssetChecklist: any[] = [];
-        if (this.accountabilityItem.computers?.$values) {
-            for (const computer of this.accountabilityItem.computers.$values) {
-                if (computer.assignedAssetDetails?.$values) {
-                    for (const asset of computer.assignedAssetDetails.$values) {
+                // Process the computer itself
+                const computerItem = {
+                    accountability_id: this.accountabilityItem.user_accountability_list?.id ?? null,
+                    user_id: ownerId,
+                    asset_id: null,
+                    computer_id: computer.id,
+                    component_id: null,
+                    item_type: 'Computers',
+                    status: computer.checked ? computer.condition : 'missing',
+                    remarks: computer.remarks || '',
+                    validated_by: 1,
+                };
+                console.log('Computer item:', computerItem);
+                checklist.push(computerItem);
+
+                // Process assigned assets
+                if (computer.assignedAssetDetails && Array.isArray(computer.assignedAssetDetails)) {
+                    for (const asset of computer.assignedAssetDetails) {
                         const assignedAssetItem = {
                             accountability_id: this.accountabilityItem.user_accountability_list?.id ?? null,
-                            user_id: this.user?.id ?? null,
+                            user_id: ownerId,
                             asset_id: asset.id,
                             computer_id: computer.id,
                             component_id: null,
                             item_type: 'Assets',
-                            status: asset.checked !== undefined ? (asset.checked ? asset.condition : 'missing') : 'unchecked',
+                            status: asset.checked ? asset.condition : 'missing',
                             remarks: asset.remarks || '',
                             validated_by: 1,
                         };
-                        console.log('Processing assigned asset:', assignedAssetItem);
-                        assignedAssetChecklist.push(assignedAssetItem);
+                        console.log('Assigned asset item:', assignedAssetItem);
+                        checklist.push(assignedAssetItem);
                     }
+                }
+
+                // Process components
+                const { BOARD, HDD, RAM, SSD } = computer.components;
+                const componentsArray = [...(BOARD || []), ...(HDD || []), ...(RAM || []), ...(SSD || [])];
+                for (const component of componentsArray) {
+                    const componentItem = {
+                        accountability_id: this.accountabilityItem.user_accountability_list?.id ?? null,
+                        user_id: ownerId,
+                        asset_id: null,
+                        computer_id: computer.id,
+                        component_id: component.id,
+                        item_type: 'Components',
+                        status: component.checked ? component.condition : 'missing',
+                        remarks: component.remarks || '',
+                        validated_by: 1,
+                    };
+                    console.log('Component item:', componentItem);
+                    checklist.push(componentItem);
                 }
             }
         }
 
-        // ✅ Process computers
-        const computerChecklist = (this.accountabilityItem.computers?.$values ?? []).map((computer: any) => {
-            const computerItem = {
-                accountability_id: this.accountabilityItem.user_accountability_list?.id ?? null,
-                user_id: this.user?.id ?? null,
-                asset_id: null,
-                computer_id: computer.id,
-                component_id: null,
-                item_type: 'Computers',
-                status: computer.checked !== undefined ? (computer.checked ? computer.condition : 'missing') : 'unchecked',
-                remarks: computer.remarks || '',
-                validated_by: 1,
-            };
-            console.log('Processing computer:', computerItem);
-            return computerItem;
-        });
-
-        // ✅ Process components
-        const componentChecklist = this.flattenedComponents.map((component) => {
-            const componentItem = {
-                accountability_id: this.accountabilityItem.user_accountability_list?.id ?? null,
-                user_id: this.user?.id ?? null,
-                asset_id: null,
-                computer_id: component.computer_id,
-                component_id: component.id,
-                item_type: 'Components',
-                status: component.checked !== undefined ? (component.checked ? component.condition : 'missing') : 'unchecked',
-                remarks: component.remarks || '',
-                validated_by: 1,
-            };
-            console.log('Processing component:', componentItem);
-            return componentItem;
-        });
-
-        // ✅ Combine all checklists
-        const checklist = [...assetChecklist, ...assignedAssetChecklist, ...computerChecklist, ...componentChecklist];
         console.log('Final checklist to be submitted:', checklist);
 
         if (!checklist.length) {
             throw new Error('No items to return.');
         }
 
-        // ✅ Send data to API with better error handling
+        // Send data to API with better error handling
         const promises: Promise<any>[] = checklist.map((item) =>
             new Promise<any>((resolve) => {
                 console.log(`Submitting item of type ${item.item_type}:`, item);
@@ -355,13 +324,13 @@ export class ReturnFormComponent implements OnInit {
                             id: item.computer_id || item.asset_id || item.component_id,
                             error,
                         });
-                        resolve(null); // ✅ Ensures Promise.all() continues even if one item fails
+                        resolve(null); // Ensures Promise.all() continues even if one item fails
                     },
                 });
             })
         );
 
-        // ✅ Handle API responses
+        // Handle API responses
         Promise.all(promises)
             .then(() => {
                 this.isSubmitting = false;
