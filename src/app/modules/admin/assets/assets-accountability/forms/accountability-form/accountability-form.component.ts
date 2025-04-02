@@ -559,12 +559,7 @@ export class AccountabilityFormComponent implements OnInit {
         );
     }
 
-    public imageUrl: string = `${environment.apiUrl}/Image/esignature`;
-
-// Example function to load the image
-loadImage(imageId: string) {
-    const imageUrlWithId = `${this.imageUrl}/${imageId}`;
-    // Your code to fetch the image using the correct URL
-    console.log(imageUrlWithId); // For debugging purposes
-}
+    // Image base URL
+    public url = environment.apiUrl; // Use environment configuration
+    public imageUrl: string = `${this.url}/Image/esignature`;
 }
