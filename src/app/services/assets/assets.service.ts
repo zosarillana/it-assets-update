@@ -59,7 +59,7 @@ export class AssetsService {
     }
 
     public pullOutAsset(assetId: number, remark: string): Observable<any> {
-        return this.http.put(`${this.url}/Assets/pullout/${assetId}`, { remarks: remark });
+        return this.http.put(`${this.url}/Asset/pullout/${assetId}`, { remarks: remark });
     }
     
 
@@ -68,7 +68,7 @@ export class AssetsService {
     }    
     
     public pullInAssets(data: { computer_id: number; asset_ids: number[]; remarks: string }): Observable<any> {
-        return this.http.post(`${this.url}/Assets/pull_in_assets`, data);
+        return this.http.post(`${this.url}/Asset/pull_in_assets`, data);
     }
     
 }

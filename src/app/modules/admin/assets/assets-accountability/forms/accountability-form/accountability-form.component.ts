@@ -13,6 +13,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { AccountabilityApprovalService } from 'app/services/accountability/accountability-approval.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'environments/environment';
 
 interface Accountability {
     user_accountability_list: {
@@ -558,6 +559,12 @@ export class AccountabilityFormComponent implements OnInit {
         );
     }
 
-    //image getter url
-    public imageUrl: string = 'https://localhost:7062/api/api/Image/esignature';
+    public imageUrl: string = `${environment.apiUrl}/Image/esignature`;
+
+// Example function to load the image
+loadImage(imageId: string) {
+    const imageUrlWithId = `${this.imageUrl}/${imageId}`;
+    // Your code to fetch the image using the correct URL
+    console.log(imageUrlWithId); // For debugging purposes
+}
 }
