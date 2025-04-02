@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Assets } from 'app/models/Inventory/Asset';
 import { AssetResponse } from 'app/models/Inventory/AssetResponse';
+import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class ComponentsService {
 //  private url = 'https://localhost:7062';
-private url = 'api';
+private url = environment.apiUrl;  // Use environment configuration
     constructor(private http: HttpClient) {}
 
     public getComponents(
@@ -33,7 +34,7 @@ private url = 'api';
         }
 
         return this.http.get<AssetResponse>(
-            `${this.url}/api/ComputerComponents/Components`,
+            `${this.url}/ComputerComponents/Components`,
             { params }
         );
     }
@@ -42,27 +43,27 @@ private url = 'api';
     //     return this.http.get<Assets>(`${this.url}/api/ComputerComponents/${asset_barcode}?uid=${uid}`);
     // }
     getComponentsById(uid: string): Observable<Assets> {
-        return this.http.get<Assets>(`${this.url}/api/ComputerComponents/${uid}`);
+        return this.http.get<Assets>(`${this.url}/ComputerComponents/${uid}`);
     }
     
     public postEvent(data: any): Observable<any> {
-        return this.http.post(`${this.url}/api/ComputerComponents`, data);
+        return this.http.post(`${this.url}/ComputerComponents`, data);
     }
     
     public deleteEvent(id: string): Observable<any>{
-        return this.http.delete(`${this.url}/api/ComputerComponents/${id}`);
+        return this.http.delete(`${this.url}/ComputerComponents/${id}`);
     }
 
     public putEvent(id: string, data: any): Observable<any> {
-        return this.http.put(`${this.url}/api/ComputerComponents/${id}`, data);
+        return this.http.put(`${this.url}/ComputerComponents/${id}`, data);
     }  
     
     public pullOutComponent(id: number, remark: string): Observable<any> {
-        return this.http.put(`${this.url}/api/ComputerComponents/pullout/${id}`,{ remarks: remark });
+        return this.http.put(`${this.url}/ComputerComponents/pullout/${id}`,{ remarks: remark });
     }
     
     public pullInComponent(data: { computer_id: number; component_uid: string; remarks: string }): Observable<any> {
-        return this.http.post(`${this.url}/api/ComputerComponents/pull_in_component`, data);
+        return this.http.post(`${this.url}/ComputerComponents/pull_in_component`, data);
     }
     
     

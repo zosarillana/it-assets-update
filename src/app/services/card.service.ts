@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CardPcs } from 'app/models/Card';
+import { environment } from 'environments/environment';
 @Injectable({
     providedIn: 'root',
 })
 export class CardService {
     // private url = 'https://localhost:7233';
-    private url = 'api/api';
+    private url = environment.apiUrl;  // Use environment configuration
 
     constructor(private http: HttpClient) {}
 

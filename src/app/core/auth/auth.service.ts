@@ -4,11 +4,12 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError, switchMap, map } from 'rxjs/operators';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
-
+import { environment } from 'environments/environment';
 @Injectable()
 export class AuthService {
     private _authenticated: boolean = false;
-    private _apiBaseUrl: string = 'api';
+    // private _apiBaseUrl: string = 'api';
+    private _apiBaseUrl = environment.apiUrl;  // Use environment configuration
 
     /**
      * Constructor
@@ -68,7 +69,7 @@ export class AuthService {
         }
     
         return this._httpClient
-            .post<{ token: string }>(`${this._apiBaseUrl}/api/Auth/login`, credentials)
+            .post<{ token: string }>(`${this._apiBaseUrl}/Auth/login`, credentials)
             .pipe(
                 map((response) => {
                     // console.log('🟢 Login Response:', response);

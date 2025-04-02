@@ -2,13 +2,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Assets } from 'app/models/Inventory/Asset';
 import { AssetResponse } from 'app/models/Inventory/AssetResponse';
+import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
 })
 export class UsersService {
-    private url = 'api';
+    private url = environment.apiUrl; // Use environment configuration
 
     constructor(private http: HttpClient) {}
 
@@ -30,7 +31,7 @@ export class UsersService {
             params = params.set('searchTerm', searchTerm);
         }
 
-        return this.http.get<AssetResponse>(`${this.url}/api/Users`, {
+        return this.http.get<AssetResponse>(`${this.url}/Users`, {
             params,
         });
     }

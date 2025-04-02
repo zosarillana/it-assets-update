@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RepairLogs } from 'app/models/RepairLogs/RepairLogs';
+import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
 
@@ -9,12 +10,12 @@ import { Observable } from 'rxjs';
 })
 export class RepairsService {
   // private url = 'https://localhost:7062';
-  private url = 'api';
+  private url = environment.apiUrl;  // Use environment configuration
 
   constructor(private http: HttpClient) {}
 
   public getRepairLogsById(id: number): Observable<RepairLogs> {
-    return this.http.get<RepairLogs>(`${this.url}/api/RepairLogs/byComputer/${id}`);
+    return this.http.get<RepairLogs>(`${this.url}/RepairLogs/byComputer/${id}`);
   }
 
 }

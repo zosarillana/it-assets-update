@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ItotPc } from 'app/models/ItotPc';
 import { ItotPeripheral } from 'app/models/ItotPeripheral';
+import { environment } from 'environments/environment';
 
 @Injectable({
     providedIn: 'root',
 })
 export class ITOTService {
     // private url = 'https://localhost:7233';
-    private url = 'api/api';
+    private url = environment.apiUrl; // Use environment configuration
     constructor(private http: HttpClient) {}
 
     public getItots(): Observable<ItotPc[]> {

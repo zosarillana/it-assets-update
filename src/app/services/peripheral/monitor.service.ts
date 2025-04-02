@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ItotPc } from 'app/models/ItotPc';
 import { ItotPeripheral } from 'app/models/ItotPeripheral';
+import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MonitorService {
 //   private url = 'https://localhost:7233';
-  private url = 'api';
+  private url = environment.apiUrl;  // Use environment configuration
 
   constructor(private http: HttpClient) {}
 
