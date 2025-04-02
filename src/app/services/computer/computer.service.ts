@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Assets } from 'app/models/Inventory/Asset';
 import { AssetResponse } from 'app/models/Inventory/AssetResponse';
+import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class ComputerService {
     // private url = 'https://localhost:7062';
-    private url = 'api';
+    private url = environment.apiUrl;  // Use environment configuration
 
     constructor(private http: HttpClient) {}
 
