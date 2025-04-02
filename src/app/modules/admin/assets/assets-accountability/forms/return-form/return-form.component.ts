@@ -58,7 +58,7 @@ export class ReturnFormComponent implements OnInit {
     
         this.accountabilityService.getAccountabilityById(id).subscribe({
             next: (data) => {
-                console.log('Fetched accountability item:', data);
+                // console.log('Fetched accountability item:', data);
                 
                 if (!data) {
                     this.loading = false;
@@ -68,10 +68,10 @@ export class ReturnFormComponent implements OnInit {
                 this.accountabilityItem = data;
     
                 // ✅ Log the entire accountability item to check its structure
-                console.log('Accountability Item Structure:', this.accountabilityItem);
-                console.log('Assets:', this.accountabilityItem.assets?.$values || 'No assets found');
-                console.log('Computers:', this.accountabilityItem.computers?.$values || 'No computers found');
-                console.log('Components:', this.accountabilityItem.computers?.map((computer: any) => computer.components));
+                // console.log('Accountability Item Structure:', this.accountabilityItem);
+                // console.log('Assets:', this.accountabilityItem.assets?.$values || 'No assets found');
+                // console.log('Computers:', this.accountabilityItem.computers?.$values || 'No computers found');
+                // console.log('Components:', this.accountabilityItem.computers?.map((computer: any) => computer.components));
     
                 // Initialize checkbox values for computers and their components
                 this.initializeCheckboxValues();
@@ -87,21 +87,21 @@ export class ReturnFormComponent implements OnInit {
                         ? this.accountabilityItem.computers.$values
                         : [];
                 
-                console.log('Processed Computers Array:', computersArray);
+                // console.log('Processed Computers Array:', computersArray);
     
                 // ✅ Check the structure of components data
                 const componentsArray = computersArray.flatMap(computer => {
                     const { BOARD, HDD, RAM, SSD } = computer.components;
                     return [...(BOARD || []), ...(HDD || []), ...(RAM || []), ...(SSD || [])];
                 });
-                console.log('Processed Components Array:', componentsArray);
+                // console.log('Processed Components Array:', componentsArray);
     
                 // Create deep copy safely
                 try {
                     this.dataSource = new MatTableDataSource(
                         JSON.parse(JSON.stringify(computersArray))
                     );
-                    console.log('DataSource initialized successfully');
+                    // console.log('DataSource initialized successfully');
                 } catch (e) {
                     console.error('Error creating data source:', e);
                     this.dataSource = new MatTableDataSource([]);
@@ -118,7 +118,7 @@ export class ReturnFormComponent implements OnInit {
                                     : [])
                         )
                     );
-                    console.log('Processed Assigned Assets:', assignedAssets);
+                    // console.log('Processed Assigned Assets:', assignedAssets);
                     this.assetDataSource = new MatTableDataSource(assignedAssets);
                 } catch (e) {
                     console.error('Error processing assigned assets:', e);
@@ -232,17 +232,17 @@ export class ReturnFormComponent implements OnInit {
     this.isSubmitting = true;
 
     try {
-        console.log('Starting checklist submission...');
+        // console.log('Starting checklist submission...');
 
         // Ensure computers data exist
-        console.log('Accountability Item:', this.accountabilityItem);
-        console.log('Computers:', this.accountabilityItem.computers || 'No computers found');
+        // console.log('Accountability Item:', this.accountabilityItem);
+        // console.log('Computers:', this.accountabilityItem.computers || 'No computers found');
 
         // Process computers along with their assigned assets and components
         const checklist: any[] = [];
         if (this.accountabilityItem.computers && Array.isArray(this.accountabilityItem.computers)) {
             for (const computer of this.accountabilityItem.computers) {
-                console.log('Processing computer:', computer);
+                // console.log('Processing computer:', computer);
 
                 // Process the computer itself
                 const computerItem = {
@@ -256,7 +256,7 @@ export class ReturnFormComponent implements OnInit {
                     remarks: computer.remarks || '',
                     validated_by: 1,
                 };
-                console.log('Computer item:', computerItem);
+                // console.log('Computer item:', computerItem);
                 checklist.push(computerItem);
 
                 // Process assigned assets
@@ -273,7 +273,7 @@ export class ReturnFormComponent implements OnInit {
                             remarks: asset.remarks || '',
                             validated_by: 1,
                         };
-                        console.log('Assigned asset item:', assignedAssetItem);
+                        // console.log('Assigned asset item:', assignedAssetItem);
                         checklist.push(assignedAssetItem);
                     }
                 }
@@ -293,13 +293,13 @@ export class ReturnFormComponent implements OnInit {
                         remarks: component.remarks || '',
                         validated_by: 1,
                     };
-                    console.log('Component item:', componentItem);
+                    // console.log('Component item:', componentItem);
                     checklist.push(componentItem);
                 }
             }
         }
 
-        console.log('Final checklist to be submitted:', checklist);
+        // console.log('Final checklist to be submitted:', checklist);
 
         if (!checklist.length) {
             throw new Error('No items to return.');
@@ -308,14 +308,14 @@ export class ReturnFormComponent implements OnInit {
         // Send data to API with better error handling
         const promises: Promise<any>[] = checklist.map((item) =>
             new Promise<any>((resolve) => {
-                console.log(`Submitting item of type ${item.item_type}:`, item);
+                // console.log(`Submitting item of type ${item.item_type}:`, item);
                 this.returnItemService.createReturnItem(item).subscribe({
                     next: (response) => {
-                        console.log('Successfully submitted item:', {
-                            type: item.item_type,
-                            id: item.computer_id || item.asset_id || item.component_id,
-                            response,
-                        });
+                        // console.log('Successfully submitted item:', {
+                        //     type: item.item_type,
+                        //     id: item.computer_id || item.asset_id || item.component_id,
+                        //     response,
+                        // });
                         resolve(response);
                     },
                     error: (error) => {
@@ -362,7 +362,7 @@ export class ReturnFormComponent implements OnInit {
 
   updateButtonState(): void {
     this.cdr.detectChanges(); // Force UI update
-    console.log('🚀 Button state after detection:', this.allCheckboxesChecked());
+    // console.log('🚀 Button state after detection:', this.allCheckboxesChecked());
 }
 
 

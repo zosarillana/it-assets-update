@@ -679,23 +679,12 @@
                                                 else blankSignature
                                             "
                                         >
-                                            <img
-                                                *ngIf="
-                                                    accountabilityApproval
-                                                        ?.preparedByUser
-                                                        ?.e_signature;
-                                                    else defaultSignature
-                                                "
-                                                [src]="
-                                                    imageUrl +
-                                                    '/' +
-                                                    accountabilityApproval
-                                                        ?.preparedByUser
-                                                        ?.e_signature
-                                                "
-                                                alt="Signature"
-                                                class="mt-4 h-20 w-48 opacity-50"
-                                            />
+                                        <img
+                                        *ngIf="accountabilityApproval?.preparedByUser?.e_signature; else defaultSignature"
+                                        [src]="getSignatureUrl(accountabilityApproval?.preparedByUser?.e_signature)"
+                                        alt="Signature"
+                                        class="mt-4 h-20 w-48 opacity-50"
+                                    />
                                         </ng-container>
                                     </div>
 
@@ -789,25 +778,11 @@
 
                                     <div class="flex justify-start items-start">
                                         <ng-container
-                                            *ngIf="
-                                                accountabilityApproval?.approvedByUser;
-                                                else blankSignature
-                                            "
+                                            *ngIf="accountabilityApproval?.approvedByUser; else blankSignature"
                                         >
                                             <img
-                                                *ngIf="
-                                                    accountabilityApproval
-                                                        ?.approvedByUser
-                                                        ?.e_signature;
-                                                    else defaultSignature
-                                                "
-                                                [src]="
-                                                    imageUrl +
-                                                    '/' +
-                                                    accountabilityApproval
-                                                        ?.approvedByUser
-                                                        ?.e_signature
-                                                "
+                                                *ngIf="accountabilityApproval?.approvedByUser?.e_signature; else defaultSignature"
+                                                [src]="getSignatureUrl(accountabilityApproval?.approvedByUser?.e_signature)"
                                                 alt="Signature"
                                                 class="mt-4 h-20 w-48 opacity-50"
                                             />

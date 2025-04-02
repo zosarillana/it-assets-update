@@ -262,7 +262,7 @@ export class AccountabilityFormComponent implements OnInit {
                         } : undefined
                     };
     
-                    console.log('Mapped accountability approval:', this.accountabilityApproval);
+                    // console.log('Mapped accountability approval:', this.accountabilityApproval);
                 },
                 error: (error) => {
                     console.error('Error fetching accountability approval:', error);
@@ -559,7 +559,16 @@ export class AccountabilityFormComponent implements OnInit {
         );
     }
 
-    // Image base URL
-    public url = environment.apiUrl; // Use environment configuration
-    public imageUrl: string = `${this.url}/Image/esignature`;
+    // Use the environment's apiUrl to construct the imageUrl
+    public imageUrl: string = `${environment.apiUrl}/Image/esignature`;
+
+    public getSignatureUrl(eSignaturePath: string): string {
+        if (!eSignaturePath) {
+            return '';
+        }
+
+        // Extract the file name from the full path
+        const fileName = eSignaturePath.split('/').pop()?.split('\\').pop();
+        return `${this.imageUrl}/${fileName}`;
+    }
 }

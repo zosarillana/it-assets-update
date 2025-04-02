@@ -11,6 +11,7 @@ import { Accountability } from 'app/models/Accountability/Accountability';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'environments/environment';
 
 @Component({
     selector: 'app-view-return',
@@ -28,8 +29,6 @@ export class ViewReturnComponent implements OnInit {
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-    // Image base URL
-    public imageUrl: string = 'https://localhost:7062/api/api/Images/esignature';
 
     constructor(
         private route: ActivatedRoute,
@@ -63,13 +62,13 @@ export class ViewReturnComponent implements OnInit {
     loading: boolean = false; // Add this line
     loadReturnItems(accountabilityId: number): void {
         this.loading = true;
-        console.log('Loading items for accountability ID:', accountabilityId);
+        // console.log('Loading items for accountability ID:', accountabilityId);
     
         this.returnAccountabilityItemsService
             .getReturnItemsByAccountabilityId(accountabilityId)
             .subscribe({
                 next: (data: any) => {
-                    console.log('Raw API Response:', data);
+                    // console.log('Raw API Response:', data);
     
                     // Store the accountability data
                     if (data.length > 0) {
@@ -88,7 +87,7 @@ export class ViewReturnComponent implements OnInit {
                             },
                             return_date: firstItem.return_date
                         }];
-                        console.log('Processed returnItems:', this.returnItems);
+                        // console.log('Processed returnItems:', this.returnItems);
                     }
     
                     // Store the computers data
@@ -104,7 +103,7 @@ export class ViewReturnComponent implements OnInit {
                             status: item.status,
                             remarks: item.remarks || 'N/A'
                         }));
-                    console.log('Processed computers:', this.computers);
+                    // console.log('Processed computers:', this.computers);
     
                     // Map components from the data
                     this.components = data
@@ -119,7 +118,7 @@ export class ViewReturnComponent implements OnInit {
                             status: item.status,
                             remarks: item.remarks || 'N/A'
                         }));
-                    console.log('Processed components:', this.components);
+                    // console.log('Processed components:', this.components);
     
                     // Map assets from the data
                     this.assets = data
@@ -133,7 +132,7 @@ export class ViewReturnComponent implements OnInit {
                             status: item.status,
                             remarks: item.remarks || 'N/A'
                         }));
-                    console.log('Processed assets:', this.assets);
+                    // console.log('Processed assets:', this.assets);
     
                     this.loading = false;
                 },
@@ -150,7 +149,7 @@ export class ViewReturnComponent implements OnInit {
             .subscribe({
                 next: (data: any) => {
                     this.ReturnItemsApproval = data;
-                    console.log('Return Item Approval:', this.ReturnItemsApproval);
+                    // console.log('Return Item Approval:', this.ReturnItemsApproval);
                 },
                 error: (error) => {
                     console.error('Error fetching return item approval:', error);
@@ -158,12 +157,7 @@ export class ViewReturnComponent implements OnInit {
             });
     }
 
-    sanitizeImagePath(imagePath: string): SafeUrl {
-        const baseUrl = 'https://localhost:7062/api/api/Images/esignature';
-        const sanitizedPath = imagePath.replace(/^.*[\\\/]/, ''); // Extract the filename from the path
-        const fullUrl = `${baseUrl}/${sanitizedPath}`;
-        return this.sanitizer.bypassSecurityTrustUrl(fullUrl);
-    }
+    
 
     //Return
     checkByUser(): void {
@@ -319,5 +313,18 @@ export class ViewReturnComponent implements OnInit {
         document.body.innerHTML = printContents || '';
         window.print();
         document.body.innerHTML = originalContents;
+    }
+
+
+    public imageUrl: string = `${environment.apiUrl}/Image/esignature`;
+
+    public getSignatureUrl(eSignaturePath: string): string {
+        if (!eSignaturePath) {
+            return '';
+        }
+
+        // Extract the file name from the full path
+        const fileName = eSignaturePath.split('/').pop()?.split('\\').pop();
+        return `${this.imageUrl}/${fileName}`;
     }
 }
