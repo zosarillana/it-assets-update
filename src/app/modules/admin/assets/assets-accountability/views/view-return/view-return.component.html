@@ -183,13 +183,11 @@
                                 (Desktop, Laptops, etc..)</span
                             >
                         </div>
-                        <div *ngIf="computers.length > 0">
-                            Length: {{computers.length}}
-                            First item: {{computers[0] | json}}
-                        <!-- <div
+                        
+                        <div
                             *ngIf="computers.length > 0"
                             class="overflow-x-auto uppercase"
-                        > -->
+                        >
                             <mat-table
                                 [dataSource]="computers"
                                 matSort
@@ -599,25 +597,11 @@
                                     </p>
                                     <div class="flex justify-start items-start">
                                         <ng-container
-                                            *ngIf="
-                                                ReturnItemsApproval?.checkedByUser;
-                                                else blankSignature
-                                            "
+                                            *ngIf="ReturnItemsApproval?.checkedByUser; else blankSignature"
                                         >
                                             <img
-                                                *ngIf="
-                                                    ReturnItemsApproval
-                                                        ?.checkedByUser
-                                                        ?.e_signature;
-                                                    else defaultSignature
-                                                "
-                                                [src]="
-                                                    sanitizeImagePath(
-                                                        ReturnItemsApproval
-                                                            ?.checkedByUser
-                                                            ?.e_signature
-                                                    )
-                                                "
+                                                *ngIf="ReturnItemsApproval?.checkedByUser?.e_signature; else defaultSignature"
+                                                [src]="getSignatureUrl(ReturnItemsApproval?.checkedByUser?.e_signature)"
                                                 alt="Signature"
                                                 class="mt-4 h-20 w-48 opacity-50"
                                             />
@@ -717,7 +701,7 @@
                                                     else defaultSignature
                                                 "
                                                 [src]="
-                                                    sanitizeImagePath(
+                                                    getSignatureUrl(
                                                         ReturnItemsApproval
                                                             ?.receivedByUser
                                                             ?.e_signature
@@ -822,7 +806,7 @@
                                                     else defaultSignature
                                                 "
                                                 [src]="
-                                                    sanitizeImagePath(
+                                                    getSignatureUrl(
                                                         ReturnItemsApproval
                                                             ?.confirmedByUser
                                                             ?.e_signature

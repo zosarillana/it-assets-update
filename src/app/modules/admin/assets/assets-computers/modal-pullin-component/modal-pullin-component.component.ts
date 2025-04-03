@@ -20,7 +20,6 @@ export class ModalPullinComponentComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        // console.log('Received computer ID:', this.data.computerId);
         this.fetchInactiveComponents();
     }
 
@@ -29,24 +28,18 @@ export class ModalPullinComponentComponent implements OnInit {
             .getComponents(1, 100, 'asc', 'AVAILABLE')
             .subscribe({
                 next: (response) => {
-                    // console.log('API Response:', response);
-
                     if (
-                        response?.items?.$values &&
-                        Array.isArray(response.items.$values)
+                        response?.items &&
+                        Array.isArray(response.items)
                     ) {
-                        this.inactiveComponents = response.items.$values.filter(
+                        this.inactiveComponents = response.items.filter(
                             (component) => component.status === 'AVAILABLE'
                         );
                     } else {
-                        // console.error('Unexpected API response format:', response);
                         this.inactiveComponents = [];
                     }
-
-                    // console.log('Inactive Components:', this.inactiveComponents);
                 },
                 error: (error) => {
-                    // console.error('Error fetching available components:', error);
                     this.inactiveComponents = [];
                 },
             });
@@ -58,14 +51,11 @@ export class ModalPullinComponentComponent implements OnInit {
 
     selectComponents(): void {
         if (!this.componentsList) {
-            // console.error('componentsList is not defined');
             return;
         }
 
         const selectedComponents = this.componentsList.selectedOptions.selected.map(option => option.value);
         const selectedComponentUids = selectedComponents.map(component => component.uid);
-
-        // console.log('Selected Components:', selectedComponentUids);
 
         if (selectedComponentUids.length === 0) {
             this.dialogRef.close();

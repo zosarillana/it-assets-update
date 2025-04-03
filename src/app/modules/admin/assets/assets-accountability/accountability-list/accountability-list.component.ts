@@ -206,12 +206,19 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
         this.loadAccountabilityData(1, this.pageSize);
     }
 
-    openDeleteDialog(id: string): void {
+    openDeleteDialog(id: string | null | undefined): void {
+        console.log('Delete ID:', id); // Debugging log
+        if (!id) {
+            console.error('Invalid ID:', id);
+            this.alertService.triggerError('Invalid item ID.');
+            return;
+        }
+    
         const dialogRef = this.dialog.open(ModalUniversalComponent, {
             width: '400px',
             data: { name: 'Are you sure you want to delete this item?' },
         });
-
+    
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this.deleteItem(id);

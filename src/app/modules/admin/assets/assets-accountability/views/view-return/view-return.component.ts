@@ -11,18 +11,14 @@ import { Accountability } from 'app/models/Accountability/Accountability';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'environments/environment';
 
 @Component({
     selector: 'app-view-return',
     templateUrl: './view-return.component.html',
     styleUrls: ['./view-return.component.scss'],
 })
-
-
 export class ViewReturnComponent implements OnInit {
-    
-    
-    
     returnItems: any[] = [];
     computers: any[] = [];
     components: any[] = [];
@@ -30,11 +26,9 @@ export class ViewReturnComponent implements OnInit {
     accountabilityId!: number;
     user: User;
     ReturnItemsApproval: any;
-  
+
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-    // Image base URL
-    public imageUrl: string = 'https://localhost:7062/api/api/images/esignature';
 
     constructor(
         private route: ActivatedRoute,
@@ -64,77 +58,81 @@ export class ViewReturnComponent implements OnInit {
             }
         });
     }
-    
+
     loading: boolean = false; // Add this line
     loadReturnItems(accountabilityId: number): void {
         this.loading = true;
-        console.log('Loading items for accountability ID:', accountabilityId);
+        // console.log('Loading items for accountability ID:', accountabilityId);
     
         this.returnAccountabilityItemsService
             .getReturnItemsByAccountabilityId(accountabilityId)
             .subscribe({
                 next: (data: any) => {
-                    console.log('Raw API Response:', data);
+                    // console.log('Raw API Response:', data);
     
                     // Store the accountability data
-                    this.returnItems = [{
-                        accountability: {
-                            ...data.user_accountability_list,
-                            owner: data.user_accountability_list.owner
-                        },
-                        return_date: data.user_accountability_list.date_created
-                    }];
-                    console.log('Processed returnItems:', this.returnItems);
+                    if (data.length > 0) {
+                        const firstItem = data[0];
+                        this.returnItems = [{
+                            accountability: {
+                                tracking_code: firstItem.accountability.tracking_code,
+                                accountability_code: firstItem.accountability.accountability_code,
+                                owner: {
+                                    name: firstItem.accountability.owner?.name || 'Unknown',
+                                    employee_id: firstItem.accountability.owner?.employee_id || 'N/A',
+                                    designation: firstItem.accountability.owner?.designation || 'N/A',
+                                    company: firstItem.accountability.owner?.company || 'N/A',
+                                    department: firstItem.accountability.owner?.department || 'N/A'
+                                }
+                            },
+                            return_date: firstItem.return_date
+                        }];
+                        // console.log('Processed returnItems:', this.returnItems);
+                    }
     
                     // Store the computers data
-                    if (data.computers && data.computers.length > 0) {
-                        this.computers = data.computers.map(computer => ({
+                    this.computers = data
+                        .filter(item => item.item_type === 'Computers')
+                        .map(item => ({
                             computer: {
-                                type: computer.type,
-                                model: computer.model,
-                                asset_barcode: computer.asset_barcode,
-                                brand: computer.brand
+                                type: item.computer.type,
+                                model: item.computer.model,
+                                asset_barcode: item.computer.asset_barcode,
+                                brand: item.computer.brand
                             },
-                            status: computer.status,
-                            remarks: computer.remarks || 'N/A'
+                            status: item.status,
+                            remarks: item.remarks || 'N/A'
                         }));
-                        console.log('Processed computers:', this.computers);
+                    // console.log('Processed computers:', this.computers);
     
-                        // Map components from the first computer
-                        const computerComponents = data.computers[0].components;
-                        if (computerComponents) {
-                            this.components = [];
-                            Object.entries(computerComponents).forEach(([type, items]: [string, any[]]) => {
-                                items.forEach(item => {
-                                    this.components.push({
-                                        components: {
-                                            type: type,
-                                            uid: item.uid,
-                                            description: item.description,
-                                            cost: item.cost
-                                        },
-                                        status: item.status,
-                                        remarks: item.remarks || 'N/A'
-                                    });
-                                });
-                            });
-                            console.log('Processed components:', this.components);
-                        }
+                    // Map components from the data
+                    this.components = data
+                        .filter(item => item.item_type === 'Components')
+                        .map(item => ({
+                            components: {
+                                type: item.components?.type,
+                                uid: item.components?.uid,
+                                description: item.components?.description,
+                                cost: item.components?.cost
+                            },
+                            status: item.status,
+                            remarks: item.remarks || 'N/A'
+                        }));
+                    // console.log('Processed components:', this.components);
     
-                        // Map assigned assets
-                        if (data.computers[0].assignedAssetDetails) {
-                            this.assets = data.computers[0].assignedAssetDetails.map(asset => ({
-                                asset: {
-                                    type: asset.type,
-                                    brand: asset.brand,
-                                    asset_barcode: asset.asset_barcode
-                                },
-                                status: asset.status,
-                                remarks: asset.remarks || 'N/A'
-                            }));
-                            console.log('Processed assets:', this.assets);
-                        }
-                    }
+                    // Map assets from the data
+                    this.assets = data
+                        .filter(item => item.item_type === 'Assets')
+                        .map(item => ({
+                            asset: {
+                                type: item.asset?.type,
+                                brand: item.asset?.brand,
+                                asset_barcode: item.asset?.asset_barcode
+                            },
+                            status: item.status,
+                            remarks: item.remarks || 'N/A'
+                        }));
+                    // console.log('Processed assets:', this.assets);
     
                     this.loading = false;
                 },
@@ -151,25 +149,16 @@ export class ViewReturnComponent implements OnInit {
             .subscribe({
                 next: (data: any) => {
                     this.ReturnItemsApproval = data;
-                    // console.log(
-                    //     'Return Item Approval:',
-                    //     this.ReturnItemsApproval
-                    // );
+                    // console.log('Return Item Approval:', this.ReturnItemsApproval);
                 },
                 error: (error) => {
-                    console.error(
-                        'Error fetching return item approval:',
-                        error
-                    );
+                    console.error('Error fetching return item approval:', error);
                 },
             });
     }
 
-    sanitizeImagePath(imagePath: string): SafeUrl {
-        return this.sanitizer.bypassSecurityTrustUrl(
-            `${this.imageUrl}/${imagePath}`
-        );
-    }
+    
+
     //Return
     checkByUser(): void {
         const accountabilityId = this.accountabilityId;
@@ -324,5 +313,18 @@ export class ViewReturnComponent implements OnInit {
         document.body.innerHTML = printContents || '';
         window.print();
         document.body.innerHTML = originalContents;
+    }
+
+
+    public imageUrl: string = `${environment.apiUrl}/Image/esignature`;
+
+    public getSignatureUrl(eSignaturePath: string): string {
+        if (!eSignaturePath) {
+            return '';
+        }
+
+        // Extract the file name from the full path
+        const fileName = eSignaturePath.split('/').pop()?.split('\\').pop();
+        return `${this.imageUrl}/${fileName}`;
     }
 }

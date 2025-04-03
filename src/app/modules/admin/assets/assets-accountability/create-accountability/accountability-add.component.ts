@@ -100,17 +100,14 @@ export class AccoundabilityAddComponent implements OnInit {
     private loadComputers(): void {
         this.computerService.getAssets(1, 100, 'asc').subscribe({
             next: (response) => {
-                if (response.items && Array.isArray(response.items.$values)) {
-                    this.computersData = response.items.$values
+                if (response.items && Array.isArray(response.items)) {
+                    this.computersData = response.items
                         .filter(computer => computer.status === "AVAILABLE")
                         .map(computer => {
-                            // console.log(`Raw Assigned Assets:`, computer.assigned_assets);
-    
-                            const assetIds = Array.isArray(computer.assigned_assets?.$values)
-                                ? computer.assigned_assets.$values.map(asset => asset.id)
+                            const assetIds = Array.isArray(computer.assigned_assets)
+                                ? computer.assigned_assets.map(asset => asset.id)
                                 : [];
     
-                            // console.log(`Computer ID: ${computer.id}, Asset IDs:`, assetIds);
                             return {
                                 ...computer,
                                 asset_ids: assetIds
