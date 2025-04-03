@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class UsersService {
     private url = environment.apiUrl; // Use environment configuration
+ 
 
     constructor(private http: HttpClient) {}
 
@@ -34,5 +35,13 @@ export class UsersService {
         return this.http.get<AssetResponse>(`${this.url}/Users`, {
             params,
         });
+    }
+
+    //changePassword
+    changePassword(userId: number, passwordData: any): Observable<any> {
+        return this.http.put(
+            `${this.url}/Users/${userId}/change-password`,
+            passwordData
+        );
     }
 }

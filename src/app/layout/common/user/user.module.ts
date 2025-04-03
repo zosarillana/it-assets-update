@@ -6,11 +6,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
 import { UserComponent } from 'app/layout/common/user/user.component';
 import { SharedModule } from 'app/shared/shared.module';
-
-import { UserProfileComponent } from './profile/user-profile/user-profile.component';
-import { SecurityComponent } from './profile/security/security.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { UserSetttingsComponent } from './profile/user-setttings/user-setttings.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
     declarations: [
@@ -23,10 +20,12 @@ import { UserSetttingsComponent } from './profile/user-setttings/user-setttings.
         MatMenuModule,
         SharedModule,
         RouterModule,
-        MatSidenavModule
+        MatSidenavModule,
+        MatSnackBarModule,
+
     ],
     exports     : [
-        UserComponent
+        UserComponent,    
     ]
 })
 export class UserModule

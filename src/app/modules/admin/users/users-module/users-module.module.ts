@@ -32,9 +32,10 @@ import { FuseCardModule } from '@fuse/components/card';
 import { FuseHighlightModule } from '@fuse/components/highlight';
 import { FuseScrollbarModule } from '@fuse/directives/scrollbar';
 import { SharedModule } from 'app/shared/shared.module';
-import { UserSetttingsComponent } from 'app/layout/common/user/profile/user-setttings/user-setttings.component';
-import { SecurityComponent } from 'app/layout/common/user/profile/security/security.component';
-import { UserProfileComponent } from 'app/layout/common/user/profile/user-profile/user-profile.component';
+import { UserSetttingsComponent } from '../profile/user-setttings/user-setttings.component';
+import { SecurityComponent } from '../profile/security/security.component';
+import { UserProfileComponent } from '../profile/user-profile/user-profile.component';
+
 // import { ProfileComponent } from '../profile/profile.component';
 
 const userRoute: Route[] = [
@@ -89,9 +90,7 @@ const userRoute: Route[] = [
         MatProgressBarModule,
         FuseCardModule,
         MatMenuModule,
-        MatTooltipModule,
-        MatIconModule,
-        MatButtonModule,
+        MatTooltipModule,             
         MatSidenavModule,
         MatRadioModule,
         MatCheckboxModule,
@@ -101,6 +100,8 @@ const userRoute: Route[] = [
         MatInputModule,
         MatMenuModule,
         FuseScrollbarModule,
+        MatIconModule,
+        MatButtonModule,    
         RouterModule.forChild(userRoute),
     ],
 })
