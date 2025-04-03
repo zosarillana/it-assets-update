@@ -58,7 +58,7 @@ export class ComputerService {
     // }
 
     public postEvent(data: any): Observable<any> {
-        return this.http.post(`${this.url}/Assets`, data);
+        return this.http.post(`${this.url}/Asset`, data);
     }
 
     public putEvent(id: string, data: any): Observable<any> {

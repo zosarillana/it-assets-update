@@ -51,11 +51,11 @@ export class AssetsService {
     }
 
     public postEvent(data: any): Observable<any> {
-        return this.http.post(`${this.url}/Assets/create-vacant-asset/computer-items`, data);
+        return this.http.post(`${this.url}/Asset/create-vacant-asset/computer-items`, data);
     }
     
     public deleteEvent(id: string): Observable<any>{
-        return this.http.delete(`${this.url}/Assets/delete-asset/${id}`);
+        return this.http.delete(`${this.url}/Asset/delete-asset/${id}`);
     }
 
     public pullOutAsset(assetId: number, remark: string): Observable<any> {
@@ -64,7 +64,7 @@ export class AssetsService {
     
 
     public putEvent(id: string, data: any): Observable<any> {
-        return this.http.put(`${this.url}/Assets/update-asset/${id}`, data);
+        return this.http.put(`${this.url}/Asset/update-asset/${id}`, data);
     }    
     
     public pullInAssets(data: { computer_id: number; asset_ids: number[]; remarks: string }): Observable<any> {
