@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class ComputerService {
     // private url = 'https://localhost:7062';
-    private url = environment.apiUrl;  // Use environment configuration
+    private url = environment.apiUrl; // Use environment configuration
 
     constructor(private http: HttpClient) {}
 
@@ -43,7 +43,7 @@ export class ComputerService {
             { params }
         );
     }
-  
+
     getAllTypes(): Observable<string[]> {
         const url = `${this.url}/assets/types`;
         return this.http.get<string[]>(url);
@@ -62,10 +62,25 @@ export class ComputerService {
     }
 
     public putEvent(id: string, data: any): Observable<any> {
-        return this.http.put(`${this.url}/Computer/update-computer/${id}`, data);
-    }    
-    
-    public deleteEvent(id: string): Observable<any>{
+        return this.http.put(
+            `${this.url}/Computer/update-computer/${id}`,
+            data
+        );
+    }
+
+    public deleteEvent(id: string): Observable<any> {
         return this.http.delete(`${this.url}/Computer/delete-computer/${id}`);
+    }
+
+    // **New Method for fetching counts of LAPTOP and CPU types**
+    public getCount(type?: string): Observable<any> {
+        let url = `${this.url}/Computer/ComputerCount`;
+
+        if (type) {
+            // If a type is provided, append it to the URL
+            url = `${this.url}/Computer/ComputerCount?type=${type}`;
+        }
+
+        return this.http.get<any>(url);
     }
 }
