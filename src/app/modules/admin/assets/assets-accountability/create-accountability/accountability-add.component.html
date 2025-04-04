@@ -45,7 +45,9 @@
                         <mat-label class="font-semibold">
                             Search Computer
                         </mat-label>
-                        <mat-form-field class="fuse-mat-no-subscript w-full uppercase">
+                        <mat-form-field
+                            class="fuse-mat-no-subscript w-full uppercase"
+                        >
                             <mat-icon
                                 matPrefix
                                 class="icon-size-5"
@@ -59,7 +61,7 @@
                                 [matAutocomplete]="auto"
                             />
                             <mat-autocomplete
-                            class="uppercase"
+                                class="uppercase"
                                 #auto="matAutocomplete"
                                 [displayWith]="displayFn"
                                 (optionSelected)="
@@ -219,7 +221,7 @@
                                 </mat-form-field>
                             </div>
                             <div class="flex flex-col uppercase">
-                                <mat-form-field appearance="fill" >
+                                <mat-form-field appearance="fill">
                                     <mat-icon
                                         svgIcon="mat_outline:domain"
                                         class="icon-size-3 md:icon-size-4 mr-2"
@@ -285,7 +287,7 @@
                 </h2>
             </div>
             <mat-progress-bar
-                class="hidden lg:block flex-0 h-0.5 w-full"              
+                class="hidden lg:block flex-0 h-0.5 w-full"
             ></mat-progress-bar>
             <!-- [value]="(100 * (currentStep + 1)) / course.totalSteps" -->
             <!-- Main -->
@@ -416,7 +418,15 @@
                                                             >
                                                                 Employee Name
                                                             </p>
-                                                            <span class="font-medium uppercase">{{ eventForm.get('name')?.value || 'N/A' }}</span>
+                                                            <span
+                                                                class="font-medium uppercase"
+                                                                >{{
+                                                                    eventForm.get(
+                                                                        "name"
+                                                                    )?.value ||
+                                                                        "N/A"
+                                                                }}</span
+                                                            >
                                                         </div>
                                                         <div
                                                             class="flex flex-row gap-10 text-sm"
@@ -426,7 +436,16 @@
                                                             >
                                                                 ID Number
                                                             </p>
-                                                            <span class="font-medium uppercase"> {{ eventForm.get('employee_id')?.value || 'N/A' }}</span>
+                                                            <span
+                                                                class="font-medium uppercase"
+                                                            >
+                                                                {{
+                                                                    eventForm.get(
+                                                                        "employee_id"
+                                                                    )?.value ||
+                                                                        "N/A"
+                                                                }}</span
+                                                            >
                                                         </div>
                                                         <div
                                                             class="flex flex-row gap-8 text-sm"
@@ -436,7 +455,16 @@
                                                             >
                                                                 Designation
                                                             </p>
-                                                            <span class="font-medium uppercase"> {{ eventForm.get('designation')?.value || 'N/A' }}</span>
+                                                            <span
+                                                                class="font-medium uppercase"
+                                                            >
+                                                                {{
+                                                                    eventForm.get(
+                                                                        "designation"
+                                                                    )?.value ||
+                                                                        "N/A"
+                                                                }}</span
+                                                            >
                                                         </div>
                                                     </div>
                                                     <div
@@ -450,10 +478,15 @@
                                                             >
                                                                 Business Unit
                                                             </p>
-                                                            <span class="font-medium uppercase"
-                                                    >{{ eventForm.get('company')?.value || 'N/A' }}
-                                                    </span
-                                                >
+                                                            <span
+                                                                class="font-medium uppercase"
+                                                                >{{
+                                                                    eventForm.get(
+                                                                        "company"
+                                                                    )?.value ||
+                                                                        "N/A"
+                                                                }}
+                                                            </span>
                                                         </div>
                                                         <div
                                                             class="flex flex-row gap-11 text-sm"
@@ -463,11 +496,17 @@
                                                             >
                                                                 Department
                                                             </p>
-                                                            <span class="font-medium uppercase">
-                                                                {{ eventForm.get('department')?.value?.code || 'N/A' }} 
-                                                             
+                                                            <span
+                                                                class="font-medium uppercase"
+                                                            >
+                                                                {{
+                                                                    eventForm.get(
+                                                                        "department"
+                                                                    )?.value
+                                                                        ?.code ||
+                                                                        "N/A"
+                                                                }}
                                                             </span>
-                                                            
                                                         </div>
                                                         <div
                                                             class="flex flex-row gap-12 text-sm"
@@ -477,12 +516,22 @@
                                                             >
                                                                 Date Hired
                                                             </p>
-                                                            <span class="ml-1.5 font-medium uppercase">
-                                                                {{ eventForm.get('date_hired')?.value 
-                                                                    ? (eventForm.get('date_hired')?.value | date: 'MMMM d, y') 
-                                                                    : 'N/A' }}
+                                                            <span
+                                                                class="ml-1.5 font-medium uppercase"
+                                                            >
+                                                                {{
+                                                                    eventForm.get(
+                                                                        "date_hired"
+                                                                    )?.value
+                                                                        ? (eventForm.get(
+                                                                              "date_hired"
+                                                                          )
+                                                                              ?.value
+                                                                          | date
+                                                                              : "MMMM d, y")
+                                                                        : "N/A"
+                                                                }}
                                                             </span>
-                                                            
                                                         </div>
                                                     </div>
                                                 </div>
@@ -503,9 +552,7 @@
                                                         etc..)</span
                                                     >
                                                 </div>
-                                                <div
-                                                    class="overflow-x-auto "
-                                                >
+                                                <div class="overflow-x-auto">
                                                     <table
                                                         class="w-full text-xs"
                                                     >
@@ -651,7 +698,7 @@
                                                                 <tr>
                                                                     <td
                                                                         colspan="7"
-                                                                        class="px-6 py-3 text-center  mc-auto text-gray-500 bg-transparent"
+                                                                        class="px-6 py-3 text-center mc-auto text-gray-500 bg-transparent"
                                                                     >
                                                                         No
                                                                         Computer
@@ -662,182 +709,357 @@
                                                         </tbody>
                                                     </table>
 
-                                                    <div class="flex flex-col my-4">
-                                                        <p class="text-sm font-semibold mt-5">
-                                                            Computer Components under accountability
+                                                    <div
+                                                        class="flex flex-col my-4"
+                                                    >
+                                                        <p
+                                                            class="text-sm font-semibold mt-5"
+                                                        >
+                                                            Computer Components
+                                                            under accountability
                                                         </p>
-                                                        <span class="text-secondary text-sm"
-                                                            >(Ram, ssd, hdd ...)</span
+                                                        <span
+                                                            class="text-secondary text-sm"
+                                                            >(Ram, ssd, hdd
+                                                            ...)</span
                                                         >
                                                     </div>
 
                                                     <table
-                                                    class="w-full text-xs"
-                                                >
-                                                    <thead
-                                                        class="text-gray-700"
+                                                        class="w-full text-xs"
                                                     >
-                                                        <tr>
-                                                            <th
-                                                                class="px-6 py-3 text-start bg-transparent uppercase"
-                                                            >
-                                                                Type
-                                                            </th>
-                                                           
-                                                            <th
-                                                                class="px-6 py-3 text-start bg-transparent uppercase"
-                                                            >
-                                                                Inventory code
-                                                            </th>
-                                                            <th
-                                                            class="px-6 py-3 text-start bg-transparent uppercase"
+                                                        <thead
+                                                            class="text-gray-700"
                                                         >
-                                                            Date
-                                                            Acquired
-                                                        </th>
-                                                            <!-- <th class=" px-6 py-3 text-left bg-transparent">Serial Number</th> -->
-
-                                                            <th
-                                                                class="px-6 py-3 text-start bg-transparent uppercase"
+                                                            <tr>
+                                                                <th
+                                                                    class="px-6 py-3 text-start bg-transparent uppercase"
+                                                                >
+                                                                    Type
+                                                                </th>
+                                                                <th
+                                                                    class="px-6 py-3 text-start bg-transparent uppercase"
+                                                                >
+                                                                    Inventory
+                                                                    Code
+                                                                </th>
+                                                                <th
+                                                                    class="px-6 py-3 text-start bg-transparent uppercase"
+                                                                >
+                                                                    Date
+                                                                    Acquired
+                                                                </th>
+                                                                <th
+                                                                    class="px-6 py-3 text-start bg-transparent uppercase"
+                                                                >
+                                                                    Description
+                                                                </th>
+                                                                <th
+                                                                    class="px-6 py-3 text-start bg-transparent uppercase"
+                                                                >
+                                                                    Cost
+                                                                </th>
+                                                                <th
+                                                                    class="px-6 py-3 text-start bg-transparent uppercase"
+                                                                >
+                                                                    Parent
+                                                                    Barcode
+                                                                </th>
+                                                                <th
+                                                                    class="px-6 py-3 text-start bg-transparent uppercase"
+                                                                >
+                                                                    Status
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody
+                                                            *ngIf="
+                                                                getComponentKeys(
+                                                                    selectedComputer
+                                                                ).length > 0;
+                                                                else noComponent
+                                                            "
+                                                            class="bg-white"
+                                                        >
+                                                            <ng-container
+                                                                *ngFor="
+                                                                    let key of getComponentKeys(
+                                                                        selectedComputer
+                                                                    )
+                                                                "
                                                             >
-                                                                Description
-                                                            </th>
-                                                            <th
-                                                                class="px-6 py-3 text-start bg-transparent uppercase"
-                                                            >
-                                                                Cost
-                                                            </th>
-                                                            <th
-                                                                class="px-6 py-3 text-start bg-transparent uppercase"
-                                                            >
-                                                                Parent Barcode
-                                                            </th>
-                                                            <th
-                                                                class="px-6 py-3 text-start bg-transparent uppercase"
-                                                            >
-                                                                Status
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody *ngIf="getComponentKeys(selectedComputer).length > 0; else noComponent" class="bg-white">
-                                                        <ng-container *ngFor="let key of getComponentKeys(selectedComputer)">
-                                                            <ng-container *ngIf="selectedComputer[key]?.values?.$values?.length">
-                                                                <tr *ngFor="let item of selectedComputer[key].values.$values" class="hover:bg-gray-100 transition duration-200">
-                                                                    <td class="px-6 py-3 bg-transparent uppercase">
-                                                                        {{ key.toUpperCase() }} <!-- Component Type (RAM, HDD, etc.) -->
-                                                                    </td>
-                                                                
-                                                                    <td class="px-6 py-3 bg-transparent uppercase">
-                                                                        {{ item.uid || "N/A" }} <!-- Unique ID -->
-                                                                    </td>
-                                                                    <td class="px-6 py-3 bg-transparent uppercase">
-                                                                        {{ item.date_acquired  ? (item.date_acquired
-                                                                            | date
-                                                                                : "MMMM d, y")
-                                                                          : "N/A" }}
-                                                                    </td>
-                                                                    <td class="px-6 py-3 bg-transparent uppercase">
-                                                                        {{ item.description || "N/A" }} <!-- Description -->
-                                                                    </td>
-                                                                    <td class="px-6 py-3 bg-transparent uppercase">
-                                                                        {{ item.cost || "N/A" }} <!-- Description -->
-                                                                    </td>
-                                                                    <td class="px-6 py-3 bg-transparent uppercase">
-                                                                        {{ item.parent_barcode || "N/A" }} <!-- Description -->
-                                                                    </td>
-                                                                    <td class="px-6 py-3 bg-transparent uppercase">
-                                                                        {{ item.status || "N/A" }} <!-- Description -->
+                                                                <ng-container
+                                                                    *ngIf="
+                                                                        selectedComputer[
+                                                                            key
+                                                                        ]
+                                                                            ?.values
+                                                                            ?.length
+                                                                    "
+                                                                >
+                                                                    <tr
+                                                                        *ngFor="
+                                                                            let item of selectedComputer[
+                                                                                key
+                                                                            ]
+                                                                                .values
+                                                                        "
+                                                                        class="hover:bg-gray-100 transition duration-200"
+                                                                    >
+                                                                        <td
+                                                                            class="px-6 py-3 bg-transparent uppercase"
+                                                                        >
+                                                                            {{
+                                                                                key.toUpperCase()
+                                                                            }}
+                                                                        </td>
+                                                                        <td
+                                                                            class="px-6 py-3 bg-transparent uppercase"
+                                                                        >
+                                                                            {{
+                                                                                item.uid ||
+                                                                                    "N/A"
+                                                                            }}
+                                                                        </td>
+                                                                        <td
+                                                                            class="px-6 py-3 bg-transparent uppercase"
+                                                                        >
+                                                                            {{
+                                                                                item.date_acquired
+                                                                                    ? (item.date_acquired
+                                                                                      | date
+                                                                                          : "MMMM d, y")
+                                                                                    : "N/A"
+                                                                            }}
+                                                                        </td>
+                                                                        <td
+                                                                            class="px-6 py-3 bg-transparent uppercase"
+                                                                        >
+                                                                            {{
+                                                                                item.description ||
+                                                                                    "N/A"
+                                                                            }}
+                                                                        </td>
+                                                                        <td
+                                                                            class="px-6 py-3 bg-transparent uppercase"
+                                                                        >
+                                                                            {{
+                                                                                item.cost ||
+                                                                                    "N/A"
+                                                                            }}
+                                                                        </td>
+                                                                        <td
+                                                                            class="px-6 py-3 bg-transparent uppercase"
+                                                                        >
+                                                                            {{
+                                                                                item.asset_barcode ||
+                                                                                    "N/A"
+                                                                            }}
+                                                                        </td>
+                                                                        <td
+                                                                            class="px-6 py-3 bg-transparent uppercase"
+                                                                        >
+                                                                            {{
+                                                                                item.status ||
+                                                                                    "N/A"
+                                                                            }}
+                                                                        </td>
+                                                                    </tr>
+                                                                </ng-container>
+                                                            </ng-container>
+                                                        </tbody>
+                                                        <ng-template
+                                                            #noComponent
+                                                        >
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td
+                                                                        colspan="7"
+                                                                        class="px-6 py-3 text-center text-gray-500 bg-transparent"
+                                                                    >
+                                                                        No
+                                                                        Components
+                                                                        Available
                                                                     </td>
                                                                 </tr>
-                                                            </ng-container>
-                                                        </ng-container>
-                                                    </tbody>
-                                                    
-                                                    
-                                                    
-                                                    <!-- No Data Case -->
-                                                    <ng-template #noComponent>
-                                                        <tbody>
+                                                            </tbody>
+                                                        </ng-template>
+                                                    </table>
+
+                                                    <div
+                                                        class="flex flex-col my-4"
+                                                    >
+                                                        <p
+                                                            class="text-sm font-semibold mt-5"
+                                                        >
+                                                            Assets under
+                                                            accountability
+                                                        </p>
+                                                        <span
+                                                            class="text-secondary text-sm"
+                                                        >
+                                                            (Mouse, Keyboards
+                                                            etc..)</span
+                                                        >
+                                                    </div>
+                                                    <table
+                                                        class="w-full text-xs"
+                                                    >
+                                                        <thead
+                                                            class="text-gray-700"
+                                                        >
                                                             <tr>
-                                                                <td colspan="7" class="px-6 py-3 text-center text-gray-500 bg-transparent">
-                                                                    No Components Available
+                                                                <th
+                                                                    class="px-6 py-3 text-start bg-transparent uppercase"
+                                                                >
+                                                                    Type
+                                                                </th>
+                                                                <th
+                                                                    class="px-6 py-3 text-start bg-transparent uppercase"
+                                                                >
+                                                                    Barcode
+                                                                </th>
+                                                                <th
+                                                                    class="px-6 py-3 text-start bg-transparent uppercase"
+                                                                >
+                                                                    Date
+                                                                    Acquired
+                                                                </th>
+                                                                <th
+                                                                    class="px-6 py-3 text-start bg-transparent uppercase"
+                                                                >
+                                                                    Brand
+                                                                </th>
+                                                                <th
+                                                                    class="px-6 py-3 text-start bg-transparent uppercase"
+                                                                >
+                                                                    Model
+                                                                </th>
+                                                                <th
+                                                                    class="px-6 py-3 text-start bg-transparent uppercase"
+                                                                >
+                                                                    History
+                                                                </th>
+                                                                <th
+                                                                    class="px-6 py-3 text-start bg-transparent uppercase"
+                                                                >
+                                                                    Status
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody
+                                                            *ngIf="
+                                                                selectedComputer
+                                                                    ?.assigned_assets
+                                                                    ?.values
+                                                                    ?.length;
+                                                                else noPeripherals
+                                                            "
+                                                            class="bg-white"
+                                                        >
+                                                            <tr
+                                                                *ngFor="
+                                                                    let asset of selectedComputer
+                                                                        .assigned_assets
+                                                                        .values
+                                                                "
+                                                                class="hover:bg-gray-100 transition duration-200"
+                                                            >
+                                                                <td
+                                                                    class="px-6 py-3 bg-transparent uppercase"
+                                                                >
+                                                                    {{
+                                                                        asset.type ||
+                                                                            "N/A"
+                                                                    }}
+                                                                </td>
+                                                                <td
+                                                                    class="px-6 py-3 bg-transparent uppercase"
+                                                                >
+                                                                    {{
+                                                                        asset.asset_barcode ||
+                                                                            "N/A"
+                                                                    }}
+                                                                </td>
+                                                                <td
+                                                                    class="px-6 py-3 bg-transparent uppercase"
+                                                                >
+                                                                    {{
+                                                                        asset.date_acquired
+                                                                            ? (asset.date_acquired
+                                                                              | date
+                                                                                  : "MMMM d, y")
+                                                                            : "N/A"
+                                                                    }}
+                                                                </td>
+                                                                <td
+                                                                    class="px-6 py-3 bg-transparent uppercase"
+                                                                >
+                                                                    {{
+                                                                        asset.brand ||
+                                                                            "N/A"
+                                                                    }}
+                                                                </td>
+                                                                <td
+                                                                    class="px-6 py-3 bg-transparent uppercase"
+                                                                >
+                                                                    {{
+                                                                        asset.model ||
+                                                                            "N/A"
+                                                                    }}
+                                                                </td>
+                                                                <td
+                                                                    class="px-6 py-3 bg-transparent uppercase"
+                                                                >
+                                                                    {{
+                                                                        asset
+                                                                            .history
+                                                                            ?.length
+                                                                            ? asset.history.join(
+                                                                                  ", "
+                                                                              )
+                                                                                  .length >
+                                                                              50
+                                                                                ? asset.history
+                                                                                      .join(
+                                                                                          ", "
+                                                                                      )
+                                                                                      .substring(
+                                                                                          0,
+                                                                                          50
+                                                                                      ) +
+                                                                                  "..."
+                                                                                : asset.history.join(
+                                                                                      ", "
+                                                                                  )
+                                                                            : "N/A"
+                                                                    }}
+                                                                </td>
+                                                                <td
+                                                                    class="px-6 py-3 bg-transparent uppercase"
+                                                                >
+                                                                    {{
+                                                                        asset.status ||
+                                                                            "N/A"
+                                                                    }}
                                                                 </td>
                                                             </tr>
                                                         </tbody>
-                                                    </ng-template>
-                                                    
-                                                    
-                                                </table>
-                                                <div class="flex flex-col my-4">
-                                                    <p class="text-sm font-semibold mt-5">
-                                                        Assets under accountability
-                                                    </p>
-                                                    <span class="text-secondary text-sm">
-                                                        (Mouse, Keyboards etc..)</span
-                                                    >
-                                                </div>
-                                                <table class="w-full text-xs">
-                                                    <thead class="text-gray-700">
-                                                        <tr>
-                                                            <th class="px-6 py-3 text-start bg-transparent uppercase">Type</th>
-                                                            <th class="px-6 py-3 text-start bg-transparent uppercase">Barcode</th>
-                                                            <th class="px-6 py-3 text-start bg-transparent uppercase">Date Acquired</th>
-                                                            <th class="px-6 py-3 text-start bg-transparent uppercase">Brand</th>
-                                                            <th class="px-6 py-3 text-start bg-transparent uppercase">Model</th>
-                                                            <th class="px-6 py-3 text-start bg-transparent uppercase">History</th>
-                                                            <th class="px-6 py-3 text-start bg-transparent uppercase">Status</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="bg-white">
-                                                        <ng-container *ngIf="selectedComputer?.assigned_assets?.values?.$values?.length; else noPeripherals">
-                                                            <tr *ngFor="let asset of selectedComputer.assigned_assets.values.$values" 
-                                                                class="hover:bg-gray-100 transition duration-200">
-                                                                <td class="px-6 py-3 bg-transparent uppercase">{{ asset.type || "N/A" }}</td>
-                                                              
-                                                                <td class="px-6 py-3 bg-transparent uppercase">{{ asset.asset_barcode || "N/A" }}</td>
-                                                                <td class="px-6 py-3 bg-transparent uppercase">{{ asset.date_acquired ? (asset.date_acquired
-                                                                    | date
-                                                                        : "MMMM d, y")
-                                                                  : "N/A" }} </td>
-                                                                  <td class="px-6 py-3 bg-transparent uppercase">{{ asset.brand || "N/A" }}</td>
-                                                                  <td class="px-6 py-3 bg-transparent uppercase">{{ asset.model || "N/A" }}</td>
-                                                                  <td class="px-6 py-3 bg-transparent uppercase">{{ asset.history
-                                                                    ?.$values
-                                                                    ?.length
-                                                                    ? asset.history.$values.join(
-                                                                          ", "
-                                                                      )
-                                                                          .length >
-                                                                      50
-                                                                        ? asset.history.$values
-                                                                              .join(
-                                                                                  ", "
-                                                                              )
-                                                                              .substring(
-                                                                                  0,
-                                                                                  50
-                                                                              ) +
-                                                                          "..."
-                                                                        : asset.history.$values.join(
-                                                                              ", "
-                                                                          )
-                                                                    : "N/A"
-                                                            }}</td>
-                                                                  <td class="px-6 py-3 bg-transparent uppercase">{{ asset.status || "N/A" }}</td>
-                                                            </tr>
-                                                        </ng-container>
-                                                        
-                                                        <ng-template #noPeripherals>
+                                                        <ng-template
+                                                            #noPeripherals
+                                                        >
                                                             <tr>
-                                                                <td colspan="7" class="px-6 py-3 text-center text-gray-500 bg-transparent">
-                                                                    No Peripherals Available
+                                                                <td
+                                                                    colspan="7"
+                                                                    class="px-6 py-3 text-center text-gray-500 bg-transparent"
+                                                                >
+                                                                    No
+                                                                    Peripherals
+                                                                    Available
                                                                 </td>
                                                             </tr>
                                                         </ng-template>
-                                                    </tbody>
-                                                </table>
-                                                
-                                                
+                                                    </table>
                                                 </div>
                                             </div>
 
@@ -882,7 +1104,7 @@
                                                         SALARY.
                                                     </p>
                                                 </div>
-<!-- 
+                                                <!-- 
                                                 <div
                                                     class="flex flex-col w-full gap-4 mt-12 lg:flex-row md:flex-row"
                                                 >
