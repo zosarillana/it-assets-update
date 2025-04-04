@@ -6,14 +6,11 @@ import { AuthService } from 'app/core/auth/auth.service';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 
 @Injectable()
-export class AuthInterceptor implements HttpInterceptor
-{
+export class AuthInterceptor implements HttpInterceptor {
     /**
      * Constructor
      */
-    constructor(private _authService: AuthService)
-    {
-    }
+    constructor(private _authService: AuthService) {}
 
     /**
      * Intercept
@@ -21,41 +18,29 @@ export class AuthInterceptor implements HttpInterceptor
      * @param req
      * @param next
      */
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
-    {
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // Clone the request object
         let newReq = req.clone();
 
-        // Request
-        //
-        // If the access token didn't expire, add the Authorization header.
-        // We won't add the Authorization header if the access token expired.
-        // This will force the server to return a "401 Unauthorized" response
-        // for the protected API routes which our response interceptor will
-        // catch and delete the access token from the local storage while logging
-        // the user out from the app.
-        if ( this._authService.accessToken && !AuthUtils.isTokenExpired(this._authService.accessToken) )
-        {
+        // Attach Authorization header if token is valid
+        if (this._authService.accessToken && !AuthUtils.isTokenExpired(this._authService.accessToken)) {
             newReq = req.clone({
                 headers: req.headers.set('Authorization', 'Bearer ' + this._authService.accessToken)
             });
         }
 
-        // Response
+        // Handle response
         return next.handle(newReq).pipe(
             catchError((error) => {
-
                 // Catch "401 Unauthorized" responses
-                if ( error instanceof HttpErrorResponse && error.status === 401 )
-                {
-                    // Sign out
+                if (error instanceof HttpErrorResponse && error.status === 401) {
+                    console.warn('Unauthorized request detected. Logging out the user.');
+                    
+                    // Sign out but DO NOT reload the app
                     this._authService.signOut();
-
-                    // Reload the app
-                    location.reload();
                 }
 
-                return throwError(error);
+                return throwError(() => error);
             })
         );
     }
