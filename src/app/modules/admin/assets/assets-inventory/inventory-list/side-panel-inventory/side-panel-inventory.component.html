@@ -128,6 +128,7 @@
                     [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
                 ></mat-icon>
         
+                
                 <mat-icon
                     *ngIf="type.startsWith('MOUSE')"
                     svgIcon="mat_outline:mouse"
@@ -149,6 +150,18 @@
                     [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
                 ></mat-icon>
         
+                <mat-icon
+                *ngIf="type.startsWith('ADAPTER')"
+                svgIcon="power"
+                class="icon-size-3 mr-2"
+                [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
+            ></mat-icon>
+                <mat-icon
+                *ngIf="type.endsWith('ADAPTER')"
+                svgIcon="power"
+                class="icon-size-3 mr-2"
+                [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
+            ></mat-icon>
                 {{ type }}
             </button>
         </div>

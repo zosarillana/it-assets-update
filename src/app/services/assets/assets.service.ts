@@ -71,4 +71,14 @@ export class AssetsService {
         return this.http.post(`${this.url}/Asset/pull_in_assets`, data);
     }
     
+    public getCount(type?: string): Observable<any> {
+        let url = `${this.url}/Asset/AssetCount`;
+
+        if (type) {
+            // If a type is provided, append it to the URL
+            url = `${this.url}/Asset/AssetCount?type=${type}`;
+        }
+
+        return this.http.get<any>(url);
+    }
 }

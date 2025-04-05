@@ -66,5 +66,15 @@ private url = environment.apiUrl;  // Use environment configuration
         return this.http.post(`${this.url}/ComputerComponents/pull_in_component`, data);
     }
     
-    
+     // **New Method for fetching counts of LAPTOP and CPU types**
+     public getCount(type?: string): Observable<any> {
+        let url = `${this.url}/ComputerComponents/ComponentCount`;
+
+        if (type) {
+            // If a type is provided, append it to the URL
+            url = `${this.url}/ComputerComponents/ComponentCount?type=${type}`;
+        }
+
+        return this.http.get<any>(url);
+    }
 }
