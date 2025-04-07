@@ -14,7 +14,7 @@ export class ExampleComponent implements OnInit {
     laptopCount: number = 0;
     cpuCount: number = 0;
     totalCount: number = 0;
-    displayedCount: number = 0;    
+    displayedCount: number = 0;
     selectedType: string = 'ALL'; // Default selection
     //COMPONENTS
     ramCount: number = 0;
@@ -26,49 +26,79 @@ export class ExampleComponent implements OnInit {
     displayedComponentCount: number = 0;
     selectedComponentType: string = 'ALL'; // Default selection
     // New variables for assets
-    assetCounts: any[] = [];  // Stores the asset counts (e.g., AC Adapter, Monitor, etc.)
+    assetCounts: any[] = []; // Stores the asset counts (e.g., AC Adapter, Monitor, etc.)
     selectedAssetType: string = 'ALL'; // Default selection for assets
     displayedAssetCount: number = 0; // The displayed count for assets
-    totalAssetCount: number = 0;     // Total count of all assets
+    totalAssetCount: number = 0; // Total count of all assets
 
-    constructor(private computerService: ComputerService, private componentService: ComponentsService, private assetService: AssetsService) {}
+    //dateUndefined
+    dateUnidentified: number = 0;
+    showChart: boolean = false; // Flag to control chart visibility
+
+    constructor(
+        private computerService: ComputerService,
+        private componentService: ComponentsService,
+        private assetService: AssetsService
+    ) {}
 
     ngOnInit(): void {
         // Using forkJoin to wait for all API calls to complete
         forkJoin({
             computers: this.computerService.getCount(),
             components: this.componentService.getCount(),
-            assets: this.assetService.getCount()
+            assets: this.assetService.getCount(),
         }).subscribe(
             (results) => {
                 // Process computer data
-                const laptopData = results.computers.find((item: any) => item.type === 'LAPTOP');
-                const cpuData = results.computers.find((item: any) => item.type === 'CPU');
+                const laptopData = results.computers.find(
+                    (item: any) => item.type === 'LAPTOP'
+                );
+                const cpuData = results.computers.find(
+                    (item: any) => item.type === 'CPU'
+                );
                 this.laptopCount = laptopData ? laptopData.count : 0;
                 this.cpuCount = cpuData ? cpuData.count : 0;
                 this.totalCount = this.laptopCount + this.cpuCount;
                 this.displayedCount = this.totalCount; // Set displayed count to total by default
-                
+
                 // Process component data
-                const ramData = results.components.find((item: any) => item.type === 'RAM');
-                const ssdData = results.components.find((item: any) => item.type === 'SSD');
-                const hddData = results.components.find((item: any) => item.type === 'HDD');
-                const gpuData = results.components.find((item: any) => item.type === 'GPU');
-                const boardData = results.components.find((item: any) => item.type === 'BOARD');
+                const ramData = results.components.find(
+                    (item: any) => item.type === 'RAM'
+                );
+                const ssdData = results.components.find(
+                    (item: any) => item.type === 'SSD'
+                );
+                const hddData = results.components.find(
+                    (item: any) => item.type === 'HDD'
+                );
+                const gpuData = results.components.find(
+                    (item: any) => item.type === 'GPU'
+                );
+                const boardData = results.components.find(
+                    (item: any) => item.type === 'BOARD'
+                );
 
                 this.ramCount = ramData ? ramData.count : 0;
                 this.ssdCount = ssdData ? ssdData.count : 0;
                 this.hddCount = hddData ? hddData.count : 0;
                 this.gpuCount = gpuData ? gpuData.count : 0;
                 this.boardCount = boardData ? boardData.count : 0;
-                this.totalComponentCount = this.ramCount + this.ssdCount + this.hddCount + this.gpuCount + this.boardCount;
+                this.totalComponentCount =
+                    this.ramCount +
+                    this.ssdCount +
+                    this.hddCount +
+                    this.gpuCount +
+                    this.boardCount;
                 this.displayedComponentCount = this.totalComponentCount; // Set displayed count to total by default
-                
+
                 // Process asset data
                 this.assetCounts = results.assets;
-                this.totalAssetCount = this.assetCounts.reduce((total, item) => total + item.count, 0);
+                this.totalAssetCount = this.assetCounts.reduce(
+                    (total, item) => total + item.count,
+                    0
+                );
                 this.displayedAssetCount = this.totalAssetCount; // Set displayed count to total by default
-                
+
                 // Now update the chart once all data is available
                 this.updateChart();
             },
@@ -78,26 +108,27 @@ export class ExampleComponent implements OnInit {
         );
     }
 
-    // Card flip logic    
+    // Card flip logic
     flipped = false;
 
     flipCard() {
         this.flipped = !this.flipped;
     }
 
-    
     // Expand/collapse logic
     isExpanded = false;
     expanded: boolean = false; // Define the property and set default to false
     toggleExpansion() {
         this.isExpanded = !this.isExpanded;
-    }    
-    
+    }
+
     // Method for individual data loading, can be used for refreshing specific data
     getComputerCounts(): void {
         this.computerService.getCount().subscribe(
             (data) => {
-                const laptopData = data.find((item: any) => item.type === 'LAPTOP');
+                const laptopData = data.find(
+                    (item: any) => item.type === 'LAPTOP'
+                );
                 const cpuData = data.find((item: any) => item.type === 'CPU');
 
                 this.laptopCount = laptopData ? laptopData.count : 0;
@@ -127,7 +158,7 @@ export class ExampleComponent implements OnInit {
             this.displayedCount = this.totalCount;
         }
     }
-    
+
     getComponentCounts(): void {
         this.componentService.getCount().subscribe(
             (data) => {
@@ -135,14 +166,21 @@ export class ExampleComponent implements OnInit {
                 const ssdData = data.find((item: any) => item.type === 'SSD');
                 const hddData = data.find((item: any) => item.type === 'HDD');
                 const gpuData = data.find((item: any) => item.type === 'GPU');
-                const boardData = data.find((item: any) => item.type === 'BOARD');
+                const boardData = data.find(
+                    (item: any) => item.type === 'BOARD'
+                );
 
                 this.ramCount = ramData ? ramData.count : 0;
                 this.ssdCount = ssdData ? ssdData.count : 0;
                 this.hddCount = hddData ? hddData.count : 0;
                 this.gpuCount = gpuData ? gpuData.count : 0;
                 this.boardCount = boardData ? boardData.count : 0;
-                this.totalComponentCount = this.ramCount + this.ssdCount + this.hddCount + this.gpuCount + this.boardCount;
+                this.totalComponentCount =
+                    this.ramCount +
+                    this.ssdCount +
+                    this.hddCount +
+                    this.gpuCount +
+                    this.boardCount;
 
                 this.updateDisplayedComponentCount();
                 this.updateChart(); // Update chart after data changes
@@ -180,7 +218,10 @@ export class ExampleComponent implements OnInit {
             (data) => {
                 // Process the asset count data and update the asset count variables
                 this.assetCounts = data;
-                this.totalAssetCount = this.assetCounts.reduce((total, item) => total + item.count, 0);
+                this.totalAssetCount = this.assetCounts.reduce(
+                    (total, item) => total + item.count,
+                    0
+                );
                 this.updateDisplayedAssetCount();
                 this.updateChart(); // Update chart after data changes
             },
@@ -202,54 +243,183 @@ export class ExampleComponent implements OnInit {
             this.displayedAssetCount = this.totalAssetCount;
         } else {
             // Find the count for the selected asset type
-            const selectedAsset = this.assetCounts.find(item => item.type === this.selectedAssetType);
+            const selectedAsset = this.assetCounts.find(
+                (item) => item.type === this.selectedAssetType
+            );
             this.displayedAssetCount = selectedAsset ? selectedAsset.count : 0;
         }
     }
 
+    
     // Updating the chart data
     updateChart(): void {
-        // Always use the totals for the chart, not the displayed counts
-        this.chartData.series[0].data = [this.totalCount, this.totalComponentCount, this.totalAssetCount];
+        forkJoin({
+            computerDateCounts: this.computerService.getCountDate(),
+            componentDateCounts: this.componentService.getCountDate(),
+            assetDateCounts: this.assetService.getCountDate()
+        }).subscribe(
+            (results) => {
+                // Filter and count undefined dates across all data sets
+                const undefinedDates = [
+                    ...results.computerDateCounts,
+                    ...results.componentDateCounts,
+                    ...results.assetDateCounts
+                ].filter(item => !this.isValidDate(item.date));
+                
+                this.dateUnidentified = undefinedDates.length;
+    
+                // Process valid dates
+                const allDates = [
+                    ...results.computerDateCounts,
+                    ...results.componentDateCounts,
+                    ...results.assetDateCounts
+                ].filter(item => this.isValidDate(item.date));
+    
+                // Extract unique dates and sort them
+                const uniqueDates = [...new Set(allDates.map(item => item.date))]
+                    .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+    
+                // If no valid dates, hide the chart
+                this.showChart = uniqueDates.length > 0;
+    
+                if (this.showChart) {
+                    // Create maps for each category
+                    const computerMap = this.createDateMap(results.computerDateCounts);
+                    const componentMap = this.createDateMap(results.componentDateCounts);
+                    const assetMap = this.createDateMap(results.assetDateCounts);
+    
+                    // Format dates for display (Taipei timezone)
+                    const formattedDates = uniqueDates.map(date => {
+                        const taipeiDate = new Date(date);
+                        return taipeiDate.toLocaleDateString('en-US', {
+                            timeZone: 'Asia/Taipei',
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric'
+                        });
+                    });
+    
+                    // Prepare series data
+                    const computerData = uniqueDates.map(date => computerMap.get(date) || 0);
+                    const componentData = uniqueDates.map(date => componentMap.get(date) || 0);
+                    const assetData = uniqueDates.map(date => assetMap.get(date) || 0);
+    
+                    // Update the chart data
+                    this.chartData = {
+                        ...this.chartData,
+                        series: [
+                            { name: 'Computers', data: computerData },
+                            { name: 'Components', data: componentData },
+                            { name: 'Assets', data: assetData }
+                        ],
+                        xaxis: {
+                            ...this.chartData.xaxis,
+                            categories: formattedDates
+                        }
+                    };
+                }
+            },
+            (error) => {
+                console.error('Error fetching date-based data', error);
+                this.showChart = false;
+                this.dateUnidentified = 1;
+            }
+        );
+    }
+    
+
+    // Helper method to create a date-to-count map
+    private createDateMap(items: any[]): Map<string, number> {
+        const map = new Map<string, number>();
+        items
+            .filter((item) => this.isValidDate(item.date))
+            .forEach((item) => map.set(item.date, item.count));
+        return map;
     }
 
     // Chart configuration for the counts of computers, components, and assets
     chartData = {
         chart: {
-            type: 'line', // Changed from 'bar' to 'line' for a line chart
+            type: 'line',
             height: '100%',
             width: '100%',
             toolbar: {
-                show: false
-            }
+                show: false,
+            },
         },
-        series: [{
-            name: 'Count',
-            data: [0, 0, 0] // Initially set the data to 0
-        }],
-        colors: ['#2E93fA'],
+        series: [
+            {
+                name: 'Computers',
+                data: [],
+            },
+            {
+                name: 'Components',
+                data: [],
+            },
+            {
+                name: 'Assets',
+                data: [],
+            },
+        ],
+        colors: ['#2E93fA', '#FF9800', '#8BC34A'],
         dataLabels: {
-            enabled: false
+            enabled: false,
         },
         fill: {
-            opacity: 1
+            opacity: 1,
         },
         grid: {
-            show: true
+            show: true,
         },
         stroke: {
-            width: 2
+            width: 2,
+            curve: 'smooth',
         },
         tooltip: {
-            enabled: true
+            enabled: true,
+            x: {
+                show: true,
+                formatter: (value) => {
+                    // The value comes from the xaxis categories which we've already formatted
+                    // in Taipei timezone, so we can just return it
+                    return value + ' (Taipei Time)';
+                }
+            }
         },
         xaxis: {
-            categories: ['Computers', 'Components', 'Assets']
+            type: 'category',
+            categories: [],
+            labels: {
+                rotate: -45,
+                rotateAlways: false,
+                style: {
+                    fontSize: '12px',
+                },
+                formatter: (value) => {
+                    // This formatter is for the x-axis labels
+                    return value; // We've already formatted these in updateChart()
+                }
+            },
+            tickPlacement: 'on'
         },
         yaxis: {
             title: {
-                text: 'Count'
-            }
-        }
+                text: 'Count',
+            },
+            min: 0,
+        },
     };
+
+    // Add this helper method to validate dates
+    private isValidDate(dateStr: string): boolean {
+        if (!dateStr || dateStr === 'undefined' || dateStr === 'null' || dateStr === '0000-00-00T00:00:00') {
+            return false;
+        }
+        
+        // Try parsing the date
+        const date = new Date(dateStr);
+        
+        // Check if the date is valid and not the Unix epoch (Jan 1 1970)
+        return !isNaN(date.getTime()) && date.getTime() !== 0;
+    }
 }

@@ -81,4 +81,23 @@ export class AssetsService {
 
         return this.http.get<any>(url);
     }
+
+    public getCountDate(type?: string, groupBy: string = 'date'): Observable<any> {
+        let url = `${this.url}/Asset/AssetCount`;
+    
+        // If a type is provided, append it to the URL
+        if (type) {
+            url = `${url}?type=${type}`;
+        }
+    
+        // Always include groupBy, defaulting to 'date'
+        if (url.includes('?')) {
+            url = `${url}&groupBy=${groupBy}`;
+        } else {
+            url = `${url}?groupBy=${groupBy}`;
+        }
+    
+        return this.http.get<any>(url);
+    }
+    
 }

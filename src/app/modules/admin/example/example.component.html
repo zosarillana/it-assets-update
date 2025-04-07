@@ -11,68 +11,104 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden">
-            <div class="flex items-start justify-between m-6 mb-0">
-                <div class="text-lg font-medium tracking-tight leading-6 truncate">System Overview</div>
-                <div class="ml-2">
-                    <button class="h-6 min-h-6 px-2 rounded-full bg-hover" mat-button [matMenuTriggerFor]="conversionMenu">
-                        <span class="font-medium text-sm text-secondary">30 days</span>
-                    </button>
-                    <mat-menu #conversionMenu="matMenu">
-                        <button mat-menu-item>30 days</button>
-                        <button mat-menu-item>3 months</button>
-                        <button mat-menu-item>9 months</button>
-                    </mat-menu>
-                </div>
-            </div>
+
+        <div
+            class="flex flex-col flex-auto mt-8 bg-card shadow rounded-2xl overflow-hidden"
+        >
+            <!-- <div class="flex items-start justify-between m-6 mb-0">
+                <div
+                    class="text-lg font-medium tracking-tight leading-6 truncate"
+                >
+                    System Overview
+                </div>             
+            </div> -->
+
             <div class="flex items-start mt-6 mx-6">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12">
                     <!-- Computer Counts -->
                     <div class="flex flex-col">
                         <div class="flex items-center">
-                            <div class="font-medium text-secondary leading-5">Computers</div>
+                            <div class="font-medium text-secondary leading-5">
+                                Computers
+                            </div>
                         </div>
                         <div class="flex items-start mt-2">
-                            <div class="text-4xl font-bold tracking-tight leading-none">{{ totalCount }}</div>
+                            <div
+                                class="text-4xl font-bold tracking-tight leading-none"
+                            >
+                                {{ totalCount }}
+                            </div>
                         </div>
                     </div>
                     <!-- Component Counts -->
                     <div class="flex flex-col">
                         <div class="flex items-center">
-                            <div class="font-medium text-secondary leading-5">Components</div>
+                            <div class="font-medium text-secondary leading-5">
+                                Components
+                            </div>
                         </div>
                         <div class="flex items-start mt-2">
-                            <div class="text-4xl font-bold tracking-tight leading-none">{{ totalComponentCount }}</div>
+                            <div
+                                class="text-4xl font-bold tracking-tight leading-none"
+                            >
+                                {{ totalComponentCount }}
+                            </div>
                         </div>
                     </div>
                     <!-- Asset Counts -->
                     <div class="flex flex-col">
                         <div class="flex items-center">
-                            <div class="font-medium text-secondary leading-5">Assets</div>
+                            <div class="font-medium text-secondary leading-5">
+                                Assets
+                            </div>
                         </div>
                         <div class="flex items-start mt-2">
-                            <div class="text-4xl font-bold tracking-tight leading-none">{{ displayedAssetCount }}</div>
+                            <div
+                                class="text-4xl font-bold tracking-tight leading-none"
+                            >
+                                {{ displayedAssetCount }}
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Date Unidentified -->               
+    <div *ngIf="dateUnidentified > 0" class="flex items-center justify-center mt-4">
+        <div class="bg-gray-100 p-4 rounded-lg">
+            <div class="flex items-center">
+                <div class="font-medium text-secondary leading-5">
+                    Date unidentified items: 
+                </div>
+                <div class="ml-2 text-2xl font-bold">
+                    {{ dateUnidentified }}
                 </div>
             </div>
-            <!-- Chart Section -->
-            <div class="flex flex-col flex-auto h-80 mt-3">
-                <apx-chart
-                    class="flex-auto w-full h-full"
-                    [chart]="chartData.chart"
-                    [colors]="chartData.colors"
-                    [dataLabels]="chartData.dataLabels"
-                    [grid]="chartData.grid"
-                    [series]="chartData.series"
-                    [stroke]="chartData.stroke"
-                    [tooltip]="chartData.tooltip"
-                    [xaxis]="chartData.xaxis"
-                    [yaxis]="chartData.yaxis">
-                </apx-chart>
-            </div>
         </div>
-        
+    </div>
+                </div>
+            </div>
+
+            <!-- Chart Section -->
+           <div *ngIf="showChart" class="flex flex-col flex-auto h-80 mt-3">
+        <apx-chart
+            class="flex-auto w-full h-full"
+            [chart]="chartData.chart"
+            [colors]="chartData.colors"
+            [dataLabels]="chartData.dataLabels"
+            [grid]="chartData.grid"
+            [series]="chartData.series"
+            [stroke]="chartData.stroke"
+            [tooltip]="chartData.tooltip"
+            [xaxis]="chartData.xaxis"
+            [yaxis]="chartData.yaxis">
+        </apx-chart>
+    </div>
+
+    <!-- Message when no data is available -->
+    <div *ngIf="!showChart && dateUnidentified === 0" class="flex items-center justify-center h-80">
+        <div class="text-gray-500">No date data available</div>
+    </div>
+        </div>
+
         <div
             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full mt-8"
         >
@@ -84,7 +120,7 @@
                 <div class="m-8 mb-4">
                     <div class="flex items-start justify-between">
                         <div class="text-lg font-semibold leading-tight">
-                         Computers Summary
+                            Computers Summary
                         </div>
                         <div class="ml-2">
                             <button
@@ -133,7 +169,7 @@
                                     ></mat-icon>
                                     All Computers
                                 </span>
-                                <span class="text-sm ">
+                                <span class="text-sm">
                                     {{ laptopCount + cpuCount }}
                                 </span>
                             </div>
@@ -381,68 +417,111 @@
             </fuse-card>
 
             <!-- Assets -->
-            <fuse-card class="flex flex-col w-full filter-article filter-interactive self-start" #expandableCard03="fuseCard">
+            <fuse-card
+                class="flex flex-col w-full filter-article filter-interactive self-start"
+                #expandableCard03="fuseCard"
+            >
                 <div class="m-8 mb-4">
                     <div class="flex items-start justify-between">
-                        <div class="text-lg font-semibold leading-tight">Assets Summary</div>
+                        <div class="text-lg font-semibold leading-tight">
+                            Assets Summary
+                        </div>
                         <div class="ml-2">
                             <button
                                 class="h-6 min-h-6 px-2 rounded-full bg-hover"
                                 mat-button
                                 [matMenuTriggerFor]="assetTypesMenu"
                             >
-                                <span class="font-medium text-sm text-secondary">{{ selectedAssetType }}</span>
+                                <span
+                                    class="font-medium text-sm text-secondary"
+                                    >{{ selectedAssetType }}</span
+                                >
                             </button>
                             <mat-menu #assetTypesMenu="matMenu">
-                                <button mat-menu-item (click)="selectAssetType('ALL')">ALL ({{ displayedAssetCount }})</button>
-                                <button mat-menu-item *ngFor="let asset of assetCounts" (click)="selectAssetType(asset.type)">
+                                <button
+                                    mat-menu-item
+                                    (click)="selectAssetType('ALL')"
+                                >
+                                    ALL ({{ displayedAssetCount }})
+                                </button>
+                                <button
+                                    mat-menu-item
+                                    *ngFor="let asset of assetCounts"
+                                    (click)="selectAssetType(asset.type)"
+                                >
                                     {{ asset.type }} ({{ asset.count }})
                                 </button>
                             </mat-menu>
                         </div>
                     </div>
                     <div class="flex flex-row items-center gap-12">
-                        <div class="text-7xl font-bold">{{ displayedAssetCount }}</div>
+                        <div class="text-7xl font-bold">
+                            {{ displayedAssetCount }}
+                        </div>
                         <div class="flex-1">
                             <div class="flex gap-12">
                                 <span class="text-sm flex gap-1">
-                                    <mat-icon class="icon-size-4" svgIcon="heroicons_solid:information-circle"></mat-icon>
+                                    <mat-icon
+                                        class="icon-size-4"
+                                        svgIcon="heroicons_solid:information-circle"
+                                    ></mat-icon>
                                     All Assets
                                 </span>
-                                <span class="text-sm">{{ assetCounts.length }}</span>
+                                <span class="text-sm">{{
+                                    assetCounts.length
+                                }}</span>
                             </div>
                             <div class="flex justify-start mt-2 -ml-2">
                                 <button
                                     class="h-6 min-h-6 px-2 rounded-full text-sm"
                                     mat-button
                                     [color]="'primary'"
-                                    (click)="expandableCard03.expanded = !expandableCard03.expanded"
+                                    (click)="
+                                        expandableCard03.expanded =
+                                            !expandableCard03.expanded
+                                    "
                                 >
                                     <span class="mr-1">Details</span>
-                                    <mat-icon class="icon-size-5 transform transition-transform ease-in-out duration-150 rotate-0" [ngClass]="{ 'rotate-180': expandableCard03.expanded }" [svgIcon]="'heroicons_solid:chevron-down'"></mat-icon>
+                                    <mat-icon
+                                        class="icon-size-5 transform transition-transform ease-in-out duration-150 rotate-0"
+                                        [ngClass]="{
+                                            'rotate-180':
+                                                expandableCard03.expanded
+                                        }"
+                                        [svgIcon]="
+                                            'heroicons_solid:chevron-down'
+                                        "
+                                    ></mat-icon>
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            
+
                 <ng-container fuseCardExpansion>
                     <div class="m-8 -mt-0 text-sm">
                         <div class="flex items-baseline">
                             <div class="grid grid-cols-2">
-                                <div class="flex items-baseline mt-1" *ngFor="let asset of assetCounts">
+                                <div
+                                    class="flex items-baseline mt-1"
+                                    *ngFor="let asset of assetCounts"
+                                >
                                     <div class="mr-2 flex gap-1">
-                                        <mat-icon class="icon-size-4" svgIcon="device_hub"></mat-icon>
+                                        <mat-icon
+                                            class="icon-size-4"
+                                            svgIcon="device_hub"
+                                        ></mat-icon>
                                         {{ asset.type }} Total:
                                     </div>
-                                    <div class="text-secondary font-medium">{{ asset.count }}</div>
+                                    <div class="text-secondary font-medium">
+                                        {{ asset.count }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </ng-container>
             </fuse-card>
-            
         </div>
     </div>
 </div>

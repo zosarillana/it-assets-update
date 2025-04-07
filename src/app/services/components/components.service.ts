@@ -77,4 +77,24 @@ private url = environment.apiUrl;  // Use environment configuration
 
         return this.http.get<any>(url);
     }
+
+     
+    public getCountDate(type?: string, groupBy: string = 'date'): Observable<any> {
+        let url = `${this.url}/ComputerComponents/ComponentCount`;
+    
+        // If a type is provided, append it to the URL
+        if (type) {
+            url = `${url}?type=${type}`;
+        }
+    
+        // Always include groupBy, defaulting to 'date'
+        if (url.includes('?')) {
+            url = `${url}&groupBy=${groupBy}`;
+        } else {
+            url = `${url}?groupBy=${groupBy}`;
+        }
+    
+        return this.http.get<any>(url);
+    }
+    
 }
