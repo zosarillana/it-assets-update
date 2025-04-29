@@ -51,7 +51,7 @@ export class ComputerComponentAddModalComponent implements OnInit {
             // date_acquired: [this.data.component?.date_acquired || new Date(), [Validators.required]],
             date_acquired: [this.data.component?.date_acquired ? new Date(this.data.component.date_acquired) : new Date(), [Validators.required]], // ✅ Convert to Date object if editing
             type: [this.data.component?.type || '', [Validators.required]],
-            cost: [Number(this.data.asset?.cost) || 0, [Validators.required, Validators.pattern("^[0-9]*$")]], // ✅ Ensure cost is a number
+            // cost: [Number(this.data.asset?.cost) || 0, [Validators.required, Validators.pattern("^[0-9]*$")]], // ✅ Ensure cost is a number
             description: [this.data.component?.description || '', [Validators.required]],
         });
     }

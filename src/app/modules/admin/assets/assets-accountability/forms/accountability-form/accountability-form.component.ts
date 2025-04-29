@@ -282,55 +282,63 @@ export class AccountabilityFormComponent implements OnInit {
     // Function to generate the PDF
     pdfForm(): void {
         setTimeout(() => {
-            if (this.pdfFormArea) {
-                // Convert the main section to canvas
-                html2canvas(this.pdfFormArea.nativeElement, {
-                    scale: 2,
-                    useCORS: true,
-                })
-                    .then((mainCanvas) => {
-                        const mainImgData = mainCanvas.toDataURL('image/png');
-
-                        const pdf = new jsPDF({
-                            orientation: 'portrait',
-                            unit: 'px',
-                            format: 'a4',
-                        });
-
-                        // Define margin and usable page dimensions
-                        const margin = 20;
-                        const pageWidth = pdf.internal.pageSize.getWidth();
-                        const pageHeight = pdf.internal.pageSize.getHeight();
-                        const usableWidth = pageWidth - 2 * margin;
-                        const usableHeight = pageHeight - 2 * margin;
-
-                        // Calculate scaled dimensions for main content
-                        const mainRatio = usableWidth / mainCanvas.width;
-                        const mainHeight = mainCanvas.height * mainRatio;
-
-                        // Ensure content fits within a single page
-                        const scaledHeight = Math.min(mainHeight, usableHeight);
-
-                        pdf.addImage(
-                            mainImgData,
-                            'PNG',
-                            margin,
-                            margin,
-                            usableWidth,
-                            scaledHeight
-                        );
-
-                        pdf.save('accountability-form.pdf');
-                    })
-                    .catch((error) => {
-                        console.error('Error generating PDF:', error);
-                    });
-            } else {
-                console.error('Required element not found');
-            }
+          if (this.pdfFormArea) {
+            // Convert the main section to canvas
+            html2canvas(this.pdfFormArea.nativeElement, {
+              scale: 2, // Increased scale for better resolution
+              useCORS: true,
+            })
+              .then((mainCanvas) => {
+                const pdf = new jsPDF({
+                  orientation: 'portrait',
+                  unit: 'px',
+                  format: 'a4',
+                });
+    
+                // Define page dimensions with different margins for X and Y
+                const marginX = 10; // Reduced horizontal margin
+                const marginY = 20; // Reduced vertical margin
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                const usableWidth = pageWidth - 2 * marginX;
+                const usableHeight = pageHeight - 2 * marginY;
+    
+                // Calculate scale ratio to fit content to page width
+                const widthRatio = usableWidth / mainCanvas.width;
+                const heightRatio = usableHeight / mainCanvas.height;
+    
+                // Use the smaller ratio to ensure content fits in both dimensions
+                const ratio = Math.min(widthRatio, heightRatio);
+    
+                // Calculate dimensions that will fit on one page
+                const scaledWidth = mainCanvas.width * ratio;
+                const scaledHeight = mainCanvas.height * ratio;
+    
+                // Center the content on the page
+                const xPosition = marginX + (usableWidth - scaledWidth) / 2;
+                const yPosition = marginY + (usableHeight - scaledHeight) / 2;
+    
+                // Add the image to PDF
+                pdf.addImage(
+                  mainCanvas.toDataURL('image/png'),
+                  'PNG',
+                  xPosition,
+                  yPosition,
+                  scaledWidth,
+                  scaledHeight
+                );
+    
+                pdf.save('accountability-form.pdf');
+              })
+              .catch((error) => {
+                console.error('Error generating PDF:', error);
+              });
+          } else {
+            console.error('Required element not found');
+          }
         }, 500);
-    }
-
+      }
+    
     // Handle content overflow and move to next page if necessary
     private handleOverflow(): void {
         const pdfFormArea = document.querySelector('#pdfFormArea');

@@ -1,5 +1,5 @@
 <!-- Add this loader somewhere in your template -->
-<div  *ngIf="loading" class="loader">
+<div *ngIf="loading" class="loader">
     <img
         class="-mb-5"
         style="height: 65px; width: 65px"
@@ -169,7 +169,7 @@
                                                 ?.owner?.department || "N/A"
                                         }}
                                     </span>
-                                </div>                              
+                                </div>
                             </div>
                         </div>
 
@@ -179,11 +179,11 @@
                             <p class="text-sm font-semibold mt-5">
                                 Computer under accountability
                             </p>
-                            <span class="text-secondary text-sm">
+                            <!-- <span class="text-secondary text-sm">
                                 (Desktop, Laptops, etc..)</span
-                            >
+                            > -->
                         </div>
-                        
+
                         <div
                             *ngIf="computers.length > 0"
                             class="overflow-x-auto uppercase"
@@ -273,10 +273,12 @@
                                     <mat-cell
                                         class="text-xs"
                                         *matCellDef="let computer"
-                                        >{{
-                                            computer.status || "N/A"
-                                        }}</mat-cell
+                                      
                                     >
+                                    <p [ngClass]="{'text-red-500': computer.status === 'Missing' || computer.status === 'Damaged'}">
+                                        {{ computer.status || "N/A" }}
+                                    </p>
+                                    </mat-cell>
                                 </ng-container>
 
                                 <mat-header-row
@@ -310,9 +312,9 @@
                             <p class="text-sm font-semibold mt-5">
                                 Computer Components under accountability
                             </p>
-                            <span class="text-secondary text-sm"
+                            <!-- <span class="text-secondary text-sm"
                                 >(Ram, ssd, hdd ...)</span
-                            >
+                            > -->
                         </div>
 
                         <div
@@ -403,9 +405,18 @@
                                     <mat-cell
                                         class="text-xs"
                                         *matCellDef="let component"
-                                        >{{
-                                            component.status || "N/A"
-                                        }}</mat-cell
+                                    >
+                                        <p
+                                            [ngClass]="{
+                                                'text-red-500':
+                                                    component.status ===
+                                                        'missing' ||
+                                                    component.status ===
+                                                        'damaged'
+                                            }"
+                                        >
+                                            {{ component.status || "N/A" }}
+                                        </p></mat-cell
                                     >
                                 </ng-container>
 
@@ -440,9 +451,9 @@
                             <p class="text-sm font-semibold mt-5">
                                 Assets under accountability
                             </p>
-                            <span class="text-secondary text-sm">
+                            <!-- <span class="text-secondary text-sm">
                                 (Mouse, Keyboards etc..)</span
-                            >
+                            > -->
                         </div>
 
                         <div
@@ -532,7 +543,10 @@
                                     <mat-cell
                                         class="text-xs"
                                         *matCellDef="let asset"
-                                        >{{ asset.status || "N/A" }}</mat-cell
+                                        
+                                        >      <p [ngClass]="{'text-red-500': asset.status === 'Missing' || asset.status === 'Damaged'}">
+                                            {{ asset.status || "N/A" }}
+                                        </p></mat-cell
                                     >
                                 </ng-container>
 
@@ -597,11 +611,25 @@
                                     </p>
                                     <div class="flex justify-start items-start">
                                         <ng-container
-                                            *ngIf="ReturnItemsApproval?.checkedByUser; else blankSignature"
+                                            *ngIf="
+                                                ReturnItemsApproval?.checkedByUser;
+                                                else blankSignature
+                                            "
                                         >
                                             <img
-                                                *ngIf="ReturnItemsApproval?.checkedByUser?.e_signature; else defaultSignature"
-                                                [src]="getSignatureUrl(ReturnItemsApproval?.checkedByUser?.e_signature)"
+                                                *ngIf="
+                                                    ReturnItemsApproval
+                                                        ?.checkedByUser
+                                                        ?.e_signature;
+                                                    else defaultSignature
+                                                "
+                                                [src]="
+                                                    getSignatureUrl(
+                                                        ReturnItemsApproval
+                                                            ?.checkedByUser
+                                                            ?.e_signature
+                                                    )
+                                                "
                                                 alt="Signature"
                                                 class="mt-4 h-20 w-48 opacity-50"
                                             />

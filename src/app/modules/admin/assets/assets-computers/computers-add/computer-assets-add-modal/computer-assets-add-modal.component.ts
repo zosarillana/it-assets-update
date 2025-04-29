@@ -19,7 +19,8 @@ export class CopmuterAssetsAddModalComponent implements OnInit {
         'https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg';
     selectedFile: File | null = null;
     errorMessage$: Observable<string | null> = this.alertService.error$;
-
+    warrantyOptions: { label: string; value: string }[] = [];
+    
     constructor(
         private dialogRef: MatDialogRef<ComputerComponentAddModalComponent>,
         private _formBuilder: FormBuilder,
@@ -30,8 +31,27 @@ export class CopmuterAssetsAddModalComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        console.log(this.data.serial_number);
+        // console.log(this.data.po);
+        
         this.initializeForm();
+
+        const now = new Date();
+        for (let i = 1; i <= 12; i++) {
+            const futureDate = new Date(
+                now.getFullYear(),
+                now.getMonth() + i,
+                now.getDate()
+            );
+            const monthYear = futureDate.toLocaleString('default', {
+                month: 'short',
+                year: 'numeric',
+            });
+
+            this.warrantyOptions.push({
+                label: `${i} month${i > 1 ? 's' : ''} (until ${monthYear})`,
+                value: `${i}`,
+            });
+        }
     }
 
     private initializeForm(): void {
@@ -41,10 +61,10 @@ export class CopmuterAssetsAddModalComponent implements OnInit {
             asset_barcode: [this.data.asset?.asset_barcode || '', [Validators.required]],
             date_acquired: [this.data.asset?.date_acquired ? new Date(this.data.asset.date_acquired) : new Date(), [Validators.required]], // ✅ Convert to Date object if editing
             type: [this.data.asset?.type || '', [Validators.required]],
-            po: [this.data.asset?.po || '', [Validators.required]],
+            po: [this.data.asset?.po || this.data.po || 'N/A', [Validators.required]],
             brand: [this.data.asset?.brand || '', [Validators.required]],
             model: [this.data.asset?.model || '', [Validators.required]],
-            warranty: [this.data.asset?.warranty || '', [Validators.required]],
+            warranty: [this.data.asset?.warranty || this.data.warranty || 'N/A', [Validators.required]],
             cost: [Number(this.data.asset?.cost) || 0, [Validators.required, Validators.pattern("^[0-9]*$")]], // ✅ Ensure cost is a number
         });
     }

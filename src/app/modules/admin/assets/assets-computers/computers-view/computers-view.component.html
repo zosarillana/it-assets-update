@@ -229,13 +229,14 @@
                 <p class="flex flex-col font-medium text-medium">
                     Type
                     <span class="text-secondary text-medium">
-                        <mat-icon
-                            svgIcon="feather:cpu"
-                            class="icon-size-3"
-                        ></mat-icon>
-                        {{ asset.type || "N/A" }}
+                      <mat-icon
+                        svgIcon="feather:cpu"
+                        class="icon-size-3"
+                      ></mat-icon>
+                      {{ asset.type === 'CPU' ? 'DESKTOP' : (asset.type || 'N/A') }}
                     </span>
-                </p>
+                  </p>
+                  
                 <p class="flex flex-col font-medium text-medium">
                     Date Acquired
                     <span class="text-secondary text-medium">
@@ -256,7 +257,9 @@
                         {{ asset.brand || "N/A" }}
                     </span>
                 </p>
-                <p class="flex flex-col font-medium text-medium">
+                <p 
+                *ngIf="asset.type !== 'CPU'" 
+                class="flex flex-col font-medium text-medium">
                     Model
                     <span class="text-secondary text-medium">
                         <mat-icon
@@ -266,16 +269,20 @@
                         {{ asset.model || "N/A" }}
                     </span>
                 </p>
-                <p class="flex flex-col font-medium text-medium">
-                    Size
-                    <span class="text-secondary text-medium">
-                        <mat-icon
-                            svgIcon="feather:info"
-                            class="icon-size-3"
-                        ></mat-icon>
-                        {{ asset.size || "N/A" }}
-                    </span>
-                </p>
+                <p 
+                *ngIf="asset.type !== 'CPU'" 
+                class="flex flex-col font-medium text-medium"
+              >
+                Size
+                <span class="text-secondary text-medium">
+                  <mat-icon
+                    svgIcon="feather:info"
+                    class="icon-size-3"
+                  ></mat-icon>
+                  {{ asset.size || "N/A" }}
+                </span>
+              </p>
+              
 
                 <p class="flex flex-col font-medium text-medium">
                     Color
@@ -756,7 +763,7 @@
                                 <mat-header-cell
                                     *matHeaderCellDef
                                     mat-sort-header
-                                    >Chain of title</mat-header-cell
+                                    ></mat-header-cell
                                 >
                                 <mat-cell
                                     class="text-sm"

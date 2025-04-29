@@ -36,6 +36,7 @@ export class LaptopFormComponent  implements OnInit {
     form: FormGroup;
     eventForm!: FormGroup;
     sortOrder = 'desc';
+    warrantyOptions: { label: string; value: string }[] = [];
     private serialSubscription: Subscription;
 
     constructor(
@@ -83,6 +84,24 @@ export class LaptopFormComponent  implements OnInit {
         this.initializeForm();
         // this.getAllComponents();
         // this.getAllAssets();
+
+        const now = new Date();
+        for (let i = 1; i <= 12; i++) {
+            const futureDate = new Date(
+                now.getFullYear(),
+                now.getMonth() + i,
+                now.getDate()
+            );
+            const monthYear = futureDate.toLocaleString('default', {
+                month: 'short',
+                year: 'numeric',
+            });
+
+            this.warrantyOptions.push({
+                label: `${i} month${i > 1 ? 's' : ''} (until ${monthYear})`,
+                value: `${i}`,
+            });
+        }
     }
 
     // Clean up subscription on component destroy
@@ -530,12 +549,14 @@ removeComponent(index: number) {
 //for assets 
 openAssetsAdd(assetData?: any, index?: number) {
     const serialNumber = this.eventForm.get('serial_number')?.value;
+    const po = this.eventForm.get('po')?.value; // Get the current serial number
 
     const dialogRef = this.dialog.open(CopmuterAssetsAddModalComponent, {
         width: '700px',
         disableClose: true,
         data: { 
             serial_number: serialNumber, 
+            po: po, // Pass the current PO
             asset: assetData || null // ✅ Pass asset data if editing
         },
     });
