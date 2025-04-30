@@ -56,6 +56,7 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
         // 'assets',
         'owner',
         'department',
+        'bu',
         'status',
         'action'
     ];

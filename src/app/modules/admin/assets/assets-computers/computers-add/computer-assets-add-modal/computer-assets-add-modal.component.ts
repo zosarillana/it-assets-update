@@ -57,14 +57,15 @@ export class CopmuterAssetsAddModalComponent implements OnInit {
     private initializeForm(): void {
         this.eventForm = this._formBuilder.group({
             image_component: [null],
-            serial_number: [this.data.asset?.serial_number || this.data.serial_number || 'N/A', [Validators.required]], // ✅ Use passed value
+            serial_number: [this.data.asset?.serial_number || this.data.serial_number || '', [Validators.required]], // ✅ Use passed value
             asset_barcode: [this.data.asset?.asset_barcode || '', [Validators.required]],
-            date_acquired: [this.data.asset?.date_acquired ? new Date(this.data.asset.date_acquired) : new Date(), [Validators.required]], // ✅ Convert to Date object if editing
+            // date_acquired: [this.data.asset?.date_acquired ? new Date(this.data.asset.date_acquired) : new Date(), [Validators.required]], // ✅ Convert to Date object if editing
+            date_acquired: [this.data.asset?.date_acquired || this.data.date_acquired || new Date(), [Validators.required]],
             type: [this.data.asset?.type || '', [Validators.required]],
-            po: [this.data.asset?.po || this.data.po || 'N/A', [Validators.required]],
+            po: [this.data.asset?.po || this.data.po || '', [Validators.required]],
             brand: [this.data.asset?.brand || '', [Validators.required]],
             model: [this.data.asset?.model || '', [Validators.required]],
-            warranty: [this.data.asset?.warranty || this.data.warranty || 'N/A', [Validators.required]],
+            warranty: [this.data.asset?.warranty || this.data.warranty || '', [Validators.required]],
             cost: [Number(this.data.asset?.cost) || 0, [Validators.required, Validators.pattern("^[0-9]*$")]], // ✅ Ensure cost is a number
         });
     }

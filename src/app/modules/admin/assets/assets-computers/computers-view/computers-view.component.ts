@@ -100,7 +100,8 @@ export class ComputersViewComponent implements OnInit {
         this.dataSourceAssignedAssets = this.asset?.assigned_assets?.values?.map(asset => ({
             name: `${asset.type}`,
             icon: 'feather:package',
-            description: `${asset.asset_barcode}`,
+            uid: `${asset.asset_barcode}`,
+            model: asset.model || 'N/A',
             brand: asset.brand,
             id: asset.id,
             serial_no: asset.serial_no || 'N/A',

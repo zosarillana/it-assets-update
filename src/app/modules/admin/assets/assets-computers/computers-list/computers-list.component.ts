@@ -26,7 +26,7 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
         'type',
         'brand',
         'model',
-        'serial_no',
+        // 'serial_no',
         'active_user',
         'bu',
         'status',

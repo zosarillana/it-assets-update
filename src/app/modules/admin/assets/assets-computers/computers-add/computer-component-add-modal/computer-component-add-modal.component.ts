@@ -18,6 +18,7 @@ export class ComputerComponentAddModalComponent implements OnInit {
         'https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg';
     selectedFile: File | null = null;
     errorMessage$: Observable<string | null> = this.alertService.error$;
+    warrantyOptions: { label: string; value: string }[] = [];
 
     constructor(
         private dialogRef: MatDialogRef<ComputerComponentAddModalComponent>,
@@ -31,6 +32,24 @@ export class ComputerComponentAddModalComponent implements OnInit {
     ngOnInit(): void {
         // console.log(this.data.serial_number);
         this.initializeForm();
+
+        const now = new Date();
+        for (let i = 1; i <= 12; i++) {
+            const futureDate = new Date(
+                now.getFullYear(),
+                now.getMonth() + i,
+                now.getDate()
+            );
+            const monthYear = futureDate.toLocaleString('default', {
+                month: 'short',
+                year: 'numeric',
+            });
+
+            this.warrantyOptions.push({
+                label: `${i} month${i > 1 ? 's' : ''} (until ${monthYear})`,
+                value: `${i}`,
+            });
+        }
     }
 
     // private initializeForm(): void {
@@ -46,11 +65,13 @@ export class ComputerComponentAddModalComponent implements OnInit {
     private initializeForm(): void {
         this.eventForm = this._formBuilder.group({
             image_component: [null],
-            serial_number: [this.data.serial_number || 'N/A', [Validators.required]], // Use the passed value
-            asset_barcode: [this.data.asset_barcode || 'N/A', [Validators.required]], // Use existing data
+            serial_number: [this.data.serial_number || '', [Validators.required]], // Use the passed value
+            asset_barcode: [this.data.asset_barcode || '', [Validators.required]], // Use existing data
             // date_acquired: [this.data.component?.date_acquired || new Date(), [Validators.required]],
             date_acquired: [this.data.component?.date_acquired ? new Date(this.data.component.date_acquired) : new Date(), [Validators.required]], // ✅ Convert to Date object if editing
             type: [this.data.component?.type || '', [Validators.required]],
+            warranty: [this.data.asset?.warranty || this.data.warranty || '', [Validators.required]],
+            
             // cost: [Number(this.data.asset?.cost) || 0, [Validators.required, Validators.pattern("^[0-9]*$")]], // ✅ Ensure cost is a number
             description: [this.data.component?.description || '', [Validators.required]],
         });

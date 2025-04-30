@@ -253,7 +253,7 @@
                         <p class="text-primary font-bold text-2xl">
                             {{ asset.asset_barcode || "N/A" }}
                         </p>
-                        <p class="text-secondary">
+                        <p *ngif="false" class="text-secondary">
                             Serial number: {{ asset.serial_no || "N/A" }}
                         </p>
                     </div>
@@ -276,7 +276,7 @@
 
             <div class="w-full">
                 <div class="grid grid-cols-3 gap-4 justify-between">
-                    <p class="flex flex-col font-medium text-medium">
+                    <p *ngif="false" class="flex flex-col font-medium text-medium">
                         Serial number
                         <span class="text-secondary text-sm">
                             <mat-icon
@@ -310,7 +310,7 @@
                             }}
                         </span>
                     </p>
-                    <p class="flex flex-col font-medium text-medium">
+                    <p *nfig="false" class="flex flex-col font-medium text-medium">
                         Brand
                         <span class="text-secondary text-sm">
                             <mat-icon

@@ -62,8 +62,8 @@ export class ComputerFormComponent implements OnInit {
             asset_barcode: ['', [Validators.required]],
             date_acquired: ['', [Validators.required]],
             brand: ['', [Validators.required]],
-            model: ['', [Validators.required]],
-            size: ['', [Validators.required]],
+            model: ['', ],
+            size: ['', ],
             color: ['', [Validators.required]],
             po: ['', [Validators.required]],
             warranty: ['', [Validators.required]],
@@ -319,37 +319,53 @@ export class ComputerFormComponent implements OnInit {
 
     submitForm(): void {
         const rawData = this.eventForm.value;
-        // console.log("Raw Form Data:", rawData);
-
         const mappedData = this.mapResponseToForm(rawData);
-        // console.log("Mapped Form Data:", mappedData);
-
+    
         this.eventForm.patchValue(mappedData);
-
+    
         if (!this.eventForm.valid) {
-            // console.error("Form submission failed: Invalid form data", this.getFormValidationErrors());
             return;
         }
-
+    
         this.computerService.postEvent(mappedData).subscribe({
             next: () => {
                 this.alertService.triggerSuccess('Asset successfully added!');
+    
+                // Reset form to default values
+                this.eventForm.reset({
+                    image: null,
+                    serial_number: '',
+                    type: 'CPU',
+                    asset_barcode: '',
+                    date_acquired: '',
+                    brand: '',
+                    model: '',
+                    size: '',
+                    color: '',
+                    po: '',
+                    warranty: '',
+                    cost: '',
+                    components: [], // or: this._formBuilder.array([])
+                    assets: []      // same here
+                });
+    
+                // Optional: Clear form arrays explicitly
+                (this.eventForm.get('components') as FormArray).clear();
+                (this.eventForm.get('assets') as FormArray).clear();
+    
                 setTimeout(() => {
-                    //   window.location.reload();
-                }, 1000); // Small delay for the alert to be visible
+                    window.location.reload();
+                }, 1000);
             },
             error: (err) => {
-                // console.error("Error submitting form:", err);
-                this.alertService.triggerError(
-                    'Failed to add asset. Please try again.'
-                );
-
+                this.alertService.triggerError('Failed to add asset. Please try again.');
                 if (err.error) {
                     console.error('Error details:', err.error);
                 }
             },
         });
     }
+    
 
     private mapResponseToForm(response: any): any {
         return {
@@ -358,7 +374,7 @@ export class ComputerFormComponent implements OnInit {
                 ? this.formatDate(response.date_acquired._d)
                 : response.date_acquired || '',
             //   serial_number: response.serial_number || '',
-            asset_barcode: response.asset_barcode || '',
+            asset_barcode: response.serial_number || '',
             brand: response.brand || '',
             //   model: response.model || '',
             //   size: response.size || '',
@@ -452,11 +468,13 @@ export class ComputerFormComponent implements OnInit {
         const serialNumber = this.eventForm.get('serial_number')?.value; // Get the current serial number
         const assetBarcode = this.eventForm.get('asset_barcode')?.value; // Get the current serial number
         const po = this.eventForm.get('po')?.value; // Get the current serial number
+        const warranty = this.eventForm.get('warranty')?.value; // Get the current serial number
+        const date_acquired = this.eventForm.get('date_acquired')?.value; // Get the current serial number
 
         const dialogRef = this.dialog.open(ComputerComponentAddModalComponent, {
             width: '700px',
             disableClose: true,
-            data: { serial_number: serialNumber, asset_barcode: assetBarcode, po }, // Pass the serial number
+            data: { serial_number: serialNumber, asset_barcode: assetBarcode, po, warranty, date_acquired }, // Pass the serial number
         });
 
         dialogRef.afterClosed().subscribe((result) => {
@@ -552,6 +570,7 @@ export class ComputerFormComponent implements OnInit {
         const serialNumber = this.eventForm.get('serial_number')?.value;
         const po = this.eventForm.get('po')?.value; // Get the current serial number
         const warranty = this.eventForm.get('warranty')?.value; // Get the current serial number
+        const date_acquired = this.eventForm.get('date_acquired')?.value; // Get the current serial number
         const dialogRef = this.dialog.open(CopmuterAssetsAddModalComponent, {
             width: '700px',
             disableClose: true,
@@ -559,6 +578,7 @@ export class ComputerFormComponent implements OnInit {
                 serial_number: serialNumber,
                 po: po,
                 warranty: warranty,
+                date_acquired: date_acquired,
                 asset: assetData || null, // ✅ Pass asset data if editing
             },
         });

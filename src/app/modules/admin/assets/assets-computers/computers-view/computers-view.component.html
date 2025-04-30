@@ -33,7 +33,7 @@
                         <a
                             class="ml-1 text-primary-500 cursor-pointer"
                             [routerLink]="'/assets/computers'"
-                            >Computer List</a
+                            >Computers List</a
                         >
                     </div>
                     <div class="flex items-center ml-1 whitespace-nowrap">
@@ -186,9 +186,9 @@
                         <p class="text-primary font-bold text-2xl">
                             {{ asset.asset_barcode || "N/A" }}
                         </p>
-                        <p class="text-secondary">
+                        <!-- <p class="text-secondary">
                             Serial number: {{ asset.serial_no || "N/A" }}
-                        </p>
+                        </p> -->
                     </div>
                     <mat-divider class="mx-12" vertical></mat-divider>
                     <div class="flex flex-col">
@@ -608,29 +608,15 @@
                                         class="whitespace-nowrap overflow-hidden text-ellipsis"
                                         *matHeaderCellDef
                                         mat-sort-header
-                                        >Description</mat-header-cell
-                                    >
+                                    >Model</mat-header-cell>
                                     <mat-cell *matCellDef="let element">
-                                        <ng-container
-                                            *ngIf="
-                                                element.description;
-                                                else noDescription
-                                            "
-                                        >
-                                            <span
-                                                class="text-blue-600 underline cursor-pointer text-sm"
-                                            >
-                                                {{ element.description }}
-                                                <mat-icon
-                                                    svgIcon="mat_outline:open_in_new"
-                                                    class="icon-size-3 text-blue-700"
-                                                ></mat-icon>
+                                        <ng-container *ngIf="element.model && element.model !== 'N/A'; else noModel">
+                                            <span class="text-sm">
+                                                {{ element.model }}                                              
                                             </span>
                                         </ng-container>
-                                        <ng-template #noDescription>
-                                            <span class="text-secondary text-sm"
-                                                >N/A</span
-                                            >
+                                        <ng-template #noModel>
+                                            <span class="text-secondary text-sm">N/A</span>
                                         </ng-template>
                                     </mat-cell>
                                 </ng-container>
@@ -644,9 +630,13 @@
                                     >
                                     <mat-cell
                                         *matCellDef="let element"
-                                        class="text-sm"
+                                        class="text-blue-600 underline cursor-pointer text-sm"
                                     >
-                                        {{ element.brand }}
+                                        {{ element.uid }}
+                                        <mat-icon
+                                        svgIcon="mat_outline:open_in_new"
+                                        class="icon-size-3 text-blue-700"
+                                        ></mat-icon>
                                     </mat-cell>
                                 </ng-container>
 
@@ -717,10 +707,9 @@
                                     *matRowDef="
                                         let row;
                                         columns: [
-                                            'name',
-                                            'description',
+                                            'name',                                           
                                             'uid',
-                                            
+                                            'description',
                                             'action'
                                         ]
                                     "

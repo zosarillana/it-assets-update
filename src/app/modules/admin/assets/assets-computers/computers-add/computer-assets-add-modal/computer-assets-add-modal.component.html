@@ -62,7 +62,7 @@
                 <div class="flex flex-grow flex-row gap-4">
                     <div class="flex flex-grow flex-col">
                         <mat-label class="text-xs md:text-sm"
-                            >Asset Barcode</mat-label
+                            >Inventory Code</mat-label
                         >
                         <mat-form-field appearance="fill">
                             <mat-icon
@@ -73,7 +73,7 @@
                                 matInput
                                 formControlName="asset_barcode"
                                 id="asset_barcode"
-                                placeholder="Enter asset barcode..."
+                                placeholder="Enter inventory code..."
                                 class="text-xs md:text-sm"
                             />
                         </mat-form-field>
@@ -105,25 +105,28 @@
                     </div>
                 </div>
                 <div class="flex flex-grow flex-row gap-4">
-                    <div class="flex flex-grow flex-col">
-                        <mat-label class="text-xs md:text-sm">Serial Number</mat-label>
-                        <mat-form-field appearance="fill">
-                            <mat-icon
-                                svgIcon="feather:hash"
-                                class="icon-size-3 md:icon-size-4 mr-2"
-                            ></mat-icon>
-                            <input
-                                matInput
-                                formControlName="serial_number"
-                                id="serial_number"
-                                placeholder="Enter Serial Number..."
-                                class="text-xs md:text-sm"
-                            />
-                        </mat-form-field>
+                    <div *ngif="false" class="flex flex-grow flex-col">
+                    
+                            <mat-label class="text-xs md:text-sm">Serial Number</mat-label>
+                            <mat-form-field appearance="fill">
+                                <mat-icon
+                                    svgIcon="feather:hash"
+                                    class="icon-size-3 md:icon-size-4 mr-2"
+                                ></mat-icon>
+                                <input
+                                    matInput
+                                    formControlName="serial_number"
+                                    id="serial_number"
+                                    placeholder="Enter Serial Number..."
+                                    class="text-xs md:text-sm"
+                                />
+                            </mat-form-field>
+                        
+                        
                     </div>
                     <div class="flex flex-grow flex-col">
                         <mat-label class="text-xs md:text-sm"
-                            >PO Number</mat-label
+                            >Po #</mat-label
                         >
                         <mat-form-field appearance="fill">
                             <mat-icon

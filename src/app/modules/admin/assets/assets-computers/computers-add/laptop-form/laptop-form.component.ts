@@ -353,7 +353,7 @@ export class LaptopFormComponent  implements OnInit {
             ? this.formatDate(response.date_acquired._d)
             : response.date_acquired || '',
         //   serial_number: response.serial_number || '',
-          asset_barcode: response.asset_barcode || '',
+          asset_barcode: response.serial_number || '',
           brand: response.brand || '',
           model: response.model || '',
           size: response.size || '',
