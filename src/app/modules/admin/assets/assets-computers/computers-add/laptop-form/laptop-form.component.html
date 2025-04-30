@@ -40,7 +40,7 @@
             <div class="flex flex-col w-1/2">
                 <mat-form-field appearance="fill" class="w-full">
                     <mat-label class="text-xs md:text-sm font-bold text-primary"
-                        >Serial #</mat-label
+                        >Asset Barcode</mat-label
                     >
                     <mat-icon
                         svgIcon="feather:hash"
@@ -136,7 +136,7 @@
                 <input type="hidden" formControlName="type" value="LAPTOP" />
             </mat-form-field>
             <mat-label class="text-xs md:text-sm mb-1"
-                >Computer Asset Barcode</mat-label
+                >Asset Barcode</mat-label
             >
             <mat-form-field appearance="fill">
                 <mat-icon
@@ -147,11 +147,12 @@
                     matInput
                     formControlName="asset_barcode"
                     id="asset_barcode"
+                    [value]="eventForm.value.serial_number"
                     placeholder="Enter asset barcode..."
                     class="text-xs md:text-sm"
                 />
             </mat-form-field>
-            <mat-label class="text-xs md:text-sm mb-1">Serial #</mat-label>
+            <!-- <mat-label class="text-xs md:text-sm mb-1">Asset Barcode</mat-label>
             <mat-form-field appearance="fill">
                 <mat-icon
                     svgIcon="feather:hash"
@@ -166,7 +167,7 @@
                     [value]="eventForm.value.serial_number"
                     class="text-xs md:text-sm"
                 />
-            </mat-form-field>
+            </mat-form-field> -->
             <mat-label class="text-xs md:text-sm mb-1">Brand</mat-label>
             <mat-form-field appearance="fill">
                 <mat-icon

@@ -87,6 +87,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SidePanelComputerComponent } from '../assets-computers/computers-list/side-panel-computer/side-panel-computer.component';
 import { SidePanelComponentComponent } from '../assets-components/components-list/side-panel-component/side-panel-component.component';
 import { SidePanelInventoryComponent } from '../assets-inventory/inventory-list/side-panel-inventory/side-panel-inventory.component';
+import { PeripheralTypeComponent } from '../masterdata/peripheral-type/peripheral-type.component';
 
 const assetRoute: Route[] = [
     // {
@@ -204,6 +205,10 @@ const assetRoute: Route[] = [
         path: 'business-units',
         component: BusinessUnitsComponent,
     },
+    {
+        path: 'peripheral-types',
+        component: PeripheralTypeComponent,
+    },
 
 
 ];
@@ -261,7 +266,8 @@ const assetRoute: Route[] = [
         ViewReturnComponent,
         SidePanelComputerComponent,
         SidePanelComponentComponent,
-        SidePanelInventoryComponent
+        SidePanelInventoryComponent,
+        PeripheralTypeComponent,
         // AlertsComponentComponent,
     ],
     imports: [

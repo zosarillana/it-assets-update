@@ -71,42 +71,51 @@
                         </div>
                     </div>
 
-                    <!-- Date Unidentified -->               
-    <div *ngIf="dateUnidentified > 0" class="flex items-center justify-center mt-4">
-        <div class="bg-gray-100 p-4 rounded-lg">
-            <div class="flex items-center">
-                <div class="font-medium text-secondary leading-5">
-                    Date unidentified items: 
-                </div>
-                <div class="ml-2 text-2xl font-bold">
-                    {{ dateUnidentified }}
-                </div>
-            </div>
-        </div>
-    </div>
+                    <!-- Date Unidentified -->
+                    <div
+                        *ngIf="dateUnidentified > 0"
+                        class="flex items-center justify-center mt-4"
+                    >
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <div class="flex items-center">
+                                <div
+                                    class="font-medium text-secondary leading-5"
+                                >
+                                    Date unidentified items:
+                                </div>
+                                <div class="ml-2 text-2xl font-bold">
+                                    {{ dateUnidentified }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- Chart Section -->
-           <div *ngIf="showChart" class="flex flex-col flex-auto h-80 mt-3">
-        <apx-chart
-            class="flex-auto w-full h-full"
-            [chart]="chartData.chart"
-            [colors]="chartData.colors"
-            [dataLabels]="chartData.dataLabels"
-            [grid]="chartData.grid"
-            [series]="chartData.series"
-            [stroke]="chartData.stroke"
-            [tooltip]="chartData.tooltip"
-            [xaxis]="chartData.xaxis"
-            [yaxis]="chartData.yaxis">
-        </apx-chart>
-    </div>
+            <div *ngIf="showChart" class="flex flex-col flex-auto h-80 mt-3">
+                <apx-chart
+                    class="flex-auto w-full h-full"
+                    [chart]="chartData.chart"
+                    [colors]="chartData.colors"
+                    [dataLabels]="chartData.dataLabels"
+                    [grid]="chartData.grid"
+                    [series]="chartData.series"
+                    [stroke]="chartData.stroke"
+                    [tooltip]="chartData.tooltip"
+                    [xaxis]="chartData.xaxis"
+                    [yaxis]="chartData.yaxis"
+                >
+                </apx-chart>
+            </div>
 
-    <!-- Message when no data is available -->
-    <div *ngIf="!showChart && dateUnidentified === 0" class="flex items-center justify-center h-80">
-        <div class="text-gray-500">No date data available</div>
-    </div>
+            <!-- Message when no data is available -->
+            <div
+                *ngIf="!showChart && dateUnidentified === 0"
+                class="flex items-center justify-center h-80"
+            >
+                <div class="text-gray-500">No date data available</div>
+            </div>
         </div>
 
         <div

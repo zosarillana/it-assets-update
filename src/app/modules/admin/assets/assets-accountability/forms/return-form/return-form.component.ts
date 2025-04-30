@@ -198,24 +198,23 @@ export class ReturnFormComponent implements OnInit {
   }
   
 
-    flattenComponents(): void {
-      this.flattenedComponents = [];
-  
-      if (this.accountabilityItem?.computers?.length) {
-          this.accountabilityItem.computers.forEach((computer) => {
-              Object.keys(computer.components).forEach((componentType) => {
-                  if (Array.isArray(computer.components[componentType])) {
-                      computer.components[componentType].forEach((component) => {
-                          this.flattenedComponents.push({
-                              ...component,
-                              type: componentType, // Add component type (GPU, RAM, etc.)
-                          });
-                      });
-                  }
-              });
-          });
-      }
-  
+  flattenComponents(): void {
+    this.flattenedComponents = [];
+
+    if (this.accountabilityItem?.computers?.length) {
+        this.accountabilityItem.computers.forEach((computer) => {
+            Object.keys(computer.components).forEach((componentType) => {
+                if (Array.isArray(computer.components[componentType])) {
+                    computer.components[componentType].forEach((component) => {
+                        // Add reference to the original component
+                        component.type = componentType; // Add component type
+                        this.flattenedComponents.push(component);
+                    });
+                }
+            });
+        });
+    }
+
       // Assign to MatTableDataSource
       this.assetDataSource = new MatTableDataSource(this.flattenedComponents);
   }
@@ -281,19 +280,19 @@ export class ReturnFormComponent implements OnInit {
                 // Process components
                 const { BOARD, HDD, RAM, SSD, GPU } = computer.components;
                 const componentsArray = [...(BOARD || []), ...(HDD || []), ...(RAM || []), ...(SSD || []), ...(GPU || [])];
-                for (const component of componentsArray) {
+               // Process components
+                for (const component of this.flattenedComponents) {
                     const componentItem = {
                         accountability_id: this.accountabilityItem.user_accountability_list?.id ?? null,
                         user_id: ownerId,
                         asset_id: null,
-                        computer_id: computer.id,
+                        computer_id: component.computer_id, // Make sure this property exists
                         component_id: component.id,
                         item_type: 'Components',
-                        status: component.checked ? component.condition : 'missing',
+                        status: component.checked ? component.condition : 'missing', 
                         remarks: component.remarks || '',
                         validated_by: 1,
                     };
-                    // console.log('Component item:', componentItem);
                     checklist.push(componentItem);
                 }
             }

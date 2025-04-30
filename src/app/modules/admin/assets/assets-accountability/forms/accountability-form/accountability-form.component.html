@@ -90,93 +90,102 @@
                                 <p class="text-lg tracking-tight font-bold">
                                     ISSUED TO
                                 </p>
-                                <div class="flex flex-row gap-2 text-sm">
-                                    <p
-                                        class="text-regular tracking-tight font-bold"
-                                    >
-                                        Employee Name
-                                    </p>
-                                    <span class="font-medium">{{
-                                        asset.user_accountability_list.owner
-                                            .name || "N/A"
-                                    }}</span>
-                                </div>
-                                <div class="flex flex-row gap-10 text-sm">
-                                    <p
-                                        class="text-regular tracking-tight font-bold"
-                                    >
-                                        ID Number
-                                    </p>
-                                    <span class="font-medium">
-                                        {{
-                                            asset.user_accountability_list.owner
-                                                .employee_id || "N/A"
-                                        }}</span
-                                    >
-                                </div>
-                                <div class="flex flex-row gap-8 text-sm">
-                                    <p
-                                        class="text-regular tracking-tight font-bold"
-                                    >
-                                        Designation
-                                    </p>
-                                    <span class="font-medium">
-                                        {{
-                                            asset.user_accountability_list.owner
-                                                .designation || "N/A"
-                                        }}</span
-                                    >
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-0.5 w-58 mt-7">
-                                <div class="flex flex-row gap-15 text-sm">
-                                    <p
-                                        class="text-regular tracking-tight font-bold"
-                                    >
-                                        Business Unit
-                                    </p>
-                                    <span class="font-medium">
-                                        {{
-                                            asset.user_accountability_list.owner
-                                                .company || "N/A"
-                                        }}</span
-                                    >
-                                </div>
-                                <div class="flex flex-row gap-11 text-sm">
-                                    <p
-                                        class="text-regular tracking-tight font-bold"
-                                    >
-                                        Department
-                                    </p>
-                                    <span class="font-medium">
-                                        {{
-                                            asset.user_accountability_list.owner
-                                                .department || "N/A"
-                                        }}</span
-                                    >
-                                </div>
-                                <div class="flex flex-row gap-9 text-sm">
-                                    <div class="flex flex-row gap-12 text-sm">
+                             <div class="flex flex-row w-full">
+                                <div class="flex flex-col w-120 ">
+                                    <div class="flex flex-row gap-2 text-sm">
                                         <p
                                             class="text-regular tracking-tight font-bold"
                                         >
-                                            Date Hired
+                                            Employee Name
                                         </p>
-                                        <span class="ml-1.5 font-medium">
+                                        <span class="font-medium">{{
+                                            asset.user_accountability_list.owner
+                                                .name || "N/A"
+                                        }}</span>
+                                    </div>
+                                    <div class="flex flex-row gap-10 text-sm">
+                                        <p
+                                            class="text-regular tracking-tight font-bold"
+                                        >
+                                            ID Number
+                                        </p>
+                                        <span class="font-medium">
                                             {{
-                                                asset.user_accountability_list
-                                                    .owner.date_hired
-                                                    ? (asset
-                                                          .user_accountability_list
-                                                          .owner.date_hired
-                                                          ?.value
-                                                      | date : "MMMM d, y")
-                                                    : "N/A"
-                                            }}
-                                        </span>
+                                                asset.user_accountability_list.owner
+                                                    .employee_id || "N/A"
+                                            }}</span
+                                        >
+                                    </div>
+                                    <div class="flex flex-row gap-8 text-sm">
+                                        <p
+                                            class="text-regular tracking-tight font-bold"
+                                        >
+                                            Designation
+                                        </p>
+                                        <span class="font-medium">
+                                            {{
+                                                asset.user_accountability_list.owner
+                                                    .designation || "N/A"
+                                            }}</span
+                                        >
+                                    </div>
+                                </div> 
+                              
+                               <div class="flex flex-row w-120 justify-between" >
+                                <div class="flex flex-col gap-0.5 w-58 ">
+                                    <div class="flex flex-row gap-15 text-sm">
+                                        <p
+                                            class="text-regular tracking-tight font-bold"
+                                        >
+                                            Business Unit
+                                        </p>
+                                        <span class="font-medium">
+                                            {{
+                                                asset.user_accountability_list.owner
+                                                    .company || "N/A"
+                                            }}</span
+                                        >
+                                    </div>
+                                    <div class="flex flex-row gap-11 text-sm">
+                                        <p
+                                            class="text-regular tracking-tight font-bold"
+                                        >
+                                            Department
+                                        </p>
+                                        <span class="font-medium">
+                                            {{
+                                                asset.user_accountability_list.owner
+                                                    .department || "N/A"
+                                            }}</span
+                                        >
+                                    </div>
+                                    <div class="flex flex-row gap-9 text-sm">
+                                        <div class="flex flex-row gap-12 text-sm">
+                                            <p
+                                                class="text-regular tracking-tight font-bold"
+                                            >
+                                                Date Hired
+                                            </p>
+                                            <span class="ml-1.5 font-medium">
+                                                {{
+                                                    asset.user_accountability_list
+                                                        .owner.date_hired
+                                                        ? (asset
+                                                              .user_accountability_list
+                                                              .owner.date_hired
+                                                              ?.value
+                                                          | date : "MMMM d, y")
+                                                        : "N/A"
+                                                }}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
+                             </div>
+                               
+                               </div>
                             </div>
+                           
                         </div>
 
                         <!-- Page Break (If Needed) -->

@@ -1,4 +1,4 @@
-<div  *ngIf="loading" class="loader">
+<div *ngIf="loading" class="loader">
     <img
         class="-mb-5"
         style="height: 65px; width: 65px"
@@ -96,98 +96,106 @@
                 <!-- Content Section -->
                 <div class="space-y-6 flex-grow w-full">
                     <div *ngIf="accountabilityItem" class="space-y-6">
+                        <div>
+                        <p class="text-lg tracking-tight font-bold">
+                            OWNER DETAILS
+                        </p>
+
                         <div class="flex flex-row w-full mx-auto mt-8 gap-12">
                             <!-- Owner Details -->
-                            <div class="flex flex-col gap-0.5 w-58">
-                                <p class="text-lg tracking-tight font-bold">
-                                    OWNER DETAILS
-                                </p>
-                                <div class="flex flex-row gap-2 text-sm">
-                                    <p
-                                        class="text-regular tracking-tight font-bold"
-                                    >
-                                        Employee Name
-                                    </p>
-                                    <span class="font-medium">{{
-                                        accountabilityItem
-                                            ?.user_accountability_list?.owner
-                                            .name || "N/A"
-                                    }}</span>
-                                </div>
-                                <div class="flex flex-row gap-10 text-sm">
-                                    <p
-                                        class="text-regular tracking-tight font-bold"
-                                    >
-                                        ID Number
-                                    </p>
-                                    <span class="font-medium">{{
-                                        accountabilityItem
-                                            ?.user_accountability_list?.owner
-                                            .employee_id || "N/A"
-                                    }}</span>
-                                </div>
-                                <div class="flex flex-row gap-8 text-sm">
-                                    <p
-                                        class="text-regular tracking-tight font-bold"
-                                    >
-                                        Designation
-                                    </p>
-                                    <span class="font-medium">{{
-                                        accountabilityItem
-                                            ?.user_accountability_list?.owner
-                                            .designation || "N/A"
-                                    }}</span>
-                                </div>
-                            </div>
 
-                            <!-- Additional Owner Info -->
-                            <div class="flex flex-col gap-0.5 w-58 mt-7">
-                                <div class="flex flex-row gap-15 text-sm">
-                                    <p
-                                        class="text-regular tracking-tight font-bold"
-                                    >
-                                        Business Unit
-                                    </p>
-                                    <span class="font-medium">{{
-                                        accountabilityItem
-                                            ?.user_accountability_list?.owner
-                                            .company || "N/A"
-                                    }}</span>
-                                </div>
-                                <div class="flex flex-row gap-11 text-sm">
-                                    <p
-                                        class="text-regular tracking-tight font-bold"
-                                    >
-                                        Department
-                                    </p>
-                                    <span class="font-medium">{{
-                                        accountabilityItem
-                                            ?.user_accountability_list?.owner
-                                            .department || "N/A"
-                                    }}</span>
-                                </div>
-                                <div class="flex flex-row gap-12 text-sm">
-                                    <p
-                                        class="text-regular tracking-tight font-bold"
-                                    >
-                                        Date Hired
-                                    </p>
-                                    <span class="ml-1.5 font-medium">
-                                        {{
+                            <div class="flex flex-row w-full justify-between">
+                                <div class="flex flex-col gap-0.5 w-120">
+                                    <div class="flex flex-row gap-8 text-sm">
+                                        <p
+                                            class="text-regular tracking-tight font-bold"
+                                        >
+                                            Employee Name
+                                        </p>
+                                        <span class="font-medium">{{
                                             accountabilityItem
                                                 ?.user_accountability_list
-                                                ?.owner.date_hired
-                                                ? (accountabilityItem
-                                                      .user_accountability_list
-                                                      ?.owner.date_hired?.value
-                                                  | date : "MMMM d, y")
-                                                : "N/A"
-                                        }}
-                                    </span>
+                                                ?.owner.name || "N/A"
+                                        }}</span>
+                                    </div>
+                                    <div class="flex flex-row gap-16 text-sm">
+                                        <p
+                                            class="text-regular tracking-tight font-bold"
+                                        >
+                                            ID Number
+                                        </p>
+                                        <span class="font-medium">{{
+                                            accountabilityItem
+                                                ?.user_accountability_list
+                                                ?.owner.employee_id || "N/A"
+                                        }}</span>
+                                    </div>
+                                    <div class="flex flex-row gap-13 text-sm">
+                                        <p
+                                            class="text-regular tracking-tight font-bold"
+                                        >
+                                            Designation
+                                        </p>
+                                        <span class="font-medium">{{
+                                            accountabilityItem
+                                                ?.user_accountability_list
+                                                ?.owner.designation || "N/A"
+                                        }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <!-- Additional Owner Info -->
+                                <div class="flex flex-col gap-0.5 w-120">
+                                    <div class="flex flex-row gap-15 text-sm">
+                                        <p
+                                            class="text-regular tracking-tight font-bold"
+                                        >
+                                            Business Unit
+                                        </p>
+                                        <span class="font-medium">{{
+                                            accountabilityItem
+                                                ?.user_accountability_list
+                                                ?.owner.company || "N/A"
+                                        }}</span>
+                                    </div>
+                                    <div class="flex flex-row gap-15 text-sm">
+                                        <p
+                                            class="text-regular tracking-tight font-bold"
+                                        >
+                                            Department
+                                        </p>
+                                        <span class="font-medium">{{
+                                            accountabilityItem
+                                                ?.user_accountability_list
+                                                ?.owner.department || "N/A"
+                                        }}</span>
+                                    </div>
+                                    <div class="flex flex-row gap-15 text-sm">
+                                        <p
+                                            class="text-regular tracking-tight font-bold"
+                                        >
+                                            Date Hired
+                                        </p>
+                                        <span class="ml-1.5 font-medium">
+                                            {{
+                                                accountabilityItem
+                                                    ?.user_accountability_list
+                                                    ?.owner.date_hired
+                                                    ? (accountabilityItem
+                                                          .user_accountability_list
+                                                          ?.owner.date_hired
+                                                          ?.value
+                                                      | date : "MMMM d, y")
+                                                    : "N/A"
+                                            }}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
+                    </div>
                         <!-- Assets Table -->
                         <div class="page-break"></div>
                         <div class="flex flex-col my-4">
@@ -202,13 +210,12 @@
                         <div
                             class="overflow-x-auto"
                             *ngIf="accountabilityItem?.computers?.length"
-
                         >
-                        <mat-table
-                        [dataSource]="accountabilityItem.computers"
-                        matSort
-                        class="mat-elevation-z8 custom-mat-table"
-                    >
+                            <mat-table
+                                [dataSource]="accountabilityItem.computers"
+                                matSort
+                                class="mat-elevation-z8 custom-mat-table compact-table"
+                            >
                                 <!-- Returned Column -->
                                 <ng-container matColumnDef="returned">
                                     <mat-header-cell
@@ -222,10 +229,10 @@
                                     >
                                         <!-- Computer Checkbox -->
                                         <mat-checkbox
-    [(ngModel)]="computer.checked"
-    (change)="updateButtonState()"
-    class="w-6 h-6"
-></mat-checkbox>
+                                            [(ngModel)]="computer.checked"
+                                            (change)="updateButtonState()"
+                                            class="w-6 h-6"
+                                        ></mat-checkbox>
                                     </mat-cell>
                                 </ng-container>
 
@@ -383,7 +390,7 @@
                             <mat-table
                                 [dataSource]="flattenedComponents"
                                 matSort
-                                class="mat-elevation-z8 custom-mat-table"
+                                class="mat-elevation-z8 custom-mat-table compact-table"
                             >
                                 <!-- Component Type Column -->
                                 <ng-container matColumnDef="componentType">
@@ -401,7 +408,6 @@
                                         {{ getComponentType(component.type) }}
                                     </mat-cell>
                                 </ng-container>
-                                
 
                                 <!-- Returned Column -->
                                 <ng-container matColumnDef="returned">
@@ -416,9 +422,9 @@
                                     >
                                         <!-- Component Checkbox -->
                                         <mat-checkbox
-    [(ngModel)]="component.checked"
-    (change)="updateButtonState()"
-></mat-checkbox>
+                                            [(ngModel)]="component.checked"
+                                            (change)="updateButtonState()"
+                                        ></mat-checkbox>
                                     </mat-cell>
                                 </ng-container>
 
@@ -545,15 +551,13 @@
 
                         <div
                             class="overflow-x-auto"
-                            *ngIf="
-                                accountabilityItem?.computers?.length
-                            "
+                            *ngIf="accountabilityItem?.computers?.length"
                         >
                             <!-- Assets Table -->
                             <mat-table
                                 [dataSource]="assetDataSource"
                                 matSort
-                                class="mat-elevation-z8 custom-mat-table"
+                                class="mat-elevation-z8 custom-mat-table compact-table"
                             >
                                 <!-- Returned Column -->
                                 <ng-container matColumnDef="returned">
@@ -562,10 +566,10 @@
                                     >
                                     <mat-cell *matCellDef="let asset">
                                         <mat-checkbox
-    [(ngModel)]="asset.checked"
-    (change)="updateButtonState()"
-    class="w-6 h-6 rounded-md accent-blue-600"
-></mat-checkbox>
+                                            [(ngModel)]="asset.checked"
+                                            (change)="updateButtonState()"
+                                            class="w-6 h-6 rounded-md accent-blue-600"
+                                        ></mat-checkbox>
                                     </mat-cell>
                                 </ng-container>
 
@@ -698,17 +702,17 @@
             </div>
         </div>
         <div class="fixed bottom-4 right-4 flex flex-col space-y-4">
-          <button
-          class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
-          (click)="submitReturnChecklist()"
-          [disabled]="!allCheckboxesChecked()"
-          matTooltip="Submit form"
-          matTooltipPosition="above"
-          aria-label="Submit form"
-          style="width: 56px; height: 56px"
-        >
-          <mat-icon svgIcon="check" class="text-gray-500"></mat-icon>
-        </button>
+            <button
+                class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
+                (click)="submitReturnChecklist()"
+                [disabled]="!allCheckboxesChecked()"
+                matTooltip="Submit form"
+                matTooltipPosition="above"
+                aria-label="Submit form"
+                style="width: 56px; height: 56px"
+            >
+                <mat-icon svgIcon="check" class="text-gray-500"></mat-icon>
+            </button>
         </div>
     </div>
 </div>

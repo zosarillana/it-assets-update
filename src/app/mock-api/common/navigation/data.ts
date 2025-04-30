@@ -196,14 +196,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
 
     {
         id: 'data',
-        title: 'Data Table',
+        title: 'Master Data',
         subtitle: 'Requests and approvals',
         type: 'group',
         icon: 'heroicons_outline:chart-pie',
         children: [
             {
                 id: 'data.asset',
-                title: 'Masterdata',
+                title: 'Divisions Masterdata',
                 type: 'collapsable',
                 icon: 'heroicons_solid:document-text',
                 children: [
@@ -228,6 +228,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                     //     icon: 'feather:tag',
                     //     link: '/data/movement',
                     // },
+                ],
+            },
+            {
+                id: 'data.asset',
+                title: 'Assets Masterdata',
+                type: 'collapsable',
+                icon: 'heroicons_solid:document-text',
+                children: [
+                    {
+                        id: 'data.asset.table',
+                        title: 'Peripherals Types',
+                        type: 'basic',
+                        icon: 'mat_outline:domain',
+                        link: '/masterdata/peripheral-types',
+                    },                   
                 ],
             },
         ],

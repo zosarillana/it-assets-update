@@ -191,7 +191,7 @@
                             <mat-table
                                 [dataSource]="computers"
                                 matSort
-                                class="mat-elevation-z8 custom-mat-table"
+                                class="mat-elevation-z8 custom-mat-table compact-table"
                             >
                                 <!-- Type Column -->
                                 <ng-container matColumnDef="type">
@@ -324,7 +324,7 @@
                             <mat-table
                                 [dataSource]="components"
                                 matSort
-                                class="mat-elevation-z8 custom-mat-table"
+                                class="mat-elevation-z8 custom-mat-table compact-table"
                             >
                                 <!-- Type Column -->
                                 <ng-container matColumnDef="type">
@@ -410,9 +410,9 @@
                                             [ngClass]="{
                                                 'text-red-500':
                                                     component.status ===
-                                                        'missing' ||
+                                                        'Missing' ||
                                                     component.status ===
-                                                        'damaged'
+                                                        'Damaged'
                                             }"
                                         >
                                             {{ component.status || "N/A" }}
@@ -464,7 +464,7 @@
                                 class="text-xs"
                                 [dataSource]="assets"
                                 matSort
-                                class="mat-elevation-z8 custom-mat-table"
+                                class="mat-elevation-z8 custom-mat-table compact-table"
                             >
                                 <!-- Type Column -->
                                 <ng-container matColumnDef="type">

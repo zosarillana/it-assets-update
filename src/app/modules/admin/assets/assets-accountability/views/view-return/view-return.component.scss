@@ -68,3 +68,14 @@ body.loader-hidden .loader {
     visibility: hidden;
     opacity: 0;
 }
+
+
+.compact-table .mat-row {
+    min-height: 36px !important;
+    height: 36px !important;
+  }
+  
+  .compact-table .mat-cell {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+  }
