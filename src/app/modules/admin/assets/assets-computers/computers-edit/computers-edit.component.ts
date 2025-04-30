@@ -38,6 +38,7 @@ export class ComputersEditComponent implements OnInit {
         private location: Location
     ) {}
     typeOptions: string[] = ['CPU', 'LAPTOP'];
+    warrantyOptions: { label: string; value: string }[] = [];
 
     // Initialize form with comprehensive validation
     private initializeForm(): void {
@@ -47,22 +48,16 @@ export class ComputersEditComponent implements OnInit {
                 this.asset?.serial_no || 'N/A',
                 Validators.required,
             ],
-            type: [this.asset?.type || '', [Validators.required]],
-            asset_barcode: [
-                this.asset?.asset_barcode || '',
-                [Validators.required],
-            ],
-            date_acquired: [this.asset?.date_acquired, [Validators.required]],
-            brand: [this.asset?.brand, [Validators.required]],
-            model: [this.asset?.model, [Validators.required]],
-            size: [this.asset?.size, [Validators.required]],
-            color: [this.asset?.color, [Validators.required]],
-            po: [this.asset?.po, [Validators.required]],
-            warranty: [this.asset?.warranty, [Validators.required]],
-            cost: [
-                this.asset?.cost,
-                [Validators.required, Validators.pattern('^[0-9]*$')],
-            ],
+            type: [this.asset?.type || ''],
+            asset_barcode: [this.asset?.asset_barcode || ''],
+            date_acquired: [this.asset?.date_acquired],
+            brand: [this.asset?.brand],
+            model: [this.asset?.model],
+            size: [this.asset?.size],
+            color: [this.asset?.color],
+            po: [this.asset?.po],
+            warranty: [this.asset?.warranty],
+            cost: [this.asset?.cost, [Validators.pattern('^[0-9]*$')]],
         });
 
         this.serialSubscription = this.eventForm
@@ -84,7 +79,7 @@ export class ComputersEditComponent implements OnInit {
         const id = Number(this.route.snapshot.paramMap.get('id'));
         if (id) {
             this.loading = true; // Start loading
-        
+
             this.assetsService.getComputersById(id).subscribe({
                 next: (data) => {
                     this.asset = data;
@@ -96,12 +91,29 @@ export class ComputersEditComponent implements OnInit {
                     console.error('Error fetching asset', err);
                     this.loading = false; // Stop loading even on error
                     this.initializeForm(); // Ensure form initializes even if data fetch fails
-                }
+                },
             });
         } else {
             this.initializeForm(); // Initialize with default values if no ID is provided
         }
-        
+
+        const now = new Date();
+        for (let i = 1; i <= 12; i++) {
+            const futureDate = new Date(
+                now.getFullYear(),
+                now.getMonth() + i,
+                now.getDate()
+            );
+            const monthYear = futureDate.toLocaleString('default', {
+                month: 'short',
+                year: 'numeric',
+            });
+
+            this.warrantyOptions.push({
+                label: `${i} month${i > 1 ? 's' : ''} (until ${monthYear})`,
+                value: `${i}`,
+            });
+        }
     }
     previewSelectedImage(event: Event): void {
         const input = event.target as HTMLInputElement;
@@ -121,6 +133,11 @@ export class ComputersEditComponent implements OnInit {
 
             reader.readAsDataURL(file);
         }
+    }
+
+    getWarrantyLabel(value: string): string | null {
+        const option = this.warrantyOptions.find((opt) => opt.value === value);
+        return option ? option.label : null;
     }
 
     updateAsset(): void {
@@ -148,7 +165,7 @@ export class ComputersEditComponent implements OnInit {
             department: formData.department || '',
             type: formData.type || '',
             date_updated: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD
-            asset_barcode: formData.asset_barcode || '',
+            asset_barcode: formData.serial_number || '',
             brand: formData.brand || '',
             model: formData.model || '',
             ram: formData.ram || '',
@@ -187,7 +204,6 @@ export class ComputersEditComponent implements OnInit {
                 setTimeout(() => {
                     window.location.reload();
                 }, 1000); // S
-            
             },
             error: (err) => {
                 // console.error('Error updating asset', err);
@@ -205,7 +221,7 @@ export class ComputersEditComponent implements OnInit {
                     );
                 } else {
                     this.alertService.triggerError('Failed to update asset.');
-                }            
+                }
             },
         });
     }
@@ -276,6 +292,5 @@ export class ComputersEditComponent implements OnInit {
 
     goBack(): void {
         this.location.back();
-      }
-
+    }
 }

@@ -46,7 +46,7 @@
                     </a>
                     <!-- Course title & description -->
                     <div class="mt-7 text-2xl font-semibold">
-                        Add Accountability
+                        Update Computer
                     </div>
                     <div class="text-secondary">
                         Select a computer and fill the employee details to
@@ -74,7 +74,7 @@
                             >
                                 <!-- Make mat-form-field take full width -->
                                 <mat-label class="text-primary text-sm"
-                                    >Serial Number</mat-label
+                                    >Inventory Code</mat-label
                                 >
                                 <mat-icon
                                     svgIcon="feather:hash"
@@ -96,13 +96,10 @@
                                     class="icon-size-5 mr-2"
                                 ></mat-icon>
                                 <mat-select formControlName="type" id="type">
-                                    <mat-option
-                                        *ngFor="let option of typeOptions"
-                                        [value]="option"
-                                    >
-                                        {{ option }}
+                                    <mat-option *ngFor="let option of typeOptions" [value]="option">
+                                        {{ option === 'CPU' ? 'DESKTOP' : option }}
                                     </mat-option>
-                                </mat-select>
+                                </mat-select>                                
                             </mat-form-field>
 
                             <mat-form-field appearance="fill" class="w-full">
@@ -142,22 +139,29 @@
                                 />
                             </mat-form-field>
 
-                            <mat-form-field appearance="fill" class="w-full">
-                                <mat-label class="text-sm">Model</mat-label>
-                                <mat-icon
-                                    svgIcon="feather:smartphone"
-                                    class="icon-size-5 mr-2"
-                                ></mat-icon>
-                                <input
-                                    class="uppercase"
-                                    formControlName="model"
-                                    matInput
-                                    id="model"
-                                    [placeholder]="asset.model || 'N/A'"
-                                />
-                            </mat-form-field>
+                            <mat-form-field
+                            appearance="fill"
+                            class="w-full"
+                            *ngIf="eventForm.get('type')?.value !== 'CPU'"
+                        >
+                            <mat-label class="text-sm">Model</mat-label>
+                            <mat-icon
+                                svgIcon="feather:smartphone"
+                                class="icon-size-5 mr-2"
+                            ></mat-icon>
+                            <input
+                                class="uppercase"
+                                formControlName="model"
+                                matInput
+                                id="model"
+                                [placeholder]="asset.model || 'N/A'"
+                            />
+                        </mat-form-field>
+                        
 
-                            <mat-form-field appearance="fill" class="w-full">
+                            <mat-form-field 
+                            *ngIf="eventForm.get('type')?.value !== 'CPU'"
+                            appearance="fill" class="w-full">
                                 <mat-label class="text-sm">Size</mat-label>
                                 <mat-icon
                                     svgIcon="feather:info"
@@ -199,18 +203,23 @@
                                 />
                             </mat-form-field>
 
-                            <mat-form-field appearance="fill" class="w-full">
-                                <mat-label class="text-sm">Warranty</mat-label>
-                                <mat-icon
-                                    svgIcon="feather:shield"
-                                    class="icon-size-5 mr-2"
-                                ></mat-icon>
-                                <input
-                                    formControlName="warranty"
-                                    matInput
-                                    id="warranty"
-                                    [placeholder]="asset.warranty || 'N/A'"
-                                />
+                            <mat-label class="text-xs md:text-sm mb-1">Warranty</mat-label>
+                            <mat-form-field appearance="fill">
+                              <mat-icon
+                                svgIcon="feather:shield"
+                                class="icon-size-3 md:icon-size-4 mr-2"
+                              ></mat-icon>
+                              
+                              <mat-select
+                                id="warranty"
+                                formControlName="warranty"
+                                placeholder="Select warranty..."
+                                class="text-xs md:text-sm"
+                              >
+                                <mat-option *ngFor="let month of warrantyOptions" [value]="month.value">
+                                  {{ month.label }}
+                                </mat-option>
+                              </mat-select>
                             </mat-form-field>
 
                             <mat-form-field appearance="fill" class="w-full">
@@ -384,7 +393,7 @@
                                                                             "N/A"
                                                                     }}
                                                                 </p>
-                                                                <p
+                                                                <!-- <p
                                                                     class="text-secondary"
                                                                 >
                                                                     Serial
@@ -393,7 +402,7 @@
                                                                         asset.serial_no ||
                                                                             "N/A"
                                                                     }}
-                                                                </p>
+                                                                </p> -->
                                                             </div>
                                                             <mat-divider
                                                                 class="mx-12"
@@ -442,7 +451,7 @@
                                                         <p
                                                             class="flex flex-col font-medium text-medium"
                                                         >
-                                                            Serial number
+                                                            Inventory Code
                                                             <span
                                                                 class="text-secondary text-medium"
                                                             >
@@ -576,23 +585,19 @@
                                                                 }}
                                                             </span>
                                                         </p>
-                                                        <p
-                                                            class="flex flex-col font-medium text-medium"
-                                                        >
+                                                        <p class="flex flex-col font-medium text-medium">
                                                             Warranty
-                                                            <span
-                                                                class="text-secondary text-medium"
-                                                            >
+                                                            <span class="text-secondary text-medium">
                                                                 <mat-icon
                                                                     svgIcon="feather:shield"
                                                                     class="icon-size-3"
                                                                 ></mat-icon>
                                                                 {{
-                                                                    asset.warranty ||
-                                                                        "N/A"
+                                                                    getWarrantyLabel(asset.warranty) || 'N/A'
                                                                 }}
                                                             </span>
                                                         </p>
+                                                        
                                                         <p
                                                             class="flex flex-col font-medium text-medium"
                                                         >
