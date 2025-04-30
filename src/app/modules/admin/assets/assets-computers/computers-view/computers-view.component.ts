@@ -20,9 +20,9 @@ import { ModalPullinAssetsComponent } from '../modal-pullin-assets/modal-pullin-
 export class ComputersViewComponent implements OnInit {
     asset: any;
     displayedColumns: string[] = [
-        'component',
-        'description',
+        'component',    
         'uid',
+        'description',
         'action',
     ];
     dataSourceAssignedAssets: any[] = [];

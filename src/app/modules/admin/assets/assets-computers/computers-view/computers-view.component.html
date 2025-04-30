@@ -80,7 +80,7 @@
                             }})
                         </p>
                         <p class="text-secondary font-semibold">
-                            Asset barcode:
+                            Inventory Code:
                             <span class="text-secondary font-medium">{{
                                 asset.asset_barcode
                             }}</span>
@@ -429,13 +429,10 @@
                                             "
                                         >
                                             <span
-                                                class="text-blue-600 underline cursor-pointer text-sm"
+                                                class="text-sm"
                                             >
-                                                {{ element.description }}
-                                                <mat-icon
-                                                    svgIcon="mat_outline:open_in_new"
-                                                    class="icon-size-3 text-blue-700"
-                                                ></mat-icon>
+                                                {{ element.description || "N/A"}}
+                                             
                                             </span>
                                         </ng-container>
                                         <ng-template #noDescription>
@@ -448,7 +445,7 @@
 
                                 <ng-container matColumnDef="uid">
                                     <mat-header-cell
-                                        class="whitespace-nowrap overflow-hidden text-ellipsis"
+                                        class="whitespace-nowrap overflow-hidden text-ellipsis "
                                         *matHeaderCellDef
                                         mat-sort-header
                                     >
@@ -456,9 +453,13 @@
                                     </mat-header-cell>
                                     <mat-cell
                                         *matCellDef="let element"
-                                        class="text-sm"
+                                        class="text-blue-600 underline cursor-pointer text-sm"
                                     >
                                         {{ element.uid || "N/A" }}
+                                        <mat-icon
+                                        svgIcon="mat_outline:open_in_new"
+                                        class="icon-size-3 text-blue-700"
+                                    ></mat-icon>
                                     </mat-cell>
                                 </ng-container>
 
@@ -607,7 +608,7 @@
                                         class="whitespace-nowrap overflow-hidden text-ellipsis"
                                         *matHeaderCellDef
                                         mat-sort-header
-                                        >Barcode</mat-header-cell
+                                        >Description</mat-header-cell
                                     >
                                     <mat-cell *matCellDef="let element">
                                         <ng-container
@@ -639,7 +640,7 @@
                                         class="whitespace-nowrap overflow-hidden text-ellipsis"
                                         *matHeaderCellDef
                                         mat-sort-header
-                                        >Asset ID</mat-header-cell
+                                        >Inventory Code</mat-header-cell
                                     >
                                     <mat-cell
                                         *matCellDef="let element"
@@ -707,9 +708,8 @@
                                 <mat-header-row
                                     *matHeaderRowDef="[
                                         'name',
-                                        'description',
                                         'uid',
-                                        'serial_no',
+                                        'description',                                                                            
                                         'action'
                                     ]"
                                 ></mat-header-row>
@@ -720,7 +720,7 @@
                                             'name',
                                             'description',
                                             'uid',
-                                            'serial_no',
+                                            
                                             'action'
                                         ]
                                     "
