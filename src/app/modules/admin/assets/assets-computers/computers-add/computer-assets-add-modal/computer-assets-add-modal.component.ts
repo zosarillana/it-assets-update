@@ -7,6 +7,7 @@ import { AlertService } from 'app/services/alert.service';
 import { ComponentsService } from 'app/services/components/components.service';
 import { Observable } from 'rxjs';
 import { ComputerComponentAddModalComponent } from '../computer-component-add-modal/computer-component-add-modal.component';
+import { PeripheralService } from 'app/services/peripheral/peripheral.service';
 
 @Component({
   selector: 'app-computer-assets-add-modal',
@@ -20,6 +21,8 @@ export class CopmuterAssetsAddModalComponent implements OnInit {
     selectedFile: File | null = null;
     errorMessage$: Observable<string | null> = this.alertService.error$;
     warrantyOptions: { label: string; value: string }[] = [];
+    peripheralOptions: any[] = [];
+
     
     constructor(
         private dialogRef: MatDialogRef<ComputerComponentAddModalComponent>,
@@ -27,6 +30,7 @@ export class CopmuterAssetsAddModalComponent implements OnInit {
         private service: ComponentsService,
         private alertService: AlertService,
         private sanitizer: DomSanitizer,
+        private Peripheralservice: PeripheralService,
         @Inject(MAT_DIALOG_DATA) public data: any // Inject the passed data
     ) {}
 
@@ -52,6 +56,14 @@ export class CopmuterAssetsAddModalComponent implements OnInit {
                 value: `${i}`,
             });
         }
+
+        this.Peripheralservice.getPeripherals().subscribe({
+            next: (res: any[]) => {
+              this.peripheralOptions = res;
+            },
+            
+          });
+          
     }
 
     private initializeForm(): void {

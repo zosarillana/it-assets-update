@@ -95,6 +95,12 @@ export class ComputersViewComponent implements OnInit {
         addToDataSource('HDD', 'feather:hard-drive', this.asset?.hdd?.values);
         addToDataSource('GPU', 'feather:monitor', this.asset?.gpu?.values);
         addToDataSource('BOARD', 'feather:info', this.asset?.board?.values);
+        addToDataSource('PSU', 'feather:power', this.asset?.psu?.values);
+        addToDataSource('CPU', 'feather:cpu', this.asset?.cpu?.values);
+        addToDataSource('CPU FAN', 'feather:cpu', this.asset?.cpu_fan?.values);
+        addToDataSource('CD ROM', 'feather:disc', this.asset?.cd_rom?.values);
+        addToDataSource('BATTERY', 'feather:battery', this.asset?.battery?.values);
+        
 
         // Create assigned assets data source
         this.dataSourceAssignedAssets = this.asset?.assigned_assets?.values?.map(asset => ({
@@ -108,6 +114,11 @@ export class ComputersViewComponent implements OnInit {
             action: '',
         })) || [];
 
+
+        console.log('Asset:', this.asset);
+        console.log('History:', this.asset?.history);
+        console.log('History Values:', this.asset?.history?.values);
+        
         // Create history data source
         this.dataSourceHistory = this.asset?.history?.values?.map((historyItem, index) => ({
             id: index + 1,

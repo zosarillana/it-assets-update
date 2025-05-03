@@ -54,7 +54,7 @@
                                 matInput
                                 formControlName="asset_barcode"
                                 id="asset_barcode"
-                                placeholder="Enter asset barcode..."
+                                placeholder="Enter Inventory code..."
                                 class="text-xs md:text-sm uppercase"
                             />
                         </mat-form-field>
@@ -75,18 +75,23 @@
 
                         <mat-form-field appearance="fill">
                             <mat-icon
-                                svgIcon="feather:cpu"
-                                class="icon-size-3 md:icon-size-4 mr-2"
+                              svgIcon="feather:cpu"
+                              class="icon-size-3 md:icon-size-4 mr-2"
                             ></mat-icon>
-                            <input
-                                matInput
-                                formControlName="type"
-                                id="type"
-                                class="text-xs md:text-sm uppercase"
-                                placeholder="Enter Peripheral type..."
-                                type="text"
-                            />
-                        </mat-form-field>
+                            
+                            <mat-select
+                              matInput
+                              formControlName="type"
+                              id="type"
+                              class="text-xs md:text-sm uppercase"
+                              placeholder="Select Peripheral type..."
+                            >
+                              <mat-option *ngFor="let peripheral of peripherals" [value]="peripheral.type">
+                                {{ peripheral.type }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          
 
                         <mat-form-field appearance="fill">
                             <mat-icon
@@ -383,7 +388,7 @@
                                                             <p
                                                                 class="text-sm md:text-md font-bold text-primary"
                                                             >
-                                                                Asset barcode
+                                                                Inventory Code
                                                             </p>
                                                             <div
                                                                 class="flex justify-start items-start gap-2"

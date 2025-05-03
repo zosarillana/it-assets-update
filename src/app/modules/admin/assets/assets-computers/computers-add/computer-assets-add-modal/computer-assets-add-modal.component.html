@@ -149,20 +149,17 @@
         <div class="flex flex-grow flex-row gap-4">
             <div class="flex flex-grow flex-col">
                 <mat-label class="text-xs md:text-sm">Type</mat-label>
-                <mat-form-field appearance="fill">
-                    <mat-icon
-                        svgIcon="feather:cpu"
-                        class="icon-size-3 md:icon-size-4 mr-2"
-                    ></mat-icon>
-                    <input
-                        matInput
-                        formControlName="type"
-                        id="type"
-                        placeholder="Enter type..."
-                        class="text-xs md:text-sm"
-                    />
+                <mat-form-field appearance="fill" class="w-full">
+                  <mat-select formControlName="type" class="text-sm" required placeholder="Select Peripheral">
+                    <mat-option *ngFor="let peripheral of peripheralOptions" [value]="peripheral.type">
+                      {{ peripheral.type }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="eventForm.get('type')?.hasError('required')">
+                    Type is required
+                  </mat-error>
                 </mat-form-field>
-            </div>
+              </div>
             <div class="flex flex-grow flex-col">
                 <mat-label class="text-xs md:text-sm">Brand</mat-label>
                 <mat-form-field appearance="fill">
@@ -262,3 +259,8 @@
     <button mat-stroked-button (click)="resetForm()">Reset</button>
     <button mat-flat-button color="primary" (click)="submit()">Submit</button>
 </mat-dialog-actions>
+
+
+
+
+

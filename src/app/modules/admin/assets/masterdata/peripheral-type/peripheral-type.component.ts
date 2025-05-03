@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Department } from 'app/models/Department/Department';
-import { DepartmentService } from 'app/services/department/department.service';
+import { PeripheralService, Peripheral } from 'app/services/peripheral/peripheral.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -13,112 +12,104 @@ import { map, startWith } from 'rxjs/operators';
   styleUrls: ['./peripheral-type.component.scss']
 })
 export class PeripheralTypeComponent implements OnInit {
-departments: Department[] = []; // Holds the fetched departments
-    errorMessage: string = ''; // Holds error messages (if any)
+  peripherals: Peripheral[] = [];
+  errorMessage: string = '';
 
-    pageSize = 10;
-    sortOrder = 'asc';
-    searchTerm = '';
-    @ViewChild(MatPaginator) paginator!: MatPaginator;
-    constructor(private departmentService: DepartmentService) {}
-    dataSource = new MatTableDataSource<Department>();
+  pageSize = 10;
+  sortOrder = 'asc';
+  searchTerm = '';
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-    displayedColumns: string[] = [
-        'code',
-        'description',
-        // 'action'
-    ];
+  dataSource = new MatTableDataSource<Peripheral>();
 
-    ngOnInit(): void {
-        this.loadDepartments();
+  displayedColumns: string[] = ['type', 'description',];
 
-        this.filteredTypeOptions = this.typeFilterControl.valueChanges.pipe(
-            startWith(''),
-            map((value) => this._filter(value))
-        );
+  constructor(private peripheralService: PeripheralService) {}
 
-        // Listen for changes and apply filter dynamically
-        this.typeFilterControl.valueChanges.subscribe((value) => {
-            this.applyFilter(value);
+  ngOnInit(): void {
+    this.loadPeripherals();
+
+    this.filteredTypeOptions = this.typeFilterControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
+
+    this.typeFilterControl.valueChanges.subscribe(value => {
+      this.applyFilter(value);
+    });
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
+  private loadPeripherals(): void {
+    this.peripheralService.getPeripherals().subscribe({
+      next: (data) => {
+        this.peripherals = data;
+        this.dataSource.data = this.peripherals;
+
+        this.allTypes = [...new Set(data.map(p => p.type))];
+
+        setTimeout(() => {
+          if (this.paginator) {
+            this.dataSource.paginator = this.paginator;
+          }
         });
+      },
+      error: (error) => {
+        console.error('Error fetching peripherals', error);
+        this.errorMessage = 'Failed to load peripheral types';
+      }
+    });
+  }
+
+  announceSortChange(event: any): void {
+    this.sortOrder = event.direction;
+    if (this.paginator) {
+      this.paginator.pageIndex = 0;
+    }
+    this.loadPeripherals();
+  }
+
+  allTypes: string[] = [];
+  typeFilterControl = new FormControl('');
+  filteredTypeOptions: Observable<string[]>;
+  selectedTypeToggle: string[] = [];
+
+  onTypeSelected(selectedType?: string): void {
+    if (!selectedType) {
+      this.dataSource.data = this.peripherals;
+      return;
     }
 
-    ngAfterViewInit() {
-        // Connect paginator to dataSource after view is initialized
-        this.dataSource.paginator = this.paginator;
+    this.dataSource.data = this.peripherals.filter(p =>
+      p.type.toLowerCase().includes(selectedType.toLowerCase())
+    );
+
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.allTypes.filter(option =>
+      option.toLowerCase().includes(filterValue)
+    );
+  }
+
+  applyFilter(value: string): void {
+    if (!value) {
+      this.dataSource.data = this.peripherals;
+    } else {
+      this.dataSource.data = this.peripherals.filter(p =>
+        p.type.toLowerCase().includes(value.toLowerCase())
+      );
     }
 
-    private loadDepartments(): void {
-        this.departmentService.getDepartments().subscribe({
-            next: (data) => {
-                this.departments = data;
-                this.dataSource.data = this.departments;
-
-                // Extract unique codes for autocomplete suggestions
-                this.allTypes = [...new Set(data.map((dept) => dept.code))];
-
-                // Ensure paginator works after data loads
-                setTimeout(() => {
-                    if (this.paginator) {
-                        this.dataSource.paginator = this.paginator;
-                    }
-                });
-            },
-            error: (error) => {
-                console.error('Error fetching departments', error);
-                this.errorMessage = 'Failed to load departments';
-            },
-        });
+    if (this.paginator) {
+      this.paginator.firstPage();
     }
-
-    announceSortChange(event: any): void {
-        this.sortOrder = event.direction;
-        if (this.paginator) {
-            this.paginator.pageIndex = 0;
-        }
-        this.loadDepartments();
-    }
-
-    //Mat auto complete
-    allTypes: string[] = []; // Store unique type values
-    typeFilterControl = new FormControl('');
-    filteredTypeOptions: Observable<string[]>;
-    selectedTypeToggle: string[] = [];
-
-    onTypeSelected(selectedType?: string): void {
-        if (!selectedType) {
-            this.dataSource.data = this.departments; // Reset data if empty
-            return;
-        }
-
-        this.dataSource.data = this.departments.filter((dept) =>
-            dept.code.toLowerCase().includes(selectedType.toLowerCase())
-        );
-
-        if (this.paginator) {
-            this.paginator.firstPage(); // Reset pagination on filter
-        }
-    }
-
-    private _filter(value: string): string[] {
-        const filterValue = value.toLowerCase();
-
-        return this.allTypes.filter((option) =>
-            option.toLowerCase().includes(filterValue)
-        );
-    }
-
-    applyFilter(value: string): void {
-        if (!value) {
-            this.dataSource.data = this.departments; // Reset to all data
-        } else {
-            this.dataSource.data = this.departments.filter((dept) =>
-                dept.code.toLowerCase().includes(value.toLowerCase())
-            );
-        }
-
-        if (this.paginator) {
-            this.paginator.firstPage(); // Reset paginator on filter change
-        }
-    }
+  }
 }

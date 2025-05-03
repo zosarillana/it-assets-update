@@ -91,8 +91,8 @@ export class ReturnFormComponent implements OnInit {
     
                 // ✅ Check the structure of components data
                 const componentsArray = computersArray.flatMap(computer => {
-                    const { BOARD, HDD, RAM, SSD } = computer.components;
-                    return [...(BOARD || []), ...(HDD || []), ...(RAM || []), ...(SSD || [])];
+                    const { BOARD, HDD, RAM, SSD, GPU , PSU , CPU , CPU_FAN , CD_ROM , BATTERY  } = computer.components;
+                    return [...(BOARD || []), ...(HDD || []), ...(RAM || []), ...(SSD || []), ...(GPU || []), ...(PSU || []), ...(CPU || []), ...(CPU_FAN || []), ...(CD_ROM || []), ...(BATTERY || [])];
                 });
                 // console.log('Processed Components Array:', componentsArray);
     
@@ -278,8 +278,8 @@ export class ReturnFormComponent implements OnInit {
                 }
 
                 // Process components
-                const { BOARD, HDD, RAM, SSD, GPU } = computer.components;
-                const componentsArray = [...(BOARD || []), ...(HDD || []), ...(RAM || []), ...(SSD || []), ...(GPU || [])];
+                const { BOARD, HDD, RAM, SSD, GPU , PSU , CPU , CPU_FAN , CD_ROM , BATTERY  } = computer.components;
+                const componentsArray = [...(BOARD || []), ...(HDD || []), ...(RAM || []), ...(SSD || []), ...(GPU || []), ...(PSU || []), ...(CPU || []), ...(CPU_FAN || []), ...(CD_ROM || []), ...(BATTERY || [])];
                // Process components
                 for (const component of this.flattenedComponents) {
                     const componentItem = {

@@ -6,6 +6,7 @@ import { AlertService } from 'app/services/alert.service';
 import { AssetsService } from 'app/services/assets/assets.service';
 import { ComponentsService } from 'app/services/components/components.service';
 import { ComputerService } from 'app/services/computer/computer.service';
+import { PeripheralService } from 'app/services/peripheral/peripheral.service';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
@@ -16,12 +17,16 @@ import { distinctUntilChanged } from 'rxjs/operators';
 })
 export class InventoryAddComponent implements OnInit {
     eventForm!: FormGroup;
+    peripherals = [];
+
     constructor(
         @Inject(DOCUMENT) private _document: Document,
         private _formBuilder: FormBuilder,
         private assetService: AssetsService,
         private alertService: AlertService,
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private peripheralService: PeripheralService
+
     
     ) {}
 
@@ -44,6 +49,11 @@ export class InventoryAddComponent implements OnInit {
 
     ngOnInit(): void {
         this.initializeForm();
+
+         // Fetch peripherals data from the service
+    this.peripheralService.getPeripherals().subscribe((data) => {
+        this.peripherals = data;
+      });
     }
 
     previewSelectedImage(event: Event): void {

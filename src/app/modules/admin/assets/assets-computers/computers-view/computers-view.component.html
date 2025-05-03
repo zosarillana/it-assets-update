@@ -1,5 +1,5 @@
 <!-- Add this loader somewhere in your template -->
-<div  *ngIf="loading" class="loader">
+<div *ngIf="loading" class="loader">
     <img
         class="-mb-5"
         style="height: 65px; width: 65px"
@@ -60,21 +60,25 @@
             <div class="mt-4 flex flex-col gap-4">
                 <!-- Image Section -->
                 <div class="flex flex-row gap-4">
-<!-- In your component .html file -->
-<div>
-    <img *ngIf="asset.type === 'LAPTOP'" 
-         src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/inspiron-notebooks/14-2-in-1-7440-intel/media-gallery/notebook-inspiron-14-7440-t-ice-blue-gallery-17.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=1336&qlt=100,1&resMode=sharp2&size=1336,804&chrss=full"
-         alt="Laptop Image"
-         class="h-28 w-32">
-         
-    <img *ngIf="asset.type !== 'LAPTOP'"
-         src="https://england.edu/wp-content/themes/englandedu/images/articles/desktop_computer.jpg"
-         alt="No Image Available"
-         class="h-28 w-32">
-  </div>
+                    <!-- In your component .html file -->
+                    <div>
+                        <img
+                            *ngIf="asset.type === 'LAPTOP'"
+                            src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/inspiron-notebooks/14-2-in-1-7440-intel/media-gallery/notebook-inspiron-14-7440-t-ice-blue-gallery-17.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=1336&qlt=100,1&resMode=sharp2&size=1336,804&chrss=full"
+                            alt="Laptop Image"
+                            class="h-28 w-32"
+                        />
+
+                        <img
+                            *ngIf="asset.type !== 'LAPTOP'"
+                            src="https://england.edu/wp-content/themes/englandedu/images/articles/desktop_computer.jpg"
+                            alt="No Image Available"
+                            class="h-28 w-32"
+                        />
+                    </div>
                     <div class="flex flex-col gap-2">
                         <p class="font-semibold text-2xl">
-                            {{asset.type}}
+                            {{ asset.type }}
                             {{ asset.model || "N/A" }} ({{
                                 asset.type || "N/A"
                             }})
@@ -229,14 +233,18 @@
                 <p class="flex flex-col font-medium text-medium">
                     Type
                     <span class="text-secondary text-medium">
-                      <mat-icon
-                        svgIcon="feather:cpu"
-                        class="icon-size-3"
-                      ></mat-icon>
-                      {{ asset.type === 'CPU' ? 'DESKTOP' : (asset.type || 'N/A') }}
+                        <mat-icon
+                            svgIcon="feather:cpu"
+                            class="icon-size-3"
+                        ></mat-icon>
+                        {{
+                            asset.type === "CPU"
+                                ? "DESKTOP"
+                                : asset.type || "N/A"
+                        }}
                     </span>
-                  </p>
-                  
+                </p>
+
                 <p class="flex flex-col font-medium text-medium">
                     Date Acquired
                     <span class="text-secondary text-medium">
@@ -257,9 +265,10 @@
                         {{ asset.brand || "N/A" }}
                     </span>
                 </p>
-                <p 
-                *ngIf="asset.type !== 'CPU'" 
-                class="flex flex-col font-medium text-medium">
+                <p
+                    *ngIf="asset.type !== 'CPU'"
+                    class="flex flex-col font-medium text-medium"
+                >
                     Model
                     <span class="text-secondary text-medium">
                         <mat-icon
@@ -269,20 +278,19 @@
                         {{ asset.model || "N/A" }}
                     </span>
                 </p>
-                <p 
-                *ngIf="asset.type !== 'CPU'" 
-                class="flex flex-col font-medium text-medium"
-              >
-                Size
-                <span class="text-secondary text-medium">
-                  <mat-icon
-                    svgIcon="feather:info"
-                    class="icon-size-3"
-                  ></mat-icon>
-                  {{ asset.size || "N/A" }}
-                </span>
-              </p>
-              
+                <p
+                    *ngIf="asset.type !== 'CPU'"
+                    class="flex flex-col font-medium text-medium"
+                >
+                    Size
+                    <span class="text-secondary text-medium">
+                        <mat-icon
+                            svgIcon="feather:info"
+                            class="icon-size-3"
+                        ></mat-icon>
+                        {{ asset.size || "N/A" }}
+                    </span>
+                </p>
 
                 <p class="flex flex-col font-medium text-medium">
                     Color
@@ -353,8 +361,17 @@
 
             <mat-divider class="mt-12 mb-2"></mat-divider>
             <div class="mt-6 uppercase">
-                <mat-tab-group>
-                    <mat-tab label="Components">
+                <mat-tab-group
+                    class="mt-6 uppercase"
+                    [selectedIndex]="0"
+                    animationDuration="200ms"
+                    mat-align-tabs="start"
+                    backgroundColor="primary"
+                >
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <span class="text-white">Components</span>
+                        </ng-template>
                         <div class="flex flex-row justify-between">
                             <div class="flex flex-col">
                                 <p class="text-sm font-medium mt-5">
@@ -386,8 +403,8 @@
                         <div class="overflow-x-auto">
                             <!-- Show table only when there are components -->
                             <mat-table
-                            class="overflow-y-auto "
-                            style="max-height: 400px;"  
+                                class="overflow-y-auto"
+                                style="max-height: 400px"
                                 *ngIf="dataSource.length > 0"
                                 [dataSource]="dataSource"
                                 matSort
@@ -428,11 +445,10 @@
                                                 else noDescription
                                             "
                                         >
-                                            <span
-                                                class="text-sm"
-                                            >
-                                                {{ element.description || "N/A"}}
-                                             
+                                            <span class="text-sm">
+                                                {{
+                                                    element.description || "N/A"
+                                                }}
                                             </span>
                                         </ng-container>
                                         <ng-template #noDescription>
@@ -445,7 +461,7 @@
 
                                 <ng-container matColumnDef="uid">
                                     <mat-header-cell
-                                        class="whitespace-nowrap overflow-hidden text-ellipsis "
+                                        class="whitespace-nowrap overflow-hidden text-ellipsis"
                                         *matHeaderCellDef
                                         mat-sort-header
                                     >
@@ -457,9 +473,9 @@
                                     >
                                         {{ element.uid || "N/A" }}
                                         <mat-icon
-                                        svgIcon="mat_outline:open_in_new"
-                                        class="icon-size-3 text-blue-700"
-                                    ></mat-icon>
+                                            svgIcon="mat_outline:open_in_new"
+                                            class="icon-size-3 text-blue-700"
+                                        ></mat-icon>
                                     </mat-cell>
                                 </ng-container>
 
@@ -546,7 +562,10 @@
                             </p>
                         </div>
                     </mat-tab>
-                    <mat-tab label="Peripheral">
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <span class="text-white">PERIPHERALS</span>
+                        </ng-template>
                         <div class="flex flex-row justify-between">
                             <div class="flex flex-col">
                                 <p class="text-sm font-medium mt-5">
@@ -577,8 +596,8 @@
                         <!-- New Table for Assigned Assets -->
                         <div class="overflow-x-auto mt-5">
                             <mat-table
-                            class="overflow-y-auto "
-                            style="max-height: 400px;"  
+                                class="overflow-y-auto"
+                                style="max-height: 400px"
                                 *ngIf="dataSourceAssignedAssets.length > 0"
                                 [dataSource]="dataSourceAssignedAssets"
                                 matSort
@@ -608,15 +627,24 @@
                                         class="whitespace-nowrap overflow-hidden text-ellipsis"
                                         *matHeaderCellDef
                                         mat-sort-header
-                                    >Model</mat-header-cell>
+                                        >Model</mat-header-cell
+                                    >
                                     <mat-cell *matCellDef="let element">
-                                        <ng-container *ngIf="element.model && element.model !== 'N/A'; else noModel">
+                                        <ng-container
+                                            *ngIf="
+                                                element.model &&
+                                                    element.model !== 'N/A';
+                                                else noModel
+                                            "
+                                        >
                                             <span class="text-sm">
-                                                {{ element.model }}                                              
+                                                {{ element.model }}
                                             </span>
                                         </ng-container>
                                         <ng-template #noModel>
-                                            <span class="text-secondary text-sm">N/A</span>
+                                            <span class="text-secondary text-sm"
+                                                >N/A</span
+                                            >
                                         </ng-template>
                                     </mat-cell>
                                 </ng-container>
@@ -634,8 +662,8 @@
                                     >
                                         {{ element.uid }}
                                         <mat-icon
-                                        svgIcon="mat_outline:open_in_new"
-                                        class="icon-size-3 text-blue-700"
+                                            svgIcon="mat_outline:open_in_new"
+                                            class="icon-size-3 text-blue-700"
                                         ></mat-icon>
                                     </mat-cell>
                                 </ng-container>
@@ -699,7 +727,7 @@
                                     *matHeaderRowDef="[
                                         'name',
                                         'uid',
-                                        'description',                                                                            
+                                        'description',
                                         'action'
                                     ]"
                                 ></mat-header-row>
@@ -707,7 +735,7 @@
                                     *matRowDef="
                                         let row;
                                         columns: [
-                                            'name',                                           
+                                            'name',
                                             'uid',
                                             'description',
                                             'action'
@@ -734,7 +762,10 @@
                         </div>
                     </mat-tab>
 
-                    <mat-tab label="User History">
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <span class="text-white">USER HISTORY</span>
+                        </ng-template>
                         <p class="text-sm font-medium mt-5">User History</p>
                         <p class="text-sm text-secondary mb-6">
                             Computer owner history.
@@ -742,7 +773,6 @@
 
                         <!-- Table with *ngIf to show only when there is data -->
                         <mat-table
-                        
                             *ngIf="dataSourceHistory.length > 0"
                             [dataSource]="dataSourceHistory"
                             matSort
@@ -752,8 +782,7 @@
                                 <mat-header-cell
                                     *matHeaderCellDef
                                     mat-sort-header
-                                    ></mat-header-cell
-                                >
+                                ></mat-header-cell>
                                 <mat-cell
                                     class="text-sm"
                                     *matCellDef="let element"
@@ -879,14 +908,17 @@
                         </div>
                     </mat-tab>
 
-                    <mat-tab label="Repair History">
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <span class="text-white">REPAIR HISTORY</span>
+                        </ng-template>
                         <p class="text-sm font-medium mt-5">Repair History</p>
                         <p class="text-sm text-secondary mb-6">
                             Repair history of the component/peripheral.
                         </p>
-                        <mat-table 
-                        class="overflow-y-auto "
-                        style="max-height: 400px;"  
+                        <mat-table
+                            class="overflow-y-auto"
+                            style="max-height: 400px"
                             *ngIf="dataSourceRepairLogs.length > 0"
                             [dataSource]="dataSourceRepairLogs"
                             matSort
@@ -902,7 +934,6 @@
                                     class="text-sm"
                                     *matCellDef="let element"
                                     >{{ element.inventory_code }}</mat-cell
-                                    
                                 >
                             </ng-container>
 
@@ -963,7 +994,7 @@
                                     {{ element.remarks }}
                                 </mat-cell>
                             </ng-container>
-                        
+
                             <!-- Fix Header Row Definition -->
                             <mat-header-row
                                 *matHeaderRowDef="[
@@ -975,29 +1006,36 @@
                                 ]"
                             ></mat-header-row>
                             <mat-row
-                            mat-row
-                            ngClass="cursor-pointer"
-                            [routerLink]="['/assets/' + (row.inventory_code.startsWith('UID') ? 'components/view' : 'inventory/view')].concat(
-                                row.inventory_code.startsWith('UID') ? [row.inventory_code, row.item_id] : [row.item_id]
-                            )"
-                            (click)="logRowDetails(row)"
-                            *matRowDef="
-                                let row;
-                                columns: [
-                                    'inventory_code',
-                                    'type',
-                                    'action',
-                                    'remarks',
-                                    'timestamp'
-                                ]
-                            "
-                            class="hover:bg-gray-100"
-                        >
-                        </mat-row>
-                        
-
-                        
-
+                                mat-row
+                                ngClass="cursor-pointer"
+                                [routerLink]="
+                                    [
+                                        '/assets/' +
+                                            (row.inventory_code.startsWith(
+                                                'UID'
+                                            )
+                                                ? 'components/view'
+                                                : 'inventory/view')
+                                    ].concat(
+                                        row.inventory_code.startsWith('UID')
+                                            ? [row.inventory_code, row.item_id]
+                                            : [row.item_id]
+                                    )
+                                "
+                                (click)="logRowDetails(row)"
+                                *matRowDef="
+                                    let row;
+                                    columns: [
+                                        'inventory_code',
+                                        'type',
+                                        'action',
+                                        'remarks',
+                                        'timestamp'
+                                    ]
+                                "
+                                class="hover:bg-gray-100"
+                            >
+                            </mat-row>
                         </mat-table>
 
                         <!-- Show a message when no repair logs are available -->
