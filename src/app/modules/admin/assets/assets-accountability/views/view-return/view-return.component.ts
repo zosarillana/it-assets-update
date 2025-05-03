@@ -92,8 +92,8 @@ export class ViewReturnComponent implements OnInit {
     
                     // Store the computers data
                     this.computers = data
-                        .filter(item => item.item_type === 'Computers')
-                        .map(item => ({
+                    .filter(item => item.item_type === 'Computer' || item.item_type === 'Computers')
+                    .map(item => ({
                             computer: {
                                 type: item.computer.type,
                                 model: item.computer.model,
@@ -107,8 +107,8 @@ export class ViewReturnComponent implements OnInit {
     
                     // Map components from the data
                     this.components = data
-                        .filter(item => item.item_type === 'Components')
-                        .map(item => ({
+                    .filter(item => item.item_type === 'Component' || item.item_type === 'Components')
+                    .map(item => ({
                             components: {
                                 type: item.components?.type,
                                 uid: item.components?.uid,
@@ -122,8 +122,8 @@ export class ViewReturnComponent implements OnInit {
     
                     // Map assets from the data
                     this.assets = data
-                        .filter(item => item.item_type === 'Assets')
-                        .map(item => ({
+                    .filter(item => item.item_type === 'Asset' || item.item_type === 'Assets')
+                    .map(item => ({
                             asset: {
                                 type: item.asset?.type,
                                 brand: item.asset?.brand,

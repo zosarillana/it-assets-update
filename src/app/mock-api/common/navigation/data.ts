@@ -91,6 +91,22 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
         ],
     },
+    {
+        id: 'assets',
+        title: 'Archives',
+        subtitle: 'Archived data',
+        type: 'group',
+        icon: 'heroicons_outline:chart-pie',
+        children: [                  
+            {
+                id: 'assets.equitpments.inventory',
+                title: 'Archived Accountability',
+                type: 'basic',
+                icon: 'feather:help-circle', // Represents archived or historical data
+                link: '/assets/accountability-archive',
+            },
+        ],
+    },
     // {
     //     id: 'users',
     //     title: 'Users',

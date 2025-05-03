@@ -68,7 +68,7 @@ import { ComponentsEditComponent } from '../assets-components/components-edit/co
 import { ComponentsListComponent } from '../assets-components/components-list/components-list.component';
 import { ErrorPageComponent } from '../error-page/error-page.component';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatCardModule } from '@angular/material/card'; 
+import { MatCardModule } from '@angular/material/card';
 import { ComputerComponentAddModalComponent } from '../assets-computers/computers-add/computer-component-add-modal/computer-component-add-modal.component';
 import { CopmuterAssetsAddModalComponent } from '../assets-computers/computers-add/computer-assets-add-modal/computer-assets-add-modal.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -79,7 +79,7 @@ import { ComputerComponentAddLaptopComponent } from '../assets-computers/compute
 import { DepartmentsComponent } from '../masterdata/departments/departments.component';
 import { ModalPullinAssetsComponent } from '../assets-computers/modal-pullin-assets/modal-pullin-assets.component';
 import { ModalPullinComponentComponent } from '../assets-computers/modal-pullin-component/modal-pullin-component.component';
-import { MatListModule } from '@angular/material/list'; 
+import { MatListModule } from '@angular/material/list';
 import { BusinessUnitsComponent } from '../masterdata/business-units/business-units.component';
 import { ReturnFormComponent } from '../assets-accountability/forms/return-form/return-form.component';
 import { ViewReturnComponent } from '../assets-accountability/views/view-return/view-return.component';
@@ -88,6 +88,8 @@ import { SidePanelComputerComponent } from '../assets-computers/computers-list/s
 import { SidePanelComponentComponent } from '../assets-components/components-list/side-panel-component/side-panel-component.component';
 import { SidePanelInventoryComponent } from '../assets-inventory/inventory-list/side-panel-inventory/side-panel-inventory.component';
 import { PeripheralTypeComponent } from '../masterdata/peripheral-type/peripheral-type.component';
+import { AccountabilityArchiveComponent } from '../archives/accountability-archive/accountability-archive.component';
+import { ViewAccountabilityArchiveComponent } from '../archives/accountability-archive/view-accountability-archive/view-accountability-archive.component';
 
 const assetRoute: Route[] = [
     // {
@@ -154,7 +156,7 @@ const assetRoute: Route[] = [
     {
         path: 'accountability/return/result/:id',
         component: ViewReturnComponent,
-      },
+    },
 
     {
         path: 'accountability/add',
@@ -195,7 +197,7 @@ const assetRoute: Route[] = [
     {
         path: 'components/add',
         component: ComponentsAddComponent,
-    },   
+    },
     //Masterdata
     {
         path: 'departments',
@@ -209,8 +211,16 @@ const assetRoute: Route[] = [
         path: 'peripheral-types',
         component: PeripheralTypeComponent,
     },
-
-
+    //archives
+    {
+        path: 'accountability-archive',
+        component: AccountabilityArchiveComponent,
+    },
+    {
+        path: 'accountability-archive/view/:id',
+        component: ViewAccountabilityArchiveComponent,
+    },
+    
 ];
 
 @NgModule({
@@ -257,7 +267,7 @@ const assetRoute: Route[] = [
         ComputerFormComponent,
         LaptopFormComponent,
         ModalRemarksUniversalComponent,
-        ComputerComponentAddLaptopComponent,  
+        ComputerComponentAddLaptopComponent,
         DepartmentsComponent,
         ModalPullinAssetsComponent,
         BusinessUnitsComponent,
@@ -268,6 +278,8 @@ const assetRoute: Route[] = [
         SidePanelComponentComponent,
         SidePanelInventoryComponent,
         PeripheralTypeComponent,
+        AccountabilityArchiveComponent,
+        ViewAccountabilityArchiveComponent,
         // AlertsComponentComponent,
     ],
     imports: [
@@ -306,7 +318,7 @@ const assetRoute: Route[] = [
         MatMenuModule,
         FuseScrollbarModule,
         MatAutocompleteModule,
-        MatTabsModule,        
+        MatTabsModule,
         MatCardModule,
         MatDialogModule,
         MatSnackBarModule,

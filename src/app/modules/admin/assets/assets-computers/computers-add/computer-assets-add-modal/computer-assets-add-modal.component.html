@@ -208,7 +208,7 @@
                     placeholder="Select warranty..."
                     class="text-xs md:text-sm"
                   >
-                    <mat-option *ngFor="let month of warrantyOptions" [value]="month.value">
+                    <mat-option *ngFor="let month of warrantyOptions" [value]="month.label">
                       {{ month.label }}
                     </mat-option>
                   </mat-select>

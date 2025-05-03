@@ -226,125 +226,106 @@ export class ReturnFormComponent implements OnInit {
         return;
     }
 
-    const ownerId = this.accountabilityItem.user_accountability_list?.owner_id ?? null;
-
     this.isSubmitting = true;
 
     try {
-        // console.log('Starting checklist submission...');
+        // Prepare the return payload
+        const returnPayload = {
+            accountability_id: this.accountabilityItem.user_accountability_list?.id ?? null,
+            items_to_return: [] as any[]
+        };
 
-        // Ensure computers data exist
-        // console.log('Accountability Item:', this.accountabilityItem);
-        // console.log('Computers:', this.accountabilityItem.computers || 'No computers found');
-
-        // Process computers along with their assigned assets and components
-        const checklist: any[] = [];
+        // Process computers
         if (this.accountabilityItem.computers && Array.isArray(this.accountabilityItem.computers)) {
             for (const computer of this.accountabilityItem.computers) {
-                // console.log('Processing computer:', computer);
-
-                // Process the computer itself
-                const computerItem = {
-                    accountability_id: this.accountabilityItem.user_accountability_list?.id ?? null,
-                    user_id: ownerId,
-                    asset_id: null,
-                    computer_id: computer.id,
-                    component_id: null,
-                    item_type: 'Computers',
-                    status: computer.checked ? computer.condition : 'missing',
-                    remarks: computer.remarks || '',
-                    validated_by: 1,
-                };
-                // console.log('Computer item:', computerItem);
-                checklist.push(computerItem);
-
-                // Process assigned assets
-                if (computer.assignedAssetDetails && Array.isArray(computer.assignedAssetDetails)) {
-                    for (const asset of computer.assignedAssetDetails) {
-                        const assignedAssetItem = {
-                            accountability_id: this.accountabilityItem.user_accountability_list?.id ?? null,
-                            user_id: ownerId,
-                            asset_id: asset.id,
-                            computer_id: computer.id,
-                            component_id: null,
-                            item_type: 'Assets',
-                            status: asset.checked ? asset.condition : 'missing',
-                            remarks: asset.remarks || '',
-                            validated_by: 1,
-                        };
-                        // console.log('Assigned asset item:', assignedAssetItem);
-                        checklist.push(assignedAssetItem);
-                    }
-                }
-
-                // Process components
-                const { BOARD, HDD, RAM, SSD, GPU , PSU , CPU , CPU_FAN , CD_ROM , BATTERY  } = computer.components;
-                const componentsArray = [...(BOARD || []), ...(HDD || []), ...(RAM || []), ...(SSD || []), ...(GPU || []), ...(PSU || []), ...(CPU || []), ...(CPU_FAN || []), ...(CD_ROM || []), ...(BATTERY || [])];
-               // Process components
-                for (const component of this.flattenedComponents) {
-                    const componentItem = {
-                        accountability_id: this.accountabilityItem.user_accountability_list?.id ?? null,
-                        user_id: ownerId,
-                        asset_id: null,
-                        computer_id: component.computer_id, // Make sure this property exists
-                        component_id: component.id,
-                        item_type: 'Components',
-                        status: component.checked ? component.condition : 'missing', 
-                        remarks: component.remarks || '',
-                        validated_by: 1,
-                    };
-                    checklist.push(componentItem);
+                if (computer.checked) {
+                    returnPayload.items_to_return.push({
+                        item_type: "Computer",
+                        item_id: computer.id,
+                        remarks: computer.remarks || 'Returned for repairs',
+                        status: computer.condition || 'Damaged',
+                        validated_by: this.user.id,
+                        return_date: new Date().toISOString()
+                    });
                 }
             }
         }
 
-        // console.log('Final checklist to be submitted:', checklist);
-
-        if (!checklist.length) {
-            throw new Error('No items to return.');
+        // Process assets (both direct and assigned)
+        // Direct assets
+        if (this.accountabilityItem.assets?.$values) {
+            for (const asset of this.accountabilityItem.assets.$values) {
+                if (asset.checked) {
+                    returnPayload.items_to_return.push({
+                        item_type: "Asset",
+                        item_id: asset.id,
+                        remarks: asset.remarks || 'Returned asset',
+                        status: asset.condition || 'Damaged',
+                        validated_by: this.user.id,
+                        return_date: new Date().toISOString()
+                    });
+                }
+            }
         }
 
-        // Send data to API with better error handling
-        const promises: Promise<any>[] = checklist.map((item) =>
-            new Promise<any>((resolve) => {
-                // console.log(`Submitting item of type ${item.item_type}:`, item);
-                this.returnItemService.createReturnItem(item).subscribe({
-                    next: (response) => {
-                        // console.log('Successfully submitted item:', {
-                        //     type: item.item_type,
-                        //     id: item.computer_id || item.asset_id || item.component_id,
-                        //     response,
-                        // });
-                        resolve(response);
-                    },
-                    error: (error) => {
-                        console.error('Failed to submit item:', {
-                            type: item.item_type,
-                            id: item.computer_id || item.asset_id || item.component_id,
-                            error,
-                        });
-                        resolve(null); // Ensures Promise.all() continues even if one item fails
-                    },
-                });
-            })
-        );
+        // Assigned assets (from computers)
+        if (this.accountabilityItem.computers && Array.isArray(this.accountabilityItem.computers)) {
+            for (const computer of this.accountabilityItem.computers) {
+                if (computer.assignedAssetDetails && Array.isArray(computer.assignedAssetDetails)) {
+                    for (const asset of computer.assignedAssetDetails) {
+                        if (asset.checked) {
+                            returnPayload.items_to_return.push({
+                                item_type: "Asset",
+                                item_id: asset.id,
+                                remarks: asset.remarks || 'Returned asset',
+                                status: asset.condition || 'Damaged',
+                                validated_by: this.user.id,
+                                return_date: new Date().toISOString()
+                            });
+                        }
+                    }
+                }
+            }
+        }
 
-        // Handle API responses
-        Promise.all(promises)
-            .then(() => {
+        // Process components
+        for (const component of this.flattenedComponents) {
+            if (component.checked) {
+                returnPayload.items_to_return.push({
+                    item_type: "Component",
+                    item_id: component.id,
+                    remarks: component.remarks || `Returned ${component.type.toLowerCase()}`,
+                    status: component.condition || 'Damaged',
+                    validated_by: this.user.id,
+                    return_date: new Date().toISOString()
+                });
+            }
+        }
+
+        console.log('Final return payload:', returnPayload);
+
+        if (!returnPayload.items_to_return.length) {
+            throw new Error('No items selected for return.');
+        }
+
+        // Send data to API
+        this.returnItemService.createReturnItem(returnPayload).subscribe({
+            next: (response) => {
                 this.isSubmitting = false;
                 this.snackBar.open('Return process completed successfully!', 'Close', {
                     duration: 3000,
                 });
                 this.router.navigate(['/assets/accountability']);
-            })
-            .catch((error) => {
-                console.error('Error in batch submission:', error);
+            },
+            error: (error) => {
+                console.error('Failed to submit return:', error);
                 this.snackBar.open(`Error during submission: ${error.message}`, 'Close', {
                     duration: 5000,
                 });
                 this.isSubmitting = false;
-            });
+            }
+        });
+
     } catch (error: any) {
         console.error('Unexpected error while preparing return checklist:', error);
         this.snackBar.open(`Unexpected error: ${error.message}`, 'Close', {
@@ -354,8 +335,9 @@ export class ReturnFormComponent implements OnInit {
     }
 }
 
+
     getComponentType(type: string): string {
-      const validTypes = ['GPU', 'RAM', 'SSD', 'HDD', 'BOARD'];
+      const validTypes = ['GPU', 'RAM', 'SSD', 'HDD', 'BOARD', 'PSU', 'CPU', 'CPU_FAN', 'CD_ROM', 'BATTERY'];
       return validTypes.includes(type) ? type : 'Unknown';
   }
 
@@ -408,7 +390,5 @@ private validateItemsBeforeSubmission(): boolean {
 
   return isValid;
 }
-
-
   
 }
