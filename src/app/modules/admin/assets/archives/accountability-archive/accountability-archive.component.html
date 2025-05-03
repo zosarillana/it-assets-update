@@ -163,6 +163,7 @@
                             class="border-r border-gray-200 text-sm px-4 py-2"
                         >
                             {{ element.accountability?.owner?.name || "N/A" }}
+                           
                         </td>
                     </ng-container>
     
@@ -423,8 +424,8 @@
                     <tr
                         mat-row
                         [routerLink]="
-                            '/assets/accountability/view/' +
-                            (row?.accountability?.id || '')
+                            '/assets/accountability-archive/view/' +
+                            (row.id || '')
                         "
                         class="cursor-pointer hover:bg-gray-100"
                         *matRowDef="let row; columns: displayedColumns"

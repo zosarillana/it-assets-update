@@ -59,7 +59,7 @@ export class AccountabilityArchiveComponent implements OnInit, AfterViewInit {
         'department',
         'bu',
         'status',
-        'action'
+        // 'action'
     ];
 
     dataSource = new MatTableDataSource<AccountabilityItem>([]);
@@ -258,4 +258,12 @@ export class AccountabilityArchiveComponent implements OnInit, AfterViewInit {
         // console.log(`Viewing result for accountability ID: ${id}`);
         this.router.navigate(['/assets/accountability-archive/view', id]);
     }
+
+    //tooltip
+  //   getTooltipText(row: any): string {
+  //     // Example: Show accountability code if available, else a default message
+  //     return row?.accountability?.accountability_code 
+  //         ? `View details for ${row.accountability.accountability_code}` 
+  //         : 'View record details';
+  // } 
 }

@@ -192,10 +192,10 @@ export class AccoundabilityAddComponent implements OnInit {
     getComponentKeys(computer: any): string[] {
         if (!computer) return [];
 
-        const componentKeys = ['ram', 'ssd', 'hdd', 'gpu', 'board'];
+        const componentKeys = ['ram', 'ssd', 'hdd', 'gpu', 'board' , 'psu' , 'cpu' , 'cpu_fan' , 'cd_rom' , 'battery'];
 
         // Filter out null values and return only the keys that exist
-        return componentKeys.filter((key) => computer[key]?.values?.length);
+        return componentKeys.filter(( key ) => computer[key]?.values?.length);
     }
 
     allTypes: string[] = []; // Store unique type values
