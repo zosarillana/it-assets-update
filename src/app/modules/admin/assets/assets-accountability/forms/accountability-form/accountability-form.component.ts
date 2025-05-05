@@ -123,7 +123,7 @@ export class AccountabilityFormComponent implements OnInit {
         'assetBarcode',
         'brand',
         'model',
-        'personalHistory',
+        // 'personalHistory',
         'status',
     ];
     user: User;

@@ -90,6 +90,7 @@ import { SidePanelInventoryComponent } from '../assets-inventory/inventory-list/
 import { PeripheralTypeComponent } from '../masterdata/peripheral-type/peripheral-type.component';
 import { AccountabilityArchiveComponent } from '../archives/accountability-archive/accountability-archive.component';
 import { ViewAccountabilityArchiveComponent } from '../archives/accountability-archive/view-accountability-archive/view-accountability-archive.component';
+import { CustomTooltipComponent } from '../components/custom-tooltip/custom-tooltip.component';
 
 const assetRoute: Route[] = [
     // {
@@ -280,6 +281,7 @@ const assetRoute: Route[] = [
         PeripheralTypeComponent,
         AccountabilityArchiveComponent,
         ViewAccountabilityArchiveComponent,
+        CustomTooltipComponent,
         // AlertsComponentComponent,
     ],
     imports: [

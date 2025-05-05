@@ -22,7 +22,7 @@ const routerConfig: ExtraOptions = {
 };
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [AppComponent, ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,

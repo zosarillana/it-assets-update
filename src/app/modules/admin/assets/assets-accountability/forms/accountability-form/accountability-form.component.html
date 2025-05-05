@@ -90,102 +90,130 @@
                                 <p class="text-lg tracking-tight font-bold">
                                     ISSUED TO
                                 </p>
-                             <div class="flex flex-row w-full">
-                                <div class="flex flex-col w-120 ">
-                                    <div class="flex flex-row gap-2 text-sm">
-                                        <p
-                                            class="text-regular tracking-tight font-bold"
+                                <div class="flex flex-row w-full">
+                                    <div class="flex flex-col w-120">
+                                        <div
+                                            class="flex flex-row gap-2 text-sm"
                                         >
-                                            Employee Name
-                                        </p>
-                                        <span class="font-medium">{{
-                                            asset.user_accountability_list.owner
-                                                .name || "N/A"
-                                        }}</span>
-                                    </div>
-                                    <div class="flex flex-row gap-10 text-sm">
-                                        <p
-                                            class="text-regular tracking-tight font-bold"
-                                        >
-                                            ID Number
-                                        </p>
-                                        <span class="font-medium">
-                                            {{
-                                                asset.user_accountability_list.owner
-                                                    .employee_id || "N/A"
-                                            }}</span
-                                        >
-                                    </div>
-                                    <div class="flex flex-row gap-8 text-sm">
-                                        <p
-                                            class="text-regular tracking-tight font-bold"
-                                        >
-                                            Designation
-                                        </p>
-                                        <span class="font-medium">
-                                            {{
-                                                asset.user_accountability_list.owner
-                                                    .designation || "N/A"
-                                            }}</span
-                                        >
-                                    </div>
-                                </div> 
-                              
-                               <div class="flex flex-row w-120 justify-between" >
-                                <div class="flex flex-col gap-0.5 w-58 ">
-                                    <div class="flex flex-row gap-15 text-sm">
-                                        <p
-                                            class="text-regular tracking-tight font-bold"
-                                        >
-                                            Business Unit
-                                        </p>
-                                        <span class="font-medium">
-                                            {{
-                                                asset.user_accountability_list.owner
-                                                    .company || "N/A"
-                                            }}</span
-                                        >
-                                    </div>
-                                    <div class="flex flex-row gap-11 text-sm">
-                                        <p
-                                            class="text-regular tracking-tight font-bold"
-                                        >
-                                            Department
-                                        </p>
-                                        <span class="font-medium">
-                                            {{
-                                                asset.user_accountability_list.owner
-                                                    .department || "N/A"
-                                            }}</span
-                                        >
-                                    </div>
-                                    <div class="flex flex-row gap-9 text-sm">
-                                        <div class="flex flex-row gap-12 text-sm">
                                             <p
                                                 class="text-regular tracking-tight font-bold"
                                             >
-                                                Date Hired
+                                                Employee Name
                                             </p>
-                                            <span class="ml-1.5 font-medium">
+                                            <span class="font-medium">{{
+                                                asset.user_accountability_list
+                                                    .owner.name || "N/A"
+                                            }}</span>
+                                        </div>
+                                        <div
+                                            class="flex flex-row gap-10 text-sm"
+                                        >
+                                            <p
+                                                class="text-regular tracking-tight font-bold"
+                                            >
+                                                ID Number
+                                            </p>
+                                            <span class="font-medium">
                                                 {{
-                                                    asset.user_accountability_list
-                                                        .owner.date_hired
-                                                        ? (asset
-                                                              .user_accountability_list
-                                                              .owner.date_hired
-                                                              ?.value
-                                                          | date : "MMMM d, y")
-                                                        : "N/A"
-                                                }}
-                                            </span>
+                                                    asset
+                                                        .user_accountability_list
+                                                        .owner.employee_id ||
+                                                        "N/A"
+                                                }}</span
+                                            >
+                                        </div>
+                                        <div
+                                            class="flex flex-row gap-8 text-sm"
+                                        >
+                                            <p
+                                                class="text-regular tracking-tight font-bold"
+                                            >
+                                                Designation
+                                            </p>
+                                            <span class="font-medium">
+                                                {{
+                                                    asset
+                                                        .user_accountability_list
+                                                        .owner.designation ||
+                                                        "N/A"
+                                                }}</span
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="flex flex-row w-120 justify-between"
+                                    >
+                                        <div class="flex flex-col gap-0.5 w-58">
+                                            <div
+                                                class="flex flex-row gap-15 text-sm"
+                                            >
+                                                <p
+                                                    class="text-regular tracking-tight font-bold"
+                                                >
+                                                    Business Unit
+                                                </p>
+                                                <span class="font-medium">
+                                                    {{
+                                                        asset
+                                                            .user_accountability_list
+                                                            .owner.company ||
+                                                            "N/A"
+                                                    }}</span
+                                                >
+                                            </div>
+                                            <div
+                                                class="flex flex-row gap-11 text-sm"
+                                            >
+                                                <p
+                                                    class="text-regular tracking-tight font-bold"
+                                                >
+                                                    Department
+                                                </p>
+                                                <span class="font-medium">
+                                                    {{
+                                                        asset
+                                                            .user_accountability_list
+                                                            .owner.department ||
+                                                            "N/A"
+                                                    }}</span
+                                                >
+                                            </div>
+                                            <div
+                                                class="flex flex-row gap-9 text-sm"
+                                            >
+                                                <div
+                                                    class="flex flex-row gap-12 text-sm"
+                                                >
+                                                    <p
+                                                        class="text-regular tracking-tight font-bold"
+                                                    >
+                                                        Date Hired
+                                                    </p>
+                                                    <span
+                                                        class="ml-1.5 font-medium"
+                                                    >
+                                                        {{
+                                                            asset
+                                                                .user_accountability_list
+                                                                .owner
+                                                                .date_hired
+                                                                ? (asset
+                                                                      .user_accountability_list
+                                                                      .owner
+                                                                      .date_hired
+                                                                      ?.value
+                                                                  | date
+                                                                      : "MMMM d, y")
+                                                                : "N/A"
+                                                        }}
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                             </div>
-                               
-                               </div>
                             </div>
-                           
                         </div>
 
                         <!-- Page Break (If Needed) -->
@@ -194,17 +222,15 @@
                             <p class="text-sm font-semibold mt-5">
                                 Computer under accountability
                             </p>
-                            <span class="text-secondary text-sm">
-                                (Desktop, Laptops, etc..)</span
-                            >
                         </div>
                         <!-- Table -->
                         <div class="overflow-x-auto">
                             <mat-table
                                 [dataSource]="dataSourceComputers"
                                 matSort
-                                class="mat-elevation-z8 custom-mat-table compact-table">
+                                class="mat-elevation-z8 custom-mat-table compact-table"
                             >
+                                >
                                 <!-- Type Column -->
                                 <ng-container matColumnDef="type">
                                     <mat-header-cell
@@ -311,7 +337,7 @@
                                         let row;
                                         columns: displayedColumns
                                     "
-                                    class="hover:bg-gray-100  cursor-pointer  mat-row-compact"
+                                    class="hover:bg-gray-100 cursor-pointer mat-row-compact"
                                     [routerLink]="[
                                         '/assets/computers/view/' + row.id
                                     ]"
@@ -323,17 +349,15 @@
                             <p class="text-sm font-semibold mt-5">
                                 Computer Components under accountability
                             </p>
-                            <span class="text-secondary text-sm"
-                                >(Ram, ssd, hdd ...)</span
-                            >
                         </div>
 
                         <div class="overflow-x-auto">
                             <mat-table
                                 [dataSource]="dataSourceAssignedComponents"
                                 matSort
-                                class="mat-elevation-z8  custom-mat-table compact-table">
+                                class="mat-elevation-z8 custom-mat-table compact-table"
                             >
+                                >
                                 <!-- Type Column -->
                                 <ng-container matColumnDef="type">
                                     <mat-header-cell
@@ -352,12 +376,12 @@
                                     <mat-header-cell
                                         *matHeaderCellDef
                                         mat-sort-header
-                                        class="-ml-7"
+                                      
                                         >Date Acquired</mat-header-cell
                                     >
                                     <mat-cell
                                         class="text-sm"
-                                        class="-ml-4"
+                                      
                                         *matCellDef="let element"
                                         >{{
                                             element.date_acquired
@@ -376,7 +400,7 @@
                                         >Description</mat-header-cell
                                     >
                                     <mat-cell
-                                        class="text-sm ml-2"
+                                        class="text-sm"
                                         *matCellDef="let element"
                                         >{{
                                             element.description || "N/A"
@@ -389,8 +413,7 @@
                                     <mat-header-cell
                                         *matHeaderCellDef
                                         mat-sort-header
-                                        class="-ml-5"
-                                        matTooltip="Inventory Code"
+                                                                        
                                     >
                                         Inventory Code
                                     </mat-header-cell>
@@ -406,14 +429,13 @@
                                     <mat-header-cell
                                         *matHeaderCellDef
                                         mat-sort-header
-                                        class="-ml-7"
-                                        matTooltip="Parent Barcode"
-                                        >Parent Barcode</mat-header-cell
+                                                                           
+                                        >Parent Invt. Code</mat-header-cell
                                     >
                                     <mat-cell
                                         class="text-sm"
                                         *matCellDef="let element"
-                                        class=""
+                                      
                                         >{{
                                             element.asset_barcode || "N/A"
                                         }}</mat-cell
@@ -421,7 +443,7 @@
                                 </ng-container>
                                 <ng-container
                                     matColumnDef="status"
-                                    class="-ml-5"
+                                  
                                 >
                                     <mat-header-cell
                                         *matHeaderCellDef
@@ -431,7 +453,7 @@
                                     <mat-cell
                                         class="text-sm"
                                         *matCellDef="let element"
-                                        class="-ml-5"
+                                       
                                         >{{ element.status || "N/A" }}</mat-cell
                                     >
                                 </ng-container>
@@ -442,7 +464,7 @@
                                         >cost</mat-header-cell
                                     >
                                     <mat-cell
-                                        class="text-sm -ml-4"
+                                        class="text-sm "
                                         *matCellDef="let element"
                                         >₱ {{ element.cost || "N/A" }}</mat-cell
                                     >
@@ -455,7 +477,7 @@
                                         'date_acquired',
                                         'uid',
                                         'description',
-                                        'cost',
+
                                         'parent_barcode',
                                         'status'
                                     ]"
@@ -468,7 +490,7 @@
                                             'date_acquired',
                                             'uid',
                                             'description',
-                                            'cost',
+
                                             'parent_barcode',
                                             'status'
                                         ]
@@ -485,19 +507,17 @@
 
                         <div class="flex flex-col my-4">
                             <p class="text-sm font-semibold mt-5">
-                                Assets under accountability
+                                Peripherals under accountability
                             </p>
-                            <span class="text-secondary text-sm">
-                                (Mouse, Keyboards etc..)</span
-                            >
                         </div>
 
                         <div class="overflow-x-auto">
                             <mat-table
                                 [dataSource]="dataSourceAssignedAssets"
                                 matSort
-                                class="mat-elevation-z8 custom-mat-table compact-table">
+                                class="mat-elevation-z8 custom-mat-table compact-table"
                             >
+                                >
                                 <!-- Type Column -->
                                 <ng-container matColumnDef="type">
                                     <mat-header-cell
@@ -669,235 +689,355 @@
                             </p>
                         </div>
 
-                        <div class="grid grid-cols-3 w-full gap-4 mt-12 lg:flex-row md:flex-row ">
+                        <div
+                            class="grid grid-cols-3 w-full gap-4 mt-12 lg:flex-row md:flex-row"
+                        >
                             <!-- COLUMN 1: PREPARED BY -->
                             <div class="my-6">
-                              <p class="text-sm tracking-tight font-bold uppercase">Prepared by:</p>
-                          
-                              <!-- Signature Image -->
-                              <div class="flex-grow text-start">
-                                <div class="flex justify-start items-start">
-                                  <ng-container *ngIf="accountabilityApproval?.preparedByUser; else blankSignature">
-                                    <img
-                                      *ngIf="accountabilityApproval?.preparedByUser?.e_signature; else defaultSignature"
-                                      [src]="getSignatureUrl(accountabilityApproval?.preparedByUser?.e_signature)"
-                                      alt="Signature"
-                                      class="mt-4 h-20 w-48 opacity-50"
-                                    />
-                                  </ng-container>
-                                </div>
-                          
-                                <!-- Default Signature Placeholder -->
-                                <ng-template #defaultSignature>
-                                  <img src="assets/images/logo/signature.png" alt="Default Signature" class="mt-4 w-48 opacity-50" />
-                                </ng-template>
-                          
-                                <!-- Blank Image Placeholder -->
-                                <ng-template #blankSignature>
-                                  <img
-                                    src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                                    alt="Blank Signature"
-                                    class="mt-4 w-20 opacity-0"
-                                  />
-                                </ng-template>
-                          
-                                <!-- Show Name & Role -->
-                                <div class="flex flex-row gap-8 uppercase">
-                                  <div class="flex flex-col w-48">
-                                    <p class="text-md border-t m-1 text-center items-center">
-                                      {{
-                                        accountabilityApproval?.preparedByUser?.name
-                                          ? accountabilityApproval.preparedByUser.name
-                                          : user?.role === 'receiver' || user?.role === 'checker'
-                                          ? user?.name
-                                          : 'NOT AVAILABLE'
-                                      }}
-                                    </p>
-                          
-                                    <span class="text-sm text-gray-600 text-center items-center">
-                                      {{
-                                        accountabilityApproval?.preparedByUser?.designation
-                                          ? accountabilityApproval.preparedByUser.designation
-                                          : user?.role === 'receiver' || user?.role === 'checker'
-                                          ? user?.designation
-                                          : 'IT/OT OPERATIONS'
-                                      }}
-                                    </span>
-                          
-                                    <!-- Date in a separate element -->
-                                    <div class="text-xs tracking-tight font-bold uppercase text-center mt-2">
-                                      Date
-                                      <span class="font-medium">
-                                        {{
-                                          accountabilityApproval?.prepared_date
-                                            ? (accountabilityApproval.prepared_date | date : 'MMMM d, y')
-                                            : 'N/A'
-                                        }}
-                                      </span>
+                                <p
+                                    class="text-sm tracking-tight font-bold uppercase"
+                                >
+                                    Prepared by:
+                                </p>
+
+                                <!-- Signature Image -->
+                                <div class="flex-grow text-start">
+                                    <div class="flex justify-start items-start">
+                                        <ng-container
+                                            *ngIf="
+                                                accountabilityApproval?.preparedByUser;
+                                                else blankSignature
+                                            "
+                                        >
+                                            <img
+                                                *ngIf="
+                                                    accountabilityApproval
+                                                        ?.preparedByUser
+                                                        ?.e_signature;
+                                                    else defaultSignature
+                                                "
+                                                [src]="
+                                                    getSignatureUrl(
+                                                        accountabilityApproval
+                                                            ?.preparedByUser
+                                                            ?.e_signature
+                                                    )
+                                                "
+                                                alt="Signature"
+                                                class="mt-4 h-20 w-48 opacity-50"
+                                            />
+                                        </ng-container>
                                     </div>
-                                  </div>
+
+                                    <!-- Default Signature Placeholder -->
+                                    <ng-template #defaultSignature>
+                                        <img
+                                            src="assets/images/logo/signature.png"
+                                            alt="Default Signature"
+                                            class="mt-4 w-48 opacity-50"
+                                        />
+                                    </ng-template>
+
+                                    <!-- Blank Image Placeholder -->
+                                    <ng-template #blankSignature>
+                                        <img
+                                            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                                            alt="Blank Signature"
+                                            class="mt-4 w-20 opacity-0"
+                                        />
+                                    </ng-template>
+
+                                    <!-- Show Name & Role -->
+                                    <div class="flex flex-row gap-8 uppercase">
+                                        <div class="flex flex-col w-48">
+                                            <p
+                                                class="text-md border-t m-1 text-center items-center"
+                                            >
+                                                {{
+                                                    accountabilityApproval
+                                                        ?.preparedByUser?.name
+                                                        ? accountabilityApproval
+                                                              .preparedByUser
+                                                              .name
+                                                        : user?.role ===
+                                                              "receiver" ||
+                                                          user?.role ===
+                                                              "checker"
+                                                        ? user?.name
+                                                        : "NOT AVAILABLE"
+                                                }}
+                                            </p>
+
+                                            <span
+                                                class="text-sm text-gray-600 text-center items-center"
+                                            >
+                                                {{
+                                                    accountabilityApproval
+                                                        ?.preparedByUser
+                                                        ?.designation
+                                                        ? accountabilityApproval
+                                                              .preparedByUser
+                                                              .designation
+                                                        : user?.role ===
+                                                              "receiver" ||
+                                                          user?.role ===
+                                                              "checker"
+                                                        ? user?.designation
+                                                        : "IT/OT OPERATIONS"
+                                                }}
+                                            </span>
+
+                                            <!-- Date in a separate element -->
+                                            <div
+                                                class="text-xs tracking-tight font-bold uppercase text-center mt-2"
+                                            >
+                                                Date
+                                                <span class="font-medium">
+                                                    {{
+                                                        accountabilityApproval?.prepared_date
+                                                            ? (accountabilityApproval.prepared_date
+                                                              | date
+                                                                  : "MMMM d, y")
+                                                            : "N/A"
+                                                    }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                              </div>
                             </div>
-                          
+
                             <!-- COLUMN 2: APPROVED BY -->
                             <div class="grid grid-cols-1 my-6">
-                              <div class="flex-grow text-start">
-                                <div class="flex flex-row gap-8">
-                                  <p class="text-sm tracking-tight font-bold uppercase">Approved By:</p>
-                                </div>
-                          
-                                <div class="flex justify-start items-start">
-                                  <ng-container *ngIf="accountabilityApproval?.approvedByUser; else blankSignature">
-                                    <img
-                                      *ngIf="accountabilityApproval?.approvedByUser?.e_signature; else defaultSignature"
-                                      [src]="getSignatureUrl(accountabilityApproval?.approvedByUser?.e_signature)"
-                                      alt="Signature"
-                                      class="mt-4 h-20 w-48 opacity-50"
-                                    />
-                                  </ng-container>
-                                </div>
-                          
-                                <ng-template #defaultSignature>
-                                  <img src="assets/images/logo/signature.png" alt="Default Signature" class="mt-4 w-48 opacity-50" />
-                                </ng-template>
-                          
-                                <!-- Blank Image Placeholder -->
-                                <ng-template #blankSignature>
-                                  <img
-                                    src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                                    alt="Blank Signature"
-                                    class="mt-4 w-20 opacity-0"
-                                  />
-                                </ng-template>
-                          
-                                <div class="flex flex-row gap-8 uppercase">
-                                  <div class="flex flex-col w-48">
-                                    <p class="text-md border-t m-1 text-center items-center">
-                                      {{
-                                        accountabilityApproval?.approvedByUser?.name
-                                          ? accountabilityApproval.approvedByUser.name
-                                          : user?.role === 'admin'
-                                          ? user.name
-                                          : 'NOT AVAILABLE'
-                                      }}
-                                    </p>
-                          
-                                    <span class="text-sm text-gray-600 text-center items-center">
-                                      {{
-                                        accountabilityApproval?.approvedByUser?.designation
-                                          ? accountabilityApproval.approvedByUser.designation
-                                          : user?.role === 'admin'
-                                          ? user?.designation
-                                          : 'IT MANAGER'
-                                      }}
-                                    </span>
-                          
-                                    <!-- Date in a separate element -->
-                                    <div class="text-xs tracking-tight font-bold uppercase text-center mt-2">
-                                      Date
-                                      <span class="font-medium">
-                                        {{
-                                          accountabilityApproval?.approved_date
-                                            ? (accountabilityApproval.approved_date | date : 'MMMM d, y')
-                                            : 'N/A'
-                                        }}
-                                      </span>
+                                <div class="flex-grow text-start">
+                                    <div class="flex flex-row gap-8">
+                                        <p
+                                            class="text-sm tracking-tight font-bold uppercase"
+                                        >
+                                            Approved By:
+                                        </p>
                                     </div>
-                                  </div>
+
+                                    <div class="flex justify-start items-start">
+                                        <ng-container
+                                            *ngIf="
+                                                accountabilityApproval?.approvedByUser;
+                                                else blankSignature
+                                            "
+                                        >
+                                            <img
+                                                *ngIf="
+                                                    accountabilityApproval
+                                                        ?.approvedByUser
+                                                        ?.e_signature;
+                                                    else defaultSignature
+                                                "
+                                                [src]="
+                                                    getSignatureUrl(
+                                                        accountabilityApproval
+                                                            ?.approvedByUser
+                                                            ?.e_signature
+                                                    )
+                                                "
+                                                alt="Signature"
+                                                class="mt-4 h-20 w-48 opacity-50"
+                                            />
+                                        </ng-container>
+                                    </div>
+
+                                    <ng-template #defaultSignature>
+                                        <img
+                                            src="assets/images/logo/signature.png"
+                                            alt="Default Signature"
+                                            class="mt-4 w-48 opacity-50"
+                                        />
+                                    </ng-template>
+
+                                    <!-- Blank Image Placeholder -->
+                                    <ng-template #blankSignature>
+                                        <img
+                                            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                                            alt="Blank Signature"
+                                            class="mt-4 w-20 opacity-0"
+                                        />
+                                    </ng-template>
+
+                                    <div class="flex flex-row gap-8 uppercase">
+                                        <div class="flex flex-col w-48">
+                                            <p
+                                                class="text-md border-t m-1 text-center items-center"
+                                            >
+                                                {{
+                                                    accountabilityApproval
+                                                        ?.approvedByUser?.name
+                                                        ? accountabilityApproval
+                                                              .approvedByUser
+                                                              .name
+                                                        : user?.role === "admin"
+                                                        ? user.name
+                                                        : "NOT AVAILABLE"
+                                                }}
+                                            </p>
+
+                                            <span
+                                                class="text-sm text-gray-600 text-center items-center"
+                                            >
+                                                {{
+                                                    accountabilityApproval
+                                                        ?.approvedByUser
+                                                        ?.designation
+                                                        ? accountabilityApproval
+                                                              .approvedByUser
+                                                              .designation
+                                                        : user?.role === "admin"
+                                                        ? user?.designation
+                                                        : "IT MANAGER"
+                                                }}
+                                            </span>
+
+                                            <!-- Date in a separate element -->
+                                            <div
+                                                class="text-xs tracking-tight font-bold uppercase text-center mt-2"
+                                            >
+                                                Date
+                                                <span class="font-medium">
+                                                    {{
+                                                        accountabilityApproval?.approved_date
+                                                            ? (accountabilityApproval.approved_date
+                                                              | date
+                                                                  : "MMMM d, y")
+                                                            : "N/A"
+                                                    }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                              </div>
                             </div>
-                          
+
                             <!-- COLUMN 3: RECEIVED BY -->
                             <div class="flex-grow flex-col my-6">
-                              <div class="flex-grow text-start">
-                                <div class="flex flex-row gap-8">
-                                  <p class="text-sm tracking-tight font-bold uppercase">Received By:</p>
-                                </div>
-                          
-                                <div class="flex justify-start items-start mt-2">
-                                  <img
-                                    src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                                    alt="Blank Signature"
-                                    class="mt-4 w-20 opacity-0"
-                                  />
-                                </div>
-                          
-                                <div class="flex flex-row gap-12 uppercase">
-                                  <div class="flex flex-col w-48">
-                                    <p class="text-md border-t text-center">
-                                      {{ asset.user_accountability_list.owner.name || 'N/A' }}
-                                    </p>
-                                    <span class="text-sm text-gray-600 text-center items-center">
-                                      {{ asset.user_accountability_list.owner.designation || 'N/A' }}
-                                    </span>
-                          
-                                    <!-- Date in a separate element -->
-                                    <div class="text-xs tracking-tight font-bold uppercase text-center mt-2">
-                                      Date
-                                      <span class="font-medium">
-                                        {{ datenow ? (datenow | date : 'MMMM d, y') : 'N/A' }}
-                                      </span>
+                                <div class="flex-grow text-start">
+                                    <div class="flex flex-row gap-8">
+                                        <p
+                                            class="text-sm tracking-tight font-bold uppercase"
+                                        >
+                                            Received By:
+                                        </p>
                                     </div>
-                                  </div>
+
+                                    <div
+                                        class="flex justify-start items-start mt-2"
+                                    >
+                                        <img
+                                            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+                                            alt="Blank Signature"
+                                            class="mt-4 w-20 opacity-0"
+                                        />
+                                    </div>
+
+                                    <div class="flex flex-row gap-12 uppercase">
+                                        <div class="flex flex-col w-48">
+                                            <p
+                                                class="text-md border-t text-center"
+                                            >
+                                                {{
+                                                    asset
+                                                        .user_accountability_list
+                                                        .owner.name || "N/A"
+                                                }}
+                                            </p>
+                                            <span
+                                                class="text-sm text-gray-600 text-center items-center"
+                                            >
+                                                {{
+                                                    asset
+                                                        .user_accountability_list
+                                                        .owner.designation ||
+                                                        "N/A"
+                                                }}
+                                            </span>
+
+                                            <!-- Date in a separate element -->
+                                            <div
+                                                class="text-xs tracking-tight font-bold uppercase text-center mt-2"
+                                            >
+                                                Date
+                                                <span class="font-medium">
+                                                    {{
+                                                        datenow
+                                                            ? (datenow
+                                                              | date
+                                                                  : "MMMM d, y")
+                                                            : "N/A"
+                                                    }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                              </div>
                             </div>
-                          </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <div class="fixed bottom-4 right-4 flex flex-col space-y-4">
+                <!-- Prepare Document Button: Only visible if no preparedByUser signature -->
+                <button
+                    *ngIf="
+                        user?.role !== 'admin' &&
+                        !accountabilityApproval?.preparedByUser?.e_signature
+                    "
+                    class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
+                    (click)="preparedByUser()"
+                    matTooltip="Prepare Document"
+                    matTooltipPosition="above"
+                    aria-label="Prepare document"
+                    style="width: 56px; height: 56px"
+                >
+                    <mat-icon
+                        svgIcon="verified"
+                        class="text-gray-500"
+                    ></mat-icon>
+                </button>
+
+                <!-- Approve Document Button: Only visible if preparedByUser has data -->
+                <button
+                    *ngIf="
+                        user?.role === 'admin' &&
+                        accountabilityApproval?.preparedByUser?.e_signature &&
+                        !accountabilityApproval?.approvedByUser?.e_signature
+                    "
+                    class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
+                    (click)="approvedByUser()"
+                    matTooltip="Approve Document"
+                    matTooltipPosition="above"
+                    aria-label="Approve document"
+                    style="width: 56px; height: 56px"
+                >
+                    <mat-icon
+                        svgIcon="verified"
+                        class="text-green-500"
+                    ></mat-icon>
+                </button>
+
+                <!-- Download PDF Button -->
+                <button
+                    class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
+                    (click)="pdfForm()"
+                    matTooltip="Download Accountability Form"
+                    matTooltipPosition="above"
+                    aria-label="Generate PDF form"
+                    style="width: 56px; height: 56px"
+                >
+                    <img
+                        class="h-8 w-6"
+                        src="assets/images/svgs/pdf-svgrepo-com.svg"
+                    />
+                </button>
+            </div>
         </div>
-
-        <div class="fixed bottom-4 right-4 flex flex-col space-y-4">
-            <!-- Prepare Document Button: Only visible if no preparedByUser signature -->
-            <button
-                *ngIf="
-                    user?.role !== 'admin' &&
-                    !accountabilityApproval?.preparedByUser?.e_signature
-                "
-                class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
-                (click)="preparedByUser()"
-                matTooltip="Prepare Document"
-                matTooltipPosition="above"
-                aria-label="Prepare document"
-                style="width: 56px; height: 56px"
-            >
-                <mat-icon svgIcon="verified" class="text-gray-500"></mat-icon>
-            </button>
-
-            <!-- Approve Document Button: Only visible if preparedByUser has data -->
-            <button
-                *ngIf="
-                    user?.role === 'admin' &&
-                    accountabilityApproval?.preparedByUser?.e_signature &&
-                    !accountabilityApproval?.approvedByUser?.e_signature
-                "
-                class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
-                (click)="approvedByUser()"
-                matTooltip="Approve Document"
-                matTooltipPosition="above"
-                aria-label="Approve document"
-                style="width: 56px; height: 56px"
-            >
-                <mat-icon svgIcon="verified" class="text-green-500"></mat-icon>
-            </button>
-
-            <!-- Download PDF Button -->
-            <button
-                class="bg-white shadow-lg flex items-center justify-center hover:bg-blue-50 p-2 rounded-full transition-colors"
-                (click)="pdfForm()"
-                matTooltip="Download Accountability Form"
-                matTooltipPosition="above"
-                aria-label="Generate PDF form"
-                style="width: 56px; height: 56px"
-            >
-                <img
-                    class="h-8 w-6"
-                    src="assets/images/svgs/pdf-svgrepo-com.svg"
-                />
-            </button>
-        </div>
+        <div></div>
     </div>
-    <div></div>
 </div>

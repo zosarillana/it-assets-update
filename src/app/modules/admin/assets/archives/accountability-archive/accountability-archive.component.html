@@ -1,48 +1,48 @@
 <!-- <app-side-panel-pcs #sidePanel (updateSuccess)="loadItots()"> -->
-    <div class="flex flex-col flex-auto min-w-0">
-        <!-- Header -->
-        <div
-            class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-4 sm:p-6 lg:p-8 border-b bg-card dark:bg-transparent"
-        >
-            <!-- Left Section -->
-            <div class="flex-1 min-w-0">
-                <!-- Breadcrumbs -->
-                <div>
-                    <div class="hidden sm:flex flex-wrap items-center font-medium">
-                        <div
-                            class="flex items-center ml-1 whitespace-nowrap truncate"
-                        >
-                            <a class="ml-1 text-primary-500 truncate">Assets</a>
-                        </div>
-                        <div
-                            class="flex items-center ml-1 whitespace-nowrap truncate"
-                        >
-                            <mat-icon
-                                class="icon-size-5 text-secondary"
-                                [svgIcon]="'heroicons_solid:chevron-right'"
-                            ></mat-icon>
-                            <span class="ml-1 text-secondary truncate">
-                                Archived Accountability List
-                            </span>
-                        </div>
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-4 sm:p-6 lg:p-8 border-b bg-card dark:bg-transparent"
+    >
+        <!-- Left Section -->
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div>
+                <div class="hidden sm:flex flex-wrap items-center font-medium">
+                    <div
+                        class="flex items-center ml-1 whitespace-nowrap truncate"
+                    >
+                        <a class="ml-1 text-primary-500 truncate">Assets</a>
+                    </div>
+                    <div
+                        class="flex items-center ml-1 whitespace-nowrap truncate"
+                    >
+                        <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-right'"
+                        ></mat-icon>
+                        <span class="ml-1 text-secondary truncate">
+                            Archived Accountability List
+                        </span>
                     </div>
                 </div>
-    
-                <!-- Title -->
-                <div class="mt-2 truncate">
-                    <h2
-                        class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
-                    >
-                        Archived Accounbability List
-                    </h2>
-                </div>
             </div>
-    
-            <!-- Right Section -->
-            <div class="flex flex-wrap items-center mt-4 sm:mt-0">
-                <!-- Add Inventory Button -->
-                <!-- Search Inventory Tag -->
-                <!-- <mat-form-field
+
+            <!-- Title -->
+            <div class="mt-2 truncate">
+                <h2
+                    class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                >
+                    Archived Accounbability List
+                </h2>
+            </div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="flex flex-wrap items-center mt-4 sm:mt-0">
+            <!-- Add Inventory Button -->
+            <!-- Search Inventory Tag -->
+            <!-- <mat-form-field
                     class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
                 >
                     <mat-icon
@@ -68,290 +68,284 @@
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field> -->
-            </div>
         </div>
-    
-        <!-- Main -->
-        <div class="pt-0">
-            <div class="mat-elevation-z8 overflow-x-auto overflow-y-auto">
-                <table
-                    mat-table
-                    [dataSource]="dataSource"
-                    matSort
-                    class="min-w-full bg-white rounded-lg shadow-md uppercase"
-                >
-                    <ng-container matColumnDef="image">
-                        <th
-                            mat-header-cell
-                            *matHeaderCellDef
-                            mat-sort-header
-                            class="py-4 text-left text-gray-600 font-semibold inventory-tag-header custom-left-align"
+    </div>
+
+    <app-custom-tooltip></app-custom-tooltip>
+    <!-- Main -->
+    <div class="pt-0">
+        <div class="mat-elevation-z8 overflow-x-auto overflow-y-auto">
+            <table
+                mat-table
+                [dataSource]="dataSource"
+                matSort
+                class="min-w-full bg-white rounded-lg shadow-md uppercase"
+            >
+                <ng-container matColumnDef="image">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="py-4 text-left text-gray-600 font-semibold inventory-tag-header custom-left-align"
+                    >
+                        <mat-icon class="icon-size-4 mr-4"></mat-icon>
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="ml-4 border-b border-gray-200 py-4 text-sm font-semibold inventory-tag-cell"
+                    >
+                        <img
+                            src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/inspiron-notebooks/14-2-in-1-7440-intel/media-gallery/notebook-inspiron-14-7440-t-ice-blue-gallery-17.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=1336&qlt=100,1&resMode=sharp2&size=1336,804&chrss=full"
+                            alt="Sample Image"
+                            class="h-12 w-14 border border-gray-300 rounded-sm p-2"
+                        />
+                    </td>
+                </ng-container>
+
+                <!-- Accountability Code Column -->
+                <ng-container matColumnDef="accountability_code">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="py-4 text-left text-white font-semibold inventory-tag-header custom-left-align w-72"
+                    >
+                        <mat-icon
+                            class="icon-size-4 mr-4 text-white"
+                            svgIcon="feather:tag"
+                        ></mat-icon>
+                        Accountability Code
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="ml-4 border-r border-gray-200 py-4 text-sm font-semibold inventory-tag-cell"
+                    >
+                        {{
+                            element?.accountability?.accountability_code ||
+                                "N/A"
+                        }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tracking_code">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="py-4 text-left text-white font-semibold inventory-tag-header custom-left-align w-72"
+                    >
+                        Tracking ID
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-r border-gray-200 px-4 py-4 text-sm font-semibold inventory-tag-cell"
+                    >
+                        {{ element.accountability?.tracking_code || "N/A" }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="owner">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-white font-semibold w-72"
+                    >
+                        Owner
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-r border-gray-200 text-sm px-4 py-2"
+                    >
+                        {{ element.accountability?.owner?.name || "N/A" }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="department">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-white font-semibold"
+                    >
+                        Department
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-r border-gray-200 text-sm px-4 py-2"
+                    >
+                        {{ element.accountability?.owner?.department || "N/A" }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="bu">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-white font-semibold"
+                    >
+                        Department
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-r border-gray-200 text-sm px-4 py-2"
+                    >
+                        {{ element.accountability?.owner?.company || "N/A" }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="status">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-white font-semibold"
+                    >
+                        Status
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-r border-gray-200 text-sm px-4 py-2"
+                    >
+                        <div class="flex ml-4">
+                            <div class="flex flex-row">
+                                <span
+                                    [ngClass]="{
+                                        'bg-red-500':
+                                            !element.accountability?.is_active,
+                                        'bg-green-500':
+                                            element.accountability?.is_active
+                                    }"
+                                    class="flex w-2 h-2 mt-1.5 me-3 rounded-full"
+                                ></span>
+                                <p class="ml-2 text-sm mt-0.5">
+                                    {{
+                                        element.accountability?.is_active
+                                            ? "ACTIVE"
+                                            : "INACTIVE"
+                                    }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="computer">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-white font-semibold"
+                    >
+                        Computer
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-r border-gray-200 text-sm px-4 py-2"
+                    >
+                        <ng-container
+                            *ngIf="
+                                element.computers?.$values?.length > 0;
+                                else noData
+                            "
                         >
-                            <mat-icon class="icon-size-4 mr-4"></mat-icon>
-                        </th>
-                        <td
-                            mat-cell
-                            *matCellDef="let element"
-                            class="ml-4 border-b border-gray-200 py-4 text-sm font-semibold inventory-tag-cell"
+                            <span
+                                *ngFor="
+                                    let comp of element.computers.$values;
+                                    let i = index
+                                "
+                            >
+                                {{ comp.type
+                                }}{{
+                                    i < element.computers.$values.length - 1
+                                        ? ", "
+                                        : ""
+                                }}
+                            </span>
+                        </ng-container>
+                        <ng-template #noData>N/A</ng-template>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="assets">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="px-4 py-2 text-left text-gray-600 font-semibold"
+                    >
+                        Assets
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-r border-gray-200 text-sm px-4 py-2"
+                    >
+                        <ng-container
+                            *ngIf="
+                                element.computers?.$values?.length > 0 &&
+                                    element.computers.$values[0]
+                                        ?.assignedAssetDetails?.$values
+                                        ?.length > 0;
+                                else noData
+                            "
                         >
-                            <img
-                                src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/inspiron-notebooks/14-2-in-1-7440-intel/media-gallery/notebook-inspiron-14-7440-t-ice-blue-gallery-17.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=1336&qlt=100,1&resMode=sharp2&size=1336,804&chrss=full"
-                                alt="Sample Image"
-                                class="h-12 w-14 border border-gray-300 rounded-sm p-2"
-                            />
-                        </td>
-                    </ng-container>
-    
-                    <!-- Accountability Code Column -->
-                    <ng-container matColumnDef="accountability_code">
-                        <th
-                            mat-header-cell
-                            *matHeaderCellDef
-                            mat-sort-header
-                            class="py-4 text-left text-white font-semibold inventory-tag-header custom-left-align w-72"
+                            <span
+                                *ngFor="
+                                    let asset of element.computers.$values[0]
+                                        .assignedAssetDetails.$values;
+                                    let i = index
+                                "
+                            >
+                                {{ asset.type
+                                }}{{
+                                    i <
+                                    element.computers.$values[0]
+                                        .assignedAssetDetails.$values.length -
+                                        1
+                                        ? ", "
+                                        : ""
+                                }}
+                            </span>
+                        </ng-container>
+                        <ng-template #noData>N/A</ng-template>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="text-left text-gray-900 font-semibold"
+                    ></th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-r border-gray-200 text-sm text-center"
+                    >
+                        <button
+                            mat-icon-button
+                            [matMenuTriggerFor]="menu"
+                            (click)="$event.stopPropagation()"
                         >
                             <mat-icon
-                                class="icon-size-4 mr-4 text-white"
-                                svgIcon="feather:tag"
+                                class="icon-size-4"
+                                svgIcon="feather:more-vertical"
                             ></mat-icon>
-                            Accountability Code
-                        </th>
-                        <td
-                            mat-cell
-                            *matCellDef="let element"
-                            class="ml-4 border-r border-gray-200 py-4 text-sm font-semibold inventory-tag-cell"
-                        >
-                            {{
-                                element?.accountability
-                                    ?.accountability_code || "N/A"
-                            }}
-                        </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="tracking_code">
-                        <th
-                            mat-header-cell
-                            *matHeaderCellDef
-                            mat-sort-header
-                            class="py-4 text-left text-white font-semibold inventory-tag-header custom-left-align w-72"
-                        >
-                            Tracking ID
-                        </th>
-                        <td
-                            mat-cell
-                            *matCellDef="let element"
-                            class="border-r border-gray-200 px-4 py-4 text-sm font-semibold inventory-tag-cell"
-                        >
-                            {{
-                                element.accountability?.tracking_code ||
-                                    "N/A"
-                            }}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="owner">
-                        <th
-                            mat-header-cell
-                            *matHeaderCellDef
-                            mat-sort-header
-                            class="px-4 py-2 text-left text-white font-semibold w-72"
-                        >
-                            Owner
-                        </th>
-                        <td
-                            mat-cell
-                            *matCellDef="let element"
-                            class="border-r border-gray-200 text-sm px-4 py-2"
-                        >
-                            {{ element.accountability?.owner?.name || "N/A" }}
-                           
-                        </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="department">
-                        <th
-                            mat-header-cell
-                            *matHeaderCellDef
-                            mat-sort-header
-                            class="px-4 py-2 text-left text-white font-semibold"
-                        >
-                            Department
-                        </th>
-                        <td
-                            mat-cell
-                            *matCellDef="let element"
-                            class="border-r border-gray-200 text-sm px-4 py-2"
-                        >
-                            {{ element.accountability?.owner?.department || "N/A" }}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="bu">
-                        <th
-                            mat-header-cell
-                            *matHeaderCellDef
-                            mat-sort-header
-                            class="px-4 py-2 text-left text-white font-semibold"
-                        >
-                            Department
-                        </th>
-                        <td
-                            mat-cell
-                            *matCellDef="let element"
-                            class="border-r border-gray-200 text-sm px-4 py-2"
-                        >
-                            {{ element.accountability?.owner?.company || "N/A" }}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="status">
-                        <th
-                            mat-header-cell
-                            *matHeaderCellDef
-                            mat-sort-header
-                            class="px-4 py-2 text-left text-white font-semibold"
-                        >
-                            Status
-                        </th>
-                        <td
-                            mat-cell
-                            *matCellDef="let element"
-                            class="border-r border-gray-200 text-sm px-4 py-2"
-                        >
-                            <div class="flex ml-4">
-                                <div class="flex flex-row">
-                                    <span
-                                        [ngClass]="{
-                                            'bg-red-500':
-                                                !element.accountability
-                                                    ?.is_active,
-                                            'bg-green-500':
-                                                element.accountability
-                                                    ?.is_active
-                                        }"
-                                        class="flex w-2 h-2 mt-1.5 me-3 rounded-full"
-                                    ></span>
-                                    <p class="ml-2 text-sm mt-0.5">
-                                        {{
-                                            element.accountability
-                                                ?.is_active
-                                                ? "ACTIVE"
-                                                : "INACTIVE"
-                                        }}
-                                    </p>
-                                </div>
-                            </div>
-                        </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="computer">
-                        <th
-                            mat-header-cell
-                            *matHeaderCellDef
-                            mat-sort-header
-                            class="px-4 py-2 text-left text-white font-semibold"
-                        >
-                            Computer
-                        </th>
-                        <td
-                            mat-cell
-                            *matCellDef="let element"
-                            class="border-r border-gray-200 text-sm px-4 py-2"
-                        >
-                            <ng-container
-                                *ngIf="
-                                    element.computers?.$values?.length > 0;
-                                    else noData
-                                "
-                            >
-                                <span
-                                    *ngFor="
-                                        let comp of element.computers.$values;
-                                        let i = index
-                                    "
-                                >
-                                    {{ comp.type
-                                    }}{{
-                                        i < element.computers.$values.length - 1
-                                            ? ", "
-                                            : ""
-                                    }}
-                                </span>
-                            </ng-container>
-                            <ng-template #noData>N/A</ng-template>
-                        </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="assets">
-                        <th
-                            mat-header-cell
-                            *matHeaderCellDef
-                            mat-sort-header
-                            class="px-4 py-2 text-left text-gray-600 font-semibold"
-                        >
-                            Assets
-                        </th>
-                        <td
-                            mat-cell
-                            *matCellDef="let element"
-                            class="border-r border-gray-200 text-sm px-4 py-2"
-                        >
-                            <ng-container
-                                *ngIf="
-                                    element.computers?.$values?.length > 0 &&
-                                        element.computers.$values[0]
-                                            ?.assignedAssetDetails?.$values
-                                            ?.length > 0;
-                                    else noData
-                                "
-                            >
-                                <span
-                                    *ngFor="
-                                        let asset of element.computers.$values[0]
-                                            .assignedAssetDetails.$values;
-                                        let i = index
-                                    "
-                                >
-                                    {{ asset.type
-                                    }}{{
-                                        i <
-                                        element.computers.$values[0]
-                                            .assignedAssetDetails.$values.length -
-                                            1
-                                            ? ", "
-                                            : ""
-                                    }}
-                                </span>
-                            </ng-container>
-                            <ng-template #noData>N/A</ng-template>
-                        </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="action">
-                        <th
-                            mat-header-cell
-                            *matHeaderCellDef
-                            mat-sort-header
-                            class="text-left text-gray-900 font-semibold"
-                        ></th>
-                        <td
-                            mat-cell
-                            *matCellDef="let element"
-                            class="border-r border-gray-200 text-sm text-center"
-                        >
-                            <button
-                                mat-icon-button
-                                [matMenuTriggerFor]="menu"
-                                (click)="$event.stopPropagation()"
-                            >
-                                <mat-icon
-                                    class="icon-size-4"
-                                    svgIcon="feather:more-vertical"
-                                ></mat-icon>
-                            </button>
-                            <mat-menu #menu="matMenu">
-                                <!-- <button mat-menu-item [routerLink]="'/assets/computers/edit/' + element.id">
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <!-- <button mat-menu-item [routerLink]="'/assets/computers/edit/' + element.id">
                                         <mat-icon class="icon-size-5" svgIcon="feather:edit"></mat-icon>
                                         <p class="text-regular">Edit</p>
                                       </button>  -->
-                                <!-- <button
+                            <!-- <button
                                     mat-menu-item
                                     (click)="
                                         openDeleteDialog(
@@ -366,7 +360,7 @@
                                     ></mat-icon>
                                     <p class="text-regular">Delete</p>
                                 </button> -->
-                                <!-- <ng-container
+                            <!-- <ng-container
                                     *ngIf="
                                         element.accountability?.is_active
                                     "
@@ -387,60 +381,56 @@
                                         <p class="text-regular">Return</p>
                                     </button>
                                 </ng-container> -->
-    
-                                <ng-container
-                                    *ngIf="
-                                        !element.accountability?.is_active
+
+                            <ng-container
+                                *ngIf="!element.accountability?.is_active"
+                            >
+                                <button
+                                    mat-menu-item
+                                    (click)="
+                                        viewResult(element?.accountability?.id)
                                     "
                                 >
-                                    <button
-                                        mat-menu-item
-                                        (click)="
-                                            viewResult(
-                                                element?.accountability
-                                                    ?.id
-                                            )
-                                        "
-                                    >
-                                        <mat-icon
-                                            class="icon-size-5"
-                                            svgIcon="feather:eye"
-                                        ></mat-icon>
-                                        <p class="text-regular">
-                                           View Archived Data
-                                    </button>
-                                </ng-container>
-    
-                                <!-- <button mat-menu-item>Option 2</button> -->
-                            </mat-menu>
-                        </td>
-                    </ng-container>
-                    <!-- Action Column -->
-                    <tr
-                        mat-header-row
-                        *matHeaderRowDef="displayedColumns"
-                        class="bg-gray-900"
-                    ></tr>
-                    <tr
-                        mat-row
-                        [routerLink]="
-                            '/assets/accountability-archive/view/' +
-                            (row.id || '')
-                        "
-                        class="cursor-pointer hover:bg-gray-100"
-                        *matRowDef="let row; columns: displayedColumns"
-                    ></tr>
-                </table>
-            </div>
-            <!-- Paginator -->
-            <div>
-                <mat-paginator
-                    [pageSizeOptions]="[10, 15, 20, 50, 100]"
-                    [pageSize]="10"
-                    showFirstLastButtons
-                ></mat-paginator>
-            </div>
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        svgIcon="feather:eye"
+                                    ></mat-icon>
+                                    <p class="text-regular">
+                                        View Archived Data
+                                    </p>
+                                </button>
+                            </ng-container>
+
+                            <!-- <button mat-menu-item>Option 2</button> -->
+                        </mat-menu>
+                    </td>
+                </ng-container>
+                <!-- Action Column -->
+                <tr
+                    mat-header-row
+                    *matHeaderRowDef="displayedColumns"
+                    class="bg-gray-900"
+                ></tr>
+                <tr
+                    mat-row
+                    [routerLink]="
+                        '/assets/accountability-archive/view/' + (row.id || '')
+                    "
+                    class="cursor-pointer hover:bg-gray-100"
+                    *matRowDef="let row; columns: displayedColumns"
+                    (mousemove)="onMouseMove($event, row)"
+                    (mouseleave)="onMouseLeave()"
+                ></tr>
+            </table>
+        </div>
+        <!-- Paginator -->
+        <div>
+            <mat-paginator
+                [pageSizeOptions]="[10, 15, 20, 50, 100]"
+                [pageSize]="10"
+                showFirstLastButtons
+            ></mat-paginator>
         </div>
     </div>
-    <!-- </app-side-panel-pcs> -->
-    
+</div>
+<!-- </app-side-panel-pcs> -->

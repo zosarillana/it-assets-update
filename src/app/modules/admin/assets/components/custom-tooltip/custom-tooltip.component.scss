@@ -1,0 +1,14 @@
+.tooltip {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    pointer-events: none; /* Prevent the tooltip from blocking mouse events */
+    z-index: 1000;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
