@@ -80,7 +80,9 @@
                         <p class="font-semibold text-2xl">
                             {{ asset.type }}
                             {{ asset.model || "N/A" }} ({{
-                                asset.type || "N/A"
+                                asset.type === "CPU"
+                                    ? "DESKTOP"
+                                    : asset.type || "N/A"
                             }})
                         </p>
                         <p class="text-secondary font-semibold">

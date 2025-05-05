@@ -161,6 +161,10 @@ export class AccountabilityFormComponent implements OnInit {
     asset!: Accountability;
 
     ngOnInit() {
+        //dateNow 
+        const now = new Date();
+        this.datenow = now.toISOString(); // Or directly use now if preferred
+        
         // Get user data first
         this._userService.user$
             .pipe(takeUntil(this._unsubscribeAll))
