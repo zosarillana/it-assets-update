@@ -66,7 +66,8 @@
                     <mat-icon matPrefix class="icon-size-5" [svgIcon]="'heroicons_solid:search'"></mat-icon>
                     <input
                         matInput
-                        placeholder="Search by Type"
+                        class="uppercase"
+                        placeholder="Search by Owner"
                         [formControl]="typeFilterControl"
                         [matAutocomplete]="auto"
                     />
@@ -74,7 +75,7 @@
                         #auto="matAutocomplete"
                         (optionSelected)="onTypeSelected($event.option.value)"
                     >
-                        <mat-option *ngFor="let option of filteredTypeOptions | async" [value]="option">
+                        <mat-option class="uppercase" *ngFor="let option of filteredTypeOptions | async" [value]="option">
                             {{ option }}
                         </mat-option>
                     </mat-autocomplete>

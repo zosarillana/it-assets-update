@@ -11,16 +11,6 @@ import { ModalUniversalComponent } from '../../components/modal/modal-universal/
 import { AlertService } from 'app/services/alert.service';
 import { Router } from '@angular/router';
 
-// Define an interface for your accountability item
-// interface AccountabilityItem {
-//     accountability_code: string;
-//     tracking_code: string;
-//     computer: string;
-//     assets: string;
-//     owner: string;
-//     department: string;
-//     status: string;
-// }
 interface AccountabilityItem {
     user_accountability_list: {
         id: number;
@@ -68,9 +58,8 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
     totalItems = 0;
     pageSizeOptions = [5, 10, 25, 50];
     isLoading = false;
-    
-    // Explicitly type allTypes as string[]
-    allTypes: string[] = []; 
+        
+    allOwners: string[] = []; 
     typeFilterControl = new FormControl('');
     filteredTypeOptions: Observable<string[]>;
 
@@ -130,11 +119,12 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
                 }
     
                 // Extract unique accountability codes safely
-                this.allTypes = [...new Set(
+                this.allOwners = [...new Set(
                     this.dataSource.data
-                        .map(item => item.user_accountability_list?.accountability_code)
-                        .filter(code => code != null)
+                        .map(item => item.owner?.name)
+                        .filter(name => name != null)
                 )];
+                                
                 
                 this.isLoading = false;
             },
@@ -149,10 +139,7 @@ export class AccountabilityListComponent implements OnInit, AfterViewInit {
     // Explicitly type the filter method
     private _filter(value: string): string[] {
         const filterValue = value.toLowerCase();
-
-        return this.allTypes.filter((option) =>
-            option.toLowerCase().includes(filterValue)
-        );
+        return this.allOwners.filter(option => option.toLowerCase().includes(filterValue));
     }
 
     // Apply filter when a type is selected
