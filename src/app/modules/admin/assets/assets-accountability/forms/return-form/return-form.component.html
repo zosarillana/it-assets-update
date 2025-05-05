@@ -247,17 +247,18 @@
                                     <mat-cell
                                         class="text-xs"
                                         *matCellDef="let computer"
-                                        >{{ computer.type }}</mat-cell
+                                        >{{ computer.type === 'CPU' ? 'DESKTOP' : computer.type }}
+                                        </mat-cell
                                     >
                                 </ng-container>
 
-                                <!-- Asset Barcode Column -->
+                                <!-- Inventory Code Column -->
                                 <ng-container matColumnDef="asset_barcode">
                                     <mat-header-cell
                                         class="text-xs"
                                         *matHeaderCellDef
                                         mat-sort-header
-                                        >Asset Barcode</mat-header-cell
+                                        >Inventory Code</mat-header-cell
                                     >
                                     <mat-cell
                                         class="text-xs"
@@ -585,12 +586,12 @@
                                     }}</mat-cell>
                                 </ng-container>
 
-                                <!-- Asset Barcode Column -->
+                                <!-- Inventory Code Column -->
                                 <ng-container matColumnDef="asset_barcode">
                                     <mat-header-cell
                                         *matHeaderCellDef
                                         mat-sort-header
-                                        >Asset Barcode</mat-header-cell
+                                        >Inventory Code</mat-header-cell
                                     >
                                     <mat-cell *matCellDef="let asset">{{
                                         asset.asset_barcode || "N/A"

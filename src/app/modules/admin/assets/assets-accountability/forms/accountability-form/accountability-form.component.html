@@ -241,8 +241,12 @@
                                     <mat-cell
                                         class="text-sm"
                                         *matCellDef="let e"
-                                        >{{ e.type || "N/A" }}</mat-cell
-                                    >
+                                        >{{
+                                            e.type === "CPU"
+                                                ? "DESKTOP"
+                                                : e.type || "N/A"
+                                        }}
+                                    </mat-cell>
                                 </ng-container>
                                 <ng-container matColumnDef="dateAcquired">
                                     <mat-header-cell
@@ -267,7 +271,7 @@
                                     <mat-header-cell
                                         *matHeaderCellDef
                                         mat-sort-header
-                                        >Barcode</mat-header-cell
+                                        >Inventory Code</mat-header-cell
                                     >
                                     <mat-cell *matCellDef="let e">{{
                                         e.asset_barcode || "N/A"
@@ -376,12 +380,10 @@
                                     <mat-header-cell
                                         *matHeaderCellDef
                                         mat-sort-header
-                                      
                                         >Date Acquired</mat-header-cell
                                     >
                                     <mat-cell
                                         class="text-sm"
-                                      
                                         *matCellDef="let element"
                                         >{{
                                             element.date_acquired
@@ -413,7 +415,6 @@
                                     <mat-header-cell
                                         *matHeaderCellDef
                                         mat-sort-header
-                                                                        
                                     >
                                         Inventory Code
                                     </mat-header-cell>
@@ -429,22 +430,17 @@
                                     <mat-header-cell
                                         *matHeaderCellDef
                                         mat-sort-header
-                                                                           
                                         >Parent Invt. Code</mat-header-cell
                                     >
                                     <mat-cell
                                         class="text-sm"
                                         *matCellDef="let element"
-                                      
                                         >{{
                                             element.asset_barcode || "N/A"
                                         }}</mat-cell
                                     >
                                 </ng-container>
-                                <ng-container
-                                    matColumnDef="status"
-                                  
-                                >
+                                <ng-container matColumnDef="status">
                                     <mat-header-cell
                                         *matHeaderCellDef
                                         mat-sort-header
@@ -453,7 +449,6 @@
                                     <mat-cell
                                         class="text-sm"
                                         *matCellDef="let element"
-                                       
                                         >{{ element.status || "N/A" }}</mat-cell
                                     >
                                 </ng-container>
@@ -464,7 +459,7 @@
                                         >cost</mat-header-cell
                                     >
                                     <mat-cell
-                                        class="text-sm "
+                                        class="text-sm"
                                         *matCellDef="let element"
                                         >₱ {{ element.cost || "N/A" }}</mat-cell
                                     >
