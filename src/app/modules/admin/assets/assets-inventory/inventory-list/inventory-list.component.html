@@ -227,11 +227,7 @@
                         *matCellDef="let element"
                         class="border-r border-gray-200 text-sm px-4 py-2"
                     >
-                        {{
-                            element.date_acquired
-                                ? (element.date_acquired | date : "MM/dd/yyyy")
-                                : "N/A"
-                        }}
+                    {{ isValidDate(element.date_acquired) ? (element.date_acquired | date:'MM/dd/yyyy') : 'N/A' }}                    
                     </td>
                 </ng-container>
 

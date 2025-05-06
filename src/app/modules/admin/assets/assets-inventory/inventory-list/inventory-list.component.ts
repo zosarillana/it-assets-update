@@ -209,8 +209,10 @@ export class InventoryListComponent implements OnInit, AfterViewInit {
         this.loadAssets(1, this.pageSize, this.selectedTypeToggle, true);
     }
 
+    // In inventory-list.component.ts
     isValidDate(date: any): boolean {
-        return date && !isNaN(new Date(date).getTime());
+        const parsedDate = new Date(date);
+        return !isNaN(parsedDate.getTime());
     }
 
     openDeleteDialog(id: string): void {
