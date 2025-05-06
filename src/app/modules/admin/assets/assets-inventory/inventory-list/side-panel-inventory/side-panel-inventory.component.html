@@ -57,111 +57,46 @@
                 ></mat-icon>
         
                 <!-- Show appropriate icons based on type -->
+                <mat-icon *ngIf="type === 'CPU'" svgIcon="feather:cpu" class="icon-size-3 mr-2" [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"></mat-icon>
+                <mat-icon *ngIf="type === 'LAPTOP'" svgIcon="mat_outline:computer" class="icon-size-3 mr-2" [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"></mat-icon>
+                <mat-icon *ngIf="type === 'HDD'" svgIcon="feather:hard-drive" class="icon-size-3 mr-2" [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"></mat-icon>
+                <mat-icon *ngIf="type === 'SSD'" svgIcon="feather:server" class="icon-size-3 mr-2" [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"></mat-icon>
+                <mat-icon *ngIf="type === 'RAM'" svgIcon="mat_outline:memory" class="icon-size-3 mr-2" [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"></mat-icon>
+                <mat-icon *ngIf="type === 'BOARD'" svgIcon="mat_outline:developer_board" class="icon-size-3 mr-2" [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"></mat-icon>
+                <mat-icon *ngIf="type === 'GPU'" svgIcon="mat_outline:graphic_eq" class="icon-size-3 mr-2" [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"></mat-icon>
+                <mat-icon *ngIf="type === 'MONITOR'" svgIcon="mat_outline:monitor" class="icon-size-3 mr-2" [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"></mat-icon>
+                <mat-icon *ngIf="type.startsWith('USB')" svgIcon="mat_outline:usb" class="icon-size-3 mr-2" [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"></mat-icon>
+                <mat-icon *ngIf="type.startsWith('KEYBOARD')" svgIcon="mat_outline:keyboard" class="icon-size-3 mr-2" [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"></mat-icon>
+                <mat-icon *ngIf="type.startsWith('MOUSE')" svgIcon="mat_outline:mouse" class="icon-size-3 mr-2" [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"></mat-icon>
+                <mat-icon *ngIf="type === 'UPS'" svgIcon="mat_outline:battery_charging_full" class="icon-size-3 mr-2" [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"></mat-icon>
+                <mat-icon *ngIf="type === 'BAG'" svgIcon="mat_outline:work" class="icon-size-3 mr-2" [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"></mat-icon>
+                <mat-icon *ngIf="type.startsWith('ADAPTER')" svgIcon="power" class="icon-size-3 mr-2" [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"></mat-icon>
+                <mat-icon *ngIf="type.endsWith('ADAPTER')" svgIcon="power" class="icon-size-3 mr-2" [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"></mat-icon>
+        
+                <!-- Fallback icon if no known type matched -->
                 <mat-icon
-                    *ngIf="type === 'CPU'"
-                    svgIcon="feather:cpu"
+                    *ngIf="!(
+                        type === 'CPU' ||
+                        type === 'LAPTOP' ||
+                        type === 'HDD' ||
+                        type === 'SSD' ||
+                        type === 'RAM' ||
+                        type === 'BOARD' ||
+                        type === 'GPU' ||
+                        type === 'MONITOR' ||
+                        type === 'UPS' ||
+                        type === 'BAG' ||
+                        type.startsWith('USB') ||
+                        type.startsWith('KEYBOARD') ||
+                        type.startsWith('MOUSE') ||
+                        type.startsWith('ADAPTER') ||
+                        type.endsWith('ADAPTER')
+                    )"
+                    svgIcon="mat_outline:help_outline"
                     class="icon-size-3 mr-2"
                     [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
                 ></mat-icon>
         
-                <mat-icon
-                    *ngIf="type === 'LAPTOP'"
-                    svgIcon="mat_outline:computer"
-                    class="icon-size-3 mr-2"
-                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
-                ></mat-icon>
-        
-                <mat-icon
-                    *ngIf="type === 'HDD'"
-                    svgIcon="feather:hard-drive"
-                    class="icon-size-3 mr-2"
-                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
-                ></mat-icon>
-        
-                <mat-icon
-                    *ngIf="type === 'SSD'"
-                    svgIcon="feather:server"
-                    class="icon-size-3 mr-2"
-                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
-                ></mat-icon>
-        
-                <mat-icon
-                    *ngIf="type === 'RAM'"
-                    svgIcon="mat_outline:memory"
-                    class="icon-size-3 mr-2"
-                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
-                ></mat-icon>
-        
-                <mat-icon
-                    *ngIf="type === 'BOARD'"
-                    svgIcon="mat_outline:developer_board"
-                    class="icon-size-3 mr-2"
-                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
-                ></mat-icon>
-        
-                <mat-icon
-                    *ngIf="type === 'GPU'"
-                    svgIcon="mat_outline:graphic_eq"
-                    class="icon-size-3 mr-2"
-                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
-                ></mat-icon>
-        
-                <!-- New Icons -->
-                <mat-icon
-                    *ngIf="type === 'MONITOR'"
-                    svgIcon="mat_outline:monitor"
-                    class="icon-size-3 mr-2"
-                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
-                ></mat-icon>
-        
-                <mat-icon
-                    *ngIf="type.startsWith('USB')"
-                    svgIcon="mat_outline:usb"
-                    class="icon-size-3 mr-2"
-                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
-                ></mat-icon>
-        
-                <mat-icon
-                    *ngIf="type.startsWith('KEYBOARD')"
-                    svgIcon="mat_outline:keyboard"
-                    class="icon-size-3 mr-2"
-                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
-                ></mat-icon>
-        
-                
-                <mat-icon
-                    *ngIf="type.startsWith('MOUSE')"
-                    svgIcon="mat_outline:mouse"
-                    class="icon-size-3 mr-2"
-                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
-                ></mat-icon>
-        
-                <mat-icon
-                    *ngIf="type === 'UPS'"
-                    svgIcon="mat_outline:battery_charging_full"
-                    class="icon-size-3 mr-2"
-                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
-                ></mat-icon>
-        
-                <mat-icon
-                    *ngIf="type === 'BAG'"
-                    svgIcon="mat_outline:work"
-                    class="icon-size-3 mr-2"
-                    [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
-                ></mat-icon>
-        
-                <mat-icon
-                *ngIf="type.startsWith('ADAPTER')"
-                svgIcon="power"
-                class="icon-size-3 mr-2"
-                [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
-            ></mat-icon>
-                <mat-icon
-                *ngIf="type.endsWith('ADAPTER')"
-                svgIcon="power"
-                class="icon-size-3 mr-2"
-                [ngClass]="{ 'text-white': selectedTypeToggle.includes(type) }"
-            ></mat-icon>
                 {{ type }}
             </button>
         </div>
