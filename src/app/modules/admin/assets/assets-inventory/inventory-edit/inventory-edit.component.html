@@ -162,19 +162,25 @@
                                 />
                             </mat-form-field>
 
-                            <mat-form-field appearance="fill" class="w-full">
+                            <mat-form-field appearance="fill">
                                 <mat-label class="text-sm">Warranty</mat-label>
                                 <mat-icon
-                                    svgIcon="feather:shield"
-                                    class="icon-size-5 mr-2"
+                                  svgIcon="feather:shield"
+                                  class="icon-size-3 md:icon-size-4 mr-2"
                                 ></mat-icon>
-                                <input
-                                    matInput
-                                    id="warranty"
-                                    placeholder="N/A"
-                                    formControlName="warranty"
-                                />
-                            </mat-form-field>
+                                
+                                <mat-select
+                                  id="warranty"
+                                  formControlName="warranty"
+                                  placeholder="Select warranty..."
+                                  class="text-xs md:text-sm"
+                                >
+                                  <mat-option *ngFor="let month of warrantyOptions" [value]="month.label">
+                                    {{ month.label }}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+      
 
                             <mat-form-field appearance="fill" class="w-full">
                                 <mat-label class="text-sm">Cost</mat-label>
@@ -367,9 +373,7 @@
                                                                 <p
                                                                     class="text-sm md:text-md font-bold text-primary"
                                                                 >
-                                                                    Asset
-                                                                    barcode
-                                                                </p>
+                                                                 Inventory Code
                                                                 <div
                                                                     class="flex justify-start items-start gap-2"
                                                                 >
@@ -385,12 +389,11 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div>
+                                                            <!-- <div>
                                                                 <p
                                                                     class="text-sm md:text-md font-bold text-primary"
                                                                 >
-                                                                    Serial
-                                                                    number
+                                                                    Inventory Code
                                                                 </p>
                                                                 <div
                                                                     class="flex justify-start items-start gap-2"
@@ -405,7 +408,7 @@
                                                                         }}
                                                                     </span>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                             <div
                                                                 class="columnDivider"
                                                             >

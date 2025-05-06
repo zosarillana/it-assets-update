@@ -1,5 +1,11 @@
 import { DOCUMENT } from '@angular/common';
-import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Inject,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
@@ -19,6 +25,8 @@ export class InventoryEditComponent implements OnInit {
     asset!: Assets;
     eventForm!: FormGroup;
     loading: boolean = false; // Add this line
+    warrantyOptions: { label: string; value: string }[] = [];
+
     private serialSubscription: Subscription;
     constructor(
         @Inject(DOCUMENT) private _document: Document,
@@ -46,11 +54,29 @@ export class InventoryEditComponent implements OnInit {
             // If no ID, initialize form with empty values
             this.initializeForm();
         }
+
+        const now = new Date();
+        for (let i = 1; i <= 12; i++) {
+            const futureDate = new Date(
+                now.getFullYear(),
+                now.getMonth() + i,
+                now.getDate()
+            );
+            const monthYear = futureDate.toLocaleString('default', {
+                month: 'short',
+                year: 'numeric',
+            });
+
+            this.warrantyOptions.push({
+                label: `${i} month${i > 1 ? 's' : ''} (until ${monthYear})`,
+                value: `${i}`,
+            });
+        }
     }
-    
+
     goBack(): void {
         this.location.back();
-      }
+    }
 
     private initializeForm(): void {
         // Parse the date string into a Date object
@@ -71,7 +97,7 @@ export class InventoryEditComponent implements OnInit {
         this.eventForm = this._formBuilder.group({
             image: [null],
             serial_number: [
-                this.asset?.serial_no || 'N/A',
+                this.asset?.asset_barcode || 'N/A',
                 Validators.required,
             ],
             type: [this.asset?.type || 'N/A', [Validators.required]],
@@ -79,17 +105,17 @@ export class InventoryEditComponent implements OnInit {
                 this.asset?.asset_barcode || '',
                 [Validators.required],
             ],
-            date_acquired: [this.asset?.date_acquired || 'N/A', [Validators.required]],
+            date_acquired: [
+                this.asset?.date_acquired || 'N/A',
+                [Validators.required],
+            ],
             brand: [this.asset?.brand || 'N/A', [Validators.required]],
             model: [this.asset?.model || 'N/A', [Validators.required]],
             size: [this.asset?.size || 'N/A', [Validators.required]],
             color: [this.asset?.color || 'N/A', [Validators.required]],
             po: [this.asset?.po || 'N/A', [Validators.required]],
             warranty: [this.asset?.warranty || 'N/A', [Validators.required]],
-            cost: [
-                this.asset?.cost || 'N/A',
-                [Validators.required, Validators.pattern('^[0-9]*$')],
-            ],
+            cost: [this.asset?.cost || '', [Validators.pattern('^[0-9]*$')]],
         });
 
         this.serialSubscription = this.eventForm
@@ -105,7 +131,7 @@ export class InventoryEditComponent implements OnInit {
         if (this.serialSubscription) {
             this.serialSubscription.unsubscribe();
         }
-    }    
+    }
 
     previewSelectedImage(event: Event): void {
         const input = event.target as HTMLInputElement;
@@ -187,27 +213,29 @@ export class InventoryEditComponent implements OnInit {
             next: (response) => {
                 // console.log('API Response:', response);
                 this.alertService.triggerSuccess('Asset successfully added!');
-                
+
                 // Reload page after 1 second
                 setTimeout(() => {
-                  window.location.reload();
+                    window.location.reload();
                 }, 1000);
             },
-            
+
             error: (error) => {
                 // console.error('API Error:', error);
-                this.alertService.triggerError('Failed to add asset. Please try again.');
-                
+                this.alertService.triggerError(
+                    'Failed to add asset. Please try again.'
+                );
+
                 // Handle validation errors
                 if (error.status === 400 && error.error?.errors) {
                     let errorMessages = [];
-                    
+
                     Object.keys(error.error.errors).forEach((key) => {
                         errorMessages.push(
                             `${key}: ${error.error.errors[key].join(', ')}`
                         );
                     });
-                    
+
                     alert('Validation Errors:\n' + errorMessages.join('\n'));
                 } else {
                     alert('Failed to add asset.');

@@ -68,3 +68,14 @@ body.loader-hidden .loader {
     visibility: hidden;
     opacity: 0;
 }
+
+.text-white {
+    color: white;
+  }
+  
+  .active-tab {
+    color: black; /* Active text color */ 
+    background-color: white; /* Active background color */
+    padding: 10px; /* Optional: Adjust padding to give the label a better look */
+    border-radius: 0px; /* Optional: Rounded corners for background */
+  }

@@ -62,8 +62,8 @@ export class ComputerFormComponent implements OnInit {
             asset_barcode: ['', [Validators.required]],
             date_acquired: ['', [Validators.required]],
             brand: ['', [Validators.required]],
-            model: ['', ],
-            size: ['', ],
+            model: [''],
+            size: [''],
             color: ['', [Validators.required]],
             po: ['', [Validators.required]],
             warranty: ['', [Validators.required]],
@@ -82,9 +82,6 @@ export class ComputerFormComponent implements OnInit {
 
     ngOnInit(): void {
         this.initializeForm();
-        // this.getAllComponents();
-        // this.getAllAssets();
-
         const now = new Date();
         for (let i = 1; i <= 12; i++) {
             const futureDate = new Date(
@@ -320,17 +317,17 @@ export class ComputerFormComponent implements OnInit {
     submitForm(): void {
         const rawData = this.eventForm.value;
         const mappedData = this.mapResponseToForm(rawData);
-    
+
         this.eventForm.patchValue(mappedData);
-    
+
         if (!this.eventForm.valid) {
             return;
         }
-    
+
         this.computerService.postEvent(mappedData).subscribe({
             next: () => {
                 this.alertService.triggerSuccess('Asset successfully added!');
-    
+
                 // Reset form to default values
                 this.eventForm.reset({
                     image: null,
@@ -346,26 +343,27 @@ export class ComputerFormComponent implements OnInit {
                     warranty: '',
                     cost: '',
                     components: [], // or: this._formBuilder.array([])
-                    assets: []      // same here
+                    assets: [], // same here
                 });
-    
+
                 // Optional: Clear form arrays explicitly
                 (this.eventForm.get('components') as FormArray).clear();
                 (this.eventForm.get('assets') as FormArray).clear();
-    
+
                 setTimeout(() => {
                     window.location.reload();
                 }, 1000);
             },
             error: (err) => {
-                this.alertService.triggerError('Failed to add asset. Please try again.');
+                this.alertService.triggerError(
+                    'Failed to add asset. Please try again.'
+                );
                 if (err.error) {
                     console.error('Error details:', err.error);
                 }
             },
         });
     }
-    
 
     private mapResponseToForm(response: any): any {
         return {
@@ -474,7 +472,13 @@ export class ComputerFormComponent implements OnInit {
         const dialogRef = this.dialog.open(ComputerComponentAddModalComponent, {
             width: '700px',
             disableClose: true,
-            data: { serial_number: serialNumber, asset_barcode: assetBarcode, po, warranty, date_acquired }, // Pass the serial number
+            data: {
+                serial_number: serialNumber,
+                asset_barcode: assetBarcode,
+                po,
+                warranty,
+                date_acquired,
+            }, // Pass the serial number
         });
 
         dialogRef.afterClosed().subscribe((result) => {

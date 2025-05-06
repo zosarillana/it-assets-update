@@ -45,6 +45,7 @@
                                 Fill all the fields to create a peripheral
                             </span>
                         </mat-label>
+                        <mat-label class="text-sm">Inventory Code</mat-label>
                         <mat-form-field appearance="fill">
                             <mat-icon
                                 svgIcon="feather:info"
@@ -58,8 +59,8 @@
                                 class="text-xs md:text-sm uppercase"
                             />
                         </mat-form-field>
-
-                        <mat-form-field appearance="fill" class="w-full">
+                     
+                        <!-- <mat-form-field appearance="fill" class="w-full">
                             <mat-icon
                                 svgIcon="feather:hash"
                                 class="icon-size-3 md:icon-size-4 mr-2"
@@ -71,8 +72,8 @@
                                 class="text-xs md:text-sm uppercase"
                                 [formControlName]="'serial_number'"
                             />
-                        </mat-form-field>
-
+                        </mat-form-field> -->
+                        <mat-label class="text-sm">Type</mat-label>
                         <mat-form-field appearance="fill">
                             <mat-icon
                               svgIcon="feather:cpu"
@@ -92,7 +93,7 @@
                             </mat-select>
                           </mat-form-field>
                           
-
+                          <mat-label class="text-sm">Brand</mat-label>
                         <mat-form-field appearance="fill">
                             <mat-icon
                                 svgIcon="feather:box"
@@ -106,7 +107,7 @@
                                 class="text-xs md:text-sm uppercase"
                             />
                         </mat-form-field>
-
+                        <mat-label class="text-sm">Model</mat-label>
                         <mat-form-field appearance="fill">
                             <mat-icon
                                 svgIcon="feather:smartphone"
@@ -120,7 +121,7 @@
                                 class="text-xs md:text-sm uppercase"
                             />
                         </mat-form-field>
-
+                        <mat-label class="text-sm">Po #</mat-label>
                         <mat-form-field appearance="fill">
                             <mat-icon
                                 svgIcon="feather:tag"
@@ -134,22 +135,28 @@
                                 class="text-xs md:text-sm uppercase"
                             />
                         </mat-form-field>
-
+                        <mat-label class="text-sm">Warranty</mat-label>
                         <mat-form-field appearance="fill">
-                            <mat-icon
-                                svgIcon="feather:shield"
-                                class="icon-size-3 md:icon-size-4 mr-2"
-                            ></mat-icon>
-                            <input
-                                matInput
-                                id="warranty"
-                                formControlName="warranty"
-                                placeholder="Enter warranty..."
-                                class="text-xs md:text-sm uppercase"
-                            />
+                            
+                          <mat-icon
+                            svgIcon="feather:shield"
+                            class="icon-size-3 md:icon-size-4 mr-2"
+                          ></mat-icon>
+                          
+                          <mat-select
+                            id="warranty"
+                            formControlName="warranty"
+                            placeholder="Select warranty..."
+                            class="text-xs md:text-sm"
+                          >
+                            <mat-option *ngFor="let month of warrantyOptions" [value]="month.label">
+                              {{ month.label }}
+                            </mat-option>
+                          </mat-select>
                         </mat-form-field>
-
+                        <mat-label class="text-sm">Cost</mat-label>
                         <mat-form-field class="text-sm" appearance="fill">
+                           
                             <mat-icon
                                 svgIcon="feather:dollar-sign"
                                 class="icon-size-3 md:icon-size-4 mr-2"
@@ -164,7 +171,9 @@
                                 (keydown)="validateNumber($event)"
                             />
                         </mat-form-field>
+                        <mat-label class="text-sm">Date Acquired</mat-label>
                         <mat-form-field appearance="fill">
+                       
                             <mat-icon
                                 svgIcon="feather:calendar"
                                 class="icon-size-3 md:icon-size-4 mr-2"
@@ -184,8 +193,9 @@
                             ></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
-
+                        <mat-label class="text-sm">Remarks</mat-label>
                         <mat-form-field appearance="fill">
+                          
                             <!-- Icon with Tooltip -->
                             <mat-icon
                                 svgIcon="feather:info"
@@ -403,7 +413,7 @@
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div>
+                                                        <!-- <div>
                                                             <p
                                                                 class="text-sm md:text-md font-bold text-primary"
                                                             >
@@ -421,7 +431,7 @@
                                                                     }}
                                                                 </span>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
                                                         <div>
                                                             <p
                                                                 class="text-sm md:text-md font-bold text-primary"

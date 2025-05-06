@@ -364,15 +364,20 @@
             <mat-divider class="mt-12 mb-2"></mat-divider>
             <div class="mt-6 uppercase">
                 <mat-tab-group
-                    class="mt-6 uppercase"
-                    [selectedIndex]="0"
-                    animationDuration="200ms"
-                    mat-align-tabs="start"
-                    backgroundColor="primary"
-                >
+                class="mt-6 uppercase"
+                [(selectedIndex)]="selectedTabIndex"
+                animationDuration="200ms"
+                mat-align-tabs="start"
+                backgroundColor="primary"
+              >
                     <mat-tab>
                         <ng-template mat-tab-label>
-                            <span class="text-white">Components</span>
+                            <span [ngClass]="
+                            selectedTabIndex === 0 
+                              ? 'active-tab' 
+                              : 'text-white'">
+                            COMPONENTS
+                          </span>
                         </ng-template>
                         <div class="flex flex-row justify-between">
                             <div class="flex flex-col">
@@ -566,7 +571,10 @@
                     </mat-tab>
                     <mat-tab>
                         <ng-template mat-tab-label>
-                            <span class="text-white">PERIPHERALS</span>
+                            <span [ngClass]="
+                            selectedTabIndex === 1
+                              ? 'active-tab' 
+                              : 'text-white'">PERIPHERALS</span>
                         </ng-template>
                         <div class="flex flex-row justify-between">
                             <div class="flex flex-col">
@@ -766,7 +774,10 @@
 
                     <mat-tab>
                         <ng-template mat-tab-label>
-                            <span class="text-white">USER HISTORY</span>
+                            <span [ngClass]="
+                            selectedTabIndex === 2
+                              ? 'active-tab' 
+                              : 'text-white'">USER HISTORY</span>
                         </ng-template>
                         <p class="text-sm font-medium mt-5">User History</p>
                         <p class="text-sm text-secondary mb-6">
@@ -912,7 +923,10 @@
 
                     <mat-tab>
                         <ng-template mat-tab-label>
-                            <span class="text-white">REPAIR HISTORY</span>
+                            <span [ngClass]="
+                            selectedTabIndex === 3
+                              ? 'active-tab' 
+                              : 'text-white'">REPAIR HISTORY</span>
                         </ng-template>
                         <p class="text-sm font-medium mt-5">Repair History</p>
                         <p class="text-sm text-secondary mb-6">
