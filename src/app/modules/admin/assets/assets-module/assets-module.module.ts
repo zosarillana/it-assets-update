@@ -91,6 +91,8 @@ import { PeripheralTypeComponent } from '../masterdata/peripheral-type/periphera
 import { AccountabilityArchiveComponent } from '../archives/accountability-archive/accountability-archive.component';
 import { ViewAccountabilityArchiveComponent } from '../archives/accountability-archive/view-accountability-archive/view-accountability-archive.component';
 import { CustomTooltipComponent } from '../components/custom-tooltip/custom-tooltip.component';
+import { UsersComponent } from '../masterdata/users/users.component';
+import { EditUserModalComponent } from '../masterdata/users/edit-user-modal/edit-user-modal.component';
 
 const assetRoute: Route[] = [
     // {
@@ -221,6 +223,11 @@ const assetRoute: Route[] = [
         path: 'accountability-archive/view/:id',
         component: ViewAccountabilityArchiveComponent,
     },
+    //users
+    {
+        path: 'users',
+        component: UsersComponent,
+    },
     
 ];
 
@@ -282,6 +289,8 @@ const assetRoute: Route[] = [
         AccountabilityArchiveComponent,
         ViewAccountabilityArchiveComponent,
         CustomTooltipComponent,
+        UsersComponent,
+        EditUserModalComponent,
         // AlertsComponentComponent,
     ],
     imports: [
@@ -327,6 +336,7 @@ const assetRoute: Route[] = [
         MatListModule,
         MatProgressSpinnerModule,
         MatSidenavModule,
+        MatDialogModule,
         RouterModule.forChild(assetRoute),
     ],
     // schemas: [NO_ERRORS_SCHEMA] // Add this line

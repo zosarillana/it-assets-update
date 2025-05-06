@@ -1,0 +1,198 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-4 sm:p-6 lg:p-8 border-b bg-card dark:bg-transparent"
+    >
+        <!-- Left Section -->
+        <div class="flex-1 min-w-0">
+            <div class="hidden sm:flex flex-wrap items-center font-medium">
+                <div class="flex items-center ml-1 whitespace-nowrap truncate">
+                    <a class="ml-1 text-primary-500 truncate">Masterdata</a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap truncate">
+                    <mat-icon
+                        class="icon-size-5 text-secondary"
+                        [svgIcon]="'heroicons_solid:chevron-right'"
+                    ></mat-icon>
+                    <span class="ml-1 text-secondary truncate">Users</span>
+                </div>
+            </div>
+
+            <div class="mt-2 truncate">
+                <h2
+                    class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                >
+                    Users
+                </h2>
+            </div>
+        </div>
+        <div class="flex flex-col gap-3">
+            <div class="justify-end flex flex-wrap items-center mt-4 sm:mt-0">
+                <mat-form-field
+                    class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
+                >
+                    <mat-icon
+                        matPrefix
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_solid:search'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        placeholder="Search by fullname"
+                        [formControl]="typeFilterControl"
+                        [matAutocomplete]="auto"
+                    />
+                    <button 
+                        *ngIf="typeFilterControl.value" 
+                        matSuffix 
+                        mat-icon-button 
+                        aria-label="Clear" 
+                        (click)="clearFilter()">
+                        <mat-icon svgIcon="mat_outline:close"></mat-icon>
+                    </button>
+                    <mat-autocomplete
+                        #auto="matAutocomplete"
+                        [displayWith]="displayUserFn"
+                        (optionSelected)="onUserSelected($event.option.value)"
+                    >
+                        <mat-option
+                            *ngFor="let option of filteredUserOptions | async"
+                            [value]="option"
+                        >
+                            {{ option.name }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="pt-0">
+        <div class="mat-elevation-z8 overflow-x-auto overflow-y-auto">
+            <!-- Loading indicator -->
+            <div *ngIf="isLoading" class="flex justify-center p-4">
+                <mat-spinner diameter="40"></mat-spinner>
+            </div>
+            
+            <!-- Empty state message -->
+            <div *ngIf="!isLoading && dataSource.data.length === 0" class="flex justify-center p-8">
+                <div class="text-center">
+                    <mat-icon class="icon-size-8 text-secondary mb-4" svgIcon="heroicons_outline:search"></mat-icon>
+                    <p class="text-lg font-medium">No users found</p>
+                    <p class="text-secondary mt-2" *ngIf="searchTerm">Try adjusting your search criteria</p>
+                </div>
+            </div>
+            
+            <table
+                mat-table
+                [dataSource]="dataSource"
+                matSort
+                (matSortChange)="announceSortChange($event)"
+                class="min-w-full bg-white rounded-lg shadow-md uppercase"
+                [class.hidden]="isLoading || dataSource.data.length === 0"
+            >
+                <!-- Type Column -->
+                <ng-container matColumnDef="fullname">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="text-left text-white font-semibold inventory-tag-header custom-left-align"
+                    >
+                        <div class="flex ml-4">
+                            <mat-icon
+                                class="icon-size-4 mr-4 text-white"
+                                svgIcon="mat_outline:person"
+                            ></mat-icon>
+                            Fullname
+                        </div>
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-r border-gray-200 px-4 text-sm inventory-tag-cell"
+                    >
+                        {{ element.name || "N/A" }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="designation">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="text-left text-white font-semibold inventory-tag-header custom-left-align"
+                    >
+                        <div class="flex ml-4">Designation</div>
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="justify-center border-b ml-4 border-r border-gray-200 text-sm text-gray-900 inventory-tag-cell"
+                    >
+                        <div class="flex items-center ml-4">
+                            {{ element.designation || "N/A" }}
+                        </div>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="action">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="text-left text-white font-semibold"
+                    >
+                        <div class="flex ml-4">Action</div>
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="justify-center border-b ml-4 border-r border-gray-200 text-sm text-gray-900 inventory-tag-cell w-48"
+                    >
+                        <div class="flex items-center ml-4">
+                            <button
+                                mat-icon-button
+                                [matMenuTriggerFor]="menu"
+                                (click)="$event.stopPropagation()"
+                            >
+                                <mat-icon
+                                    class="icon-size-4"
+                                    svgIcon="feather:more-vertical"
+                                ></mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button
+                                    mat-menu-item   
+                                    (click)="openEditDialog(element)"                        
+                                >
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        svgIcon="feather:edit"
+                                    ></mat-icon>
+                                    <p class="text-regular">Edit</p>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </td>
+                </ng-container>
+                <tr
+                    mat-header-row
+                    *matHeaderRowDef="displayedColumns"
+                    class="bg-gray-900"
+                ></tr>
+                <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                    class="cursor-pointer hover:bg-gray-100"
+                ></tr>
+            </table>
+        </div>
+
+        <!-- Paginator -->
+        <mat-paginator
+            [pageSizeOptions]="[10, 15, 20, 50, 100]"
+            [pageSize]="10"
+            showFirstLastButtons
+        ></mat-paginator>
+    </div>
+</div>

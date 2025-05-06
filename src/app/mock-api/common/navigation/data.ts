@@ -218,6 +218,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon: 'heroicons_outline:chart-pie',
         children: [
             {
+                id: 'data.asset.table',
+                title: 'Users Masterdata',
+                type: 'basic',
+                icon: 'mat_outline:person',
+                link: '/masterdata/users',
+            },      
+            {
                 id: 'data.asset',
                 title: 'Divisions Masterdata',
                 type: 'collapsable',
@@ -260,7 +267,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         link: '/masterdata/peripheral-types',
                     },                   
                 ],
-            },
+            },               
         ],
     },
 ];

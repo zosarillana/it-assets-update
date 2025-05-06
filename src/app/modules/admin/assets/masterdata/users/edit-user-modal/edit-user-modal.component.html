@@ -1,0 +1,113 @@
+<h2 mat-dialog-title>Edit User</h2>
+<mat-dialog-content>
+    <form
+    class="grid grid-cols-2 gap-x-2"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+>
+    <!-- Name -->
+    <mat-form-field appearance="fill">
+        <mat-label for="name">Name</mat-label>
+        <input
+            type="text"
+            matInput
+            formControlName="name"
+            id="name"
+            placeholder="Enter name..."
+            class="text-xs md:text-sm uppercase"
+        />
+        <mat-error *ngIf="form.get('name').hasError('required')">
+            Name is required.
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Company -->
+    <mat-form-field appearance="fill">
+        <mat-label for="company">Company</mat-label>
+        <input
+            type="text"
+            matInput
+            formControlName="company"
+            id="company"
+            placeholder="Enter company..."
+            class="text-xs md:text-sm uppercase"
+        />
+        <mat-error *ngIf="form.get('company').hasError('required')">
+            Company is required.
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Department -->
+    <mat-form-field appearance="fill">
+        <mat-label for="department">Department</mat-label>
+        <input
+            type="text"
+            matInput
+            formControlName="department"
+            id="department"
+            placeholder="Enter department..."
+            class="text-xs md:text-sm uppercase"
+        />
+        <mat-error *ngIf="form.get('department').hasError('required')">
+            Department is required.
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Designation -->
+    <mat-form-field appearance="fill">
+        <mat-label for="designation">Designation</mat-label>
+        <input
+            type="text"
+            matInput
+            formControlName="designation"
+            id="designation"
+            placeholder="Enter designation..."
+            class="text-xs md:text-sm uppercase"
+        />
+        <mat-error *ngIf="form.get('designation').hasError('required')">
+            Designation is required.
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Role -->
+    <mat-form-field appearance="fill">
+        <mat-label for="role">Role</mat-label>
+        <input
+            type="text"
+            matInput
+            formControlName="role"
+            id="role"
+            placeholder="Enter role..."
+            class="text-xs md:text-sm uppercase"
+        />
+        <mat-error *ngIf="form.get('role').hasError('required')">
+            Role is required.
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Employee ID -->
+    <mat-form-field appearance="fill">
+        <mat-label for="employee_id">Employee ID</mat-label>
+        <input
+            type="text"
+            matInput
+            formControlName="employee_id"
+            id="employee_id"
+            placeholder="Enter employee ID..."
+            class="text-xs md:text-sm uppercase"
+        />
+        <mat-error *ngIf="form.get('employee_id').hasError('required')">
+            Employee ID is required.
+        </mat-error>
+    </mat-form-field>
+    
+    <!-- Submit and Cancel buttons inside the form -->
+    <div class="col-span-2 flex justify-end gap-2">
+        <button mat-button type="button" (click)="onClose()">Cancel</button>
+        <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit">Save</button>
+    </div>
+</form>
+</mat-dialog-content>
