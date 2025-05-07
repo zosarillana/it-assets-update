@@ -583,4 +583,8 @@ export class AccountabilityFormComponent implements OnInit {
         const fileName = eSignaturePath.split('/').pop()?.split('\\').pop();
         return `${this.imageUrl}/${fileName}`;
     }
+
+    isValidDate(date: any): boolean {
+        return date && !isNaN(new Date(date).getTime());
+      }
 }

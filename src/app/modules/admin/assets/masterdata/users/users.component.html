@@ -42,12 +42,13 @@
                         [formControl]="typeFilterControl"
                         [matAutocomplete]="auto"
                     />
-                    <button 
-                        *ngIf="typeFilterControl.value" 
-                        matSuffix 
-                        mat-icon-button 
-                        aria-label="Clear" 
-                        (click)="clearFilter()">
+                    <button
+                        *ngIf="typeFilterControl.value"
+                        matSuffix
+                        mat-icon-button
+                        aria-label="Clear"
+                        (click)="clearFilter()"
+                    >
                         <mat-icon svgIcon="mat_outline:close"></mat-icon>
                     </button>
                     <mat-autocomplete
@@ -74,23 +75,22 @@
             <div *ngIf="isLoading" class="flex justify-center p-4">
                 <mat-spinner diameter="40"></mat-spinner>
             </div>
-            
-            <!-- Empty state message -->
-            <div *ngIf="!isLoading && dataSource.data.length === 0" class="flex justify-center p-8">
-                <div class="text-center">
-                    <mat-icon class="icon-size-8 text-secondary mb-4" svgIcon="heroicons_outline:search"></mat-icon>
-                    <p class="text-lg font-medium">No users found</p>
-                    <p class="text-secondary mt-2" *ngIf="searchTerm">Try adjusting your search criteria</p>
-                </div>
+
+            <div *ngIf="!isLoading && users.length === 0 && !errorMessage" class="text-center p-4">
+                <mat-icon class="icon-size-8 text-secondary mb-4" svgIcon="heroicons_outline:search"></mat-icon>
+                <p class="text-lg font-medium">No users found</p>
+                <p class="text-secondary mt-2" *ngIf="searchTerm">
+                    Try adjusting your search criteria
+                </p>
             </div>
-            
+
             <table
-                mat-table
-                [dataSource]="dataSource"
-                matSort
-                (matSortChange)="announceSortChange($event)"
-                class="min-w-full bg-white rounded-lg shadow-md uppercase"
-                [class.hidden]="isLoading || dataSource.data.length === 0"
+            *ngIf="!isLoading && users.length > 0"
+            mat-table
+            [dataSource]="users"
+            matSort
+            (matSortChange)="announceSortChange($event)"
+            class="mat-elevation-z8 w-full"
             >
                 <!-- Type Column -->
                 <ng-container matColumnDef="fullname">
@@ -114,6 +114,69 @@
                         class="border-r border-gray-200 px-4 text-sm inventory-tag-cell"
                     >
                         {{ element.name || "N/A" }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="company">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="text-left text-white font-semibold inventory-tag-header custom-left-align"
+                    >
+                        <div class="flex ml-4">
+                           
+                            Company
+                        </div>
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-r border-gray-200 px-4 text-sm inventory-tag-cell"
+                    >
+                        {{ element.company || "N/A" }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="department">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="text-left text-white font-semibold inventory-tag-header custom-left-align"
+                    >
+                        <div class="flex ml-4">
+                           
+                            Department
+                        </div>
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-r border-gray-200 px-4 text-sm inventory-tag-cell"
+                    >
+                        {{ element.department || "N/A" }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="employee_id">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        mat-sort-header
+                        class="text-left text-white font-semibold inventory-tag-header custom-left-align"
+                    >
+                        <div class="flex ml-4">
+                           
+                            Employee ID
+                        </div>
+                    </th>
+                    <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="border-r border-gray-200 px-4 text-sm inventory-tag-cell"
+                    >
+                        {{ element.employee_id || "N/A" }}
                     </td>
                 </ng-container>
 
@@ -162,8 +225,8 @@
                             </button>
                             <mat-menu #menu="matMenu">
                                 <button
-                                    mat-menu-item   
-                                    (click)="openEditDialog(element)"                        
+                                    mat-menu-item
+                                    (click)="openEditDialog(element)"
                                 >
                                     <mat-icon
                                         class="icon-size-5"
@@ -188,11 +251,13 @@
             </table>
         </div>
 
-        <!-- Paginator -->
         <mat-paginator
-            [pageSizeOptions]="[10, 15, 20, 50, 100]"
-            [pageSize]="10"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            [length]="totalItems"
             showFirstLastButtons
-        ></mat-paginator>
+            aria-label="Select page"
+        >
+        </mat-paginator>
     </div>
 </div>

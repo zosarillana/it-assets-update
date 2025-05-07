@@ -257,12 +257,12 @@
                                     >
                                     <mat-cell *matCellDef="let e" class="-ml-7">
                                         {{
-                                            e.date_acquired
-                                                ? (e.date_acquired
-                                                  | date : "MMMM d, y")
-                                                : "N/A"
+                                          isValidDate(e.date_acquired)
+                                            ? (e.date_acquired | date: "MMMM d, y")
+                                            : "N/A"
                                         }}
-                                    </mat-cell>
+                                      </mat-cell>
+                                      
                                 </ng-container>
                                 <ng-container
                                     matColumnDef="assetBarcode"
@@ -382,16 +382,13 @@
                                         mat-sort-header
                                         >Date Acquired</mat-header-cell
                                     >
-                                    <mat-cell
-                                        class="text-sm"
-                                        *matCellDef="let element"
-                                        >{{
-                                            element.date_acquired
-                                                ? (element.date_acquired
-                                                  | date : "MMMM d, y")
-                                                : "N/A"
-                                        }}</mat-cell
-                                    >
+                                    <mat-cell class="text-sm" *matCellDef="let element">
+                                        {{
+                                          isValidDate(element.date_acquired)
+                                            ? (element.date_acquired | date: "MMMM d, y")
+                                            : "N/A"
+                                        }}
+                                      </mat-cell>
                                 </ng-container>
 
                                 <!-- Description Column -->
@@ -535,17 +532,13 @@
                                         class="-ml-5"
                                         >Date Acquired</mat-header-cell
                                     >
-                                    <mat-cell
-                                        class="text-sm"
-                                        *matCellDef="let element"
-                                        class="-ml-5"
-                                        >{{
-                                            element.date_acquired
-                                                ? (element.date_acquired
-                                                  | date : "MMMM d, y")
-                                                : "N/A"
+                                    <mat-cell class="text-sm" *matCellDef="let element" class="-ml-5">
+                                        {{
+                                          isValidDate(element.date_acquired)
+                                            ? (element.date_acquired | date: "MMMM d, y")
+                                            : "N/A"
                                         }}
-                                    </mat-cell>
+                                      </mat-cell>
                                 </ng-container>
 
                                 <!-- Asset Barcode Column -->

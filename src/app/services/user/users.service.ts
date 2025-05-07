@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Assets } from 'app/models/Inventory/Asset';
-import { AssetResponse } from 'app/models/Inventory/AssetResponse';
+import { AssetResponse, PaginatedResponse } from 'app/models/Inventory/AssetResponse';
+import { User } from 'app/models/Users/users';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
@@ -18,24 +19,21 @@ export class UsersService {
         pageNumber: number,
         pageSize: number,
         sortOrder: string,
-        searchTerm?: string
-    ): Observable<any> {
-        // Ensure pageNumber is never less than 1
-        pageNumber = Math.max(1, pageNumber);
-
-        let params = new HttpParams()
-            .set('pageNumber', pageNumber.toString())
-            .set('pageSize', pageSize.toString())
-            .set('sortOrder', sortOrder);
-
-        if (searchTerm) {
-            params = params.set('searchTerm', searchTerm);
-        }
-
-        return this.http.get<AssetResponse>(`${this.url}/Users`, {
-            params,
-        });
+        searchTerm: string
+    ): Observable<PaginatedResponse<User>> {
+        return this.http.get<PaginatedResponse<User>>(
+            `${this.url}/Users`,
+            {
+                params: new HttpParams()
+                    .set('pageNumber', pageNumber)
+                    .set('pageSize', pageSize)
+                    .set('sortOrder', sortOrder)
+                    .set('searchTerm', searchTerm)
+            }
+        );
+        
     }
+    
 
     //changePassword
     changePassword(userId: number, passwordData: any): Observable<any> {
