@@ -159,34 +159,26 @@
                             Description is required.
                         </small>
                     </div>
-
-                    <div class="flex flex-col flex-grow w-full">
-                        <mat-label class="text-xs md:text-sm mb-1"
-                            >Warranty</mat-label
-                        >
-                        <mat-form-field appearance="fill">
-                            <mat-icon
-                                svgIcon="feather:shield"
-                                class="icon-size-3 md:icon-size-4 mr-2"
-                            ></mat-icon>
-                            <input
-                                matInput
-                                formControlName="warranty"
-                                id="warranty"
-                                placeholder="Enter warranty..."
-                                class="text-xs md:text-sm uppercase"
-                            />
-                        </mat-form-field>
-                        <small
-                            class="text-red-500 text-xs"
-                            *ngIf="
-                                eventForm.get('warranty')?.invalid &&
-                                eventForm.get('warranty')?.touched
-                            "
-                        >
-                            Warranty is required.
-                        </small>
-                    </div>
+<div class="flex flex-col flex-grow w-full">
+                     <mat-label class="text-xs md:text-sm mb-1">Warranty</mat-label>
+            <mat-form-field appearance="fill">
+              <mat-icon
+                svgIcon="feather:shield"
+                class="icon-size-3 md:icon-size-4 mr-2"
+              ></mat-icon>
+              
+              <mat-select
+                id="warranty"
+                formControlName="warranty"
+                placeholder="Select warranty..."
+                class="text-xs md:text-sm"
+              >
+                <mat-option *ngFor="let month of warrantyOptions" [value]="month.label">
+                  {{ month.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            </div>
                     <div class="flex flex-col flex-grow w-full">
                         <mat-label class="text-xs md:text-sm mb-1"
                             >Cost</mat-label

@@ -19,6 +19,7 @@ import { ComponentsService } from 'app/services/components/components.service';
 export class ComponentsAddComponent implements OnInit {
     // Form group declaration
     eventForm!: FormGroup;
+    warrantyOptions: { label: string; value: string }[] = [];
     constructor(
         private _formBuilder: FormBuilder,
         private service: ComponentsService,
@@ -49,8 +50,38 @@ export class ComponentsAddComponent implements OnInit {
 
     ngOnInit(): void {
         this.initializeForm(); // Initialize the form properly
+
+         const now = new Date();
+        for (let i = 1; i <= 12; i++) {
+            const futureDate = new Date(
+                now.getFullYear(),
+                now.getMonth() + i,
+                now.getDate()
+            );
+            const monthYear = futureDate.toLocaleString('default', {
+                month: 'short',
+                year: 'numeric',
+            });
+
+            this.warrantyOptions.push({
+                label: `${i} month${i > 1 ? 's' : ''} (until ${monthYear})`,
+                value: `${i}`,
+            });
+        }
     }
 
+        validateNumber(event: KeyboardEvent) {
+        const inputChar = event.key;
+        if (
+            !/^\d$/.test(inputChar) &&
+            inputChar !== 'Backspace' &&
+            inputChar !== 'Tab'
+        ) {
+            event.preventDefault();
+        }
+    }
+
+    
     submitForm(): void {
         if (this.eventForm.invalid) {
             this.alertService.triggerError(

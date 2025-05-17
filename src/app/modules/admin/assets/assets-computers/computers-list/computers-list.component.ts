@@ -24,12 +24,11 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
         'asset_barcode',
         'type',
+        'status',
         'brand',
         'model',
-        // 'serial_no',
         'active_user',
         'bu',
-        'status',
         'action',
     ];
 
@@ -38,9 +37,11 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     sortOrder = 'asc';
     searchTerm = '';
     totalItems = 0;
-    pageSizeOptions = [5, 10, 25, 50];
+    pageSizeOptions = [10, 15, 20, 50, 100];
+    dynamicPageSize = 10; // This will be bound to the template
     isLoading = false;
     selectedTypeToggle: string[] = [];
+    isSearchActive = false; // Flag to track if user has performed a search
 
     // Auto-complete
     typeFilterControl = new FormControl('');
@@ -50,62 +51,69 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
     @ViewChild('sidePanel') sidePanel!: SidePanelComputerComponent;
+    
     constructor(
         private assetService: ComputerService,
         private alertService: AlertService,
         private dialog: MatDialog,
         private router: Router
-    ) {}
+    ) {
+        // Initialize the filteredTypeOptions to avoid undefined error
+        this.filteredTypeOptions = new Observable<string[]>();
+    }
 
     ngOnInit(): void {
-        // console.log(this.dataSource.data);
+        // Load all types for the filter
+        // this.loadAllTypes();
+        
+        // Initial data load with fixed page size
+        this.isSearchActive = false;
         this.loadAssets(1, this.pageSize);
 
         // Set up the autocomplete filter
         this.filteredTypeOptions = this.typeFilterControl.valueChanges.pipe(
             startWith(''),
-            map((value) => this.filterTypes(value))
+            map((value) => this.filterTypes(value || ''))
         );
 
         // Subscribe to valueChanges to dynamically filter the table
         this.typeFilterControl.valueChanges.subscribe((value) => {
-            this.applyTypeFilter(value);
+            this.applyTypeFilter(value || '');
+        });
+    }
+
+    ngAfterViewInit(): void {
+        // Connect the data source to the paginator and sort
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        
+        // Listen for paginator events
+        this.paginator.page.subscribe((event) => {
+            this.loadAssets(event.pageIndex + 1, event.pageSize);
+        });
+
+        // Listen for sort events
+        this.sort.sortChange.subscribe(() => {
+            this.sortOrder = this.sort.direction || 'asc';
+            this.paginator.pageIndex = 0;
+            this.loadAssets(1, this.pageSize);
         });
     }
 
     loadPanel(): void {
         this.sidePanel.openPanel();
-    }    
-
-    private _filter(value: string): string[] {
-        const filterValue = value.toLowerCase();
-        return this.allTypes.filter((option) =>
-            option.toLowerCase().includes(filterValue)
-        );
     }
 
-    loadAllTypes(): void {
-        this.assetService.getAllTypes().subscribe({
-            next: (types: string[]) => {
-                this.allTypes = types;
-            },
-            error: (error) => {
-                console.error('Error fetching types:', error);
-            },
-        });
-    }
-
-    ngAfterViewInit(): void {
-        this.paginator.page.subscribe((event) => {
-            this.loadAssets(event.pageIndex + 1, event.pageSize);
-        });
-
-        this.sort.sortChange.subscribe(() => {
-            this.sortOrder = this.sort.direction;
-            this.paginator.pageIndex = 0;
-            this.loadAssets(1, this.pageSize);
-        });
-    }
+//    loadAllTypes(): void {
+//         this.assetService.getAllTypes().subscribe({
+//             next: (types: string[]) => {
+//                 this.allTypes = types;
+//             },
+//             error: (error) => {
+//                 console.error('Error fetching types:', error);
+//             },
+//         });
+//     }
 
     loadAssets(
         pageIndex: number,
@@ -115,10 +123,13 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     ): void {
         this.isLoading = true;
 
+        // If this is a new search or filter, we want to use the dynamic page size
+        const effectivePageSize = (pageIndex === 1 && !fetchAll) ? this.dynamicPageSize : pageSize;
+
         this.assetService
             .getAssets(
                 pageIndex,
-                pageSize,
+                effectivePageSize,
                 this.sortOrder,
                 this.searchTerm,
                 typeFilter,
@@ -127,41 +138,99 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
             .subscribe({
                 next: (response: AssetResponse) => {
                     // console.log('API Response:', response);
-
-                    // Extract $values safely
-                    this.dataSource.data =
-                        (response.items as any)?.$values ??
-                        (response.items as Assets[]);
-
-                    // Update total items for paginator
-                    this.totalItems = response.totalItems;
-                    this.paginator.length = this.totalItems;
-
-                    // Extract unique types from the assets
-                    this.allTypes = [
-                        ...new Set(
-                            this.dataSource.data.map((asset) => asset.type)
-                        ),
-                    ];
-
+                    
+                    // Clear the data source before adding new data
+                    this.dataSource.data = [];
+                    
+                    // Ensure we have items before assigning them
+                    if (response.items && response.items.length > 0) {
+                        // Assign the data to the data source
+                        this.dataSource.data = response.items;
+                        // console.log('Data Source after assignment:', this.dataSource.data);
+                        
+                        // Update total items for paginator
+                        this.totalItems = response.totalItems || 0;
+                        
+                        // Dynamically adjust page size only if search or filter is active
+                        if (this.totalItems > this.pageSize && this.totalItems <= 100 && this.isSearchActive) {
+                            // Add total items to pageSizeOptions if it's not already there
+                            if (!this.pageSizeOptions.includes(this.totalItems)) {
+                                // Find the right position to insert the new option to keep the array sorted
+                                let insertIndex = this.pageSizeOptions.findIndex(size => size > this.totalItems);
+                                if (insertIndex === -1) {
+                                    // If all existing options are smaller, add to the end
+                                    this.pageSizeOptions.push(this.totalItems);
+                                } else {
+                                    // Insert at the correct position
+                                    this.pageSizeOptions.splice(insertIndex, 0, this.totalItems);
+                                }
+                            }
+                            
+                            // Update the page size properties
+                            this.pageSize = this.totalItems;
+                            this.dynamicPageSize = this.totalItems;
+                            
+                            // Update the paginator
+                            if (this.paginator) {
+                                this.paginator.pageSize = this.totalItems;
+                                this.paginator.pageIndex = 0;
+                                
+                                // Force the paginator to redraw with the new values
+                                setTimeout(() => {
+                                    if (this.paginator) {
+                                        this.paginator._changePageSize(this.totalItems);
+                                    }
+                                });
+                            }
+                        } else if (!this.isSearchActive) {
+                            // Keep standard pagination for initial load
+                            this.dynamicPageSize = 10;
+                            this.pageSize = 10;
+                            
+                            if (this.paginator && this.paginator.pageSize !== 10) {
+                                this.paginator.pageSize = 10;
+                                setTimeout(() => {
+                                    if (this.paginator) {
+                                        this.paginator._changePageSize(10);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                    
+                    // Trigger change detection
+                    this.dataSource._updateChangeSubscription();
+                    
                     this.isLoading = false;
                 },
                 error: (error) => {
                     console.error('Error fetching assets:', error);
+                    this.alertService.triggerError('Failed to load assets.');
                     this.isLoading = false;
                 },
             });
     }
 
     onSearch(): void {
+        // Set search mode based on whether there's actually a search term
+        this.isSearchActive = this.searchTerm.trim().length > 0;
+        
         if (this.paginator) {
             this.paginator.pageIndex = 0;
+            
+            // If search is empty, reset to standard pagination
+            if (!this.isSearchActive) {
+                this.dynamicPageSize = 10;
+                this.pageSize = 10;
+                this.paginator.pageSize = 10;
+            }
         }
+        
         this.loadAssets(1, this.pageSize);
     }
 
     announceSortChange(event: any): void {
-        this.sortOrder = event.direction;
+        this.sortOrder = event.direction || 'asc';
         if (this.paginator) {
             this.paginator.pageIndex = 0;
         }
@@ -169,25 +238,39 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     }
 
     resetDataSource(): void {
+        this.searchTerm = '';
+        this.typeFilterControl.setValue('');
+        this.selectedTypeToggle = [];
         this.dataSource.data = [];
         this.totalItems = 0;
+        this.pageSize = 10; // Reset to default page size
+        this.dynamicPageSize = 10; // Reset dynamic page size too
+        this.isSearchActive = false; // Reset search mode
         if (this.paginator) {
             this.paginator.pageIndex = 0;
+            this.paginator.pageSize = 10; // Reset paginator page size too
         }
         this.loadAssets(1, this.pageSize);
     }
 
     applyTypeFilter(searchValue: string): void {
         this.searchTerm = searchValue.trim().toLowerCase();
+        
+        // Set search mode based on whether there's actually a search term
+        this.isSearchActive = this.searchTerm.length > 0;
 
         if (this.paginator) {
             this.paginator.pageIndex = 0;
+            
+            // If search is empty, reset to standard pagination
+            if (!this.isSearchActive) {
+                this.dynamicPageSize = 10;
+                this.pageSize = 10;
+                this.paginator.pageSize = 10;
+            }
         }
 
-        // Optional: You could add client-side filtering as a fallback
-        this.dataSource.filter = this.searchTerm;
-
-        // Keep your server-side pagination/filtering
+        // We're using server-side filtering, so we need to reload the data instead of filtering the dataSource directly
         this.loadAssets(1, this.pageSize);
     }
 
@@ -201,17 +284,25 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     onTypeSelected(selectedTypes?: string[]): void {
         if (selectedTypes) {
             this.selectedTypeToggle = selectedTypes;
+            // Set search mode based on whether there are any selected types
+            this.isSearchActive = selectedTypes.length > 0;
+        } else {
+            this.isSearchActive = false;
         }
 
-        this.dataSource.filterPredicate = (data: Assets) => {
-            if (!this.selectedTypeToggle.length) {
-                return true;
+        if (this.paginator) {
+            this.paginator.pageIndex = 0;
+            
+            // If no type filters selected, reset to standard pagination
+            if (!this.isSearchActive) {
+                this.dynamicPageSize = 10;
+                this.pageSize = 10;
+                this.paginator.pageSize = 10;
             }
-            return this.selectedTypeToggle.includes(data.type);
-        };
+        }
 
-        this.dataSource.filter = JSON.stringify(this.selectedTypeToggle);
-        this.loadAssets(1, this.pageSize, this.selectedTypeToggle, true);
+        // Load assets with the selected type filter
+        this.loadAssets(1, this.pageSize, this.selectedTypeToggle);
     }
 
     isValidDate(date: any): boolean {
@@ -235,12 +326,8 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
         this.assetService.deleteEvent(id).subscribe({
             next: () => {
                 this.alertService.triggerSuccess('Item deleted successfully!');
-                // Reload the page after successful deletion
-                this.router.navigate(['/assets/computers']).then(() => {
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1000); // Small delay for the alert to be visible
-                });
+                // Reload the current page instead of refreshing the whole page
+                this.loadAssets(this.paginator.pageIndex + 1, this.pageSize);
             },
             error: (err) => {
                 console.error('Error deleting item:', err);
@@ -249,25 +336,20 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
         });
     }
 
-    // Method to open the remarks modal
     openRemarkModal(id: number): void {
         const dialogRef = this.dialog.open(ModalRemarksUniversalComponent, {
             width: '400px',
-            data: { id, title: 'Set remark for computer' }, // Pass the ID to the modal
+            data: { id, title: 'Set remark for computer' },
         });
 
-        // Handle the modal result after it's closed
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                // console.log('Remark Submitted:', result);
-                this.submitRemark(result.id, result.remark); // Handle the submission logic here
+                this.submitRemark(result.id, result.remark);
             }
         });
     }
 
-    // Method to submit the remark to the API
     submitRemark(id: number, remark: string): void {
-        // Ensure the remark is not null, undefined, or empty (even after trimming)
         const trimmedRemark = (remark || '').trim();
 
         if (trimmedRemark.length > 0) {
@@ -277,7 +359,7 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
                 remarks: trimmedRemark,
                 department: '',
                 type: '',
-                date_updated: new Date().toISOString().split('T')[0], // YYYY-MM-DD format
+                date_updated: new Date().toISOString().split('T')[0],
                 asset_barcode: '',
                 brand: '',
                 model: '',
@@ -302,23 +384,18 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
                 date_acquired: '',
             };
 
-            //   console.log('Submitting remark:', updatedAsset);
-
-            // Call the API to update the asset
             this.assetService.putEvent(id.toString(), updatedAsset).subscribe({
-                next: (response) => {
-                    //   console.log('Remark successfully submitted:', response);
-                    this.alertService.triggerSuccess(
-                        'Remark submitted successfully!'
-                    );
+                next: () => {
+                    this.alertService.triggerSuccess('Remark submitted successfully!');
+                    // Reload the current page to reflect changes
+                    this.loadAssets(this.paginator.pageIndex + 1, this.pageSize);
                 },
                 error: (err) => {
-                    //   console.error('Error submitting remark:', err);
+                    console.error('Error submitting remark:', err);
                     this.alertService.triggerError('Failed to submit remark.');
                 },
             });
         } else {
-            //   console.log('Remark cannot be empty.');
             this.alertService.triggerError('Remark cannot be empty.');
         }
     }
