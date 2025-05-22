@@ -19,12 +19,7 @@ import { ModalPullinAssetsComponent } from '../modal-pullin-assets/modal-pullin-
 })
 export class ComputersViewComponent implements OnInit {
     asset: any;
-    displayedColumns: string[] = [
-        'component',    
-        'uid',
-        'description',
-        'action',
-    ];
+    displayedColumns: string[] = ['component', 'uid', 'description', 'action'];
     dataSourceAssignedAssets: any[] = [];
     dataSourceHistory: any[] = [];
     dataSource: any[] = [];
@@ -68,7 +63,7 @@ export class ComputersViewComponent implements OnInit {
         // Helper function to push an item to the data source
         const addToDataSource = (name: string, icon: string, items: any) => {
             if (Array.isArray(items)) {
-                items.forEach(item => {
+                items.forEach((item) => {
                     this.dataSource.push({
                         id: item.id || null,
                         name,
@@ -99,33 +94,37 @@ export class ComputersViewComponent implements OnInit {
         addToDataSource('CPU', 'feather:cpu', this.asset?.cpu?.values);
         addToDataSource('CPU FAN', 'feather:cpu', this.asset?.cpu_fan?.values);
         addToDataSource('CD ROM', 'feather:disc', this.asset?.cd_rom?.values);
-        addToDataSource('BATTERY', 'feather:battery', this.asset?.battery?.values);
-        
+        addToDataSource(
+            'BATTERY',
+            'feather:battery',
+            this.asset?.battery?.values
+        );
 
         // Create assigned assets data source
-        this.dataSourceAssignedAssets = this.asset?.assigned_assets?.values?.map(asset => ({
-            name: `${asset.type}`,
-            icon: 'feather:package',
-            uid: `${asset.asset_barcode}`,
-            model: asset.model || 'N/A',
-            brand: asset.brand,
-            id: asset.id,
-            serial_no: asset.serial_no || 'N/A',
-            action: '',
-        })) || [];
-
+        this.dataSourceAssignedAssets =
+            this.asset?.assigned_assets?.values?.map((asset) => ({
+                name: `${asset.type}`,
+                icon: 'feather:package',
+                uid: `${asset.asset_barcode}`,
+                model: asset.model || 'N/A',
+                brand: asset.brand,
+                id: asset.id,
+                serial_no: asset.serial_no || 'N/A',
+                action: '',
+            })) || [];
 
         console.log('Asset:', this.asset);
         console.log('History:', this.asset?.history);
         console.log('History Values:', this.asset?.history?.values);
-        
+
         // Create history data source
-        this.dataSourceHistory = this.asset?.history?.values?.map((historyItem, index) => ({
-            id: index + 1,
-            name: historyItem?.name ?? 'Unknown',
-            department: this.asset?.owner?.department || 'N/A',
-            company: this.asset?.owner?.company || 'N/A',
-        })) || [];
+        this.dataSourceHistory =
+            this.asset?.history?.values?.map((historyItem, index) => ({
+                id: index + 1,
+                name: historyItem?.name ?? 'Unknown',
+                department: this.asset?.owner?.department || 'N/A',
+                company: this.asset?.owner?.company || 'N/A',
+            })) || [];
     }
 
     reloadAssetData(): void {
@@ -146,17 +145,18 @@ export class ComputersViewComponent implements OnInit {
         if (this.asset && this.asset.id) {
             this.repairService.getRepairLogsById(this.asset.id).subscribe({
                 next: (data: any) => {
-                    this.dataSourceRepairLogs = data.map((log: any) => ({
-                        inventory_code: log.inventory_code || 'N/A',
-                        id: log.id || 'N/A',
-                        type: log.type || 'N/A',
-                        action: log.action || 'N/A',
-                        eaf_no: log.eaf_no || 'N/A',
-                        computer_id: log.computer_id || 'N/A',
-                        item_id: log.item_id.id || 'N/A',
-                        remarks: log.remarks || 'N/A',
-                        timestamp: log.timestamp || 'N/A',
-                    })) || [];
+                    this.dataSourceRepairLogs =
+                        data.map((log: any) => ({
+                            inventory_code: log.inventory_code || 'N/A',
+                            id: log.id || 'N/A',
+                            type: log.type || 'N/A',
+                            action: log.action || 'N/A',
+                            eaf_no: log.eaf_no || 'N/A',
+                            computer_id: log.computer_id || 'N/A',
+                            item_id: log.item_id.id || 'N/A',
+                            remarks: log.remarks || 'N/A',
+                            timestamp: log.timestamp || 'N/A',
+                        })) || [];
                 },
             });
         }
@@ -168,7 +168,9 @@ export class ComputersViewComponent implements OnInit {
             const file = input.files[0];
             const reader = new FileReader();
             reader.onload = (e: ProgressEvent<FileReader>) => {
-                const previewImage = document.getElementById('preview-image') as HTMLImageElement;
+                const previewImage = document.getElementById(
+                    'preview-image'
+                ) as HTMLImageElement;
                 if (previewImage) {
                     previewImage.src = e.target?.result as string;
                 }
@@ -226,20 +228,28 @@ export class ComputersViewComponent implements OnInit {
                 },
             });
             dialogRef.afterClosed().subscribe((result) => {
-                if (result && result.remark) {
-                    this.componentsService.pullOutComponent(componentId, result.remark).subscribe({
-                        next: (response) => {
-                            this.snackBar.open(response.message, 'Close', {
-                                duration: 3000,
-                            });
-                            this.reloadAssetData();
-                        },
-                        error: (error) => {
-                            this.snackBar.open('Error pulling out component', 'Close', {
-                                duration: 3000,
-                            });
-                        },
-                    });
+                if (result && result.remarks) {
+                    this.componentsService
+                        .pullOutComponent(
+                            componentId,
+                            result.remarks,
+                            result.is_defective
+                        )
+                        .subscribe({
+                            next: (response) => {
+                                this.snackBar.open(response.message, 'Close', {
+                                    duration: 3000,
+                                });
+                                this.reloadAssetData();
+                            },
+                            error: () => {
+                                this.snackBar.open(
+                                    'Error pulling out component',
+                                    'Close',
+                                    { duration: 3000 }
+                                );
+                            },
+                        });
                 }
             });
         }, 0);
@@ -257,17 +267,25 @@ export class ComputersViewComponent implements OnInit {
                 title: 'Are you sure you want to pull out this asset?',
             },
         });
-        dialogRef.afterClosed().subscribe(result => {
-            if (result) {
-                this.assetService.pullOutAsset(assetId, result.remark).subscribe({
-                    next: (response) => {
-                        this.snackBar.open(response.message, 'Close', { duration: 3000 });
-                        this.reloadAssetData();
-                    },
-                    error: (error) => {
-                        this.snackBar.open('Error pulling out asset', 'Close', { duration: 3000 });
-                    }
-                });
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result && result.remarks) {
+                this.assetService
+                    .pullOutAsset(assetId, result.remarks, result.is_defective)
+                    .subscribe({
+                        next: (response) => {
+                            this.snackBar.open(response.message, 'Close', {
+                                duration: 3000,
+                            });
+                            this.reloadAssetData();
+                        },
+                        error: () => {
+                            this.snackBar.open(
+                                'Error pulling out asset',
+                                'Close',
+                                { duration: 3000 }
+                            );
+                        },
+                    });
             }
         });
     }
@@ -309,23 +327,33 @@ export class ComputersViewComponent implements OnInit {
         }
         const dialogRef = this.dialog.open(ModalRemarksUniversalComponent, {
             width: '400px',
-            data: { id: assetId }
+            data: { id: assetId },
         });
-        dialogRef.afterClosed().subscribe(result => {
+        dialogRef.afterClosed().subscribe((result) => {
             if (result && result.remark) {
-                this.assetService.pullOutAsset(assetId, result.remark).subscribe({
-                    next: (response) => {
-                        this.snackBar.open('Asset successfully pulled out!', 'Close', {
-                            duration: 3000,
-                        });
-                        this.reloadAssetData();
-                    },
-                    error: (error) => {
-                        this.snackBar.open('Failed to pull out asset. Try again.', 'Close', {
-                            duration: 3000,
-                        });
-                    }
-                });
+                this.assetService
+                    .pullOutAsset(assetId, result.remarks, result.is_defective)
+                    .subscribe({
+                        next: (response) => {
+                            this.snackBar.open(
+                                'Asset successfully pulled out!',
+                                'Close',
+                                {
+                                    duration: 3000,
+                                }
+                            );
+                            this.reloadAssetData();
+                        },
+                        error: (error) => {
+                            this.snackBar.open(
+                                'Failed to pull out asset. Try again.',
+                                'Close',
+                                {
+                                    duration: 3000,
+                                }
+                            );
+                        },
+                    });
             }
         });
     }
@@ -333,30 +361,38 @@ export class ComputersViewComponent implements OnInit {
     addComponent(): void {
         const dialogRef = this.dialog.open(ModalPullinComponentComponent, {
             width: '600px',
-            data: { computerId: this.asset.id }
+            data: { computerId: this.asset.id },
         });
-        dialogRef.afterClosed().subscribe(result => {
+        dialogRef.afterClosed().subscribe((result) => {
             if (result && result.length > 0) {
-                result.forEach(uid => {
+                result.forEach((uid) => {
                     const requestData = {
                         computer_id: this.asset.id,
                         component_uid: uid,
-                        remarks: "Pulled in"
+                        remarks: 'Pulled in',
                     };
-                    this.componentsService.pullInComponent(requestData).subscribe({
-                        next: () => {
-                            this.reloadAssetData();
-                            this.snackBar.open('Component successfully pulled in!', 'Close', { 
-                                duration: 3000
-                            });
-                        },
-                        error: (error) => {
-                            const errorMessage = error?.error?.message || 'Failed to pull in component. Try again.';
-                            this.snackBar.open(errorMessage, 'Close', {
-                                duration: 3000
-                            });
-                        }
-                    });
+                    this.componentsService
+                        .pullInComponent(requestData)
+                        .subscribe({
+                            next: () => {
+                                this.reloadAssetData();
+                                this.snackBar.open(
+                                    'Component successfully pulled in!',
+                                    'Close',
+                                    {
+                                        duration: 3000,
+                                    }
+                                );
+                            },
+                            error: (error) => {
+                                const errorMessage =
+                                    error?.error?.message ||
+                                    'Failed to pull in component. Try again.';
+                                this.snackBar.open(errorMessage, 'Close', {
+                                    duration: 3000,
+                                });
+                            },
+                        });
                 });
             }
         });
@@ -365,28 +401,34 @@ export class ComputersViewComponent implements OnInit {
     addPeripherals(): void {
         const dialogRef = this.dialog.open(ModalPullinAssetsComponent, {
             width: '600px',
-            data: { computerId: this.asset.id }
+            data: { computerId: this.asset.id },
         });
-        dialogRef.afterClosed().subscribe(result => {
+        dialogRef.afterClosed().subscribe((result) => {
             if (result && result.length > 0) {
                 const requestData = {
                     computer_id: this.asset.id,
                     asset_ids: result,
-                    remarks: "Pulled in"
+                    remarks: 'Pulled in',
                 };
                 this.assetService.pullInAssets(requestData).subscribe({
                     next: () => {
                         this.reloadAssetData();
-                        this.snackBar.open('Assets successfully pulled in!', 'Close', { 
-                            duration: 3000
-                        });
+                        this.snackBar.open(
+                            'Assets successfully pulled in!',
+                            'Close',
+                            {
+                                duration: 3000,
+                            }
+                        );
                     },
                     error: (error) => {
-                        const errorMessage = error?.error?.message || 'Failed to pull in assets. Try again.';
+                        const errorMessage =
+                            error?.error?.message ||
+                            'Failed to pull in assets. Try again.';
                         this.snackBar.open(errorMessage, 'Close', {
-                            duration: 3000
+                            duration: 3000,
                         });
-                    }
+                    },
                 });
             }
         });

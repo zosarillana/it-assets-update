@@ -6,11 +6,11 @@ import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class ComponentsService {
-//  private url = 'https://localhost:7062';
-private url = environment.apiUrl;  // Use environment configuration
+    //  private url = 'https://localhost:7062';
+    private url = environment.apiUrl; // Use environment configuration
     constructor(private http: HttpClient) {}
 
     public getComponents(
@@ -45,29 +45,43 @@ private url = environment.apiUrl;  // Use environment configuration
     getComponentsById(uid: string): Observable<Assets> {
         return this.http.get<Assets>(`${this.url}/ComputerComponents/${uid}`);
     }
-    
+
     public postEvent(data: any): Observable<any> {
         return this.http.post(`${this.url}/ComputerComponents`, data);
     }
-    
-    public deleteEvent(id: string): Observable<any>{
+
+    public deleteEvent(id: string): Observable<any> {
         return this.http.delete(`${this.url}/ComputerComponents/${id}`);
     }
 
     public putEvent(id: string, data: any): Observable<any> {
         return this.http.put(`${this.url}/ComputerComponents/${id}`, data);
-    }  
-    
-    public pullOutComponent(id: number, remark: string): Observable<any> {
-        return this.http.put(`${this.url}/ComputerComponents/pullout/${id}`,{ remarks: remark });
     }
-    
-    public pullInComponent(data: { computer_id: number; component_uid: string; remarks: string }): Observable<any> {
-        return this.http.post(`${this.url}/ComputerComponents/pull_in_component`, data);
+
+    public pullOutComponent(
+        id: number,
+        remark: string,
+        isDefective: boolean
+    ): Observable<any> {
+        return this.http.put(`${this.url}/ComputerComponents/pullout/${id}`, {
+            remarks: remark,
+            is_defective: isDefective,
+        });
     }
-    
-     // **New Method for fetching counts of LAPTOP and CPU types**
-     public getCount(type?: string): Observable<any> {
+
+    public pullInComponent(data: {
+        computer_id: number;
+        component_uid: string;
+        remarks: string;
+    }): Observable<any> {
+        return this.http.post(
+            `${this.url}/ComputerComponents/pull_in_component`,
+            data
+        );
+    }
+
+    // **New Method for fetching counts of LAPTOP and CPU types**
+    public getCount(type?: string): Observable<any> {
         let url = `${this.url}/ComputerComponents/ComponentCount`;
 
         if (type) {
@@ -78,23 +92,24 @@ private url = environment.apiUrl;  // Use environment configuration
         return this.http.get<any>(url);
     }
 
-     
-    public getCountDate(type?: string, groupBy: string = 'date'): Observable<any> {
+    public getCountDate(
+        type?: string,
+        groupBy: string = 'date'
+    ): Observable<any> {
         let url = `${this.url}/ComputerComponents/ComponentCount`;
-    
+
         // If a type is provided, append it to the URL
         if (type) {
             url = `${url}?type=${type}`;
         }
-    
+
         // Always include groupBy, defaulting to 'date'
         if (url.includes('?')) {
             url = `${url}&groupBy=${groupBy}`;
         } else {
             url = `${url}?groupBy=${groupBy}`;
         }
-    
+
         return this.http.get<any>(url);
     }
-    
 }

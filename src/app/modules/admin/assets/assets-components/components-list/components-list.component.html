@@ -221,18 +221,14 @@
                             <div class="flex ml-4">
                                 <div class="flex flex-row">
                                     <span
-                                        [ngClass]="{
-                                            'bg-red-500':
-                                                element.status === 'INACTIVE',
-                                            'bg-blue-500':
-                                                element.status === 'AVAILABLE',
-                                            'bg-green-500':
-                                                element.status !== 'INACTIVE' &&
-                                                element.status !== 'AVAILABLE'
-                                        }"
-                                        class="flex w-2 h-2 mt-1 me-3 rounded-full"
-                                    >
-                                    </span>
+  [ngClass]="{
+    'bg-red-500': element.status === 'INACTIVE' || element.status === 'DEFECTIVE',
+    'bg-blue-500': element.status === 'AVAILABLE',
+    'bg-green-500': element.status !== 'INACTIVE' && element.status !== 'DEFECTIVE' && element.status !== 'AVAILABLE'
+  }"
+  class="flex w-2 h-2 mt-1 me-3 rounded-full"
+></span>
+
                                     <p class="ml-2 text-xs mt-0.5">
                                         {{ element.status || "N/A" }}
                                     </p>

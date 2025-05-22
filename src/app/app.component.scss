@@ -10,3 +10,16 @@
 :host ::ng-deep * {
     font-family: 'Geist', serif;
 }
+
+.global-loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999; // Higher than sidebar or any other component
+  background-color: rgba(255, 255, 255, 0.7); // semi-transparent white
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

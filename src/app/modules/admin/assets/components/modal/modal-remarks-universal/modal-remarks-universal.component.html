@@ -1,17 +1,39 @@
 <h2 mat-dialog-title>{{ data.title }}</h2>
 <mat-dialog-content>
-    <form [formGroup]="remarkForm">
-        <mat-form-field appearance="fill" class="w-full">
-            <mat-label>Enter Remark</mat-label>
-            <textarea matInput formControlName="remark" rows="3"></textarea>
-            <mat-error *ngIf="remarkForm.get('remark').hasError('required')">Remark is required.</mat-error>
-          </mat-form-field>
-          
-    </form>
+  <form [formGroup]="remarkForm">
+     <div class="mt-4">
+    
+    </div>
+   <div class="flex justify-between items-center mb-2">
+  <label class="text-sm font-medium">Enter Remark</label>
+  <button
+    mat-stroked-button
+    color="{{ isDefective ? 'warn' : 'primary' }}"
+    (click)="toggleDefective()"
+    type="button"
+  >
+    {{ isDefective ? 'Marked as Defective' : 'Mark as Defective' }}
+  </button>
+</div>
+
+<mat-form-field appearance="fill" class="w-full">
+  <textarea matInput formControlName="remark" rows="3"></textarea>
+  <mat-error *ngIf="remarkForm.get('remark').hasError('required')">
+    Remark is required.
+  </mat-error>
+</mat-form-field>
+
+  </form>
 </mat-dialog-content>
+
 <mat-dialog-actions class="justify-end">
-    <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="remarkForm.invalid">
-        Submit
-    </button>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="onSubmit()"
+    [disabled]="remarkForm.invalid"
+  >
+    Submit
+  </button>
 </mat-dialog-actions>

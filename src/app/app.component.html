@@ -1,1 +1,16 @@
+<div *ngIf="isLoading" class="global-loader-overlay">
+    <div class="flex flex-col">
+        <!-- <div class="flex justify-center">
+            <img
+                src="assets/images/loaders/load1.gif"
+                alt="Logo"
+                class="-ml-5 -mt-5 h-56 w-56"
+            />
+        </div> -->
+        <div class="flex justify-center">
+            <mat-spinner diameter="80"></mat-spinner>
+        </div>
+    </div>
+</div>
+
 <router-outlet></router-outlet>

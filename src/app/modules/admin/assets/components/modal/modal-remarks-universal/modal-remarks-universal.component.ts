@@ -9,35 +9,36 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class ModalRemarksUniversalComponent implements OnInit {
   remarkForm: FormGroup;
+  isDefective: boolean = false; // Track is_defective
 
   constructor(
     public dialogRef: MatDialogRef<ModalRemarksUniversalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { id: number, title: string }, // Receive title from parent
+    @Inject(MAT_DIALOG_DATA) public data: { id: number; title: string },
     private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    // Initialize the form with validation
     this.remarkForm = this.fb.group({
       remark: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
 
-  // Close modal without submitting
+  toggleDefective(): void {
+    this.isDefective = !this.isDefective;
+  }
+
   onCancel(): void {
     this.dialogRef.close();
   }
 
-  // Submit remark and pass data back to parent
   onSubmit(): void {
     if (this.remarkForm.valid) {
-      const remarkData = {
-        id: this.data.id,
-        remark: this.remarkForm.value.remark
+      const result = {
+        remarks: this.remarkForm.value.remark,
+        is_defective: this.isDefective
       };
-  
-      // console.log('Remark Data:', remarkData);
-      this.dialogRef.close(remarkData); // Send data back to parent
+
+      this.dialogRef.close(result);
     }
   }
 }

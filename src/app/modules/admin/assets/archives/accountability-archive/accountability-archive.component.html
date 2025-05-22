@@ -426,10 +426,13 @@
         <!-- Paginator -->
         <div>
             <mat-paginator
-                [pageSizeOptions]="[10, 15, 20, 50, 100]"
-                [pageSize]="10"
+                [length]="totalItems"
+                [pageSize]="pageSize"
+                [pageSizeOptions]="pageSizeOptions"
                 showFirstLastButtons
-            ></mat-paginator>
+                aria-label="Select page"
+            >
+            </mat-paginator>
         </div>
     </div>
 </div>

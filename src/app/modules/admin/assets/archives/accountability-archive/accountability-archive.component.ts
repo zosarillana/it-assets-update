@@ -1,17 +1,15 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from 'app/services/alert.service';
 import { Router } from '@angular/router';
 import { ArchivedAccountabilityService } from 'app/services/archive/archived-accountability.service';
 import { CustomTooltipComponent } from '../../components/custom-tooltip/custom-tooltip.component';
-
 
 interface AccountabilityItem {
     user_accountability_list: {
@@ -40,33 +38,30 @@ interface AccountabilityItem {
 })
 export class AccountabilityArchiveComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
-        // 'image',
         'accountability_code',
         'tracking_code',
-        // 'computer',
-        // 'assets',
         'owner',
         'department',
         'bu',
-        'status',
-        // 'action'
+        'status'
     ];
 
     dataSource = new MatTableDataSource<AccountabilityItem>([]);
     pageSize = 10;
-    sortOrder = 'asc';
+    sortOrder: 'asc' | 'desc' = 'asc';
     searchTerm = '';
-    totalItems = 0;
-    pageSizeOptions = [5, 10, 25, 50];
+    totalItems = 0; // <-- This will be overwritten if backend supports it
+    pageIndex = 0;
+    pageSizeOptions = [10, 15, 20, 50, 100];
     isLoading = false;
 
-    // Explicitly type allTypes as string[]
     allTypes: string[] = [];
     typeFilterControl = new FormControl('');
     filteredTypeOptions: Observable<string[]>;
 
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild(CustomTooltipComponent) tooltip!: CustomTooltipComponent;
 
     constructor(
         private _service: ArchivedAccountabilityService,
@@ -76,59 +71,56 @@ export class AccountabilityArchiveComponent implements OnInit, AfterViewInit {
     ) {}
 
     ngOnInit(): void {
-        this.loadAccountabilityData(1, this.pageSize);
+        this.loadAccountabilityData(this.pageIndex + 1, this.pageSize);
 
-        // Set up filtering for autocomplete
         this.filteredTypeOptions = this.typeFilterControl.valueChanges.pipe(
             startWith(''),
             map((value) => this._filter(value || ''))
         );
 
-        // Listen for changes and apply filter dynamically
         this.typeFilterControl.valueChanges.subscribe((value) => {
             this.searchTerm = value;
-            if (this.paginator) {
-                this.paginator.pageIndex = 0;
-            }
+            this.pageIndex = 0;
             this.loadAccountabilityData(1, this.pageSize);
         });
     }
 
     ngAfterViewInit() {
-        this.paginator.page.subscribe((event) => {
-            this.loadAccountabilityData(event.pageIndex + 1, event.pageSize);
+        this.paginator.page.subscribe((event: PageEvent) => {
+            this.pageIndex = event.pageIndex;
+            this.pageSize = event.pageSize;
+            this.loadAccountabilityData(this.pageIndex + 1, this.pageSize);
         });
 
         this.sort.sortChange.subscribe(() => {
-            this.sortOrder = this.sort.direction;
-            this.paginator.pageIndex = 0;
+            this.sortOrder = this.sort.direction as 'asc' | 'desc';
+            this.pageIndex = 0;
             this.loadAccountabilityData(1, this.pageSize);
         });
     }
 
     loadAccountabilityData(pageIndex: number = 1, pageSize: number = 10): void {
         this.isLoading = true;
-
         this._service
             .getAllArchived(
                 pageIndex,
                 pageSize,
-                this.sortOrder as 'asc' | 'desc',
+                this.sortOrder,
                 this.searchTerm
             )
             .subscribe({
                 next: (response: any) => {
-                    // The response is a flat list, no pagination metadata
-                    this.dataSource.data = response as AccountabilityItem[];
-
-                    // If backend doesn't return total count, use length of current data
-                    this.totalItems = this.dataSource.data.length;
-
+                    this.dataSource.data = response.items || response || [];
+                    // If backend gives total count:
+                    if (response.totalCount !== undefined) {
+                        this.totalItems = response.totalCount;
+                    } else {
+                        // Fallback: just show the count of current items (not ideal)
+                        this.totalItems = this.dataSource.data.length;
+                    }
                     if (this.paginator) {
                         this.paginator.length = this.totalItems;
                     }
-
-                    // Extract unique accountability codes
                     this.allTypes = [
                         ...new Set(
                             this.dataSource.data
@@ -140,66 +132,43 @@ export class AccountabilityArchiveComponent implements OnInit, AfterViewInit {
                                 .filter((code) => code != null)
                         ),
                     ];
-
                     this.isLoading = false;
                 },
                 error: (error) => {
                     console.error('Error fetching accountability data', error);
-                    this.alertService.triggerError(
-                        'Failed to load accountability data'
-                    );
+                    this.alertService.triggerError('Failed to load accountability data');
                     this.isLoading = false;
                 },
             });
     }
 
-    // Explicitly type the filter method
     private _filter(value: string): string[] {
         const filterValue = value.toLowerCase();
-
         return this.allTypes.filter((option) =>
             option.toLowerCase().includes(filterValue)
         );
     }
 
-    // Apply filter when a type is selected
     onTypeSelected(selectedType?: string): void {
-        if (!selectedType) {
-            this.searchTerm = '';
-        } else {
-            this.searchTerm = selectedType;
-        }
-
-        if (this.paginator) {
-            this.paginator.pageIndex = 0;
-        }
-
+        this.searchTerm = selectedType || '';
+        this.pageIndex = 0;
         this.loadAccountabilityData(1, this.pageSize);
     }
 
-    // General filter application method
     applyFilter(value: string): void {
         this.searchTerm = value.trim().toLowerCase();
-
-        if (this.paginator) {
-            this.paginator.pageIndex = 0;
-        }
-
+        this.pageIndex = 0;
         this.loadAccountabilityData(1, this.pageSize);
     }
 
     onSearch(): void {
-        if (this.paginator) {
-            this.paginator.pageIndex = 0;
-        }
+        this.pageIndex = 0;
         this.loadAccountabilityData(1, this.pageSize);
     }
 
     announceSortChange(event: any): void {
-        this.sortOrder = event.direction;
-        if (this.paginator) {
-            this.paginator.pageIndex = 0;
-        }
+        this.sortOrder = event.direction as 'asc' | 'desc';
+        this.pageIndex = 0;
         this.loadAccountabilityData(1, this.pageSize);
     }
 
@@ -208,9 +177,7 @@ export class AccountabilityArchiveComponent implements OnInit, AfterViewInit {
         this.totalItems = 0;
         this.searchTerm = '';
         this.typeFilterControl.setValue('');
-        if (this.paginator) {
-            this.paginator.pageIndex = 0;
-        }
+        this.pageIndex = 0;
         this.loadAccountabilityData(1, this.pageSize);
     }
 
@@ -219,25 +186,31 @@ export class AccountabilityArchiveComponent implements OnInit, AfterViewInit {
     }
 
     viewResult(id: number): void {
-        // console.log(`Viewing result for accountability ID: ${id}`);
         this.router.navigate(['/assets/accountability-archive/view', id]);
     }
-
-    //tooltip
-    @ViewChild(CustomTooltipComponent) tooltip!: CustomTooltipComponent;
 
     onMouseMove(event: MouseEvent, row: any): void {
         const tooltipText = this.getTooltipText(row);
         this.tooltip.text = tooltipText;
-        this.tooltip.showTooltip(event.clientX, event.clientY); // Pass mouse coordinates
+        this.tooltip.showTooltip(event.clientX, event.clientY);
     }
 
     onMouseLeave(): void {
-        this.tooltip.hideTooltip(); // Hide tooltip when the mouse leaves the row
+        this.tooltip.hideTooltip();
     }
 
     getTooltipText(row: any): string {
-        // Customize your tooltip text as needed
-        return `CLICK TO VIEW ${row.accountability?.accountability_code}`;
+        const date = new Date(row.user_accountability_list?.date_created).toLocaleString(
+            'en-US',
+            {
+                month: '2-digit',
+                day: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false,
+            }
+        );
+        return `Created at ${date}`;
     }
 }

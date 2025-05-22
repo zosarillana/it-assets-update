@@ -4,56 +4,60 @@
     [selectedTypeToggle]="selectedTypeToggle"
     (typeSelected)="onTypeSelected($event)"
 >
-<div class="flex flex-col flex-auto min-w-0">
-    <!-- Header -->
-    <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
-    >
-        <div class="flex-1 min-w-0">
-            <!-- Breadcrumbs -->
-            <div>
-                <div class="hidden sm:flex flex-wrap items-center font-medium">
+    <div class="flex flex-col flex-auto min-w-0">
+        <!-- Header -->
+        <div
+            class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
+        >
+            <div class="flex-1 min-w-0">
+                <!-- Breadcrumbs -->
+                <div>
                     <div
-                        class="flex items-center ml-1 whitespace-nowrap truncate"
+                        class="hidden sm:flex flex-wrap items-center font-medium"
                     >
-                        <a class="ml-1 text-primary-500 truncate">Assets</a>
-                    </div>
-                    <div
-                        class="flex items-center ml-1 whitespace-nowrap truncate"
-                    >
-                        <mat-icon
-                            class="icon-size-5 text-secondary"
-                            [svgIcon]="'heroicons_solid:chevron-right'"
-                        ></mat-icon>
-                        <span class="ml-1 text-secondary truncate"
-                            >Inventory List</span
+                        <div
+                            class="flex items-center ml-1 whitespace-nowrap truncate"
                         >
+                            <a class="ml-1 text-primary-500 truncate">Assets</a>
+                        </div>
+                        <div
+                            class="flex items-center ml-1 whitespace-nowrap truncate"
+                        >
+                            <mat-icon
+                                class="icon-size-5 text-secondary"
+                                [svgIcon]="'heroicons_solid:chevron-right'"
+                            ></mat-icon>
+                            <span class="ml-1 text-secondary truncate"
+                                >Inventory List</span
+                            >
+                        </div>
                     </div>
                 </div>
+                <!-- Title -->
+                <div class="mt-2">
+                    <h2
+                        class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                    >
+                        Inventory List
+                    </h2>
+                </div>
             </div>
-            <!-- Title -->
-            <div class="mt-2">
-                <h2
-                    class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
-                >
-                    Inventory List
-                </h2>
-            </div>
-        </div>
 
-        <div class="flex flex-col gap-3">
-            <div class="flex justify-end flex-wrap items-center mt-6 sm:mt-0">
-                <!-- Add Inventory Button -->
-                <button
-                    class="w-full sm:w-auto mt-4 sm:mt-0 sm:ml-4 flex items-center justify-center"
-                    mat-stroked-button
-                    [routerLink]="'/assets/inventory/add'"
+            <div class="flex flex-col gap-3">
+                <div
+                    class="flex justify-end flex-wrap items-center mt-6 sm:mt-0"
                 >
-                    <mat-icon [svgIcon]="'feather:plus'"></mat-icon>
-                    <span class="ml-2 mr-1">Add Inventory</span>
-                </button>
-                <!-- Select Category -->
-                <!-- <mat-form-field
+                    <!-- Add Inventory Button -->
+                    <button
+                        class="w-full sm:w-auto mt-4 sm:mt-0 sm:ml-4 flex items-center justify-center"
+                        mat-stroked-button
+                        [routerLink]="'/assets/inventory/add'"
+                    >
+                        <mat-icon [svgIcon]="'feather:plus'"></mat-icon>
+                        <span class="ml-2 mr-1">Add Inventory</span>
+                    </button>
+                    <!-- Select Category -->
+                    <!-- <mat-form-field
                         class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
                     >
                         <mat-select
@@ -66,22 +70,21 @@
                         </mat-select>
                     </mat-form-field> -->
 
-                <!-- Search Inventory Tag -->
-                <mat-form-field
-                    class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
-                >
-                    <mat-icon
-                        matPrefix
-                        class="icon-size-5"
-                        [svgIcon]="'heroicons_solid:search'"
-                    ></mat-icon>
-                    <input
-                        matInput
-                        placeholder="Search by Inventory Code"
-                        [formControl]="typeFilterControl"
-                        
-                    />
-                    <!-- <mat-autocomplete
+                    <!-- Search Inventory Tag -->
+                    <mat-form-field
+                        class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
+                    >
+                        <mat-icon
+                            matPrefix
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_solid:search'"
+                        ></mat-icon>
+                        <input
+                            matInput
+                            placeholder="Search by Inventory Code"
+                            [formControl]="typeFilterControl"
+                        />
+                        <!-- <mat-autocomplete
                         #auto="matAutocomplete"
                         (optionSelected)="onTypeSelected($event.option.value)"
                     >
@@ -92,7 +95,7 @@
                             {{ option }}
                         </mat-option>
                     </mat-autocomplete> -->
-                    <!-- <input
+                        <!-- <input
                         matInput
                         placeholder="Search by Type"
                         [formControl]="typeFilterControl"
@@ -109,15 +112,15 @@
                             {{ option }}
                         </mat-option>
                     </mat-autocomplete> -->
-                </mat-form-field>
-                <button mat-icon-button class="mx-2">
-                    <mat-icon
-                        svgIcon="feather:sidebar"
-                        (click)="loadPanel()"
-                    ></mat-icon>
-                </button>
-            </div>
-            <!-- <div class="justify-end flex flex-wrap items-center mt-4 sm:mt-0">
+                    </mat-form-field>
+                    <button mat-icon-button class="mx-2">
+                        <mat-icon
+                            svgIcon="feather:sidebar"
+                            (click)="loadPanel()"
+                        ></mat-icon>
+                    </button>
+                </div>
+                <!-- <div class="justify-end flex flex-wrap items-center mt-4 sm:mt-0">
                 <mat-button-toggle-group
                     class="gap-3"
                     name="typeFilter"
@@ -140,20 +143,22 @@
                     </mat-button-toggle>
                 </mat-button-toggle-group>
             </div> -->
+            </div>
         </div>
-    </div>
 
-    <!-- Main -->
-    <div class="pt-0">
-        <div class="mat-elevation-z8 overflow-x-auto overflow-y-auto uppercase">
-            <table
-                mat-table
-                [dataSource]="dataSource"
-                matSort
-                (matSortChange)="announceSortChange($event)"
-                class="min-w-full bg-white rounded-lg shadow-md"
+        <!-- Main -->
+        <div class="pt-0">
+            <div
+                class="mat-elevation-z8 overflow-x-auto overflow-y-auto uppercase"
             >
-                <!-- <ng-container matColumnDef="asset_img">
+                <table
+                    mat-table
+                    [dataSource]="dataSource"
+                    matSort
+                    (matSortChange)="announceSortChange($event)"
+                    class="min-w-full bg-white rounded-lg shadow-md"
+                >
+                    <!-- <ng-container matColumnDef="asset_img">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
@@ -174,64 +179,69 @@
                         />
                     </td>
                 </ng-container> -->
-                <ng-container matColumnDef="asset_barcode">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        class="py-4 text-left text-white font-semibold inventory-tag-header custom-left-align w-42"
+                    <ng-container matColumnDef="asset_barcode">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            class="py-4 text-left text-white font-semibold inventory-tag-header custom-left-align w-42"
+                        >
+                            <mat-icon
+                                class="icon-size-4 mr-4 text-white"
+                                svgIcon="feather:tag"
+                            ></mat-icon>
+                            Inventory Code
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="ml-4 border-r border-gray-200 py-4 text-sm font-semibold inventory-tag-cell"
+                        >
+                            {{ element.asset_barcode || "N/A" }}
+                        </td></ng-container
                     >
-                        <mat-icon
-                            class="icon-size-4 mr-4 text-white"
-                            svgIcon="feather:tag"
-                        ></mat-icon>
-                        Inventory Code
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let element"
-                        class="ml-4 border-r border-gray-200 py-4 text-sm font-semibold inventory-tag-cell"
-                    >
-                        {{ element.asset_barcode || "N/A" }}
-                    </td></ng-container
-                >
 
-                <ng-container matColumnDef="type">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        class="py-4 text-left text-white font-semibold inventory-tag-header custom-left-align"
-                    >
-                        Type
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let element"
-                        class="border-r border-gray-200 px-4 py-4 text-sm inventory-tag-cell"
-                    >
-                        {{ element.type || "N/A" }}
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="date_acquired">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        class="px-4 py-2 text-white font-semibold"
-                    >
-                        Date Acquired
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let element"
-                        class="border-r border-gray-200 text-sm px-4 py-2"
-                    >
-                    {{ isValidDate(element.date_acquired) ? (element.date_acquired | date:'MM/dd/yyyy') : 'N/A' }}                    
-                    </td>
-                </ng-container>
+                    <ng-container matColumnDef="type">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            class="py-4 text-left text-white font-semibold inventory-tag-header custom-left-align"
+                        >
+                            Type
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="border-r border-gray-200 px-4 py-4 text-sm inventory-tag-cell"
+                        >
+                            {{ element.type || "N/A" }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="date_acquired">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            class="px-4 py-2 text-white font-semibold"
+                        >
+                            Date Acquired
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="border-r border-gray-200 text-sm px-4 py-2"
+                        >
+                            {{
+                                isValidDate(element.date_acquired)
+                                    ? (element.date_acquired
+                                      | date : "MM/dd/yyyy")
+                                    : "N/A"
+                            }}
+                        </td>
+                    </ng-container>
 
-                <!-- <ng-container matColumnDef="pc_type">
+                    <!-- <ng-container matColumnDef="pc_type">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
@@ -249,121 +259,161 @@
                     </td>
                 </ng-container> -->
 
-                <ng-container matColumnDef="brand">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        class="px-4 py-2 text-left text-white font-semibold"
-                    >
-                        Brand
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let element"
-                        class="border-r border-gray-200 text-sm px-4 py-2"
-                    >
-                        {{ element.brand || "N/A" }}
-                    </td>
-                </ng-container>
+                    <ng-container matColumnDef="brand">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            class="px-4 py-2 text-left text-white font-semibold"
+                        >
+                            Brand
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="border-r border-gray-200 text-sm px-4 py-2"
+                        >
+                            {{ element.brand || "N/A" }}
+                        </td>
+                    </ng-container>
 
-                <ng-container matColumnDef="serial_no">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        class="px-4 py-2 text-left text-white font-semibold w-36"
-                    >
-                        Serial Number
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let element"
-                        class="border-r border-gray-200 text-sm px-4 py-2 "
-                    >
-                        {{ element.serial_no || "N/A" }}
-                    </td>
-                </ng-container>
+                    <ng-container matColumnDef="serial_no">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            class="px-4 py-2 text-left text-white font-semibold w-36"
+                        >
+                            Serial Number
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="border-r border-gray-200 text-sm px-4 py-2"
+                        >
+                            {{ element.serial_no || "N/A" }}
+                        </td>
+                    </ng-container>
 
-                <!-- Action Column -->
-                <ng-container matColumnDef="status">
-                    <th
-                        mat-header-cell
-                        *matHeaderCellDef
-                        mat-sort-header
-                        class="text-left  text-white font-semibold inventory-tag-header custom-left-align w-36"
-                    >
-                        <div class="flex ml-4">Status</div>
-                    </th>
-                    <td
-                        mat-cell
-                        *matCellDef="let element"
-                        class="border-r border-gray-200 text-sm px-4 py-0"
-                    >
-                    <div class="flex ml-4">
-                        <div class="flex flex-row">
-                            <span
-                            [ngClass]="{
-                                'bg-red-500': element.status === 'INACTIVE',
-                                'bg-blue-500': element.status === 'AVAILABLE',
-                                'bg-green-500': element.status !== 'INACTIVE' && element.status !== 'AVAILABLE'
-                              }"
-                            class="flex w-2 h-2 mt-1 me-3 rounded-full">
-                            </span>
-                            <p class="ml-2 text-xs mt-0.5">
-                                {{element.status || 'N/A'}}
-                            </p>
-                        </div>
-                    </div>                     
-                    </td>
-                </ng-container>
+                    <!-- Action Column -->
+                    <ng-container matColumnDef="status">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            class="text-left text-white font-semibold inventory-tag-header custom-left-align w-36"
+                        >
+                            <div class="flex ml-4">Status</div>
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="border-r border-gray-200 text-sm px-4 py-0"
+                        >
+                            <div class="flex ml-4">
+                                <div class="flex flex-row">
+                                    <span
+                                        [ngClass]="{
+                                            'bg-red-500':
+                                                element.status === 'INACTIVE' ||
+                                                element.status === 'DEFECTIVE',
+                                            'bg-blue-500':
+                                                element.status === 'AVAILABLE',
+                                            'bg-green-500':
+                                                element.status !== 'INACTIVE' &&
+                                                element.status !==
+                                                    'DEFECTIVE' &&
+                                                element.status !== 'AVAILABLE'
+                                        }"
+                                        class="flex w-2 h-2 mt-1 me-3 rounded-full"
+                                    ></span>
+                                    <p class="ml-2 text-xs mt-0.5">
+                                        {{ element.status || "N/A" }}
+                                    </p>
+                                </div>
+                            </div>
+                        </td>
+                    </ng-container>
 
-                <ng-container matColumnDef="action">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header
-                        class=" text-left text-gray-900 font-semibold w-24"> 
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="border-r border-gray-200 text-sm w-12 text-center">
-                        <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
-                            <mat-icon class="icon-size-4" svgIcon="feather:more-vertical"></mat-icon>
-                        </button>
-                        <mat-menu #menu="matMenu">
-                            <button mat-menu-item>
-                                <mat-icon>speaker_notes</mat-icon> 
-                                <p class="text-regular">Set Remarks</p>
-                              </button> 
-                            <button mat-menu-item [routerLink]="'/assets/inventory/edit/' + element.id">
-                                <mat-icon class="icon-size-5" svgIcon="feather:edit"></mat-icon>
-                                <p class="text-regular">Edit</p>
-                              </button> 
-                            <button mat-menu-item (click)="openDeleteDialog(element.id)">
-                                <mat-icon class="icon-size-5" color="warn" svgIcon="feather:trash"></mat-icon>
-                                <p class="text-regular">Delete</p>
+                    <ng-container matColumnDef="action">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            class="text-left text-gray-900 font-semibold w-24"
+                        ></th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="border-r border-gray-200 text-sm w-12 text-center"
+                        >
+                            <button
+                                mat-icon-button
+                                [matMenuTriggerFor]="menu"
+                                (click)="$event.stopPropagation()"
+                            >
+                                <mat-icon
+                                    class="icon-size-4"
+                                    svgIcon="feather:more-vertical"
+                                ></mat-icon>
                             </button>
-                                            
-                            <!-- <button mat-menu-item>Option 2</button> -->
-                        </mat-menu>
-                    </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns" class="bg-gray-900"></tr>
-                <tr
-                    mat-row
-                    [routerLink]="['/assets/inventory/view', row.id]"
-                    class="cursor-pointer hover:bg-gray-100"
-                    *matRowDef="let row; columns: displayedColumns"
-                ></tr>
-            </table>
-        </div>
-        <!-- Paginator -->
-        <div>
-            <mat-paginator
-                [length]="totalItems"
-                [pageSize]="pageSize"
-                [pageSizeOptions]="pageSizeOptions"
-                [showFirstLastButtons]="true"
-                #paginator
-            >
-            </mat-paginator>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item>
+                                    <mat-icon>speaker_notes</mat-icon>
+                                    <p class="text-regular">Set Remarks</p>
+                                </button>
+                                <button
+                                    mat-menu-item
+                                    [routerLink]="
+                                        '/assets/inventory/edit/' + element.id
+                                    "
+                                >
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        svgIcon="feather:edit"
+                                    ></mat-icon>
+                                    <p class="text-regular">Edit</p>
+                                </button>
+                                <button
+                                    mat-menu-item
+                                    (click)="openDeleteDialog(element.id)"
+                                >
+                                    <mat-icon
+                                        class="icon-size-5"
+                                        color="warn"
+                                        svgIcon="feather:trash"
+                                    ></mat-icon>
+                                    <p class="text-regular">Delete</p>
+                                </button>
+
+                                <!-- <button mat-menu-item>Option 2</button> -->
+                            </mat-menu>
+                        </td>
+                    </ng-container>
+                    <tr
+                        mat-header-row
+                        *matHeaderRowDef="displayedColumns"
+                        class="bg-gray-900"
+                    ></tr>
+                    <tr
+                        mat-row
+                        [routerLink]="['/assets/inventory/view', row.id]"
+                        class="cursor-pointer hover:bg-gray-100"
+                        *matRowDef="let row; columns: displayedColumns"
+                    ></tr>
+                </table>
+            </div>
+            <!-- Paginator -->
+            <div>
+                <mat-paginator
+                    [length]="totalItems"
+                    [pageSize]="pageSize"
+                    [pageSizeOptions]="pageSizeOptions"
+                    [showFirstLastButtons]="true"
+                    #paginator
+                >
+                </mat-paginator>
+            </div>
         </div>
     </div>
-</div>
 </app-side-panel-inventory>

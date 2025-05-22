@@ -58,10 +58,13 @@ export class AssetsService {
         return this.http.delete(`${this.url}/Asset/delete-asset/${id}`);
     }
 
-    public pullOutAsset(assetId: number, remark: string): Observable<any> {
-        return this.http.put(`${this.url}/Asset/pullout/${assetId}`, { remarks: remark });
-    }
-    
+ public pullOutAsset(assetId: number, remark: string, isDefective: boolean): Observable<any> {
+    return this.http.put(`${this.url}/Asset/pullout/${assetId}`, {
+        remarks: remark,
+        is_defective: isDefective
+    });
+}
+
 
     public putEvent(id: string, data: any): Observable<any> {
         return this.http.put(`${this.url}/Asset/update-asset/${id}`, data);
