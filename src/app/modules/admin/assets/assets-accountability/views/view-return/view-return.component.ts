@@ -79,10 +79,10 @@ export class ViewReturnComponent implements OnInit {
                                 accountability_code: firstItem.accountability.accountability_code,
                                 owner: {
                                     name: firstItem.accountability.owner?.name || 'Unknown',
-                                    employee_id: firstItem.accountability.owner?.employee_id || 'N/A',
-                                    designation: firstItem.accountability.owner?.designation || 'N/A',
-                                    company: firstItem.accountability.owner?.company || 'N/A',
-                                    department: firstItem.accountability.owner?.department || 'N/A'
+                                    employee_id: firstItem.accountability.owner?.employee_id || '-',
+                                    designation: firstItem.accountability.owner?.designation || '-',
+                                    company: firstItem.accountability.owner?.company || '-',
+                                    department: firstItem.accountability.owner?.department || '-'
                                 }
                             },
                             return_date: firstItem.return_date
@@ -101,7 +101,7 @@ export class ViewReturnComponent implements OnInit {
                                 brand: item.computer.brand
                             },
                             status: item.status,
-                            remarks: item.remarks || 'N/A'
+                            remarks: item.remarks || '-'
                         }));
                     // console.log('Processed computers:', this.computers);
     
@@ -116,7 +116,7 @@ export class ViewReturnComponent implements OnInit {
                                 cost: item.components?.cost
                             },
                             status: item.status,
-                            remarks: item.remarks || 'N/A'
+                            remarks: item.remarks || '-'
                         }));
                     // console.log('Processed components:', this.components);
     
@@ -130,7 +130,7 @@ export class ViewReturnComponent implements OnInit {
                                 asset_barcode: item.asset?.asset_barcode
                             },
                             status: item.status,
-                            remarks: item.remarks || 'N/A'
+                            remarks: item.remarks || '-'
                         }));
                     // console.log('Processed assets:', this.assets);
     
