@@ -1,3 +1,4 @@
+
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -43,12 +44,14 @@ export class AccountabilityArchiveComponent implements OnInit, AfterViewInit {
         'owner',
         'department',
         'bu',
+        'date_created',
+        'archive_type',
         'status'
     ];
 
     dataSource = new MatTableDataSource<AccountabilityItem>([]);
     pageSize = 10;
-    sortOrder: 'asc' | 'desc' = 'asc';
+sortOrder: 'asc' | 'desc' = 'desc'; // Set default to 'desc'
     searchTerm = '';
     totalItems = 0; // <-- This will be overwritten if backend supports it
     pageIndex = 0;
@@ -100,47 +103,49 @@ export class AccountabilityArchiveComponent implements OnInit, AfterViewInit {
     }
 
     loadAccountabilityData(pageIndex: number = 1, pageSize: number = 10): void {
-        this.isLoading = true;
-        this._service
-            .getAllArchived(
-                pageIndex,
-                pageSize,
-                this.sortOrder,
-                this.searchTerm
-            )
-            .subscribe({
-                next: (response: any) => {
-                    this.dataSource.data = response.items || response || [];
-                    // If backend gives total count:
-                    if (response.totalCount !== undefined) {
-                        this.totalItems = response.totalCount;
-                    } else {
-                        // Fallback: just show the count of current items (not ideal)
-                        this.totalItems = this.dataSource.data.length;
-                    }
-                    if (this.paginator) {
-                        this.paginator.length = this.totalItems;
-                    }
-                    this.allTypes = [
-                        ...new Set(
-                            this.dataSource.data
-                                .map(
-                                    (item) =>
-                                        item.user_accountability_list
-                                            ?.accountability_code
-                                )
-                                .filter((code) => code != null)
-                        ),
-                    ];
-                    this.isLoading = false;
-                },
-                error: (error) => {
-                    console.error('Error fetching accountability data', error);
-                    this.alertService.triggerError('Failed to load accountability data');
-                    this.isLoading = false;
-                },
-            });
-    }
+    this.isLoading = true;
+    this._service
+        .getAllArchived(
+            pageIndex,
+            pageSize,
+            this.sortOrder,
+            this.searchTerm
+        )
+        .subscribe({
+            next: (response: any) => {
+                this.dataSource.data = response.items || response || [];
+
+                this.totalItems = response.totalItems ?? this.dataSource.data.length;
+
+                this.pageIndex = (response.pageNumber || 1) - 1;
+
+                if (this.paginator) {
+                    this.paginator.length = this.totalItems;
+                    this.paginator.pageIndex = this.pageIndex;
+                }
+
+                this.allTypes = [
+                    ...new Set(
+                        this.dataSource.data
+                            .map(
+                                (item) =>
+                                    item.user_accountability_list
+                                        ?.accountability_code
+                            )
+                            .filter((code) => code != null)
+                    ),
+                ];
+
+                this.isLoading = false;
+            },
+            error: (error) => {
+                console.error('Error fetching accountability data', error);
+                this.alertService.triggerError('Failed to load accountability data');
+                this.isLoading = false;
+            },
+        });
+}
+
 
     private _filter(value: string): string[] {
         const filterValue = value.toLowerCase();
@@ -200,7 +205,7 @@ export class AccountabilityArchiveComponent implements OnInit, AfterViewInit {
     }
 
     getTooltipText(row: any): string {
-        const date = new Date(row.user_accountability_list?.date_created).toLocaleString(
+        const date = new Date(row.dateCreated).toLocaleString(
             'en-US',
             {
                 month: '2-digit',

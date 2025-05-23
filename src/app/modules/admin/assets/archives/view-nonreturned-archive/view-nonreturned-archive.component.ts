@@ -15,11 +15,11 @@ import { environment } from 'environments/environment';
 import { ArchivedAccountabilityService } from 'app/services/archive/archived-accountability.service';
 
 @Component({
-    selector: 'app-view-accountability-archive',
-    templateUrl: './view-accountability-archive.component.html',
-    styleUrls: ['./view-accountability-archive.component.scss'],
+    selector: 'app-view-nonreturned-archive',
+    templateUrl: './view-nonreturned-archive.component.html',
+    styleUrls: ['./view-nonreturned-archive.component.scss'],
 })
-export class ViewAccountabilityArchiveComponent implements OnInit {
+export class ViewNonreturnedArchiveComponent implements OnInit {
     returnItems: any[] = [];
     computers: any[] = [];
     components: any[] = [];
@@ -27,7 +27,10 @@ export class ViewAccountabilityArchiveComponent implements OnInit {
     accountabilityId!: number;
     user: User;
     ReturnItemsApproval: any;
-
+    preparedByUser: any;
+    approvedByUser: any;
+    preparedDate: string | null = null;
+    approvedDate: string | null = null;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
@@ -64,6 +67,12 @@ export class ViewAccountabilityArchiveComponent implements OnInit {
 
         this._service.getArchivedDetails(accountabilityId).subscribe({
             next: (data: any) => {
+                // ✅ Log the full response to see what the API sends
+                console.log('📦 API response:', data);
+                this.preparedByUser = data.prepared_by_user;
+                this.approvedByUser = data.approved_by_user;
+                this.preparedDate = data.prepared_date;
+                this.approvedDate = data.approved_date;
                 // Store the accountability data
                 this.returnItems = [
                     {
@@ -143,7 +152,7 @@ export class ViewAccountabilityArchiveComponent implements OnInit {
             },
         });
     }
-    
+
     // Function to generate the PDF
     //pdf
     @ViewChild('pdfFormArea') pdfFormArea!: ElementRef;
