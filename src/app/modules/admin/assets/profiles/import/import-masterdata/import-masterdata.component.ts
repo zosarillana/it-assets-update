@@ -154,86 +154,82 @@ export class ImportMasterdataComponent implements OnInit {
 
 
     
-    uploadData() {
-      if (!this.data || this.data.length === 0) {
-          this.alertService.triggerError('No data to upload');
-          return;
-      }
-  
-      if (!this.selectedFile) {
-          this.alertService.triggerError('Please select a file before uploading.');
-          return;
-      }
-  
-      try {
-          const dataRows = this.data.slice(1);
-        //   console.log('Raw data rows:', dataRows); // Debugging
-          const formattedData = dataRows
-              .filter((row) => {
-                  const isValid = row && row.length > 0;
-                  if (!isValid) {
-                      console.warn('Invalid row:', row);
-                  }
-                  return isValid;
-              })
-              .map((row) => {
-                  try {
-                      return {
-                          name: String(row[0] || 'N/A').trim(),
-                          company: String(row[1] || 'N/A').trim(),
-                          department: String(row[2] || 'N/A').trim(),
-                          type: String(row[3] || 'N/A').trim(),
-                          date_acquired: this.excelDateToString(row[4]),
-                          asset_barcode: String(row[5] || 'N/A').trim(),
-                          brand: String(row[6] || 'N/A').trim(),
-                          model: String(row[7] || 'N/A').trim(),
-                          ram: String(row[8] || 'N/A').trim(),
-                          storage: String(row[9] || 'N/A').trim(),
-                          gpu: String(row[10] || 'N/A').trim(),
-                          size: String(row[11] || 'N/A').trim(),
-                          color: String(row[12] || 'N/A').trim(),
-                          serial_no: String(row[13] || 'N/A').trim(),
-                          po: String(row[14] || 'N/A').trim(),
-                          warranty: String(row[15] || 'N/A').trim(),
-                          cost: String(row[16] || 'N/A').trim(),
-                          remarks: String(row[24] || 'N/A').trim(),
-                      };
-                  } catch (innerError) {
-                      console.error('Error formatting row:', row, innerError);
-                      return null; // Skip problematic rows
-                  }
-              })
-              .filter((row) => row !== null); // Remove invalid rows
-  
-          if (formattedData.length === 0) {
-              throw new Error('No valid data found in the Excel file');
-          }
-  
-          const formData = new FormData();
-          formData.append('file', this.selectedFile);
-          formData.append('data', JSON.stringify(formattedData));
-  
-          this.itotService.uploadExcelData(formData).subscribe({
-              next: (response) => {
-                //   console.log('Upload successful:', response);
-                  this.alertService.triggerSuccess('Upload successful!');
-                  this.resetForm();
-              },
-              error: (error) => {
-                //   console.error('Upload failed:', error);
-                //   console.error('Error response:', error.error);
-                  this.alertService.triggerError(
-                      error.error?.message || 'Upload failed. Please try again.'
-                  );
-              },
-          });
-      } catch (error: any) {
-        //   console.error('Error processing data:', error);
-          this.alertService.triggerError(
-              error.message || 'Error processing file data'
-          );
-      }
-  }
+   uploadData() {
+    if (!this.data || this.data.length === 0) {
+        this.alertService.triggerError('No data to upload');
+        return;
+    }
+
+    if (!this.selectedFile) {
+        this.alertService.triggerError('Please select a file before uploading.');
+        return;
+    }
+
+    this.isLoading = true; // <-- START LOADING
+
+    try {
+        const dataRows = this.data.slice(1);
+        const formattedData = dataRows
+            .filter((row) => row && row.length > 0)
+            .map((row) => {
+                try {
+                    return {
+                        name: String(row[0] || 'N/A').trim(),
+                        company: String(row[1] || 'N/A').trim(),
+                        department: String(row[2] || 'N/A').trim(),
+                        type: String(row[3] || 'N/A').trim(),
+                        date_acquired: this.excelDateToString(row[4]),
+                        asset_barcode: String(row[5] || 'N/A').trim(),
+                        brand: String(row[6] || 'N/A').trim(),
+                        model: String(row[7] || 'N/A').trim(),
+                        ram: String(row[8] || 'N/A').trim(),
+                        storage: String(row[9] || 'N/A').trim(),
+                        gpu: String(row[10] || 'N/A').trim(),
+                        size: String(row[11] || 'N/A').trim(),
+                        color: String(row[12] || 'N/A').trim(),
+                        serial_no: String(row[13] || 'N/A').trim(),
+                        po: String(row[14] || 'N/A').trim(),
+                        warranty: String(row[15] || 'N/A').trim(),
+                        cost: String(row[16] || 'N/A').trim(),
+                        remarks: String(row[24] || 'N/A').trim(),
+                    };
+                } catch (innerError) {
+                    console.error('Error formatting row:', row, innerError);
+                    return null;
+                }
+            })
+            .filter((row) => row !== null);
+
+        if (formattedData.length === 0) {
+            throw new Error('No valid data found in the Excel file');
+        }
+
+        const formData = new FormData();
+        formData.append('file', this.selectedFile);
+        formData.append('data', JSON.stringify(formattedData));
+
+        this.itotService.uploadExcelData(formData).subscribe({
+            next: (response) => {
+                this.alertService.triggerSuccess('Upload successful!');
+                this.resetForm();
+                this.isLoading = false; // <-- STOP LOADING
+            },
+            error: (error) => {
+                this.alertService.triggerError(
+                    error.error?.message || 'Upload failed. Please try again.'
+                );
+                this.isLoading = false; // <-- STOP LOADING ON ERROR
+            }
+        });
+
+    } catch (error: any) {
+        this.alertService.triggerError(
+            error.message || 'Error processing file data'
+        );
+        this.isLoading = false; // <-- STOP LOADING ON EXCEPTION
+    }
+}
+
   
 
   onFileSelected(event: any) {

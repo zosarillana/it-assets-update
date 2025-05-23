@@ -227,8 +227,13 @@
                         *matCellDef="let element"
                         class="border-r border-gray-200 text-sm px-4 py-2"
                     >
-                    {{ isValidDate(element.date_acquired) ? (element.date_acquired | date:'MM/dd/yyyy') : 'N/A' }}                    
-                    </td>
+                    {{
+                        isValidDate(element.date_acquired) &&
+                        element.date_acquired
+                            ? (element.date_acquired
+                              | date : "MM/dd/yyyy")
+                            : "N/A"
+                    }}                    </td>
                 </ng-container>
 
                 <!-- <ng-container matColumnDef="pc_type">
@@ -249,25 +254,25 @@
                     </td>
                 </ng-container> -->
 
-                <ng-container matColumnDef="brand">
+                <ng-container matColumnDef="model">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
                         class="px-4 py-2 text-left text-white font-semibold"
                     >
-                        Brand
+                        Model
                     </th>
                     <td
                         mat-cell
                         *matCellDef="let element"
                         class="border-r border-gray-200 text-sm px-4 py-2"
                     >
-                        {{ element.brand || "N/A" }}
+                        {{ element.model || "N/A" }}
                     </td>
                 </ng-container>
 
-                <ng-container matColumnDef="serial_no">
+                <!-- <ng-container matColumnDef="serial_no">
                     <th
                         mat-header-cell
                         *matHeaderCellDef
@@ -283,7 +288,7 @@
                     >
                         {{ element.serial_no || "N/A" }}
                     </td>
-                </ng-container>
+                </ng-container> -->
 
                 <!-- Action Column -->
                 <ng-container matColumnDef="status">

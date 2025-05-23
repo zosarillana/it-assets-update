@@ -25,8 +25,8 @@ export class InventoryListComponent implements OnInit, AfterViewInit {
         'type',
         'date_acquired',
         // 'pc_type',
-        'brand',
-        'serial_no',
+        'model',
+        // 'serial_no',
         'status',
         'action',
     ];

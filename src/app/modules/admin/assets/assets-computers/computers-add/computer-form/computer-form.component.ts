@@ -390,7 +390,8 @@ export class ComputerFormComponent implements OnInit {
                       type: comp.type || '',
                       cost: comp.cost || 0,
                       description: comp.description || '',
-                  }))
+                      uid: comp.asset_barcode || '', 
+                    }))
                 : [],
 
             // ✅ Ensure assets array is mapped correctly

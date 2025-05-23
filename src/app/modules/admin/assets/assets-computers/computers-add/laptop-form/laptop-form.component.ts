@@ -371,6 +371,7 @@ export class LaptopFormComponent  implements OnInit {
                 cost: comp.cost || 0,
                 type: comp.type || '',
                 description: comp.description || '',
+                uid: comp.asset_barcode || '', 
               }))
             : [],
       
