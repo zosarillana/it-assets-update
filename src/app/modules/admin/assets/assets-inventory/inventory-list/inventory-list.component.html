@@ -276,6 +276,23 @@
                             {{ element.brand || "-" }}
                         </td>
                     </ng-container>
+                    <ng-container matColumnDef="model">
+                        <th
+                            mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            class="px-4 py-2 text-left text-white font-semibold"
+                        >
+                            Brand
+                        </th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="border-r border-gray-200 text-sm px-4 py-2"
+                        >
+                            {{ element.model || "-" }}
+                        </td>
+                    </ng-container>
 
                     <ng-container matColumnDef="serial_no">
                         <th

@@ -23,10 +23,11 @@ export class InventoryListComponent implements OnInit, AfterViewInit {
         // 'asset_img',
         'asset_barcode',
         'type',
-        'date_acquired',
         // 'pc_type',
-        'brand',
-        'serial_no',
+        // 'brand',
+        // 'serial_no',
+        'model',
+        'date_acquired',
         'status',
         'action',
     ];
@@ -211,8 +212,9 @@ export class InventoryListComponent implements OnInit, AfterViewInit {
 
     // In inventory-list.component.ts
     isValidDate(date: any): boolean {
+        if (!date) return false; // catches null, undefined, ''
         const parsedDate = new Date(date);
-        return !isNaN(parsedDate.getTime());
+        return parsedDate instanceof Date && !isNaN(parsedDate.getTime());
     }
 
     openDeleteDialog(id: string): void {
