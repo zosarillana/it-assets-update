@@ -84,7 +84,7 @@
                                     matInput
                                     id="serial_number"
                                     formControlName="serial_number"
-                                    [placeholder]="asset?.serial_no || 'N/A'"
+                                    [placeholder]="asset?.serial_no || '-'"
                                     [value]="eventForm.value.serial_number"
                                 />
                             </mat-form-field>
@@ -115,7 +115,7 @@
                                     [matDatepicker]="picker"
                                     formControlName="date_acquired"
                                     id="date_acquired"
-                                    [placeholder]="asset.date_acquired || 'N/A'"
+                                    [placeholder]="asset.date_acquired || '-'"
                                 />
                                 <mat-datepicker-toggle
                                     matIconSuffix
@@ -135,7 +135,7 @@
                                     formControlName="brand"
                                     matInput
                                     id="brand"
-                                    [placeholder]="asset.brand || 'N/A'"
+                                    [placeholder]="asset.brand || '-'"
                                 />
                             </mat-form-field>
 
@@ -154,7 +154,7 @@
                                 formControlName="model"
                                 matInput
                                 id="model"
-                                [placeholder]="asset.model || 'N/A'"
+                                [placeholder]="asset.model || '-'"
                             />
                         </mat-form-field>
                         
@@ -171,7 +171,7 @@
                                     formControlName="size"
                                     matInput
                                     id="size"
-                                    [placeholder]="asset.size || 'N/A'"
+                                    [placeholder]="asset.size || '-'"
                                 />
                             </mat-form-field>
 
@@ -185,7 +185,7 @@
                                     formControlName="color"
                                     matInput
                                     id="color"
-                                    [placeholder]="asset.color || 'N/A'"
+                                    [placeholder]="asset.color || '-'"
                                 />
                             </mat-form-field>
 
@@ -199,7 +199,7 @@
                                     formControlName="po"
                                     matInput
                                     id="po"
-                                    [placeholder]="asset.po || 'N/A'"
+                                    [placeholder]="asset.po || '-'"
                                 />
                             </mat-form-field>
 
@@ -232,7 +232,7 @@
                                     formControlName="cost"
                                     matInput
                                     id="cost"
-                                    [placeholder]="asset.cost || 'N/A'"
+                                    [placeholder]="asset.cost || '-'"
                                 />
                             </mat-form-field>
                             <button
@@ -390,7 +390,7 @@
                                                                 >
                                                                     {{
                                                                         asset.asset_barcode ||
-                                                                            "N/A"
+                                                                            "-"
                                                                     }}
                                                                 </p>
                                                                 <!-- <p
@@ -400,7 +400,7 @@
                                                                     number:
                                                                     {{
                                                                         asset.serial_no ||
-                                                                            "N/A"
+                                                                            "-"
                                                                     }}
                                                                 </p> -->
                                                             </div>
@@ -461,7 +461,7 @@
                                                                 ></mat-icon>
                                                                 {{
                                                                     asset.serial_no ||
-                                                                        "N/A"
+                                                                        "-"
                                                                 }}
                                                             </span>
                                                         </p>
@@ -478,7 +478,7 @@
                                                                 ></mat-icon>
                                                                 {{
                                                                     asset.type ||
-                                                                        "N/A"
+                                                                        "-"
                                                                 }}
                                                             </span>
                                                         </p>
@@ -495,7 +495,7 @@
                                                                 ></mat-icon>
                                                                 {{
                                                                     asset.date_acquired ||
-                                                                        "N/A"
+                                                                        "-"
                                                                 }}
                                                             </span>
                                                         </p>
@@ -512,7 +512,7 @@
                                                                 ></mat-icon>
                                                                 {{
                                                                     asset.brand ||
-                                                                        "N/A"
+                                                                        "-"
                                                                 }}
                                                             </span>
                                                         </p>
@@ -529,7 +529,7 @@
                                                                 ></mat-icon>
                                                                 {{
                                                                     asset.model ||
-                                                                        "N/A"
+                                                                        "-"
                                                                 }}
                                                             </span>
                                                         </p>
@@ -546,7 +546,7 @@
                                                                 ></mat-icon>
                                                                 {{
                                                                     asset.size ||
-                                                                        "N/A"
+                                                                        "-"
                                                                 }}
                                                             </span>
                                                         </p>
@@ -564,7 +564,7 @@
                                                                 ></mat-icon>
                                                                 {{
                                                                     asset.color ||
-                                                                        "N/A"
+                                                                        "-"
                                                                 }}
                                                             </span>
                                                         </p>
@@ -581,7 +581,7 @@
                                                                 ></mat-icon>
                                                                 {{
                                                                     asset.po ||
-                                                                        "N/A"
+                                                                        "-"
                                                                 }}
                                                             </span>
                                                         </p>
@@ -593,7 +593,7 @@
                                                                     class="icon-size-3"
                                                                 ></mat-icon>
                                                                 {{
-                                                                    getWarrantyLabel(asset.warranty) || 'N/A'
+                                                                    getWarrantyLabel(asset.warranty) || '-'
                                                                 }}
                                                             </span>
                                                         </p>
@@ -611,7 +611,7 @@
                                                                 ></mat-icon>
                                                                 {{
                                                                     asset.cost ||
-                                                                        "N/A"
+                                                                        "-"
                                                                 }}
                                                             </span>
                                                         </p>
@@ -628,7 +628,7 @@
                                                                 ></mat-icon>
                                                                 {{
                                                                     asset.remarks ||
-                                                                        "N/A"
+                                                                        "-"
                                                                 }}
                                                             </span>
                                                         </p>
@@ -668,7 +668,7 @@
                                                                             asset
                                                                                 .owner
                                                                                 ?.name ||
-                                                                                "N/A"
+                                                                                "-"
                                                                         }}
                                                                     </span>
                                                                 </p>
@@ -683,7 +683,7 @@
                                                                             asset
                                                                                 .owner
                                                                                 ?.company ||
-                                                                                "N/A"
+                                                                                "-"
                                                                         }}
                                                                     </span>
                                                                 </p>
@@ -698,7 +698,7 @@
                                                                             asset
                                                                                 .owne
                                                                                 ?.department ||
-                                                                                "N/A"
+                                                                                "-"
                                                                         }}
                                                                     </span>
                                                                 </p>
@@ -717,7 +717,7 @@
                                                                             asset
                                                                                 .owner
                                                                                 ?.employee_id ||
-                                                                                "N/A"
+                                                                                "-"
                                                                         }}
                                                                     </span>
                                                                 </p>

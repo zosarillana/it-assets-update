@@ -366,7 +366,7 @@
                                                                                   .date_created
                                                                               | date
                                                                                   : "MMMM d, y")
-                                                                            : "N/A"
+                                                                            : "-"
                                                                     }}</span
                                                                 >
                                                             </p>
@@ -408,7 +408,7 @@
                                                                         this
                                                                             .eventForm
                                                                             .value
-                                                                            .asset_barcode     || 'N/A'                                                                       
+                                                                            .asset_barcode     || '-'                                                                       
                                                                     }}
                                                                 </span>
                                                             </div>
@@ -427,7 +427,7 @@
                                                                         this
                                                                             .eventForm
                                                                             .value
-                                                                            .serial_number      || 'N/A'                                                                 
+                                                                            .serial_number      || '-'                                                                 
                                                                     }}
                                                                 </span>
                                                             </div>
@@ -446,7 +446,7 @@
                                                                 {{
                                                                     (eventForm.value.type ? eventForm.value.type + ' ' : '') +
                                                                     (eventForm.value.brand ? eventForm.value.brand + ' ' : '') +
-                                                                    (eventForm.value.model ? eventForm.value.model : '') || 'N/A'
+                                                                    (eventForm.value.model ? eventForm.value.model : '') || '-'
                                                                 }}
                                                             </span>
                                                             
@@ -466,7 +466,7 @@
                                                             this
                                                                 .eventForm
                                                                 .value
-                                                                .type    || 'N/A'                                                                      
+                                                                .type    || '-'                                                                      
                                                         }}
                                                     </span>
                                                 </div>
@@ -479,7 +479,7 @@
                                                             this
                                                                 .eventForm
                                                                 .value
-                                                                .brand    || 'N/A'                                                                       
+                                                                .brand    || '-'                                                                       
                                                         }}
                                                     </span>
                                                 </div>
@@ -492,7 +492,7 @@
                                                             this
                                                                 .eventForm
                                                                 .value
-                                                                .model       || 'N/A'                                                                    
+                                                                .model       || '-'                                                                    
                                                         }}
                                                     </span>
                                                 </div>
@@ -505,7 +505,7 @@
                                                             this
                                                                 .eventForm
                                                                 .value
-                                                                .po_number    || 'N/A'                                                                       
+                                                                .po_number    || '-'                                                                       
                                                         }}
                                                     </span>
                                                 </div>
@@ -519,7 +519,7 @@
                                                             this
                                                                 .eventForm
                                                                 .value
-                                                                .cost         || 'N/A'                                                                  
+                                                                .cost         || '-'                                                                  
                                                         }}
                                                     </span>
                                                 </div>
@@ -533,7 +533,7 @@
                                                             this
                                                                 .eventForm
                                                                 .value
-                                                                .warranty   || 'N/A'                                                                        
+                                                                .warranty   || '-'                                                                        
                                                         }}
                                                     </span>
                                                 </div>
@@ -542,7 +542,7 @@
                                                       Date Acquired
                                                     </p>
                                                     <span>
-                                                        {{ eventForm.value.date_acquired ? (eventForm.value.date_acquired | date: 'MMMM d, y') : 'N/A' }}
+                                                        {{ eventForm.value.date_acquired ? (eventForm.value.date_acquired | date: 'MMMM d, y') : '-' }}
 
                                                     </span>
                                                 </div>
@@ -555,7 +555,7 @@
                                                             this
                                                                 .eventForm
                                                                 .value
-                                                                .remarks    || 'N/A'                                                                        
+                                                                .remarks    || '-'                                                                        
                                                         }}
                                                     </span>
                                                 </div>

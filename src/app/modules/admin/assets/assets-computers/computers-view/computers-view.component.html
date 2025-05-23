@@ -79,10 +79,10 @@
                     <div class="flex flex-col gap-2">
                         <p class="font-semibold text-2xl">
                             {{ asset.type }}
-                            {{ asset.model || "N/A" }} ({{
+                            {{ asset.model || "-" }} ({{
                                 asset.type === "CPU"
                                     ? "DESKTOP"
-                                    : asset.type || "N/A"
+                                    : asset.type || "-"
                             }})
                         </p>
                         <p class="text-secondary font-semibold">
@@ -174,7 +174,7 @@
                             <span class="font-medium">{{
                                 asset.date_created
                                     ? (asset.date_created | date : "MMMM d, y")
-                                    : "N/A"
+                                    : "-"
                             }}</span>
                         </p>
                     </div>
@@ -190,10 +190,10 @@
                 <div class="flex flex-col sm:flex-row justify-between gap-2">
                     <div class="flex flex-col">
                         <p class="text-primary font-bold text-2xl">
-                            {{ asset.asset_barcode || "N/A" }}
+                            {{ asset.asset_barcode || "-" }}
                         </p>
                         <!-- <p class="text-secondary">
-                            Serial number: {{ asset.serial_no || "N/A" }}
+                            Serial number: {{ asset.serial_no || "-" }}
                         </p> -->
                     </div>
                     <mat-divider class="mx-12" vertical></mat-divider>
@@ -229,7 +229,7 @@
                             svgIcon="feather:hash"
                             class="icon-size-3"
                         ></mat-icon>
-                        {{ asset.serial_no || "N/A" }}
+                        {{ asset.serial_no || "-" }}
                     </span>
                 </p>
                 <p class="flex flex-col font-medium text-medium">
@@ -242,7 +242,7 @@
                         {{
                             asset.type === "CPU"
                                 ? "DESKTOP"
-                                : asset.type || "N/A"
+                                : asset.type || "-"
                         }}
                     </span>
                 </p>
@@ -254,7 +254,7 @@
                             svgIcon="feather:calendar"
                             class="icon-size-3"
                         ></mat-icon>
-                        {{ asset.date_acquired || "N/A" }}
+                        {{ asset.date_acquired || "-" }}
                     </span>
                 </p>
                 <p class="flex flex-col font-medium text-medium">
@@ -264,7 +264,7 @@
                             svgIcon="feather:box"
                             class="icon-size-3"
                         ></mat-icon>
-                        {{ asset.brand || "N/A" }}
+                        {{ asset.brand || "-" }}
                     </span>
                 </p>
                 <p
@@ -277,7 +277,7 @@
                             svgIcon="feather:smartphone"
                             class="icon-size-3"
                         ></mat-icon>
-                        {{ asset.model || "N/A" }}
+                        {{ asset.model || "-" }}
                     </span>
                 </p>
                 <p
@@ -290,7 +290,7 @@
                             svgIcon="feather:info"
                             class="icon-size-3"
                         ></mat-icon>
-                        {{ asset.size || "N/A" }}
+                        {{ asset.size || "-" }}
                     </span>
                 </p>
 
@@ -301,7 +301,7 @@
                             svgIcon="feather:info"
                             class="icon-size-3"
                         ></mat-icon>
-                        {{ asset.color || "N/A" }}
+                        {{ asset.color || "-" }}
                     </span>
                 </p>
                 <p class="flex flex-col font-medium text-medium">
@@ -311,7 +311,7 @@
                             svgIcon="feather:tag"
                             class="icon-size-3"
                         ></mat-icon>
-                        {{ asset.po || "N/A" }}
+                        {{ asset.po || "-" }}
                     </span>
                 </p>
                 <p class="flex flex-col font-medium text-medium">
@@ -321,7 +321,7 @@
                             svgIcon="feather:shield"
                             class="icon-size-3"
                         ></mat-icon>
-                        {{ asset.warranty || "N/A" }}
+                        {{ asset.warranty || "-" }}
                     </span>
                 </p>
                 <p class="flex flex-col font-medium text-medium">
@@ -331,7 +331,7 @@
                             svgIcon="feather:dollar-sign"
                             class="icon-size-3"
                         ></mat-icon>
-                        {{ asset.cost || "N/A" }}
+                        {{ asset.cost || "-" }}
                     </span>
                 </p>
                 <p class="flex flex-col font-medium text-medium">
@@ -341,7 +341,7 @@
                             svgIcon="feather:file-text"
                             class="icon-size-3"
                         ></mat-icon>
-                        {{ asset.remarks || "N/A" }}
+                        {{ asset.remarks || "-" }}
                     </span>
                 </p>
 
@@ -355,7 +355,7 @@
                             {{
                                 asset.history?.$values?.length
                                     ? asset.history.$values
-                                    : "N/A"
+                                    : "-"
                             }}
                         </span>
                     </p> -->
@@ -454,13 +454,13 @@
                                         >
                                             <span class="text-sm">
                                                 {{
-                                                    element.description || "N/A"
+                                                    element.description || "-"
                                                 }}
                                             </span>
                                         </ng-container>
                                         <ng-template #noDescription>
                                             <span class="text-secondary text-sm"
-                                                >N/A</span
+                                                >-</span
                                             >
                                         </ng-template>
                                     </mat-cell>
@@ -478,7 +478,7 @@
                                         *matCellDef="let element"
                                         class="text-blue-600 underline cursor-pointer text-sm"
                                     >
-                                        {{ element.uid || "N/A" }}
+                                        {{ element.uid || "-" }}
                                         <mat-icon
                                             svgIcon="mat_outline:open_in_new"
                                             class="icon-size-3 text-blue-700"
@@ -497,7 +497,7 @@
                                         *matCellDef="let element"
                                         class="text-sm"
                                     >
-                                        {{ element.history || "N/A" }}
+                                        {{ element.history || "-" }}
                                     </mat-cell>
                                 </ng-container>
 
@@ -643,7 +643,7 @@
                                         <ng-container
                                             *ngIf="
                                                 element.model &&
-                                                    element.model !== 'N/A';
+                                                    element.model !== '-';
                                                 else noModel
                                             "
                                         >
@@ -653,7 +653,7 @@
                                         </ng-container>
                                         <ng-template #noModel>
                                             <span class="text-secondary text-sm"
-                                                >N/A</span
+                                                >-</span
                                             >
                                         </ng-template>
                                     </mat-cell>
@@ -1082,7 +1082,7 @@
                         >
                             Owner Name
                             <span class="text-sm text-secondary text-medium">
-                                {{ asset.owner?.name || "N/A" }}
+                                {{ asset.owner?.name || "-" }}
                             </span>
                         </p>
                         <p
@@ -1090,7 +1090,7 @@
                         >
                             Business Unit
                             <span class="text-sm text-secondary text-medium">
-                                {{ asset.owner?.company || "N/A" }}
+                                {{ asset.owner?.company || "-" }}
                             </span>
                         </p>
                         <p
@@ -1098,7 +1098,7 @@
                         >
                             Department
                             <span class="text-sm text-secondary text-medium">
-                                {{ asset.owne?.department || "N/A" }}
+                                {{ asset.owne?.department || "-" }}
                             </span>
                         </p>
                     </div>
@@ -1108,7 +1108,7 @@
                         >
                             Employee ID
                             <span class="text-sm text-secondary text-medium">
-                                {{ asset.owner?.employee_id || "N/A" }}
+                                {{ asset.owner?.employee_id || "-" }}
                             </span>
                         </p>
                     </div>

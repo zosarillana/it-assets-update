@@ -54,11 +54,11 @@
                                         <span class="font-medium">
                                             <!-- {{
                                             returnItems[0]?.accountability?.owner
-                                                ?.employee_id || "N/A"
+                                                ?.employee_id || "-"
                                         }} -->
                                             {{
                                                 returnItems[0]?.accountability
-                                                    ?.tracking_code || "N/A"
+                                                    ?.tracking_code || "-"
                                             }}</span
                                         >
                                     </p>
@@ -66,7 +66,7 @@
                                         Tracking Code
                                         <span class="font-medium">{{
                                             returnItems[0]?.accountability
-                                                ?.tracking_code || "N/A"
+                                                ?.tracking_code || "-"
                                         }}</span>
                                     </p>
                                     <p class="font-bold text-sm">
@@ -77,7 +77,7 @@
                                                     ? (returnItems[0]
                                                           ?.return_date
                                                       | date : "MMMM d, y")
-                                                    : "N/A"
+                                                    : "-"
                                             }}
                                         </span>
                                     </p>
@@ -108,7 +108,7 @@
                                     <span class="font-medium">
                                         {{
                                             returnItems[0]?.accountability
-                                                ?.owner?.name || "N/A"
+                                                ?.owner?.name || "-"
                                         }}
                                     </span>
                                 </div>
@@ -122,7 +122,7 @@
                                     <span class="font-medium">
                                         {{
                                             returnItems[0]?.accountability
-                                                ?.owner?.employee_id || "N/A"
+                                                ?.owner?.employee_id || "-"
                                         }}
                                     </span>
                                 </div>
@@ -136,7 +136,7 @@
                                     <span class="font-medium">
                                         {{
                                             returnItems[0]?.accountability
-                                                ?.owner?.designation || "N/A"
+                                                ?.owner?.designation || "-"
                                         }}
                                     </span>
                                 </div>
@@ -152,7 +152,7 @@
                                     <span class="font-medium">
                                         {{
                                             returnItems[0]?.accountability
-                                                ?.owner?.company || "N/A"
+                                                ?.owner?.company || "-"
                                         }}
                                     </span>
                                 </div>
@@ -166,7 +166,7 @@
                                     <span class="font-medium">
                                         {{
                                             returnItems[0]?.accountability
-                                                ?.owner?.department || "N/A"
+                                                ?.owner?.department || "-"
                                         }}
                                     </span>
                                 </div>
@@ -205,7 +205,7 @@
                                         class="text-xs"
                                         *matCellDef="let computer"
                                         >{{
-                                            computer.computer?.type || "N/A"
+                                            computer.computer?.type || "-"
                                         }}</mat-cell
                                     >
                                 </ng-container>
@@ -222,7 +222,7 @@
                                         class="text-xs"
                                         *matCellDef="let computer"
                                         >{{
-                                            computer.computer?.model || "N/A"
+                                            computer.computer?.model || "-"
                                         }}</mat-cell
                                     >
                                 </ng-container>
@@ -240,7 +240,7 @@
                                         *matCellDef="let computer"
                                         >{{
                                             computer.computer?.asset_barcode ||
-                                                "N/A"
+                                                "-"
                                         }}</mat-cell
                                     >
                                 </ng-container>
@@ -257,7 +257,7 @@
                                         class="text-xs"
                                         *matCellDef="let computer"
                                         >{{
-                                            computer.remarks || "N/A"
+                                            computer.remarks || "-"
                                         }}</mat-cell
                                     >
                                 </ng-container>
@@ -276,7 +276,7 @@
                                       
                                     >
                                     <p [ngClass]="{'text-red-500': computer.status === 'Missing' || computer.status === 'Damaged'}">
-                                        {{ computer.status || "N/A" }}
+                                        {{ computer.status || "-" }}
                                     </p>
                                     </mat-cell>
                                 </ng-container>
@@ -338,7 +338,7 @@
                                         class="text-xs"
                                         *matCellDef="let component"
                                         >{{
-                                            component.components?.type || "N/A"
+                                            component.components?.type || "-"
                                         }}</mat-cell
                                     >
                                 </ng-container>
@@ -355,7 +355,7 @@
                                         class="text-xs"
                                         *matCellDef="let component"
                                         >{{
-                                            component.components?.uid || "N/A"
+                                            component.components?.uid || "-"
                                         }}</mat-cell
                                     >
                                 </ng-container>
@@ -372,7 +372,7 @@
                                         class="text-xs"
                                         *matCellDef="let component"
                                         >{{
-                                            component.components?.cost || "N/A"
+                                            component.components?.cost || "-"
                                         }}</mat-cell
                                     >
                                 </ng-container>
@@ -389,7 +389,7 @@
                                         class="text-xs"
                                         *matCellDef="let component"
                                         >{{
-                                            component.remarks || "N/A"
+                                            component.remarks || "-"
                                         }}</mat-cell
                                     >
                                 </ng-container>
@@ -415,7 +415,7 @@
                                                         'Damaged'
                                             }"
                                         >
-                                            {{ component.status || "N/A" }}
+                                            {{ component.status || "-" }}
                                         </p></mat-cell
                                     >
                                 </ng-container>
@@ -478,7 +478,7 @@
                                         class="text-xs"
                                         *matCellDef="let asset"
                                         >{{
-                                            asset.asset?.type || "N/A"
+                                            asset.asset?.type || "-"
                                         }}</mat-cell
                                     >
                                 </ng-container>
@@ -495,7 +495,7 @@
                                         class="text-xs"
                                         *matCellDef="let asset"
                                         >{{
-                                            asset.asset?.brand || "N/A"
+                                            asset.asset?.brand || "-"
                                         }}</mat-cell
                                     >
                                 </ng-container>
@@ -512,7 +512,7 @@
                                         class="text-xs"
                                         *matCellDef="let asset"
                                         >{{
-                                            asset.asset?.asset_barcode || "N/A"
+                                            asset.asset?.asset_barcode || "-"
                                         }}</mat-cell
                                     >
                                 </ng-container>
@@ -528,7 +528,7 @@
                                     <mat-cell
                                         class="text-xs"
                                         *matCellDef="let asset"
-                                        >{{ asset.remarks || "N/A" }}</mat-cell
+                                        >{{ asset.remarks || "-" }}</mat-cell
                                     >
                                 </ng-container>
 
@@ -545,7 +545,7 @@
                                         *matCellDef="let asset"
                                         
                                         >      <p [ngClass]="{'text-red-500': asset.status === 'Missing' || asset.status === 'Damaged'}">
-                                            {{ asset.status || "N/A" }}
+                                            {{ asset.status || "-" }}
                                         </p></mat-cell
                                     >
                                 </ng-container>
@@ -699,7 +699,7 @@
                                                                 ? (ReturnItemsApproval.checked_date
                                                                   | date
                                                                       : "MMMM d, y")
-                                                                : "N/A"
+                                                                : "-"
                                                         }}
                                                     </span>
                                                 </p>
@@ -804,7 +804,7 @@
                                                                 ? (ReturnItemsApproval.received_date
                                                                   | date
                                                                       : "MMMM d, y")
-                                                                : "N/A"
+                                                                : "-"
                                                         }}
                                                     </span>
                                                 </p>
@@ -907,7 +907,7 @@
                                                                 ? (ReturnItemsApproval.confirmed_date
                                                                   | date
                                                                       : "MMMM d, y")
-                                                                : "N/A"
+                                                                : "-"
                                                         }}
                                                     </span>
                                                 </p>
@@ -940,7 +940,7 @@
                                                 {{
                                                     returnItems[0]
                                                         ?.accountability?.owner
-                                                        ?.name || "N/A"
+                                                        ?.name || "-"
                                                 }}
                                             </p>
                                             <span
@@ -949,7 +949,7 @@
                                                 {{
                                                     returnItems[0]
                                                         ?.accountability?.owner
-                                                        ?.designation || "N/A"
+                                                        ?.designation || "-"
                                                 }}
                                                 <p
                                                     class="text-xs tracking-tight font-bold uppercase mt-1.5"
@@ -960,7 +960,7 @@
                                                               ReturnItemsApproval?.checked_date
                                                                   ? (ReturnItemsApproval.checked_date
                                                                     | date : "MMMM d, y")
-                                                                  : "N/A"
+                                                                  : "-"
                                                           }} -->
 
                                                         {{
@@ -970,7 +970,7 @@
                                                                       ?.return_date
                                                                   | date
                                                                       : "MMMM d, y")
-                                                                : "N/A"
+                                                                : "-"
                                                         }}
                                                     </span>
                                                 </p>

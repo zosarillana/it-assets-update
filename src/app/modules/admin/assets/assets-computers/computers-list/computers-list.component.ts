@@ -24,11 +24,11 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
         'asset_barcode',
         'type',
-        'status',
         'brand',
         'model',
         'active_user',
         'bu',
+        'status',
         'action',
     ];
 
@@ -51,7 +51,7 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
     @ViewChild('sidePanel') sidePanel!: SidePanelComputerComponent;
-    
+
     constructor(
         private assetService: ComputerService,
         private alertService: AlertService,
@@ -65,7 +65,7 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         // Load all types for the filter
         // this.loadAllTypes();
-        
+
         // Initial data load with fixed page size
         this.isSearchActive = false;
         this.loadAssets(1, this.pageSize);
@@ -86,7 +86,7 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
         // Connect the data source to the paginator and sort
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        
+
         // Listen for paginator events
         this.paginator.page.subscribe((event) => {
             this.loadAssets(event.pageIndex + 1, event.pageSize);
@@ -104,16 +104,16 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
         this.sidePanel.openPanel();
     }
 
-//    loadAllTypes(): void {
-//         this.assetService.getAllTypes().subscribe({
-//             next: (types: string[]) => {
-//                 this.allTypes = types;
-//             },
-//             error: (error) => {
-//                 console.error('Error fetching types:', error);
-//             },
-//         });
-//     }
+    //    loadAllTypes(): void {
+    //         this.assetService.getAllTypes().subscribe({
+    //             next: (types: string[]) => {
+    //                 this.allTypes = types;
+    //             },
+    //             error: (error) => {
+    //                 console.error('Error fetching types:', error);
+    //             },
+    //         });
+    //     }
 
     loadAssets(
         pageIndex: number,
@@ -124,7 +124,8 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
         this.isLoading = true;
 
         // If this is a new search or filter, we want to use the dynamic page size
-        const effectivePageSize = (pageIndex === 1 && !fetchAll) ? this.dynamicPageSize : pageSize;
+        const effectivePageSize =
+            pageIndex === 1 && !fetchAll ? this.dynamicPageSize : pageSize;
 
         this.assetService
             .getAssets(
@@ -138,47 +139,62 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
             .subscribe({
                 next: (response: AssetResponse) => {
                     // console.log('API Response:', response);
-                    
+
                     // Clear the data source before adding new data
                     this.dataSource.data = [];
-                    
+
                     // Ensure we have items before assigning them
                     if (response.items && response.items.length > 0) {
                         // Assign the data to the data source
                         this.dataSource.data = response.items;
                         // console.log('Data Source after assignment:', this.dataSource.data);
-                        
+
                         // Update total items for paginator
                         this.totalItems = response.totalItems || 0;
-                        
+
                         // Dynamically adjust page size only if search or filter is active
-                        if (this.totalItems > this.pageSize && this.totalItems <= 100 && this.isSearchActive) {
+                        if (
+                            this.totalItems > this.pageSize &&
+                            this.totalItems <= 100 &&
+                            this.isSearchActive
+                        ) {
                             // Add total items to pageSizeOptions if it's not already there
-                            if (!this.pageSizeOptions.includes(this.totalItems)) {
+                            if (
+                                !this.pageSizeOptions.includes(this.totalItems)
+                            ) {
                                 // Find the right position to insert the new option to keep the array sorted
-                                let insertIndex = this.pageSizeOptions.findIndex(size => size > this.totalItems);
+                                let insertIndex =
+                                    this.pageSizeOptions.findIndex(
+                                        (size) => size > this.totalItems
+                                    );
                                 if (insertIndex === -1) {
                                     // If all existing options are smaller, add to the end
                                     this.pageSizeOptions.push(this.totalItems);
                                 } else {
                                     // Insert at the correct position
-                                    this.pageSizeOptions.splice(insertIndex, 0, this.totalItems);
+                                    this.pageSizeOptions.splice(
+                                        insertIndex,
+                                        0,
+                                        this.totalItems
+                                    );
                                 }
                             }
-                            
+
                             // Update the page size properties
                             this.pageSize = this.totalItems;
                             this.dynamicPageSize = this.totalItems;
-                            
+
                             // Update the paginator
                             if (this.paginator) {
                                 this.paginator.pageSize = this.totalItems;
                                 this.paginator.pageIndex = 0;
-                                
+
                                 // Force the paginator to redraw with the new values
                                 setTimeout(() => {
                                     if (this.paginator) {
-                                        this.paginator._changePageSize(this.totalItems);
+                                        this.paginator._changePageSize(
+                                            this.totalItems
+                                        );
                                     }
                                 });
                             }
@@ -186,8 +202,11 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
                             // Keep standard pagination for initial load
                             this.dynamicPageSize = 10;
                             this.pageSize = 10;
-                            
-                            if (this.paginator && this.paginator.pageSize !== 10) {
+
+                            if (
+                                this.paginator &&
+                                this.paginator.pageSize !== 10
+                            ) {
                                 this.paginator.pageSize = 10;
                                 setTimeout(() => {
                                     if (this.paginator) {
@@ -197,10 +216,10 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
                             }
                         }
                     }
-                    
+
                     // Trigger change detection
                     this.dataSource._updateChangeSubscription();
-                    
+
                     this.isLoading = false;
                 },
                 error: (error) => {
@@ -214,10 +233,10 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     onSearch(): void {
         // Set search mode based on whether there's actually a search term
         this.isSearchActive = this.searchTerm.trim().length > 0;
-        
+
         if (this.paginator) {
             this.paginator.pageIndex = 0;
-            
+
             // If search is empty, reset to standard pagination
             if (!this.isSearchActive) {
                 this.dynamicPageSize = 10;
@@ -225,7 +244,7 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
                 this.paginator.pageSize = 10;
             }
         }
-        
+
         this.loadAssets(1, this.pageSize);
     }
 
@@ -255,13 +274,13 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
 
     applyTypeFilter(searchValue: string): void {
         this.searchTerm = searchValue.trim().toLowerCase();
-        
+
         // Set search mode based on whether there's actually a search term
         this.isSearchActive = this.searchTerm.length > 0;
 
         if (this.paginator) {
             this.paginator.pageIndex = 0;
-            
+
             // If search is empty, reset to standard pagination
             if (!this.isSearchActive) {
                 this.dynamicPageSize = 10;
@@ -292,7 +311,7 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
 
         if (this.paginator) {
             this.paginator.pageIndex = 0;
-            
+
             // If no type filters selected, reset to standard pagination
             if (!this.isSearchActive) {
                 this.dynamicPageSize = 10;
@@ -386,9 +405,14 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
 
             this.assetService.putEvent(id.toString(), updatedAsset).subscribe({
                 next: () => {
-                    this.alertService.triggerSuccess('Remark submitted successfully!');
+                    this.alertService.triggerSuccess(
+                        'Remark submitted successfully!'
+                    );
                     // Reload the current page to reflect changes
-                    this.loadAssets(this.paginator.pageIndex + 1, this.pageSize);
+                    this.loadAssets(
+                        this.paginator.pageIndex + 1,
+                        this.pageSize
+                    );
                 },
                 error: (err) => {
                     console.error('Error submitting remark:', err);

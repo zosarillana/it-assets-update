@@ -161,7 +161,7 @@
                             class="justify-center border-b ml-4 border-r border-gray-200 text-sm text-gray-900 font-bold inventory-tag-cell w-48"
                         >
                             <div class="ml-3">
-                                {{ element.asset_barcode || "N/A" }}
+                                {{ element.asset_barcode || "-" }}
                             </div>
                         </td>
                     </ng-container>
@@ -180,7 +180,7 @@
                             class="border-r border-gray-200 px-0 py-0 text-sm inventory-tag-cell"
                         >
                             <div class="ml-3">
-                                {{ element.type || "N/A" }}
+                                {{ element.type || "-" }}
                             </div>
                         </td>
                     </ng-container>
@@ -199,7 +199,7 @@
                             class="border-r border-gray-200 px-0 py-0 text-sm inventory-tag-cell"
                         >
                             <div class="ml-3">
-                                {{ element.description || "N/A" }}
+                                {{ element.description || "-" }}
                             </div>
                         </td>
                     </ng-container>
@@ -217,7 +217,7 @@
                             *matCellDef="let element"
                             class="border-r border-b border-gray-200 text-sm px-0 py-0"
                         >
-                            <!-- {{ element.date_acquired && isValidDate(element.date_acquired) ? (element.date_acquired | date : "MM/dd/yyyy") : 'N/A' }} -->
+                            <!-- {{ element.date_acquired && isValidDate(element.date_acquired) ? (element.date_acquired | date : "MM/dd/yyyy") : '-' }} -->
                             <div class="flex ml-4">
                                 <div class="flex flex-row">
                                     <span
@@ -230,7 +230,7 @@
 ></span>
 
                                     <p class="ml-2 text-xs mt-0.5">
-                                        {{ element.status || "N/A" }}
+                                        {{ element.status || "-" }}
                                     </p>
                                 </div>
                             </div>
@@ -276,7 +276,7 @@
                             class="border-r border-gray-200 text-sm px-0 py-0"
                         >
                             <div class="ml-3">
-                                {{ element.uid || "N/A" }}
+                                {{ element.uid || "-" }}
                             </div>
                         </td>
                     </ng-container>
@@ -353,7 +353,7 @@
                         *matCellDef="let element"
                         class="border-b border-gray-200 text-sm px-4 py-2"
                     >
-                        {{ element.serial_no || 'N/A'}}
+                        {{ element.serial_no || '-'}}
                     </td>
                 </ng-container> -->
 
@@ -371,7 +371,7 @@
                         *matCellDef="let element"
                         class="border-b border-gray-200 text-sm px-4 py-2 pr-12"
                     >
-                        {{ element.owner || "N/A" }}
+                        {{ element.owner || "-" }}
                     </td>
                 </ng-container> -->
                     <!-- <ng-container matColumnDef="owner_id">

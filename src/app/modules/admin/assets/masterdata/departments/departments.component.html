@@ -113,7 +113,7 @@
                         class="justify-center border-b ml-4 border-r border-gray-200 text-sm text-gray-900 font-bold inventory-tag-cell w-48"
                     >
                         <div class="flex items-center ml-4">
-                            {{ element.code || "N/A" }}
+                            {{ element.code || "-" }}
                         </div>
                     </td>
                 </ng-container>
@@ -131,7 +131,7 @@
                         *matCellDef="let element"
                         class="border-r border-gray-200 px-4 text-sm inventory-tag-cell"
                     >
-                        {{ element.description || "N/A" }}
+                        {{ element.description || "-" }}
                     </td>
                 </ng-container>
               

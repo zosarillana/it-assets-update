@@ -121,7 +121,7 @@
                             Accountability Code
                           </th>
                           <td mat-cell *matCellDef="let element" class="ml-4 border-r border-gray-200 py-4 text-sm font-semibold inventory-tag-cell">
-                            {{ element?.user_accountability_list?.accountability_code || 'N/A' }}
+                            {{ element?.user_accountability_list?.accountability_code || '-' }}
                           </td>
                         </ng-container>
     
@@ -143,7 +143,7 @@
                             *matCellDef="let element"
                             class="border-r border-gray-200 px-4 py-4 text-sm font-semibold inventory-tag-cell"
                         >
-                        {{ element.user_accountability_list?.tracking_code || "N/A" }}
+                        {{ element.user_accountability_list?.tracking_code || "-" }}
                     </td>
                     </ng-container>
                     <ng-container matColumnDef="owner">
@@ -160,7 +160,7 @@
                             *matCellDef="let element"
                             class="border-r border-gray-200 text-sm px-4 py-2"
                         >
-                            {{ element.owner?.name || "N/A" }}
+                            {{ element.owner?.name || "-" }}
                         </td>
                     </ng-container>
                     
@@ -178,7 +178,7 @@
                             *matCellDef="let element"
                             class="border-r border-gray-200 text-sm px-4 py-2"
                         >
-                            {{ element.owner?.department || "N/A" }}
+                            {{ element.owner?.department || "-" }}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="bu">
@@ -195,7 +195,7 @@
                             *matCellDef="let element"
                             class="border-r border-gray-200 text-sm px-4 py-2"
                         >
-                            {{ element.owner?.company || "N/A" }}
+                            {{ element.owner?.company || "-" }}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="status">
@@ -251,7 +251,7 @@
                                     }}
                                 </span>
                             </ng-container>
-                            <ng-template #noData>N/A</ng-template>
+                            <ng-template #noData>-</ng-template>
                         </td>
                     </ng-container>
                     
@@ -290,7 +290,7 @@
                                     }}
                                 </span>
                             </ng-container>
-                            <ng-template #noData>N/A</ng-template>
+                            <ng-template #noData>-</ng-template>
                         </td>
                     </ng-container>
                     

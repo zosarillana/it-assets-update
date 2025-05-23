@@ -72,7 +72,7 @@
                                                       ?.user_accountability_list
                                                       .date_created
                                                   | date : "MMMM d, y")
-                                                : "N/A"
+                                                : "-"
                                         }}</span>
                                     </p>
                                 </div>
@@ -85,133 +85,100 @@
                             ACCOUNTABILITY FORM
                         </p>
 
-                        <div class="flex flex-row w-full mx-auto mt-8 gap-12">
+                        <div
+                            class="flex flex-row justify-between w-full mx-auto mt-8 gap-12 uppercase"
+                        >
                             <div class="flex flex-col gap-0.5 w-58">
-                                <p class="text-lg tracking-tight font-bold">
+                                <p class="text-md tracking-tight font-bold">
                                     ISSUED TO
                                 </p>
-                                <div class="flex flex-row w-full">
-                                    <div class="flex flex-col w-120">
-                                        <div
-                                            class="flex flex-row gap-2 text-sm"
-                                        >
-                                            <p
-                                                class="text-regular tracking-tight font-bold"
-                                            >
-                                                Employee Name
-                                            </p>
-                                            <span class="font-medium">{{
-                                                asset.user_accountability_list
-                                                    .owner.name || "N/A"
-                                            }}</span>
-                                        </div>
-                                        <div
-                                            class="flex flex-row gap-10 text-sm"
-                                        >
-                                            <p
-                                                class="text-regular tracking-tight font-bold"
-                                            >
-                                                ID Number
-                                            </p>
-                                            <span class="font-medium">
-                                                {{
-                                                    asset
-                                                        .user_accountability_list
-                                                        .owner.employee_id ||
-                                                        "N/A"
-                                                }}</span
-                                            >
-                                        </div>
-                                        <div
-                                            class="flex flex-row gap-8 text-sm"
-                                        >
-                                            <p
-                                                class="text-regular tracking-tight font-bold"
-                                            >
-                                                Designation
-                                            </p>
-                                            <span class="font-medium">
-                                                {{
-                                                    asset
-                                                        .user_accountability_list
-                                                        .owner.designation ||
-                                                        "N/A"
-                                                }}</span
-                                            >
-                                        </div>
-                                    </div>
 
-                                    <div
-                                        class="flex flex-row w-120 justify-between"
+                                <div class="flex flex-row gap-2 text-xs">
+                                    <p
+                                        class="text-regular tracking-tight font-bold"
                                     >
-                                        <div class="flex flex-col gap-0.5 w-58">
-                                            <div
-                                                class="flex flex-row gap-9 text-sm"
-                                            >
-                                                <p
-                                                    class="text-regular tracking-tight font-bold"
-                                                >
-                                                    Business Unit
-                                                </p>
-                                                <span class="font-medium">
-                                                    {{
-                                                        asset
-                                                            .user_accountability_list
-                                                            .owner.company ||
-                                                            "N/A"
-                                                    }}</span
-                                                >
-                                            </div>
-                                            <div
-                                                class="flex flex-row gap-11 text-sm"
-                                            >
-                                                <p
-                                                    class="text-regular tracking-tight font-bold"
-                                                >
-                                                    Department
-                                                </p>
-                                                <span class="font-medium">
-                                                    {{
-                                                        asset
-                                                            .user_accountability_list
-                                                            .owner.department ||
-                                                            "N/A"
-                                                    }}</span
-                                                >
-                                            </div>
-                                            <div
-                                                class="flex flex-row gap-9 text-sm"
-                                            >
-                                                <div
-                                                    class="flex flex-row gap-12 text-sm"
-                                                >
-                                                    <p
-                                                        class="text-regular tracking-tight font-bold"
-                                                    >
-                                                        Date Hired
-                                                    </p>
-                                                    <span
-                                                        class="ml-1.5 font-medium"
-                                                    >
-                                                        {{
-                                                            asset
-                                                                .user_accountability_list
-                                                                .owner
-                                                                .date_hired
-                                                                ? (asset
-                                                                      .user_accountability_list
-                                                                      .owner
-                                                                      .date_hired
-                                                                      ?.value
-                                                                  | date
-                                                                      : "MMMM d, y")
-                                                                : "N/A"
-                                                        }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        Employee Name
+                                    </p>
+                                    <span class="font-medium">{{
+                                        asset.user_accountability_list.owner
+                                            .name || "-"
+                                    }}</span>
+                                </div>
+
+                                <div class="flex flex-row gap-10 text-xs">
+                                    <p
+                                        class="text-regular tracking-tight font-bold"
+                                    >
+                                        ID Number
+                                    </p>
+                                    <span class="font-medium">
+                                        {{
+                                            asset.user_accountability_list.owner
+                                                .employee_id || "-"
+                                        }}
+                                    </span>
+                                </div>
+
+                                <div class="flex flex-row gap-7 text-xs">
+                                    <p
+                                        class="text-regular tracking-tight font-bold"
+                                    >
+                                        Designation
+                                    </p>
+                                    <span class="font-medium">
+                                        {{
+                                            asset.user_accountability_list.owner
+                                                .designation || "-"
+                                        }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col gap-0.5 w-52 mt-7">
+                                <div class="flex flex-row justify-between text-xs">
+                                    <p
+                                        class="text-regular tracking-tight font-bold"
+                                    >
+                                        Business Unit
+                                    </p>
+                                    <span class="font-medium">
+                                        {{
+                                            asset.user_accountability_list.owner
+                                                .company || "-"
+                                        }}
+                                    </span>
+                                </div>
+
+                                <div class="flex flex-row justify-between text-xs">
+                                    <p
+                                        class="text-regular tracking-tight font-bold"
+                                    >
+                                        Department
+                                    </p>
+                                    <span class="font-medium">
+                                        {{
+                                            asset.user_accountability_list.owner
+                                                .department || "-"
+                                        }}
+                                    </span>
+                                </div>
+                                <div class="flex flex-row justify-between text-xs">
+                                    <p
+                                        class="text-regular tracking-tight font-bold"
+                                    >
+                                        Date Hired
+                                    </p>
+                                    <span class="font-medium">
+                                        {{
+                                            asset.user_accountability_list.owner
+                                                .date_hired
+                                                ? (asset
+                                                      .user_accountability_list
+                                                      .owner.date_hired?.value
+                                                  | date : "MMMM d, y")
+                                                : "-"
+                                        }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -244,7 +211,7 @@
                                         >{{
                                             e.type === "CPU"
                                                 ? "DESKTOP"
-                                                : e.type || "N/A"
+                                                : e.type || "-"
                                         }}
                                     </mat-cell>
                                 </ng-container>
@@ -257,12 +224,12 @@
                                     >
                                     <mat-cell *matCellDef="let e" class="-ml-7">
                                         {{
-                                          isValidDate(e.date_acquired)
-                                            ? (e.date_acquired | date: "MMMM d, y")
-                                            : "N/A"
+                                            isValidDate(e.date_acquired)
+                                                ? (e.date_acquired
+                                                  | date : "MMMM d, y")
+                                                : "-"
                                         }}
-                                      </mat-cell>
-                                      
+                                    </mat-cell>
                                 </ng-container>
                                 <ng-container
                                     matColumnDef="assetBarcode"
@@ -274,7 +241,7 @@
                                         >Inventory Code</mat-header-cell
                                     >
                                     <mat-cell *matCellDef="let e">{{
-                                        e.asset_barcode || "N/A"
+                                        e.asset_barcode || "-"
                                     }}</mat-cell>
                                 </ng-container>
                                 <ng-container matColumnDef="brand">
@@ -319,7 +286,7 @@
                                                     : e.history.$values.join(
                                                           ", "
                                                       )
-                                                : "N/A"
+                                                : "-"
                                         }}
                                     </mat-cell>
                                 </ng-container>
@@ -330,7 +297,7 @@
                                         >Status</mat-header-cell
                                     >
                                     <mat-cell *matCellDef="let e">{{
-                                        e.status || "N/A"
+                                        e.status || "-"
                                     }}</mat-cell>
                                 </ng-container>
                                 <mat-header-row
@@ -372,7 +339,7 @@
                                     <mat-cell
                                         class="text-sm"
                                         *matCellDef="let element"
-                                        >{{ element.type || "N/A" }}</mat-cell
+                                        >{{ element.type || "-" }}</mat-cell
                                     >
                                 </ng-container>
 
@@ -382,13 +349,17 @@
                                         mat-sort-header
                                         >Date Acquired</mat-header-cell
                                     >
-                                    <mat-cell class="text-sm" *matCellDef="let element">
+                                    <mat-cell
+                                        class="text-sm"
+                                        *matCellDef="let element"
+                                    >
                                         {{
-                                          isValidDate(element.date_acquired)
-                                            ? (element.date_acquired | date: "MMMM d, y")
-                                            : "N/A"
+                                            isValidDate(element.date_acquired)
+                                                ? (element.date_acquired
+                                                  | date : "MMMM d, y")
+                                                : "-"
                                         }}
-                                      </mat-cell>
+                                    </mat-cell>
                                 </ng-container>
 
                                 <!-- Description Column -->
@@ -402,7 +373,7 @@
                                         class="text-sm"
                                         *matCellDef="let element"
                                         >{{
-                                            element.description || "N/A"
+                                            element.description || "-"
                                         }}</mat-cell
                                     >
                                 </ng-container>
@@ -433,7 +404,7 @@
                                         class="text-sm"
                                         *matCellDef="let element"
                                         >{{
-                                            element.asset_barcode || "N/A"
+                                            element.asset_barcode || "-"
                                         }}</mat-cell
                                     >
                                 </ng-container>
@@ -446,7 +417,7 @@
                                     <mat-cell
                                         class="text-sm"
                                         *matCellDef="let element"
-                                        >{{ element.status || "N/A" }}</mat-cell
+                                        >{{ element.status || "-" }}</mat-cell
                                     >
                                 </ng-container>
                                 <ng-container matColumnDef="cost">
@@ -458,7 +429,7 @@
                                     <mat-cell
                                         class="text-sm"
                                         *matCellDef="let element"
-                                        >₱ {{ element.cost || "N/A" }}</mat-cell
+                                        >₱ {{ element.cost || "-" }}</mat-cell
                                     >
                                 </ng-container>
 
@@ -520,7 +491,7 @@
                                     <mat-cell
                                         class="text-sm"
                                         *matCellDef="let element"
-                                        >{{ element.type || "N/A" }}</mat-cell
+                                        >{{ element.type || "-" }}</mat-cell
                                     >
                                 </ng-container>
 
@@ -532,13 +503,18 @@
                                         class="-ml-5"
                                         >Date Acquired</mat-header-cell
                                     >
-                                    <mat-cell class="text-sm" *matCellDef="let element" class="-ml-5">
+                                    <mat-cell
+                                        class="text-sm"
+                                        *matCellDef="let element"
+                                        class="-ml-5"
+                                    >
                                         {{
-                                          isValidDate(element.date_acquired)
-                                            ? (element.date_acquired | date: "MMMM d, y")
-                                            : "N/A"
+                                            isValidDate(element.date_acquired)
+                                                ? (element.date_acquired
+                                                  | date : "MMMM d, y")
+                                                : "-"
                                         }}
-                                      </mat-cell>
+                                    </mat-cell>
                                 </ng-container>
 
                                 <!-- Asset Barcode Column -->
@@ -553,7 +529,7 @@
                                         class="text-sm"
                                         *matCellDef="let element"
                                         >{{
-                                            element.asset_barcode || "N/A"
+                                            element.asset_barcode || "-"
                                         }}</mat-cell
                                     >
                                 </ng-container>
@@ -568,7 +544,7 @@
                                     <mat-cell
                                         class="text-sm"
                                         *matCellDef="let element"
-                                        >{{ element.brand || "N/A" }}</mat-cell
+                                        >{{ element.brand || "-" }}</mat-cell
                                     >
                                 </ng-container>
 
@@ -582,7 +558,7 @@
                                     <mat-cell
                                         class="text-sm"
                                         *matCellDef="let element"
-                                        >{{ element.model || "N/A" }}</mat-cell
+                                        >{{ element.model || "-" }}</mat-cell
                                     >
                                 </ng-container>
 
@@ -618,7 +594,7 @@
                                                     : element.history.$values.join(
                                                           ", "
                                                       )
-                                                : "N/A"
+                                                : "-"
                                         }}
                                     </mat-cell>
                                 </ng-container>
@@ -633,7 +609,7 @@
                                     <mat-cell
                                         class="text-sm"
                                         *matCellDef="let element"
-                                        >{{ element.status || "N/A" }}</mat-cell
+                                        >{{ element.status || "-" }}</mat-cell
                                     >
                                 </ng-container>
 
@@ -786,7 +762,7 @@
                                                             ? (accountabilityApproval.prepared_date
                                                               | date
                                                                   : "MMMM d, y")
-                                                            : "N/A"
+                                                            : "-"
                                                     }}
                                                 </span>
                                             </div>
@@ -894,7 +870,7 @@
                                                             ? (accountabilityApproval.approved_date
                                                               | date
                                                                   : "MMMM d, y")
-                                                            : "N/A"
+                                                            : "-"
                                                     }}
                                                 </span>
                                             </div>
@@ -932,7 +908,7 @@
                                                 {{
                                                     asset
                                                         .user_accountability_list
-                                                        .owner.name || "N/A"
+                                                        .owner.name || "-"
                                                 }}
                                             </p>
                                             <span
@@ -942,7 +918,7 @@
                                                     asset
                                                         .user_accountability_list
                                                         .owner.designation ||
-                                                        "N/A"
+                                                        "-"
                                                 }}
                                             </span>
 
@@ -957,7 +933,7 @@
                                                             ? (datenow
                                                               | date
                                                                   : "MMMM d, y")
-                                                            : "N/A"
+                                                            : "-"
                                                     }}
                                                 </span>
                                             </div>

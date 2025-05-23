@@ -425,14 +425,14 @@ export class AccountabilityFormComponent implements OnInit {
     //                     ...approval,
     //                     preparedByUser: approval.prepared_by_user ? {
     //                         id: approval.prepared_by_user.id,
-    //                         name: approval.prepared_by_user.name || 'N/A',
-    //                         designation: approval.prepared_by_user.designation || 'N/A',
+    //                         name: approval.prepared_by_user.name || '-',
+    //                         designation: approval.prepared_by_user.designation || '-',
     //                         e_signature: approval.prepared_by_user.e_signature || null
     //                     } : null,
     //                     checkedByUser: approval.checked_by_user ? {
     //                         id: approval.checked_by_user.id,
-    //                         name: approval.checked_by_user.name || 'N/A',
-    //                         designation: approval.checked_by_user.designation || 'N/A',
+    //                         name: approval.checked_by_user.name || '-',
+    //                         designation: approval.checked_by_user.designation || '-',
     //                         e_signature: approval.checked_by_user.e_signature || null
     //                     } : null
     //                 };

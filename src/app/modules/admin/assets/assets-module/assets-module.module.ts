@@ -93,6 +93,7 @@ import { ViewAccountabilityArchiveComponent } from '../archives/accountability-a
 import { CustomTooltipComponent } from '../components/custom-tooltip/custom-tooltip.component';
 import { UsersComponent } from '../masterdata/users/users.component';
 import { EditUserModalComponent } from '../masterdata/users/edit-user-modal/edit-user-modal.component';
+import { ViewNonreturnedArchiveComponent } from '../archives/view-nonreturned-archive/view-nonreturned-archive.component';
 
 const assetRoute: Route[] = [
     // {
@@ -223,6 +224,10 @@ const assetRoute: Route[] = [
         path: 'accountability-archive/view/:id',
         component: ViewAccountabilityArchiveComponent,
     },
+    {
+        path: 'accountability-archive/view-nonreturned/:id',
+        component: ViewNonreturnedArchiveComponent,
+    },
     //users
     {
         path: 'users',
@@ -291,6 +296,7 @@ const assetRoute: Route[] = [
         CustomTooltipComponent,
         UsersComponent,
         EditUserModalComponent,
+        ViewNonreturnedArchiveComponent
         // AlertsComponentComponent,
     ],
     imports: [

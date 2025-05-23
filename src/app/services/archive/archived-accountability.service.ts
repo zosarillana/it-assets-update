@@ -12,10 +12,10 @@ export class ArchivedAccountabilityService {
 
     constructor(private http: HttpClient) {}
 
-    getAllArchived(
+  getAllArchived(
         pageNumber: number = 1,
         pageSize: number = 10,
-        sortOrder: 'asc' | 'desc' = 'asc',
+        sortOrder: 'asc' | 'desc' = 'desc',
         searchTerm?: string
     ): Observable<Accountability[]> {
         let params = new HttpParams()
@@ -39,4 +39,5 @@ export class ArchivedAccountabilityService {
             `${this.url}/ArchivedUserAccountabilityList/details/${id}`
         );
     }
+    
 }

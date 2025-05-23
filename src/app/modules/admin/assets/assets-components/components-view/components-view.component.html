@@ -196,7 +196,7 @@
                             <span class="font-medium">{{
                                 asset.date_created
                                     ? (asset.date_created | date : "MMMM d, y")
-                                    : "N/A"
+                                    : "-"
                             }}</span>
                         </p>
                     </div>
@@ -216,7 +216,7 @@
                         <div class="flex flex-col">
                             <p class="text-secondary">Inventory Code</p>
                             <p class="text-primary font-bold text-2xl">
-                                {{ asset.uid || "N/A" }}
+                                {{ asset.uid || "-" }}
                             </p>
                         </div>
                     </div>
@@ -245,14 +245,14 @@
                                     asset?.computer?.id
                                 "
                             >
-                                # {{ asset?.computer?.asset_barcode || "N/A" }}
+                                # {{ asset?.computer?.asset_barcode || "-" }}
                                 <mat-icon
                                     svgIcon="mat_outline:open_in_new"
                                     class="icon-size-3 underline text-blue-600"
                                 ></mat-icon>
                             </p>
                             <p *ngIf="!asset?.computer" class="text-secondary">
-                                N/A
+                                -
                             </p>
                         </div>
 
@@ -272,7 +272,7 @@
                                 Date Acquired
                             </p>
                             <p class="text-secondary">
-                                {{ asset.date_acquired ? (asset.date_acquired | date: 'MMMM d, y') : 'N/A' }}
+                                {{ asset.date_acquired ? (asset.date_acquired | date: 'MMMM d, y') : '-' }}
 
                             </p>
                         </div>
@@ -293,19 +293,19 @@
                     <p class="flex flex-col font-medium text-medium">
                         Owner Name
                         <span class="text-secondary text-medium">
-                            {{ asset?.owner?.name || "N/A" }}
+                            {{ asset?.owner?.name || "-" }}
                         </span>
                     </p>
                     <p class="flex flex-col font-medium text-medium">
                         Business Unit
                         <span class="text-secondary text-medium">
-                            {{ asset?.owner?.company || "N/A" }}
+                            {{ asset?.owner?.company || "-" }}
                         </span>
                     </p>
                     <p class="flex flex-col font-medium text-medium">
                         Department
                         <span class="text-secondary text-medium">
-                            {{ asset?.owner?.department || "N/A" }}
+                            {{ asset?.owner?.department || "-" }}
                         </span>
                     </p>
                 </div>
@@ -313,7 +313,7 @@
                     <p class="flex flex-col font-medium text-medium">
                         Employee ID
                         <span class="text-secondary text-medium">
-                            {{ asset?.owner?.employee_id || "N/A" }}
+                            {{ asset?.owner?.employee_id || "-" }}
                         </span>
                     </p>
                 </div>

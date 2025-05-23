@@ -68,9 +68,9 @@ export class ComputersViewComponent implements OnInit {
                         id: item.id || null,
                         name,
                         icon,
-                        description: item.description || 'N/A',
-                        uid: item.uid || 'N/A',
-                        history: item.history || 'N/A',
+                        description: item.description || '-',
+                        uid: item.uid || '-',
+                        history: item.history || '-',
                     });
                 });
             } else if (items) {
@@ -78,9 +78,9 @@ export class ComputersViewComponent implements OnInit {
                     id: items.id || null,
                     name,
                     icon,
-                    description: items.description || 'N/A',
-                    uid: items.uid || 'N/A',
-                    history: items.history || 'N/A',
+                    description: items.description || '-',
+                    uid: items.uid || '-',
+                    history: items.history || '-',
                 });
             }
         };
@@ -106,10 +106,10 @@ export class ComputersViewComponent implements OnInit {
                 name: `${asset.type}`,
                 icon: 'feather:package',
                 uid: `${asset.asset_barcode}`,
-                model: asset.model || 'N/A',
+                model: asset.model || '-',
                 brand: asset.brand,
                 id: asset.id,
-                serial_no: asset.serial_no || 'N/A',
+                serial_no: asset.serial_no || '-',
                 action: '',
             })) || [];
 
@@ -122,8 +122,8 @@ export class ComputersViewComponent implements OnInit {
             this.asset?.history?.values?.map((historyItem, index) => ({
                 id: index + 1,
                 name: historyItem?.name ?? 'Unknown',
-                department: this.asset?.owner?.department || 'N/A',
-                company: this.asset?.owner?.company || 'N/A',
+                department: historyItem?.department || '-',
+                company: historyItem?.company || '-',
             })) || [];
     }
 
@@ -147,15 +147,15 @@ export class ComputersViewComponent implements OnInit {
                 next: (data: any) => {
                     this.dataSourceRepairLogs =
                         data.map((log: any) => ({
-                            inventory_code: log.inventory_code || 'N/A',
-                            id: log.id || 'N/A',
-                            type: log.type || 'N/A',
-                            action: log.action || 'N/A',
-                            eaf_no: log.eaf_no || 'N/A',
-                            computer_id: log.computer_id || 'N/A',
-                            item_id: log.item_id.id || 'N/A',
-                            remarks: log.remarks || 'N/A',
-                            timestamp: log.timestamp || 'N/A',
+                            inventory_code: log.inventory_code || '-',
+                            id: log.id || '-',
+                            type: log.type || '-',
+                            action: log.action || '-',
+                            eaf_no: log.eaf_no || '-',
+                            computer_id: log.computer_id || '-',
+                            item_id: log.item_id.id || '-',
+                            remarks: log.remarks || '-',
+                            timestamp: log.timestamp || '-',
                         })) || [];
                 },
             });

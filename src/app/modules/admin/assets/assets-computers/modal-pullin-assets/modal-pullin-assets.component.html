@@ -7,7 +7,7 @@
       <mat-list-option *ngFor="let asset of inactiveAssets" [value]="asset">
         <div class="flex flex-row text-sm">
           <strong>{{ asset.type }}</strong>
-          <p>- {{ asset.description }} (Asset Barcode: {{ asset.asset_barcode }})</p>
+          <p>- {{ asset.description }} (Inventory Barcode: {{ asset.asset_barcode }})</p>
         </div>
       </mat-list-option>
     </mat-selection-list>

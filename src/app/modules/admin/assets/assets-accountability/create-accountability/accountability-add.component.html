@@ -384,7 +384,7 @@
                                                                                   .date_created
                                                                               | date
                                                                                   : "MMMM d, y")
-                                                                            : "N/A"
+                                                                            : "-"
                                                                     }}</span
                                                                 >
                                                             </p>
@@ -399,7 +399,7 @@
                                                 </p>
 
                                                 <div
-                                                    class="flex flex-row w-full mx-auto mt-8 gap-12"
+                                                    class="flex flex-row  w-full mx-auto mt-8 gap-12"
                                                 >
                                                     <div
                                                         class="flex flex-col gap-0.5 w-58"
@@ -423,7 +423,7 @@
                                                                     eventForm.get(
                                                                         "name"
                                                                     )?.value ||
-                                                                        "N/A"
+                                                                        "-"
                                                                 }}</span
                                                             >
                                                         </div>
@@ -442,7 +442,7 @@
                                                                     eventForm.get(
                                                                         "employee_id"
                                                                     )?.value ||
-                                                                        "N/A"
+                                                                        "-"
                                                                 }}</span
                                                             >
                                                         </div>
@@ -461,13 +461,13 @@
                                                                     eventForm.get(
                                                                         "designation"
                                                                     )?.value ||
-                                                                        "N/A"
+                                                                        "-"
                                                                 }}</span
                                                             >
                                                         </div>
                                                     </div>
                                                     <div
-                                                        class="flex flex-col gap-0.5 w-58 mt-7"
+                                                        class="flex flex-col w-58 mt-7"
                                                     >
                                                         <div
                                                             class="flex flex-row gap-9 text-sm"
@@ -483,7 +483,7 @@
                                                                     eventForm.get(
                                                                         "company"
                                                                     )?.value ||
-                                                                        "N/A"
+                                                                        "-"
                                                                 }}
                                                             </span>
                                                         </div>
@@ -503,7 +503,7 @@
                                                                         "department"
                                                                     )?.value
                                                                         ?.code ||
-                                                                        "N/A"
+                                                                        "-"
                                                                 }}
                                                             </span>
                                                         </div>
@@ -528,7 +528,7 @@
                                                                               ?.value
                                                                           | date
                                                                               : "MMMM d, y")
-                                                                        : "N/A"
+                                                                        : "-"
                                                                 }}
                                                             </span>
                                                         </div>
@@ -612,7 +612,7 @@
                                                                 >
                                                                     {{
                                                                         selectedComputer?.type ||
-                                                                            "N/A"
+                                                                            "-"
                                                                     }}
                                                                 </td>
                                                                 <td
@@ -623,7 +623,7 @@
                                                                             ? (selectedComputer.date_acquired
                                                                               | date
                                                                                   : "MMMM d, y")
-                                                                            : "N/A"
+                                                                            : "-"
                                                                     }}
                                                                 </td>
                                                                 <td
@@ -631,17 +631,17 @@
                                                                 >
                                                                     {{
                                                                         selectedComputer?.asset_barcode ||
-                                                                            "N/A"
+                                                                            "-"
                                                                     }}
                                                                 </td>
-                                                                <!-- <td class=" px-6 py-3 bg-transparent">{{ selectedComputer?.serial_no || "N/A" }}</td> -->
+                                                                <!-- <td class=" px-6 py-3 bg-transparent">{{ selectedComputer?.serial_no || "-" }}</td> -->
 
                                                                 <td
                                                                     class="px-6 py-3 bg-transparent uppercase"
                                                                 >
                                                                     {{
                                                                         selectedComputer?.brand ||
-                                                                            "N/A"
+                                                                            "-"
                                                                     }}
                                                                 </td>
                                                                 <td
@@ -649,7 +649,7 @@
                                                                 >
                                                                     {{
                                                                         selectedComputer?.model ||
-                                                                            "N/A"
+                                                                            "-"
                                                                     }}
                                                                 </td>
                                                                 <td
@@ -677,7 +677,7 @@
                                                                                 : selectedComputer.history.$values.join(
                                                                                       ", "
                                                                                   )
-                                                                            : "N/A"
+                                                                            : "-"
                                                                     }}
                                                                 </td>
 
@@ -686,7 +686,7 @@
                                                                 >
                                                                     {{
                                                                         selectedComputer?.status ||
-                                                                            "N/A"
+                                                                            "-"
                                                                     }}
                                                                 </td>
                                                             </tr>
@@ -817,7 +817,7 @@
                                                                         >
                                                                             {{
                                                                                 item.uid ||
-                                                                                    "N/A"
+                                                                                    "-"
                                                                             }}
                                                                         </td>
                                                                         <td
@@ -828,7 +828,7 @@
                                                                                     ? (item.date_acquired
                                                                                       | date
                                                                                           : "MMMM d, y")
-                                                                                    : "N/A"
+                                                                                    : "-"
                                                                             }}
                                                                         </td>
                                                                         <td
@@ -836,7 +836,7 @@
                                                                         >
                                                                             {{
                                                                                 item.description ||
-                                                                                    "N/A"
+                                                                                    "-"
                                                                             }}
                                                                         </td>
                                                                         <td
@@ -844,7 +844,7 @@
                                                                         >
                                                                             {{
                                                                                 item.cost ||
-                                                                                    "N/A"
+                                                                                    "-"
                                                                             }}
                                                                         </td>
                                                                         <td
@@ -852,7 +852,7 @@
                                                                         >
                                                                             {{
                                                                                 item.asset_barcode ||
-                                                                                    "N/A"
+                                                                                    "-"
                                                                             }}
                                                                         </td>
                                                                         <td
@@ -860,7 +860,7 @@
                                                                         >
                                                                             {{
                                                                                 item.status ||
-                                                                                    "N/A"
+                                                                                    "-"
                                                                             }}
                                                                         </td>
                                                                     </tr>
@@ -969,7 +969,7 @@
                                                                 >
                                                                     {{
                                                                         asset.type ||
-                                                                            "N/A"
+                                                                            "-"
                                                                     }}
                                                                 </td>
                                                                 <td
@@ -977,7 +977,7 @@
                                                                 >
                                                                     {{
                                                                         asset.asset_barcode ||
-                                                                            "N/A"
+                                                                            "-"
                                                                     }}
                                                                 </td>
                                                                 <td
@@ -988,7 +988,7 @@
                                                                             ? (asset.date_acquired
                                                                               | date
                                                                                   : "MMMM d, y")
-                                                                            : "N/A"
+                                                                            : "-"
                                                                     }}
                                                                 </td>
                                                                 <td
@@ -996,7 +996,7 @@
                                                                 >
                                                                     {{
                                                                         asset.brand ||
-                                                                            "N/A"
+                                                                            "-"
                                                                     }}
                                                                 </td>
                                                                 <td
@@ -1004,7 +1004,7 @@
                                                                 >
                                                                     {{
                                                                         asset.model ||
-                                                                            "N/A"
+                                                                            "-"
                                                                     }}
                                                                 </td>
                                                                 <td
@@ -1031,7 +1031,7 @@
                                                                                 : asset.history.join(
                                                                                       ", "
                                                                                   )
-                                                                            : "N/A"
+                                                                            : "-"
                                                                     }}
                                                                 </td>
                                                                 <td
@@ -1039,7 +1039,7 @@
                                                                 >
                                                                     {{
                                                                         asset.status ||
-                                                                            "N/A"
+                                                                            "-"
                                                                     }}
                                                                 </td>
                                                             </tr>
@@ -1162,7 +1162,7 @@
                                                                                 ? (datenow
                                                                                   | date
                                                                                       : "MMMM d, y")
-                                                                                : "N/A"
+                                                                                : "-"
                                                                         }}</span
                                                                     >
                                                                 </p>
@@ -1242,10 +1242,10 @@
                                                                     class="flex flex-col items-start"
                                                                 >
                                                                     <p class="text-md border-t">
-                                                                        {{ eventForm.get('name')?.value || 'N/A' }}
+                                                                        {{ eventForm.get('name')?.value || '-' }}
                                                              </p>
                                                              <span class="text-sm text-gray-600 mx-auto">
-                                                                {{ eventForm.get('designation')?.value || 'N/A' }}
+                                                                {{ eventForm.get('designation')?.value || '-' }}
                                                              </span>
                                                                 </div>
                                                                 <p
@@ -1260,7 +1260,7 @@
                                                                                 ? (datenow
                                                                                   | date
                                                                                       : "MMMM d, y")
-                                                                                : "N/A"
+                                                                                : "-"
                                                                         }}</span
                                                                     >
                                                                 </p>

@@ -77,7 +77,7 @@
                                                       ?.user_accountability_list
                                                       ?.date_created
                                                   | date : "MMMM d, y")
-                                                : "N/A"
+                                                : "-"
                                         }}
                                     </span>
                                 </p>
@@ -115,7 +115,7 @@
                                         <span class="font-medium">{{
                                             accountabilityItem
                                                 ?.user_accountability_list
-                                                ?.owner.name || "N/A"
+                                                ?.owner.name || "-"
                                         }}</span>
                                     </div>
                                     <div class="flex flex-row gap-16 text-sm">
@@ -127,7 +127,7 @@
                                         <span class="font-medium">{{
                                             accountabilityItem
                                                 ?.user_accountability_list
-                                                ?.owner.employee_id || "N/A"
+                                                ?.owner.employee_id || "-"
                                         }}</span>
                                     </div>
                                     <div class="flex flex-row gap-13 text-sm">
@@ -139,7 +139,7 @@
                                         <span class="font-medium">{{
                                             accountabilityItem
                                                 ?.user_accountability_list
-                                                ?.owner.designation || "N/A"
+                                                ?.owner.designation || "-"
                                         }}</span>
                                     </div>
                                 </div>
@@ -157,7 +157,7 @@
                                         <span class="font-medium">{{
                                             accountabilityItem
                                                 ?.user_accountability_list
-                                                ?.owner.company || "N/A"
+                                                ?.owner.company || "-"
                                         }}</span>
                                     </div>
                                     <div class="flex flex-row gap-15 text-sm">
@@ -169,7 +169,7 @@
                                         <span class="font-medium">{{
                                             accountabilityItem
                                                 ?.user_accountability_list
-                                                ?.owner.department || "N/A"
+                                                ?.owner.department || "-"
                                         }}</span>
                                     </div>
                                     <div class="flex flex-row gap-15 text-sm">
@@ -188,7 +188,7 @@
                                                           ?.owner.date_hired
                                                           ?.value
                                                       | date : "MMMM d, y")
-                                                    : "N/A"
+                                                    : "-"
                                             }}
                                         </span>
                                     </div>
@@ -582,7 +582,7 @@
                                         >Type</mat-header-cell
                                     >
                                     <mat-cell *matCellDef="let asset">{{
-                                        asset.type || "N/A"
+                                        asset.type || "-"
                                     }}</mat-cell>
                                 </ng-container>
 
@@ -594,7 +594,7 @@
                                         >Inventory Code</mat-header-cell
                                     >
                                     <mat-cell *matCellDef="let asset">{{
-                                        asset.asset_barcode || "N/A"
+                                        asset.asset_barcode || "-"
                                     }}</mat-cell>
                                 </ng-container>
 
@@ -606,7 +606,7 @@
                                         >Brand</mat-header-cell
                                     >
                                     <mat-cell *matCellDef="let asset">{{
-                                        asset.brand || "N/A"
+                                        asset.brand || "-"
                                     }}</mat-cell>
                                 </ng-container>
 
@@ -618,7 +618,7 @@
                                         >Model</mat-header-cell
                                     >
                                     <mat-cell *matCellDef="let asset">{{
-                                        asset.model || "N/A"
+                                        asset.model || "-"
                                     }}</mat-cell>
                                 </ng-container>
 
