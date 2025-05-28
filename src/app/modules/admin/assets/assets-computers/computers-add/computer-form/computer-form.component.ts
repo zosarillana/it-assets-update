@@ -646,7 +646,7 @@ export class ComputerFormComponent implements OnInit {
                 serial_no: [assetData.serial_number, Validators.required],
                 asset_barcode: [assetData.asset_barcode, Validators.required],
                 date_acquired: [assetData.date_acquired, Validators.required],
-                warranty: [assetData.warranty, Validators.required],
+                warranty: [assetData.warranty],
                 po: [assetData.po, Validators.required],
                 brand: [assetData.brand, Validators.required],
                 model: [assetData.model, Validators.required],
