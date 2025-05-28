@@ -283,26 +283,28 @@
                     class="text-xs md:text-sm"
                 />
             </mat-form-field>
-          <mat-label class="text-xs md:text-sm mb-1">Warranty</mat-label>
-<mat-form-field appearance="fill">
-  <mat-icon
-    svgIcon="feather:shield"
-    class="icon-size-3 md:icon-size-4 mr-2"
-  ></mat-icon>
+            <mat-label class="text-xs md:text-sm mb-1">Warranty</mat-label>
+            <mat-form-field appearance="fill">
+                <mat-icon
+                    svgIcon="feather:shield"
+                    class="icon-size-3 md:icon-size-4 mr-2"
+                ></mat-icon>
 
-  <mat-select
-    id="warranty"
-    formControlName="warranty"
-    placeholder="Select warranty..."
-    class="text-xs md:text-sm"
-  >
-    <mat-option [value]="null">None</mat-option>
-    <mat-option *ngFor="let month of warrantyOptions" [value]="month.label">
-      {{ month.label }}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-
+                <mat-select
+                    id="warranty"
+                    formControlName="warranty"
+                    placeholder="Select warranty..."
+                    class="text-xs md:text-sm"
+                >
+                    <mat-option [value]="null">None</mat-option>
+                    <mat-option
+                        *ngFor="let month of warrantyOptions"
+                        [value]="month.label"
+                    >
+                        {{ month.label }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
 
             <mat-label class="text-xs md:text-sm mb-1">Cost </mat-label>
             <mat-form-field class="text-sm" appearance="fill">
