@@ -64,9 +64,10 @@ export class ComputerFormComponent implements OnInit {
             brand: ['', [Validators.required]],
             model: [''],
             size: [''],
+            fa_code: [''],
             color: ['', [Validators.required]],
             po: ['', [Validators.required]],
-            warranty: ['', [Validators.required]],
+            warranty: [''],
             cost: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
             components: this._formBuilder.array([]), // ADD THIS LINE
             assets: this._formBuilder.array([]), // Initialize accessories array
@@ -256,6 +257,7 @@ export class ComputerFormComponent implements OnInit {
         type: string;
         description: string;
         uid: string;
+        warranty: string;
         status: string;
         date_acquired?: string; // Optional
     }> = [];
@@ -350,9 +352,9 @@ export class ComputerFormComponent implements OnInit {
                 (this.eventForm.get('components') as FormArray).clear();
                 (this.eventForm.get('assets') as FormArray).clear();
 
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
+                // setTimeout(() => {
+                //     window.location.reload();
+                // }, 1000);
             },
             error: (err) => {
                 this.alertService.triggerError(
@@ -382,14 +384,16 @@ export class ComputerFormComponent implements OnInit {
             warranty: response.warranty || '',
             cost: response.cost || 0,
             remarks: response.remarks || '',
-
+            fa_code: response.fa_code || '',
             // ✅ Ensure components array is mapped correctly
             components: Array.isArray(response.components)
                 ? response.components.map((comp) => ({
                       date_acquired: comp.date_acquired || '',
                       type: comp.type || '',
                       cost: comp.cost || 0,
+                      warranty: comp.warranty || '',
                       description: comp.description || '',
+                      uid: comp.uid || '',
                   }))
                 : [],
 
@@ -498,6 +502,8 @@ export class ComputerFormComponent implements OnInit {
                 type: [componentData.type, Validators.required],
                 cost: [componentData.cost, Validators.required],
                 description: [componentData.description, Validators.required],
+                uid: [componentData.uid], // ✅ Add this line
+                warranty: [componentData.warranty || ''], // Optional warranty field
             })
         );
 
@@ -544,11 +550,23 @@ export class ComputerFormComponent implements OnInit {
         this.openComponentModal({ ...componentData }, index);
     }
 
-    updateComponent(index: number, newComponent: any) {
-        if (index !== undefined && this.componentsArray.at(index)) {
-            this.componentsArray.at(index).patchValue(newComponent);
-            // console.log("Updated Components Array:", this.componentsArray.value);
-        }
+    // updateComponent(index: number, newComponent: any) {
+    //     if (index !== undefined && this.componentsArray.at(index)) {
+    //         this.componentsArray.at(index).patchValue(newComponent);
+    //         // console.log("Updated Components Array:", this.componentsArray.value);
+    //     }
+    // }
+
+    updateComponent(index: number, componentData: any) {
+        this.componentsArray.at(index).patchValue({
+            asset_barcode: componentData.asset_barcode,
+            date_acquired: componentData.date_acquired,
+            type: componentData.type,
+            cost: componentData.cost,
+            description: componentData.description,
+            uid: componentData.uid, // ✅ Include here too
+            warranty: componentData.warranty || '', // Optional warranty field
+        });
     }
 
     addRow() {
@@ -556,6 +574,7 @@ export class ComputerFormComponent implements OnInit {
             componentId: [''],
             asset_barcode: [''],
             uid: [''],
+            warranty: [''],
             description: [''],
             type: [''], // ✅ Add type here
             date_acquired: [''],

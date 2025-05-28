@@ -35,7 +35,7 @@ export class ComponentsAddComponent implements OnInit {
             cost: [0, [Validators.required, Validators.pattern('^[0-9]*$')]], 
             type: ['', [Validators.required]],
             description: ['', [Validators.required]],
-            warranty: ['', [Validators.required]],
+            warranty: [''],
             date_acquired: [new Date(), [Validators.required]],
             uid: [''] // Added UID field
         });

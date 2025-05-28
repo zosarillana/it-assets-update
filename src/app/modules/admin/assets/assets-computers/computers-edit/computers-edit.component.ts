@@ -50,6 +50,7 @@ export class ComputersEditComponent implements OnInit {
             ],
             type: [this.asset?.type || ''],
             asset_barcode: [this.asset?.asset_barcode || ''],
+            // fa_code: [this.asset?.fa_code || ''],
             date_acquired: [this.asset?.date_acquired],
             brand: [this.asset?.brand],
             model: [this.asset?.model],
@@ -166,6 +167,7 @@ export class ComputersEditComponent implements OnInit {
             type: formData.type || '',
             date_updated: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD
             asset_barcode: formData.serial_number || '',
+            fa_code: formData.fa_code || '',
             brand: formData.brand || '',
             model: formData.model || '',
             ram: formData.ram || '',

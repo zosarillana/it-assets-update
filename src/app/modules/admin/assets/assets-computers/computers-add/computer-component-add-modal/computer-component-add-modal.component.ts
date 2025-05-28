@@ -70,8 +70,8 @@ export class ComputerComponentAddModalComponent implements OnInit {
             // date_acquired: [this.data.component?.date_acquired || new Date(), [Validators.required]],
             date_acquired: [this.data.component?.date_acquired ? new Date(this.data.component.date_acquired) : new Date(), [Validators.required]], // ✅ Convert to Date object if editing
             type: [this.data.component?.type || '', [Validators.required]],
-            warranty: [this.data.asset?.warranty || this.data.warranty || '', [Validators.required]],
-            
+            warranty: [this.data.asset?.warranty || this.data.warranty || ''],
+            uid: [this.data.asset_barcode ], // Ensure UID is required
             // cost: [Number(this.data.asset?.cost) || 0, [Validators.required, Validators.pattern("^[0-9]*$")]], // ✅ Ensure cost is a number
             description: [this.data.component?.description || '', [Validators.required]],
         });
@@ -110,6 +110,8 @@ export class ComputerComponentAddModalComponent implements OnInit {
             const formData = { ...this.eventForm.value };
 
             // Convert date to MM/DD/YYYY format
+            formData.uid = formData.asset_barcode;
+            formData.warranty = formData.warranty || ''; // Ensure warranty is set
             formData.date_acquired = formatDate(
                 formData.date_acquired,
                 'MM/dd/yyyy',

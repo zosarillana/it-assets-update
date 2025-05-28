@@ -55,6 +55,7 @@
                     />
                 </mat-form-field>
             </div>
+
             <mat-divider class="mx-6 md:mx-12" vertical></mat-divider>
             <div class="flex flex-col w-1/2">
                 <p class="text-xs md:text-sm font-bold text-primary">
@@ -63,8 +64,8 @@
                 <div class="flex justify-start items-start gap-2 uppercase">
                     <span>
                         DESKTOP
-                        {{                        
-                                " " +
+                        {{
+                            " " +
                                 this.eventForm.value.model +
                                 " " +
                                 " " +
@@ -135,7 +136,9 @@
                 />
             </mat-form-field>
 
-            <mat-label class="text-xs md:text-sm mb-1">Inventory Code</mat-label>
+            <mat-label class="text-xs md:text-sm mb-1"
+                >Inventory Code</mat-label
+            >
             <mat-form-field appearance="fill">
                 <mat-icon
                     svgIcon="feather:hash"
@@ -148,6 +151,21 @@
                     id="asset_barcode"
                     placeholder="Enter asset barcode..."
                     [value]="eventForm.value.serial_number"
+                    class="text-xs md:text-sm"
+                />
+            </mat-form-field>
+            <mat-label class="text-xs md:text-sm mb-1">FA Code</mat-label>
+            <mat-form-field appearance="fill">
+                <mat-icon
+                    svgIcon="feather:hash"
+                    class="icon-size-3 md:icon-size-4 mr-2"
+                ></mat-icon>
+                <input
+                    matInput
+                    formControlName="fa_code"
+                    id="fa_code"
+                    placeholder="Enter FA Code..."
+                    [value]="eventForm.value.fa_code"
                     class="text-xs md:text-sm"
                 />
             </mat-form-field>
@@ -265,25 +283,27 @@
                     class="text-xs md:text-sm"
                 />
             </mat-form-field>
-            <mat-label class="text-xs md:text-sm mb-1">Warranty</mat-label>
-            <mat-form-field appearance="fill">
-              <mat-icon
-                svgIcon="feather:shield"
-                class="icon-size-3 md:icon-size-4 mr-2"
-              ></mat-icon>
-              
-              <mat-select
-                id="warranty"
-                formControlName="warranty"
-                placeholder="Select warranty..."
-                class="text-xs md:text-sm"
-              >
-                <mat-option *ngFor="let month of warrantyOptions" [value]="month.label">
-                  {{ month.label }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            
+          <mat-label class="text-xs md:text-sm mb-1">Warranty</mat-label>
+<mat-form-field appearance="fill">
+  <mat-icon
+    svgIcon="feather:shield"
+    class="icon-size-3 md:icon-size-4 mr-2"
+  ></mat-icon>
+
+  <mat-select
+    id="warranty"
+    formControlName="warranty"
+    placeholder="Select warranty..."
+    class="text-xs md:text-sm"
+  >
+    <mat-option [value]="null">None</mat-option>
+    <mat-option *ngFor="let month of warrantyOptions" [value]="month.label">
+      {{ month.label }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+
             <mat-label class="text-xs md:text-sm mb-1">Cost </mat-label>
             <mat-form-field class="text-sm" appearance="fill">
                 <mat-icon

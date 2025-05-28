@@ -14,6 +14,8 @@ import { Router } from '@angular/router';
 import { ModalUniversalComponent } from '../../components/modal/modal-universal/modal-universal.component';
 import { ModalRemarksUniversalComponent } from '../../components/modal/modal-remarks-universal/modal-remarks-universal.component';
 import { SidePanelComputerComponent } from './side-panel-computer/side-panel-computer.component';
+import { DepartmentService } from 'app/services/department/department.service';
+import { BusinessUnitService } from 'app/services/business-unit/business-unit.service';
 
 @Component({
     selector: 'app-computers-list',
@@ -47,6 +49,8 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     typeFilterControl = new FormControl('');
     filteredTypeOptions: Observable<string[]>;
     allTypes: string[] = []; // Store unique type values
+    departments: any[] = [];
+    businessUnits: any[] = [];
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
@@ -56,7 +60,9 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
         private assetService: ComputerService,
         private alertService: AlertService,
         private dialog: MatDialog,
-        private router: Router
+        private router: Router,
+        private departmentService: DepartmentService,
+        private businessUnitService: BusinessUnitService // Assuming this is the correct service for departments
     ) {
         // Initialize the filteredTypeOptions to avoid undefined error
         this.filteredTypeOptions = new Observable<string[]>();
@@ -69,7 +75,8 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
         // Initial data load with fixed page size
         this.isSearchActive = false;
         this.loadAssets(1, this.pageSize);
-
+        this.loadDepartments();
+        this.loadBusinessUnits();
         // Set up the autocomplete filter
         this.filteredTypeOptions = this.typeFilterControl.valueChanges.pipe(
             startWith(''),
@@ -83,16 +90,15 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        // Connect the data source to the paginator and sort
-        this.dataSource.paginator = this.paginator;
+        console.log('Side panel is ready:', this.sidePanel);
+
+        // this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
 
-        // Listen for paginator events
         this.paginator.page.subscribe((event) => {
             this.loadAssets(event.pageIndex + 1, event.pageSize);
         });
 
-        // Listen for sort events
         this.sort.sortChange.subscribe(() => {
             this.sortOrder = this.sort.direction || 'asc';
             this.paginator.pageIndex = 0;
@@ -101,19 +107,29 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     }
 
     loadPanel(): void {
-        this.sidePanel.openPanel();
-    }
+        if (!this.sidePanel) {
+            console.error('Side panel not found!');
+        } else {
+            console.log('Opening side panel');
 
-    //    loadAllTypes(): void {
-    //         this.assetService.getAllTypes().subscribe({
-    //             next: (types: string[]) => {
-    //                 this.allTypes = types;
-    //             },
-    //             error: (error) => {
-    //                 console.error('Error fetching types:', error);
-    //             },
-    //         });
-    //     }
+            // Log what is being sent to the panel
+            console.log('Sending allTypes to side panel:', this.allTypes);
+            console.log(
+                'Sending selectedTypeToggle to side panel:',
+                this.selectedTypeToggle
+            );
+
+            // Optional: If needed to manually update (if not using template binding)
+            this.sidePanel.allTypes = this.allTypes;
+            this.sidePanel.selectedTypeToggle = [...this.selectedTypeToggle];
+
+                // ✅ Pass departments and business units
+    this.sidePanel.departments = this.departments;
+    this.sidePanel.businessUnits = this.businessUnits;
+    
+            this.sidePanel.openPanel();
+        }
+    }
 
     loadAssets(
         pageIndex: number,
@@ -123,7 +139,7 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     ): void {
         this.isLoading = true;
 
-        // If this is a new search or filter, we want to use the dynamic page size
+        // Use dynamic page size if starting fresh (e.g., new search/filter)
         const effectivePageSize =
             pageIndex === 1 && !fetchAll ? this.dynamicPageSize : pageSize;
 
@@ -138,40 +154,51 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
             )
             .subscribe({
                 next: (response: AssetResponse) => {
-                    // console.log('API Response:', response);
-
                     // Clear the data source before adding new data
                     this.dataSource.data = [];
 
-                    // Ensure we have items before assigning them
                     if (response.items && response.items.length > 0) {
-                        // Assign the data to the data source
+                        // Assign data to the table
                         this.dataSource.data = response.items;
-                        // console.log('Data Source after assignment:', this.dataSource.data);
 
-                        // Update total items for paginator
+                        // Update totalItems from response
                         this.totalItems = response.totalItems || 0;
 
-                        // Dynamically adjust page size only if search or filter is active
+                        // === NEW: Extract unique types from assets and update allTypes ===
+                        const typesSet = new Set<string>();
+                        response.items.forEach((item) => {
+                            if (item.type) {
+                                typesSet.add(item.type.toUpperCase());
+                            }
+                        });
+
+                        // Always ensure CPU and LAPTOP exist (CPU shown as DESKTOP in UI)
+                        typesSet.add('CPU');
+                        typesSet.add('LAPTOP');
+
+                        this.allTypes = Array.from(typesSet).sort();
+
+                        // ✅ Update paginator length
+                        if (this.paginator) {
+                            this.paginator.length = this.totalItems;
+                        }
+
+                        // 🔁 Dynamic page size logic if search is active
                         if (
                             this.totalItems > this.pageSize &&
                             this.totalItems <= 100 &&
                             this.isSearchActive
                         ) {
-                            // Add total items to pageSizeOptions if it's not already there
                             if (
                                 !this.pageSizeOptions.includes(this.totalItems)
                             ) {
-                                // Find the right position to insert the new option to keep the array sorted
                                 let insertIndex =
                                     this.pageSizeOptions.findIndex(
                                         (size) => size > this.totalItems
                                     );
                                 if (insertIndex === -1) {
-                                    // If all existing options are smaller, add to the end
                                     this.pageSizeOptions.push(this.totalItems);
                                 } else {
-                                    // Insert at the correct position
                                     this.pageSizeOptions.splice(
                                         insertIndex,
                                         0,
@@ -180,26 +207,20 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
                                 }
                             }
 
-                            // Update the page size properties
                             this.pageSize = this.totalItems;
                             this.dynamicPageSize = this.totalItems;
 
-                            // Update the paginator
                             if (this.paginator) {
                                 this.paginator.pageSize = this.totalItems;
                                 this.paginator.pageIndex = 0;
-
-                                // Force the paginator to redraw with the new values
                                 setTimeout(() => {
-                                    if (this.paginator) {
-                                        this.paginator._changePageSize(
-                                            this.totalItems
-                                        );
-                                    }
+                                    this.paginator?._changePageSize(
+                                        this.totalItems
+                                    );
                                 });
                             }
                         } else if (!this.isSearchActive) {
-                            // Keep standard pagination for initial load
+                            // Reset to default pagination
                             this.dynamicPageSize = 10;
                             this.pageSize = 10;
 
@@ -209,15 +230,13 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
                             ) {
                                 this.paginator.pageSize = 10;
                                 setTimeout(() => {
-                                    if (this.paginator) {
-                                        this.paginator._changePageSize(10);
-                                    }
+                                    this.paginator?._changePageSize(10);
                                 });
                             }
                         }
                     }
 
-                    // Trigger change detection
+                    // Ensure table updates
                     this.dataSource._updateChangeSubscription();
 
                     this.isLoading = false;
@@ -228,6 +247,32 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
                     this.isLoading = false;
                 },
             });
+    }
+
+    private loadDepartments(): void {
+        this.departmentService.getDepartments().subscribe({
+            next: (data) => {
+                this.departments = data;
+            },
+            error: (error) => {
+                console.error('Error fetching departments', error);
+                this.alertService.triggerError('Failed to load departments.');
+            },
+        });
+    }
+
+    private loadBusinessUnits(): void {
+        this.businessUnitService.getDepartments().subscribe({
+            next: (data) => {
+                this.businessUnits = data;
+            },
+            error: (error) => {
+                console.error('Error fetching business units', error);
+                this.alertService.triggerError(
+                    'Failed to load business units.'
+                );
+            },
+        });
     }
 
     onSearch(): void {
@@ -300,6 +345,7 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
         );
     }
 
+    
     onTypeSelected(selectedTypes?: string[]): void {
         if (selectedTypes) {
             this.selectedTypeToggle = selectedTypes;

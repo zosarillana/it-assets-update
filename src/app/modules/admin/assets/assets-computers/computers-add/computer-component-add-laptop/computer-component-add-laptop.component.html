@@ -1,4 +1,3 @@
-<!-- <h1 mat-dialog-title class="text-md font-bold">Computer Component</h1> -->
 <div class="flex flex-row justify-between -mt-3 mb-2">
     <div class="text-3xl font-bold">Component Form</div>
     <div>
@@ -11,7 +10,7 @@
 <mat-divider class="my-3"></mat-divider>
 <mat-dialog-content>
     <form [formGroup]="eventForm">
-        <div class="flex flex-row mt-2 gap-3 md:gap-4">         
+        <div class="flex flex-row mt-2 gap-3 md:gap-4">
             <div class="flex flex-col items-center">
                 <label
                     for="select-image-component"
@@ -19,13 +18,11 @@
                 >
                     <img
                         id="preview-image-component"
-                        src="https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg"
+                        [src]="imageUrl"
                         alt="Select Image"
-                        class="h-32 w-32 md:h-42 md:w-48 object-contain border border-gray-300 rounded-md" 
+                        class="h-32 w-32 md:h-42 md:w-48 object-contain border border-gray-300 rounded-md"
                     />
-                    <span
-                        class="text-secondary text-xs md:text-sm mt-1 md:mt-2"
-                    >
+                    <span class="text-secondary text-xs md:text-sm mt-1 md:mt-2">
                         <mat-icon
                             class="icon-size-3 md:icon-size-4 text-secondary"
                             [svgIcon]="'feather:edit'"
@@ -45,9 +42,7 @@
             <div class="flex flex-col flex-grow w-full">
                 <div class="flex flex-grow flex-row gap-4">
                     <div class="flex flex-grow flex-col">
-                        <mat-label class="text-xs md:text-sm"
-                            >Serial number</mat-label
-                        >
+                        <mat-label class="text-xs md:text-sm">Serial number</mat-label>
                         <mat-form-field appearance="fill">
                             <mat-icon
                                 svgIcon="feather:hash"
@@ -56,15 +51,13 @@
                             <input
                                 matInput
                                 formControlName="serial_number"
-                                id="description"
+                                id="serial_number"
                                 placeholder="Enter inventory code..."
                                 class="text-xs md:text-sm"
                             />
                         </mat-form-field>
-                 
-                        <mat-label class="text-xs md:text-sm"
-                            >Inventory Barcode</mat-label
-                        >
+
+                        <mat-label class="text-xs md:text-sm">Inventory Barcode</mat-label>
                         <mat-form-field appearance="fill">
                             <mat-icon
                                 svgIcon="feather:hash"
@@ -73,22 +66,19 @@
                             <input
                                 matInput
                                 formControlName="asset_barcode"
-                                id="description"
+                                id="asset_barcode"
                                 placeholder="Enter inventory code..."
                                 class="text-xs md:text-sm"
                             />
                         </mat-form-field>
-                        
                     </div>
                     <div class="flex flex-grow flex-col">
-                        <mat-label class="text-xs md:text-sm"
-                            >Date Acquired</mat-label
-                        >
+                        <mat-label class="text-xs md:text-sm">Date Acquired</mat-label>
                         <mat-form-field>
                             <input
                                 matInput
                                 [matDatepicker]="picker"
-                                [formControlName]="'date_acquired'"
+                                formControlName="date_acquired"
                                 placeholder="Date Acquired"
                                 (click)="picker.open()"
                                 class="cursor-pointer"
@@ -101,7 +91,6 @@
                             >
                                 calendar_today
                             </mat-icon>
-
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
 
@@ -118,6 +107,7 @@
                                     class="text-xs md:text-sm"
                                     placeholder="Select Type..."
                                 >
+                                    <mat-option value="">Select Type...</mat-option>
                                     <mat-option value="RAM">RAM</mat-option>
                                     <mat-option value="SSD">SSD</mat-option>
                                     <mat-option value="HDD">HDD</mat-option>
@@ -129,11 +119,8 @@
                     </div>
                 </div>
                 <div class="flex flex-grow flex-row gap-4">
-                    
                     <div class="flex flex-grow flex-col">
-                        <mat-label class="text-xs md:text-sm"
-                            >Description</mat-label
-                        >
+                        <mat-label class="text-xs md:text-sm">Description</mat-label>
                         <mat-form-field appearance="fill">
                             <mat-icon
                                 svgIcon="feather:info"
@@ -147,10 +134,34 @@
                                 class="text-xs md:text-sm"
                             />
                         </mat-form-field>
+                      <mat-label class="text-xs md:text-sm mb-1">Warranty</mat-label>
+            <mat-form-field appearance="fill">
+                <mat-icon
+                    svgIcon="feather:shield"
+                    class="icon-size-3 md:icon-size-4 mr-2"
+                ></mat-icon>
+
+                <mat-select
+                    id="warranty"
+                    formControlName="warranty"
+                    placeholder="Select warranty..."
+                    class="text-xs md:text-sm"
+                >
+                    <mat-option [value]="null">None</mat-option>
+                    <mat-option
+                        *ngFor="let month of warrantyOptions"
+                        [value]="month.label"
+                    >
+                        {{ month.label }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Debug info for form validity, remove in production -->
+        <!-- <pre>{{ eventForm.status }} | {{ eventForm.errors | json }} | {{ eventForm.value | json }}</pre> -->
     </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end" class="border-t border-gray-200">

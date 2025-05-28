@@ -28,6 +28,7 @@ export class InventoryListComponent implements OnInit, AfterViewInit {
         // 'serial_no',
         'model',
         'date_acquired',
+        'owner',
         'status',
         'action',
     ];

@@ -6,52 +6,66 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
     styleUrls: ['./side-panel-computer.component.scss'],
 })
 export class SidePanelComputerComponent implements OnInit {
-    //Sidenav
-    isPanelOpen = false; // State for the main sidenav
-    
+    isPanelOpen = false;
+
     @Input() allTypes: string[] = [];
     @Input() selectedTypeToggle: string[] = [];
-    @Output() typeSelected = new EventEmitter<string[]>();
-    constructor() {}
+    @Input() departments: any[] = [];
+    @Input() selectedDepartments: any[] = [];
+    @Input() businessUnits: any[] = [];
+    @Input() selectedBusinessUnits: any[] = [];
+
+    @Output() filtersChanged = new EventEmitter<{
+        types: string[];
+        departments: any[];
+        businessUnits: any[];
+    }>();
 
     ngOnInit(): void {}
-    //for view
+
     closeSidenav() {
-        this.isPanelOpen = false; // Close the edit sidenav
+        this.isPanelOpen = false;
     }
 
     openPanel() {
         this.isPanelOpen = true;
-        // console.log('Opening side panel with ID:', this.elementId);
-        // if (this.elementId) {
-        //     // console.log(
-        //     //     'Attempting to fetch card data for ID:',
-        //     //     this.elementId
-        //     // );
-        //     this.service.getItotPeripheralsId(this.elementId).subscribe(
-        //         (data) => {
-        //             this.cardData = data;
-        //             // console.log('Fetched card data:', data);
-        //         },
-        //         (error) => {
-        //             // console.error('Error fetching card data:', error);
-        //         }
-        //     );
-        // }
     }
 
-    onTypeSelected() {
-        this.typeSelected.emit(this.selectedTypeToggle);
+    emitFilterChange() {
+        this.filtersChanged.emit({
+            types: this.selectedTypeToggle,
+            departments: this.selectedDepartments,
+            businessUnits: this.selectedBusinessUnits,
+        });
     }
 
     toggleType(type: string): void {
         const index = this.selectedTypeToggle.indexOf(type);
         if (index === -1) {
-            this.selectedTypeToggle = [...this.selectedTypeToggle, type]; // Add type
+            this.selectedTypeToggle.push(type);
         } else {
-            this.selectedTypeToggle = this.selectedTypeToggle.filter(t => t !== type); // Remove type
+            this.selectedTypeToggle.splice(index, 1);
         }
-        this.onTypeSelected(); // Emit the change
+        this.emitFilterChange();
     }
-    
+
+    toggleDepartment(dept: any): void {
+        const index = this.selectedDepartments.indexOf(dept);
+        if (index === -1) {
+            this.selectedDepartments.push(dept);
+        } else {
+            this.selectedDepartments.splice(index, 1);
+        }
+        this.emitFilterChange();
+    }
+
+    toggleBusinessUnit(bu: any): void {
+        const index = this.selectedBusinessUnits.indexOf(bu);
+        if (index === -1) {
+            this.selectedBusinessUnits.push(bu);
+        } else {
+            this.selectedBusinessUnits.splice(index, 1);
+        }
+        this.emitFilterChange();
+    }
 }

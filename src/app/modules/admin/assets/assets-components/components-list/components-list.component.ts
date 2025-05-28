@@ -27,6 +27,7 @@ export class ComponentsListComponent implements OnInit {
         'type',
         'description',
         'uid',
+        'owner',
         'status',
         'action'
         // 'pc_type',

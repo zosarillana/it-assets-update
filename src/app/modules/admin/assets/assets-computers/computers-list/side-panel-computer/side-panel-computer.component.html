@@ -22,26 +22,27 @@
                 Filter by Type
             </div>
             <!-- <mat-button-toggle-group
-            class="gap-3 text-gray-900 w-full mt-4 custom-toggle-group column-layout"
-            name="typeFilter"
-            aria-label="Type Filter"
-            [(ngModel)]="selectedTypeToggle"
-            (change)="onTypeSelected()"
-            multiple
-        >
-            <mat-button-toggle
-                *ngFor="let type of allTypes"
-                class="custom-toggle-button"
-                [value]="type"
+                class="gap-3 text-gray-900 w-full mt-4 custom-toggle-group column-layout"
+                name="typeFilter"
+                aria-label="Type Filter"
+                [(ngModel)]="selectedTypeToggle"
+                (change)="onTypeSelected()"
+                multiple
             >
-                <mat-icon
-                    *ngIf="selectedTypeToggle.includes(type)"
-                    class="ml-2 icon-size-3"
-                    svgIcon="mat_outline:check"
-                ></mat-icon>
-                {{ type }}
-            </mat-button-toggle>
-        </mat-button-toggle-group> -->
+                <mat-button-toggle
+                    *ngFor="let type of allTypes"
+                    class="custom-toggle-button"
+                    [value]="type"
+                >
+                    <mat-icon
+                        *ngIf="selectedTypeToggle.includes(type)"
+                        class="ml-2 icon-size-3"
+                        svgIcon="mat_outline:check"
+                    ></mat-icon>
+                    {{ type }}
+                </mat-button-toggle>
+            </mat-button-toggle-group> -->
+            <!-- <p>Types count: {{ allTypes.length || '-'}}</p> -->
             <div class="flex flex-col gap-3 w-full mt-4">
                 <button
                     *ngFor="let type of allTypes"
@@ -80,8 +81,55 @@
 
                     <!-- Show check icon if selected -->
 
-                    {{ type === 'CPU' ? 'DESKTOP' : type }}
+                    {{ type === "CPU" ? "DESKTOP" : type }}
+                </button>
+            </div>
 
+            <!-- Filter by Department -->
+            <div class="text-lg font-medium uppercase flex text-gray-900 mt-6">
+                <mat-icon
+                    svgIcon="feather:briefcase"
+                    class="text-gray-900"
+                ></mat-icon>
+                Filter by Department
+            </div>
+            <div class="flex flex-col gap-3 w-full mt-4">
+                <button
+                    *ngFor="let dept of departments"
+                    class="custom-button rounded-sm"
+                    [ngClass]="{ selected: selectedDepartments.includes(dept) }"
+                    (click)="toggleDepartment(dept)"
+                >
+                    <mat-icon
+                        svgIcon="mat_outline:check"
+                        *ngIf="selectedDepartments.includes(dept)"
+                        class="mr-2 icon-size-3 text-white"
+                    ></mat-icon>
+                    {{ dept.code }}
+                </button>
+            </div>
+
+            <!-- Filter by Business Unit -->
+            <div class="text-lg font-medium uppercase flex text-gray-900 mt-6">
+                <mat-icon
+                    svgIcon="mat_outline:corporate_fare"
+                    class="text-gray-900"
+                ></mat-icon>
+                Filter by Business Unit
+            </div>
+            <div class="flex flex-col gap-3 w-full mt-4">
+                <button
+                    *ngFor="let bu of businessUnits"
+                    class="custom-button rounded-sm"
+                    [ngClass]="{ selected: selectedBusinessUnits.includes(bu) }"
+                    (click)="toggleBusinessUnit(bu)"
+                >
+                    <mat-icon
+                        svgIcon="mat_outline:check"
+                        *ngIf="selectedBusinessUnits.includes(bu)"
+                        class="mr-2 icon-size-3 text-white"
+                    ></mat-icon>
+                    {{ bu.code }}
                 </button>
             </div>
         </div>

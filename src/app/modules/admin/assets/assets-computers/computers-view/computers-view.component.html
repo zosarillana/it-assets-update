@@ -145,7 +145,7 @@
                 <div class="flex flex-row gap-4 w-full">
                     <div class="flex gap-4">
                         <img
-                            src="assets/images/logo/suylogo.png"
+                            src="assets/images/logo/abfilogo.png"
                             alt="Logo"
                             class="-ml-5 -mt-5 h-32 w-32"
                         />
@@ -166,8 +166,8 @@
                 <div class="flex flex-row gap-4 w-full justify-end">
                     <div class="flex flex-col w-64 gap-1 items-end">
                         <p class="font-bold text-sm">
-                            Document Number
-                            <span class="font-medium">A-60-FR-009</span>
+                            Control Number
+                            <span class="font-medium">-</span>
                         </p>
                         <p class="font-bold text-sm">
                             Effective Date
@@ -322,6 +322,16 @@
                             class="icon-size-3"
                         ></mat-icon>
                         {{ asset.warranty || "-" }}
+                    </span>
+                </p>
+                <p class="flex flex-col font-medium text-medium">
+                    FA Code
+                    <span class="text-secondary text-medium">
+                        <mat-icon
+                            svgIcon="feather:dollar-sign"
+                            class="icon-size-3"
+                        ></mat-icon>
+                        {{ asset.fa_code || "-" }}
                     </span>
                 </p>
                 <p class="flex flex-col font-medium text-medium">

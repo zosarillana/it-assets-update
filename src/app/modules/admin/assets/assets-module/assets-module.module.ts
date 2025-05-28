@@ -343,6 +343,7 @@ const assetRoute: Route[] = [
         MatProgressSpinnerModule,
         MatSidenavModule,
         MatDialogModule,
+        MatSelectModule,
         RouterModule.forChild(assetRoute),
     ],
     // schemas: [NO_ERRORS_SCHEMA] // Add this line

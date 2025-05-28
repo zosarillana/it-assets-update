@@ -77,7 +77,7 @@ export class CopmuterAssetsAddModalComponent implements OnInit {
             po: [this.data.asset?.po || this.data.po || '', [Validators.required]],
             brand: [this.data.asset?.brand || '', [Validators.required]],
             model: [this.data.asset?.model || '', [Validators.required]],
-            warranty: [this.data.asset?.warranty || this.data.warranty || '', [Validators.required]],
+            warranty: [this.data.asset?.warranty || this.data.warranty || '',],
             cost: [Number(this.data.asset?.cost) || 0, [Validators.required, Validators.pattern("^[0-9]*$")]], // ✅ Ensure cost is a number
         });
     }

@@ -9,9 +9,9 @@ import { Observable } from 'rxjs';
 import { ComputerComponentAddModalComponent } from '../computer-component-add-modal/computer-component-add-modal.component';
 
 @Component({
-  selector: 'app-computer-component-add-laptop',
-  templateUrl: './computer-component-add-laptop.component.html',
-  styleUrls: ['./computer-component-add-laptop.component.scss']
+    selector: 'app-computer-component-add-laptop',
+    templateUrl: './computer-component-add-laptop.component.html',
+    styleUrls: ['./computer-component-add-laptop.component.scss'],
 })
 export class ComputerComponentAddLaptopComponent implements OnInit {
     eventForm!: FormGroup;
@@ -19,6 +19,7 @@ export class ComputerComponentAddLaptopComponent implements OnInit {
         'https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg';
     selectedFile: File | null = null;
     errorMessage$: Observable<string | null> = this.alertService.error$;
+ warrantyOptions: { label: string; value: string }[] = [];
 
     constructor(
         private dialogRef: MatDialogRef<ComputerComponentAddModalComponent>,
@@ -26,45 +27,70 @@ export class ComputerComponentAddLaptopComponent implements OnInit {
         private service: ComponentsService,
         private alertService: AlertService,
         private sanitizer: DomSanitizer,
-        @Inject(MAT_DIALOG_DATA) public data: any // Inject the passed data
+        @Inject(MAT_DIALOG_DATA) public data: any
     ) {}
 
     ngOnInit(): void {
-        // console.log(this.data.serial_number);
         this.initializeForm();
+
+         this.initializeForm();
+
+        const now = new Date();
+        for (let i = 1; i <= 12; i++) {
+            const futureDate = new Date(
+                now.getFullYear(),
+                now.getMonth() + i,
+                now.getDate()
+            );
+            const monthYear = futureDate.toLocaleString('default', {
+                month: 'short',
+                year: 'numeric',
+            });
+
+            this.warrantyOptions.push({
+                label: `${i} month${i > 1 ? 's' : ''} (until ${monthYear})`,
+                value: `${i}`,
+            });
+        }
     }
 
-    // private initializeForm(): void {
-    //     this.eventForm = this._formBuilder.group({
-    //         image_component: [null],
-    //         serial_number: [this.data.serial_number || 'N/A', []], // Use the passed value
-    //         asset_barcode: [this.data.asset_barcode || 'N/A', []], // Use the passed value
-    //         date_acquired: [new Date(), [Validators.required]],
-    //         type: ['', [Validators.required]],
-    //         description: ['', [Validators.required]],
-    //     });
-    // }
     private initializeForm(): void {
-      this.eventForm = this._formBuilder.group({
-          image_component: [null],
-          serial_number: [this.data.serial_number || 'N/A', [Validators.required]], // Use the passed value
-          asset_barcode: [this.data.asset_barcode || 'N/A', [Validators.required]], // Use existing data
-          // date_acquired: [this.data.component?.date_acquired || new Date(), [Validators.required]],
-          date_acquired: [this.data.component?.date_acquired ? new Date(this.data.component.date_acquired) : new Date(), [Validators.required]], // ✅ Convert to Date object if editing
-          type: [this.data.component?.type || '', [Validators.required]],
-          description: [this.data.component?.description || '', [Validators.required]],
-      });
-  }
-    
-    
+        this.eventForm = this._formBuilder.group({
+            image_component: [null],
+            serial_number: [
+                this.data.serial_number || '',
+            ],
+            asset_barcode: [
+                this.data.asset_barcode || '',
+                [Validators.required],
+            ],
+            date_acquired: [
+                this.data.component?.date_acquired
+                    ? new Date(this.data.component.date_acquired)
+                    : new Date(),
+                [Validators.required],
+            ],
+            type: [this.data.component?.type || '', [Validators.required]],
+            description: [
+                this.data.component?.description || '',
+                [Validators.required],
+            ],
+            warranty: [
+                this.data.component?.warranty || ''
+             
+            ],
+        });
+    }
 
     previewSelectedImageComponent(event: Event): void {
         const input = event.target as HTMLInputElement;
-
         if (input.files && input.files.length > 0) {
             const file = input.files[0];
-            const reader = new FileReader();
+            this.selectedFile = file;
+            // Set the file in the form control (even if not required)
+            this.eventForm.get('image_component')?.setValue(file);
 
+            const reader = new FileReader();
             reader.onload = (e: ProgressEvent<FileReader>) => {
                 const previewImageComponent = document.getElementById(
                     'preview-image-component'
@@ -73,23 +99,16 @@ export class ComputerComponentAddLaptopComponent implements OnInit {
                     previewImageComponent.src = e.target?.result as string;
                 }
             };
-
             reader.readAsDataURL(file);
         }
     }
-
-    // submit() {
-    //     if (this.eventForm.valid) {
-
-    //       this.dialogRef.close(this.eventForm.value); // Pass data back to parent
-    //     }
-    // }
 
     submit() {
         if (this.eventForm.valid) {
             const formData = { ...this.eventForm.value };
 
-            // Convert date to MM/DD/YYYY format
+            formData.uid = formData.asset_barcode;
+            formData.warranty = formData.warranty || '';
             formData.date_acquired = formatDate(
                 formData.date_acquired,
                 'MM/dd/yyyy',
@@ -97,16 +116,18 @@ export class ComputerComponentAddLaptopComponent implements OnInit {
             );
 
             this.dialogRef.close(formData);
+        } else {
+            // Mark all as touched to show errors
+            this.eventForm.markAllAsTouched();
         }
     }
 
     resetForm() {
         const serialNumber = this.eventForm.get('serial_number')?.value;
-        const AssetBarcode = this.eventForm.get('asset_barcode')?.value;
+        const assetBarcode = this.eventForm.get('asset_barcode')?.value;
         this.eventForm.reset({}, { emitEvent: false });
         this.eventForm.patchValue({ serial_number: serialNumber });
-        this.eventForm.patchValue({ asset_barcode: AssetBarcode });
-        // Reset image preview
+        this.eventForm.patchValue({ asset_barcode: assetBarcode });
         this.imageUrl =
             'https://static.vecteezy.com/system/resources/thumbnails/022/059/000/small_2x/no-image-available-icon-vector.jpg';
         this.selectedFile = null;
@@ -115,6 +136,4 @@ export class ComputerComponentAddLaptopComponent implements OnInit {
     close() {
         this.dialogRef.close();
     }
-
-    
 }

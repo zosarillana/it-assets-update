@@ -162,7 +162,7 @@
                                 />
                             </mat-form-field>
 
-                            <mat-form-field appearance="fill">
+                            <mat-form-field appearance="fill" class="uppercase">
                                 <mat-label class="text-sm">Warranty</mat-label>
                                 <mat-icon
                                   svgIcon="feather:shield"
@@ -175,6 +175,7 @@
                                   placeholder="Select warranty..."
                                   class="text-xs md:text-sm"
                                 >
+                                  <mat-option [value]="null">None</mat-option>
                                   <mat-option *ngFor="let month of warrantyOptions" [value]="month.label">
                                     {{ month.label }}
                                   </mat-option>
@@ -270,7 +271,7 @@
                                                                 class="flex gap-4"
                                                             >
                                                                 <img
-                                                                    src="assets/images/logo/suylogo.png"
+                                                                    src="assets/images/logo/abfilogo.png"
                                                                     alt="Logo"
                                                                     class="-ml-5 -mt-5 h-32 w-32"
                                                                 />

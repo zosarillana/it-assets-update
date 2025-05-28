@@ -46,7 +46,7 @@ export class AccountabilityArchiveComponent implements OnInit, AfterViewInit {
         'bu',
         'date_created',
         'archive_type',
-        'status'
+        // 'status'
     ];
 
     dataSource = new MatTableDataSource<AccountabilityItem>([]);

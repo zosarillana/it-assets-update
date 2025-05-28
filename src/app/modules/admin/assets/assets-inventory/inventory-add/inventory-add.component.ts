@@ -45,7 +45,7 @@ export class InventoryAddComponent implements OnInit {
             brand: ['', [Validators.required]],
             model: ['', [Validators.required]],
             po_number: ['', [Validators.required]],
-            warranty: ['', [Validators.required]],
+            warranty: [''],
             remarks: ['', [Validators.required]],
             cost: [null, [Validators.pattern('^[0-9]*$')]],
         });

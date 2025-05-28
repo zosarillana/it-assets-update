@@ -1,5 +1,5 @@
 <!-- Add this loader somewhere in your template -->
-<div  *ngIf="loading" class="loader">
+<div *ngIf="loading" class="loader">
     <img
         class="-mb-5"
         style="height: 65px; width: 65px"
@@ -62,43 +62,61 @@
                 <!-- Image Section -->
                 <div class="flex flex-row gap-4">
                     <!-- In your component .html file -->
-<div>
-    <!-- Laptop image (default case you provided) -->
-    <img *ngIf="asset.type === 'LAPTOP'" 
-         src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/inspiron-notebooks/14-2-in-1-7440-intel/media-gallery/notebook-inspiron-14-7440-t-ice-blue-gallery-17.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=1336&qlt=100,1&resMode=sharp2&size=1336,804&chrss=full"
-         alt="Laptop Image"
-         class="h-28 w-32">
-    
-    <!-- HDD image -->
-    <img *ngIf="asset.type === 'HDD'" 
-         src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Laptop-hard-drive-exposed.jpg"
-         alt="HDD Image"
-         class="h-28 w-32">
-    
-    <!-- GPU image -->
-    <img *ngIf="asset.type === 'GPU'" 
-         src="https://www.hellotech.com/blog/whats-a-gpu-what-gpu-do-you-have"
-         alt="GPU Image"
-         class="h-28 w-32">
-    
-    <!-- SSD image -->
-    <img *ngIf="asset.type === 'SSD'" 
-         src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/2023_Dysk_SSD_Patriot_P210_2TB.jpg/200px-2023_Dysk_SSD_Patriot_P210_2TB.jpg"
-         alt="SSD Image"
-         class="h-28 w-32">
-    
-    <!-- Motherboard image -->
-    <img *ngIf="asset.type === 'BOARD'" 
-         src="https://www.techpowerup.com/img/12-02-03/31a.jpg"
-         alt="Motherboard Image"
-         class="h-28 w-32">
-    
-    <!-- Default "No Image Available" for any other type -->
-    <img *ngIf="asset.type !== 'LAPTOP' && asset.type !== 'HDD' && asset.type !== 'GPU' && asset.type !== 'SSD' && asset.type !== 'BOARD'" 
-         src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
-         alt="No Image Available"
-         class="h-28 w-32">
-  </div>
+                    <div>
+                        <!-- Laptop image (default case you provided) -->
+                        <img
+                            *ngIf="asset.type === 'LAPTOP'"
+                            src="https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/inspiron-notebooks/14-2-in-1-7440-intel/media-gallery/notebook-inspiron-14-7440-t-ice-blue-gallery-17.psd?fmt=png-alpha&pscan=auto&scl=1&hei=804&wid=1336&qlt=100,1&resMode=sharp2&size=1336,804&chrss=full"
+                            alt="Laptop Image"
+                            class="h-28 w-32"
+                        />
+
+                        <!-- HDD image -->
+                        <img
+                            *ngIf="asset.type === 'HDD'"
+                            src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Laptop-hard-drive-exposed.jpg"
+                            alt="HDD Image"
+                            class="h-28 w-32"
+                        />
+
+                        <!-- GPU image -->
+                        <img
+                            *ngIf="asset.type === 'GPU'"
+                            src="https://www.hellotech.com/blog/whats-a-gpu-what-gpu-do-you-have"
+                            alt="GPU Image"
+                            class="h-28 w-32"
+                        />
+
+                        <!-- SSD image -->
+                        <img
+                            *ngIf="asset.type === 'SSD'"
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/2023_Dysk_SSD_Patriot_P210_2TB.jpg/200px-2023_Dysk_SSD_Patriot_P210_2TB.jpg"
+                            alt="SSD Image"
+                            class="h-28 w-32"
+                        />
+
+                        <!-- Motherboard image -->
+                        <img
+                            *ngIf="asset.type === 'BOARD'"
+                            src="https://www.techpowerup.com/img/12-02-03/31a.jpg"
+                            alt="Motherboard Image"
+                            class="h-28 w-32"
+                        />
+
+                        <!-- Default "No Image Available" for any other type -->
+                        <img
+                            *ngIf="
+                                asset.type !== 'LAPTOP' &&
+                                asset.type !== 'HDD' &&
+                                asset.type !== 'GPU' &&
+                                asset.type !== 'SSD' &&
+                                asset.type !== 'BOARD'
+                            "
+                            src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
+                            alt="No Image Available"
+                            class="h-28 w-32"
+                        />
+                    </div>
                     <div class="flex flex-col gap-2 uppercase">
                         <p class="font-semibold text-2xl">
                             {{ asset.type }}
@@ -167,7 +185,7 @@
                 <div class="flex flex-row gap-4 w-full">
                     <div class="flex gap-4">
                         <img
-                            src="assets/images/logo/suylogo.png"
+                            src="assets/images/logo/abfilogo.png"
                             alt="Logo"
                             class="-ml-5 -mt-5 h-32 w-32"
                         />
@@ -188,8 +206,8 @@
                 <div class="flex flex-row gap-4 w-full justify-end">
                     <div class="flex flex-col w-64 gap-1 items-end">
                         <p class="font-bold text-sm">
-                            Document Number
-                            <span class="font-medium">A-60-FR-009</span>
+                            Control Number
+                            <span class="font-medium">-</span>
                         </p>
                         <p class="font-bold text-sm">
                             Effective Date
@@ -203,9 +221,9 @@
                 </div>
             </div>
             <mat-divider class="mt-6 mb-4"></mat-divider>
-            <div class="flex flex-col mt-2 gap-4 uppercase ">
-                <div class="flex flex-col sm:flex-row gap-2 justify-between ">
-                    <div class="flex flex-row flex-grow ">
+            <div class="flex flex-col mt-2 gap-4 uppercase">
+                <div class="flex flex-col sm:flex-row gap-2 justify-between">
+                    <div class="flex flex-row flex-grow">
                         <div>
                             <img
                                 src="https://pngimg.com/uploads/qr_code/small/qr_code_PNG7.png"
@@ -222,7 +240,7 @@
                     </div>
                     <mat-divider class="mx-1" vertical></mat-divider>
                     <div
-                        class="flex flex-col gap-4 grid grid-cols-3 gap-5 justify-between "
+                        class="flex flex-col gap-4 grid grid-cols-3 gap-5 justify-between"
                     >
                         <div>
                             <p class="text-primary font-bold text-lg">
@@ -272,8 +290,34 @@
                                 Date Acquired
                             </p>
                             <p class="text-secondary">
-                                {{ asset.date_acquired ? (asset.date_acquired | date: 'MMMM d, y') : '-' }}
-
+                                {{
+                                    asset.date_acquired
+                                        ? (asset.date_acquired
+                                          | date : "MMMM d, y")
+                                        : "-"
+                                }}
+                            </p>
+                        </div>
+                        <div class="flex flex-col flex-grow w-full">
+                            <p class="text-primary font-bold text-lg">
+                                Warranty
+                            </p>
+                            <p class="text-secondary">
+                                {{
+                                    asset.warranty
+                                        || "-"
+                                }}
+                            </p>
+                        </div>
+                        <div class="flex flex-col flex-grow w-full">
+                            <p class="text-primary font-bold text-lg">
+                                Cost
+                            </p>
+                            <p class="text-secondary">
+                                {{
+                                    asset.cost
+                                        || "-"
+                                }}
                             </p>
                         </div>
                     </div>
