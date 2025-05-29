@@ -82,9 +82,30 @@
                                 ></mat-icon>
                                 <input
                                     matInput
+                                    id="asset_barcode"
+                                    formControlName="asset_barcode"
+                                    [placeholder]="asset?.asset_barcode || '-'"
+                                    [value]="eventForm.value.asset_barcode"
+                                />
+                            </mat-form-field>
+
+                            <mat-form-field
+                                appearance="fill"
+                                style="width: 100%"
+                            >
+                                <!-- Make mat-form-field take full width -->
+                                <mat-label class="text-primary text-sm"
+                                    >Serial No</mat-label
+                                >
+                                <mat-icon
+                                    svgIcon="feather:hash"
+                                    class="icon-size-5"
+                                ></mat-icon>
+                                <input
+                                    matInput
                                     id="serial_number"
                                     formControlName="serial_number"
-                                    [placeholder]="asset?.serial_no || '-'"
+                                    [placeholder]="asset?.serial_number || '-'"
                                     [value]="eventForm.value.serial_number"
                                 />
                             </mat-form-field>

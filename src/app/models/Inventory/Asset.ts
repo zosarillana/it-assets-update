@@ -38,4 +38,5 @@ export interface Assets {
     actove_user: string | null
     assigned_assets?: string;  // Add this if missing
     peripheral_type?: string;  // Add this if missing
+    fa_code?: string;  // Add this if missing
 }

@@ -59,6 +59,7 @@ export class ComputersEditComponent implements OnInit {
             po: [this.asset?.po],
             warranty: [this.asset?.warranty],
             cost: [this.asset?.cost, [Validators.pattern('^[0-9]*$')]],
+            fa_code:[this.asset?.fa_code || ''],
         });
 
         this.serialSubscription = this.eventForm
@@ -166,7 +167,7 @@ export class ComputersEditComponent implements OnInit {
             department: formData.department || '',
             type: formData.type || '',
             date_updated: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD
-            asset_barcode: formData.serial_number || '',
+            asset_barcode: formData.asset_barcode || '',
             fa_code: formData.fa_code || '',
             brand: formData.brand || '',
             model: formData.model || '',

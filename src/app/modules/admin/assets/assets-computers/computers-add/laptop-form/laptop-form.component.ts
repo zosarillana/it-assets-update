@@ -429,7 +429,7 @@ export class LaptopFormComponent implements OnInit {
     }
 
     selectedComponent: string = '';
-    availableComponents: string[] = ['RAM', 'SSD', 'HDD', 'GPU', 'BOARD'];
+    availableComponents: string[] = ['RAM', 'SSD', 'HDD', 'GPU', 'BOARD' , 'CPU' , 'PSU', 'CPU FAN', 'CD ROM', 'BATTERY'];
     get componentsArray(): FormArray {
         return this.eventForm.get('components') as FormArray;
     }
