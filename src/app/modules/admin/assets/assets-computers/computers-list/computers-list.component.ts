@@ -43,6 +43,7 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     dynamicPageSize = 10; // This will be bound to the template
     isLoading = false;
     selectedTypeToggle: string[] = [];
+    
     isSearchActive = false; // Flag to track if user has performed a search
 
     // Auto-complete
