@@ -9,7 +9,7 @@ import { MatSelectionList } from '@angular/material/list';
     styleUrls: ['./modal-pullin-component.component.scss'],
 })
 export class ModalPullinComponentComponent implements OnInit {
-    @ViewChild('componentsList') componentsList!: MatSelectionList; // ✅ Get reference to mat-selection-list
+    @ViewChild('componentsList') componentsList!: MatSelectionList;
 
     inactiveComponents: any[] = [];
 
@@ -28,10 +28,7 @@ export class ModalPullinComponentComponent implements OnInit {
             .getComponents(1, 100, 'asc', 'AVAILABLE')
             .subscribe({
                 next: (response) => {
-                    if (
-                        response?.items &&
-                        Array.isArray(response.items)
-                    ) {
+                    if (response?.items && Array.isArray(response.items)) {
                         this.inactiveComponents = response.items.filter(
                             (component) => component.status === 'AVAILABLE'
                         );
@@ -39,7 +36,7 @@ export class ModalPullinComponentComponent implements OnInit {
                         this.inactiveComponents = [];
                     }
                 },
-                error: (error) => {
+                error: () => {
                     this.inactiveComponents = [];
                 },
             });
@@ -54,14 +51,17 @@ export class ModalPullinComponentComponent implements OnInit {
             return;
         }
 
-        const selectedComponents = this.componentsList.selectedOptions.selected.map(option => option.value);
-        const selectedComponentUids = selectedComponents.map(component => component.uid);
+        // Get full selected component objects, NOT just UIDs
+        const selectedComponents = this.componentsList.selectedOptions.selected.map(
+            (option) => option.value
+        );
 
-        if (selectedComponentUids.length === 0) {
+        if (selectedComponents.length === 0) {
             this.dialogRef.close();
-            return; // No components selected, just close the dialog
+            return;
         }
 
-        this.dialogRef.close(selectedComponentUids);
+        // Close dialog passing full component objects
+        this.dialogRef.close(selectedComponents);
     }
 }

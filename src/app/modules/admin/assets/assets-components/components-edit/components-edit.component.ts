@@ -44,12 +44,13 @@ export class ComponentsEditComponent implements OnInit {
             uid: [this.asset?.uid || '', [Validators.required]],
             cost: [
                 this.asset?.cost,
-                [Validators.required, Validators.pattern('^[0-9]*$')],
+                [ Validators.pattern('^[0-9]*$')],
             ], // ✅ Ensure cost is a number
             description: [
                 this.asset?.description || 'N/A',
                 [Validators.required],
             ],
+            warranty: [this.asset?.warranty || 'N/A'],
             color: [this.asset?.color || 'N/A', [Validators.required]],
         });
     }
@@ -60,9 +61,10 @@ export class ComponentsEditComponent implements OnInit {
 
     ngOnInit(): void {
         const uid = this.route.snapshot.paramMap.get('uid');
+        const id = Number(this.route.snapshot.paramMap.get('id'));
 
         if (uid) {
-            this.assetsService.getComponentsById(uid).subscribe({
+            this.assetsService.getComponentByUidAndId(uid, id).subscribe({
                 next: (data) => {
                     this.asset = data;
                     this.loading = false;

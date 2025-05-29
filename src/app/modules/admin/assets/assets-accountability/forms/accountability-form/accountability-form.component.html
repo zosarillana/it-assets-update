@@ -168,14 +168,10 @@
                                     >
                                         Date Hired
                                     </p>
-                                    <span class="font-medium">
+                                   <span class="font-medium">
                                         {{
-                                            asset.user_accountability_list.owner
-                                                .date_hired
-                                                ? (asset
-                                                      .user_accountability_list
-                                                      .owner.date_hired?.value
-                                                  | date : "MMMM d, y")
+                                            asset.user_accountability_list.owner.date_hired
+                                                ? (asset.user_accountability_list.owner.date_hired | date:'MM/dd/yy')
                                                 : "-"
                                         }}
                                     </span>

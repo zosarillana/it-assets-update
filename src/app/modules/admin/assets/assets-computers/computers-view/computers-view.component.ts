@@ -212,48 +212,68 @@ export class ComputersViewComponent implements OnInit {
         });
     }
 
-    handlePullOut(componentId: number | null): void {
-        if (!componentId) {
-            this.snackBar.open('Invalid component ID', 'Close', {
-                duration: 3000,
-            });
-            return;
-        }
-        setTimeout(() => {
-            const dialogRef = this.dialog.open(ModalRemarksUniversalComponent, {
-                width: '400px',
-                data: {
-                    id: componentId,
-                    title: 'Are you sure you want to pull out this component?',
-                },
-            });
-            dialogRef.afterClosed().subscribe((result) => {
-                if (result && result.remarks) {
-                    this.componentsService
-                        .pullOutComponent(
-                            componentId,
-                            result.remarks,
-                            result.is_defective
-                        )
-                        .subscribe({
-                            next: (response) => {
-                                this.snackBar.open(response.message, 'Close', {
-                                    duration: 3000,
-                                });
-                                this.reloadAssetData();
-                            },
-                            error: () => {
-                                this.snackBar.open(
-                                    'Error pulling out component',
-                                    'Close',
-                                    { duration: 3000 }
-                                );
-                            },
-                        });
-                }
-            });
-        }, 0);
+   handlePullOut(component: { id: number; uid: string } | null): void {
+    console.log('handlePullOut called with component:', component);
+
+    if (!component) {
+        this.snackBar.open('Invalid component data', 'Close', {
+            duration: 3000,
+        });
+        return;
     }
+
+    setTimeout(() => {
+        const dialogRef = this.dialog.open(ModalRemarksUniversalComponent, {
+            width: '400px',
+            data: {
+                id: component.id,
+                title: 'Are you sure you want to pull out this component?',
+            },
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            console.log('Dialog closed with result:', result);
+
+            if (result && result.remarks) {
+                console.log('Calling pullOutComponent with:', {
+                    uid: component.uid,
+                    id: component.id,
+                    remarks: result.remarks,
+                    is_defective: result.is_defective,
+                });
+
+                this.componentsService
+                    .pullOutComponent(
+                        component.uid,        // ✅ UID
+                        component.id,         // ✅ ID
+                        result.remarks,
+                        result.is_defective
+                    )
+                    .subscribe({
+                        next: (response) => {
+                            console.log('pullOutComponent success response:', response);
+
+                            this.snackBar.open(response.message, 'Close', {
+                                duration: 3000,
+                            });
+                            this.reloadAssetData();
+                        },
+                        error: (err) => {
+                            console.error('pullOutComponent error:', err);
+
+                            this.snackBar.open(
+                                'Error pulling out component',
+                                'Close',
+                                { duration: 3000 }
+                            );
+                        },
+                    });
+            }
+        });
+    }, 0);
+}
+
+
 
     handleAssetPullOut(assetId: number | null): void {
         if (!assetId) {
@@ -359,44 +379,42 @@ export class ComputersViewComponent implements OnInit {
     }
 
     addComponent(): void {
-        const dialogRef = this.dialog.open(ModalPullinComponentComponent, {
-            width: '600px',
-            data: { computerId: this.asset.id },
-        });
-        dialogRef.afterClosed().subscribe((result) => {
-            if (result && result.length > 0) {
-                result.forEach((uid) => {
-                    const requestData = {
-                        computer_id: this.asset.id,
-                        component_uid: uid,
-                        remarks: 'Pulled in',
-                    };
-                    this.componentsService
-                        .pullInComponent(requestData)
-                        .subscribe({
-                            next: () => {
-                                this.reloadAssetData();
-                                this.snackBar.open(
-                                    'Component successfully pulled in!',
-                                    'Close',
-                                    {
-                                        duration: 3000,
-                                    }
-                                );
-                            },
-                            error: (error) => {
-                                const errorMessage =
-                                    error?.error?.message ||
-                                    'Failed to pull in component. Try again.';
-                                this.snackBar.open(errorMessage, 'Close', {
-                                    duration: 3000,
-                                });
-                            },
+    const dialogRef = this.dialog.open(ModalPullinComponentComponent, {
+        width: '600px',
+        data: { computerId: this.asset.id },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+        if (result && result.length > 0) {
+            // result is an array of selected components (objects)
+            result.forEach((component: any) => {
+                const requestData = {
+                    computer_id: this.asset.id,
+                    component_id: component.id,      // <-- Add this
+                    component_uid: component.uid,  // Use the uid here
+                    remarks: 'Pulled in',
+                    // Add other properties if needed (e.g. is_defective)
+                };
+
+                this.componentsService.pullInComponent(requestData).subscribe({
+                    next: () => {
+                        this.reloadAssetData();
+                        this.snackBar.open('Component successfully pulled in!', 'Close', {
+                            duration: 3000,
                         });
+                    },
+                    error: (error) => {
+                        const errorMessage =
+                            error?.error?.message || 'Failed to pull in component. Try again.';
+                        this.snackBar.open(errorMessage, 'Close', { duration: 3000 });
+                    },
                 });
-            }
-        });
-    }
+            });
+        }
+    });
+}
+
+
 
     addPeripherals(): void {
         const dialogRef = this.dialog.open(ModalPullinAssetsComponent, {
