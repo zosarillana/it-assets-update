@@ -42,9 +42,10 @@ export class ComponentsService {
     // getComponentsById(uid: string, asset_barcode: string): Observable<Assets> {
     //     return this.http.get<Assets>(`${this.url}/api/ComputerComponents/${asset_barcode}?uid=${uid}`);
     // }
-    getComponentsById(uid: string): Observable<Assets> {
-        return this.http.get<Assets>(`${this.url}/ComputerComponents/${uid}`);
-    }
+   getComponentByUidAndId(uid: string, id: number): Observable<Assets> {
+    return this.http.get<Assets>(`${this.url}/ComputerComponents/${uid}/${id}`);
+}
+
 
     public postEvent(data: any): Observable<any> {
         return this.http.post(`${this.url}/ComputerComponents`, data);
@@ -59,26 +60,29 @@ export class ComponentsService {
     }
 
     public pullOutComponent(
-        id: number,
-        remark: string,
-        isDefective: boolean
-    ): Observable<any> {
-        return this.http.put(`${this.url}/ComputerComponents/pullout/${id}`, {
-            remarks: remark,
-            is_defective: isDefective,
-        });
-    }
+    uid: string,
+    id: number,
+    remark: string,
+    isDefective: boolean
+): Observable<any> {
+    return this.http.put(`${this.url}/ComputerComponents/pullout/${uid}/${id}`, {
+        remarks: remark,
+        is_defective: isDefective,
+    });
+}
+
 
     public pullInComponent(data: {
-        computer_id: number;
-        component_uid: string;
-        remarks: string;
-    }): Observable<any> {
-        return this.http.post(
-            `${this.url}/ComputerComponents/pull_in_component`,
-            data
-        );
-    }
+    computer_id: number;
+    component_id: number; // ✅ Add this
+    component_uid: string;
+    remarks: string;
+}): Observable<any> {
+    return this.http.post(
+        `${this.url}/ComputerComponents/pull_in_component`,
+        data
+    );
+}
 
     // **New Method for fetching counts of LAPTOP and CPU types**
     public getCount(type?: string): Observable<any> {

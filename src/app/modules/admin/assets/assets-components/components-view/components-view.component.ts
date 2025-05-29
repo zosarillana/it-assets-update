@@ -26,19 +26,23 @@ export class ComponentsViewComponent implements OnInit {
 
     ngOnInit(): void {
         const uid = this.route.snapshot.paramMap.get('uid');
+        const id = Number(this.route.snapshot.paramMap.get('id'));
+
         const asset_barcode = this.route.snapshot.paramMap.get('asset_barcode');
 
         if (uid) {
             this.loading = true; // Show loader before API call
-            this.assetsService.getComponentsById(uid).subscribe({
-                next: (data) => {
-                    (this.asset = data), (this.loading = false);
-                },
-                error: (err) => {
-                    console.error('Error fetching asset', err);
-                    this.loading = false; // Hide loader on error
-                },
-            });
+            this.assetsService.getComponentByUidAndId(uid, id).subscribe({
+    next: (data) => {
+        this.asset = data;
+        this.loading = false;
+    },
+    error: (err) => {
+        console.error('Error fetching asset', err);
+        this.loading = false; // Hide loader on error
+    },
+});
+
         }
     }
     previewSelectedImage(event: Event): void {
