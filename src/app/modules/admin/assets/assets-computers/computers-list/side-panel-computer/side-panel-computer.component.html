@@ -21,28 +21,6 @@
                 ></mat-icon>
                 Filter by Type
             </div>
-            <!-- <mat-button-toggle-group
-                class="gap-3 text-gray-900 w-full mt-4 custom-toggle-group column-layout"
-                name="typeFilter"
-                aria-label="Type Filter"
-                [(ngModel)]="selectedTypeToggle"
-                (change)="onTypeSelected()"
-                multiple
-            >
-                <mat-button-toggle
-                    *ngFor="let type of allTypes"
-                    class="custom-toggle-button"
-                    [value]="type"
-                >
-                    <mat-icon
-                        *ngIf="selectedTypeToggle.includes(type)"
-                        class="ml-2 icon-size-3"
-                        svgIcon="mat_outline:check"
-                    ></mat-icon>
-                    {{ type }}
-                </mat-button-toggle>
-            </mat-button-toggle-group> -->
-            <!-- <p>Types count: {{ allTypes.length || '-'}}</p> -->
             <div class="flex flex-col gap-3 w-full mt-4">
                 <button
                     *ngFor="let type of allTypes"

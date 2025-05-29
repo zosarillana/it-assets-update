@@ -20,6 +20,8 @@ export class ComputerService {
         sortOrder: string,
         searchTerm?: string,
         typeFilter?: string[],
+        departmentFilter?: string[], // <-- NEW PARAM
+        businessUnitFilter?: string[], // <-- NEW PARAM
         fetchAll?: boolean
     ): Observable<any> {
         // Ensure pageNumber is never less than 1
@@ -27,7 +29,7 @@ export class ComputerService {
 
         let params = new HttpParams()
             .set('pageNumber', fetchAll ? '1' : pageNumber.toString())
-            .set('pageSize', fetchAll ? '1000' : pageSize.toString()) // Arbitrarily large number for fetching all
+            .set('pageSize', fetchAll ? '1000' : pageSize.toString())
             .set('sortOrder', sortOrder);
 
         if (searchTerm) {
@@ -36,6 +38,19 @@ export class ComputerService {
 
         if (typeFilter && typeFilter.length > 0) {
             params = params.set('typeFilter', typeFilter.join(','));
+        }
+
+        // Add departmentFilter if provided
+        if (departmentFilter && departmentFilter.length > 0) {
+            params = params.set('departmentFilter', departmentFilter.join(','));
+        }
+
+        // Add businessUnitFilter if provided
+        if (businessUnitFilter && businessUnitFilter.length > 0) {
+            params = params.set(
+                'businessUnitFilter',
+                businessUnitFilter.join(',')
+            );
         }
 
         return this.http.get<AssetResponse>(
@@ -84,26 +99,24 @@ export class ComputerService {
         return this.http.get<any>(url);
     }
 
-
-    public getCountDate(type?: string, groupBy: string = 'date'): Observable<any> {
+    public getCountDate(
+        type?: string,
+        groupBy: string = 'date'
+    ): Observable<any> {
         let url = `${this.url}/Computer/ComputerCount`;
-    
+
         // If a type is provided, append it to the URL
         if (type) {
             url = `${url}?type=${type}`;
         }
-    
+
         // Always include groupBy, defaulting to 'date'
         if (url.includes('?')) {
             url = `${url}&groupBy=${groupBy}`;
         } else {
             url = `${url}?groupBy=${groupBy}`;
         }
-    
+
         return this.http.get<any>(url);
     }
-    
 }
-
-
-
