@@ -43,7 +43,7 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     dynamicPageSize = 10; // This will be bound to the template
     isLoading = false;
     selectedTypeToggle: string[] = [];
-    
+
     isSearchActive = false; // Flag to track if user has performed a search
 
     // Auto-complete
@@ -52,6 +52,9 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     allTypes: string[] = []; // Store unique type values
     departments: any[] = [];
     businessUnits: any[] = [];
+
+    selectedDepartments: any[] = [];
+    selectedBusinessUnits: any[] = [];
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
@@ -70,9 +73,6 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
-        // Load all types for the filter
-        // this.loadAllTypes();
-
         // Initial data load with fixed page size
         this.isSearchActive = false;
         this.loadAssets(1, this.pageSize);
@@ -90,22 +90,38 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
         });
     }
 
-    ngAfterViewInit(): void {
-        console.log('Side panel is ready:', this.sidePanel);
+    isFilterChangeInProgress = false;
 
-        // this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+   ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
 
-        this.paginator.page.subscribe((event) => {
-            this.loadAssets(event.pageIndex + 1, event.pageSize);
-        });
+    this.paginator.page.subscribe((event) => {
+        if (this.isFilterChangeInProgress) {
+            this.isFilterChangeInProgress = false;
+            return;
+        }
+        this.loadAssets(
+            event.pageIndex + 1,
+            event.pageSize,
+            this.selectedTypeToggle,
+            this.selectedDepartments,
+            this.selectedBusinessUnits
+        );
+    });
 
-        this.sort.sortChange.subscribe(() => {
-            this.sortOrder = this.sort.direction || 'asc';
-            this.paginator.pageIndex = 0;
-            this.loadAssets(1, this.pageSize);
-        });
-    }
+    this.sort.sortChange.subscribe(() => {
+        this.sortOrder = this.sort.direction || 'asc';
+        this.isFilterChangeInProgress = true;
+        this.paginator.pageIndex = 0;
+        this.loadAssets(
+            1,
+            this.pageSize,
+            this.selectedTypeToggle,
+            this.selectedDepartments,
+            this.selectedBusinessUnits
+        );
+    });
+}
 
     loadPanel(): void {
         if (!this.sidePanel) {
@@ -124,132 +140,85 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
             this.sidePanel.allTypes = this.allTypes;
             this.sidePanel.selectedTypeToggle = [...this.selectedTypeToggle];
 
-                // ✅ Pass departments and business units
-    this.sidePanel.departments = this.departments;
-    this.sidePanel.businessUnits = this.businessUnits;
-    
+            // ✅ Pass departments and business units
+            this.sidePanel.departments = this.departments;
+            this.sidePanel.businessUnits = this.businessUnits;
+
             this.sidePanel.openPanel();
         }
     }
 
-    loadAssets(
-        pageIndex: number,
-        pageSize: number,
-        typeFilter?: string[],
-        fetchAll?: boolean
-    ): void {
-        this.isLoading = true;
+   loadAssets(
+    pageIndex: number,
+    pageSize: number,
+    typeFilter?: string[],
+    departmentFilter?: any[],
+    businessUnitFilter?: any[],
+    fetchAll?: boolean
+): void {
+    this.isLoading = true;
 
-        // Use dynamic page size if starting fresh (e.g., new search/filter)
-        const effectivePageSize =
-            pageIndex === 1 && !fetchAll ? this.dynamicPageSize : pageSize;
+    // Convert to code arrays for the API
+    const departmentCodes = departmentFilter?.length
+        ? departmentFilter.map((d) => d.code)
+        : undefined;
+    const businessUnitCodes = businessUnitFilter?.length
+        ? businessUnitFilter.map((bu) => bu.code)
+        : undefined;
 
-        this.assetService
-            .getAssets(
-                pageIndex,
-                effectivePageSize,
-                this.sortOrder,
-                this.searchTerm,
-                typeFilter,
-                fetchAll
-            )
-            .subscribe({
-                next: (response: AssetResponse) => {
-                    // Clear the data source before adding new data
-                    this.dataSource.data = [];
+    this.assetService
+        .getAssets(
+            pageIndex,
+            pageSize,
+            this.sortOrder,
+            this.searchTerm,
+            typeFilter,
+            departmentCodes,
+            businessUnitCodes,
+            fetchAll
+        )
+        .subscribe({
+            next: (response: AssetResponse) => {
+                this.dataSource.data = response.items || [];
+                this.totalItems = response.totalItems || 0;
 
-                    if (response.items && response.items.length > 0) {
-                        // Assign data to the table
-                        this.dataSource.data = response.items;
-
-                        // Update totalItems from response
-                        this.totalItems = response.totalItems || 0;
-
-                        // === NEW: Extract unique types from assets and update allTypes ===
-                        const typesSet = new Set<string>();
-                        response.items.forEach((item) => {
-                            if (item.type) {
-                                typesSet.add(item.type.toUpperCase());
-                            }
-                        });
-
-                        // Always ensure CPU and LAPTOP exist (CPU shown as DESKTOP in UI)
-                        typesSet.add('CPU');
-                        typesSet.add('LAPTOP');
-
-                        this.allTypes = Array.from(typesSet).sort();
-
-                        // ✅ Update paginator length
-                        if (this.paginator) {
-                            this.paginator.length = this.totalItems;
-                        }
-
-                        // 🔁 Dynamic page size logic if search is active
-                        if (
-                            this.totalItems > this.pageSize &&
-                            this.totalItems <= 100 &&
-                            this.isSearchActive
-                        ) {
-                            if (
-                                !this.pageSizeOptions.includes(this.totalItems)
-                            ) {
-                                let insertIndex =
-                                    this.pageSizeOptions.findIndex(
-                                        (size) => size > this.totalItems
-                                    );
-                                if (insertIndex === -1) {
-                                    this.pageSizeOptions.push(this.totalItems);
-                                } else {
-                                    this.pageSizeOptions.splice(
-                                        insertIndex,
-                                        0,
-                                        this.totalItems
-                                    );
-                                }
-                            }
-
-                            this.pageSize = this.totalItems;
-                            this.dynamicPageSize = this.totalItems;
-
-                            if (this.paginator) {
-                                this.paginator.pageSize = this.totalItems;
-                                this.paginator.pageIndex = 0;
-                                setTimeout(() => {
-                                    this.paginator?._changePageSize(
-                                        this.totalItems
-                                    );
-                                });
-                            }
-                        } else if (!this.isSearchActive) {
-                            // Reset to default pagination
-                            this.dynamicPageSize = 10;
-                            this.pageSize = 10;
-
-                            if (
-                                this.paginator &&
-                                this.paginator.pageSize !== 10
-                            ) {
-                                this.paginator.pageSize = 10;
-                                setTimeout(() => {
-                                    this.paginator?._changePageSize(10);
-                                });
-                            }
-                        }
+                // Extract unique types from assets and update allTypes
+                const typesSet = new Set<string>();
+                (response.items || []).forEach((item) => {
+                    if (item.type) {
+                        typesSet.add(item.type.toUpperCase());
                     }
+                });
 
-                    // Ensure table updates
-                    this.dataSource._updateChangeSubscription();
+                // Always ensure CPU and LAPTOP exist (CPU shown as DESKTOP in UI)
+                typesSet.add('CPU');
+                typesSet.add('LAPTOP');
 
-                    this.isLoading = false;
-                },
-                error: (error) => {
-                    console.error('Error fetching assets:', error);
-                    this.alertService.triggerError('Failed to load assets.');
-                    this.isLoading = false;
-                },
-            });
-    }
+                this.allTypes = Array.from(typesSet).sort();
 
+                // Always update paginator length even if there are no items
+                if (this.paginator) {
+                    this.paginator.length = this.totalItems;
+                }
+
+                // Do NOT change pageSize dynamically to totalItems; keep pageSize fixed for paginated navigation
+
+                // Ensure table updates
+                this.dataSource._updateChangeSubscription();
+                this.isLoading = false;
+            },
+            error: (error) => {
+                this.dataSource.data = [];
+                this.totalItems = 0;
+                if (this.paginator) {
+                    this.paginator.length = 0;
+                }
+                this.dataSource._updateChangeSubscription();
+                this.alertService.triggerError('Failed to load assets.');
+                this.isLoading = false;
+            },
+        });
+}
     private loadDepartments(): void {
         this.departmentService.getDepartments().subscribe({
             next: (data) => {
@@ -274,6 +243,33 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
                 );
             },
         });
+    }
+
+    // When changing filters (e.g., in your onSidePanelFiltersChanged):
+    onSidePanelFiltersChanged(event: {
+        types: string[];
+        departments: any[];
+        businessUnits: any[];
+    }) {
+        this.selectedTypeToggle = event.types || [];
+        this.selectedDepartments = event.departments || [];
+        this.selectedBusinessUnits = event.businessUnits || [];
+        this.isSearchActive =
+            this.selectedTypeToggle.length > 0 ||
+            this.selectedDepartments.length > 0 ||
+            this.selectedBusinessUnits.length > 0;
+
+        this.isFilterChangeInProgress = true;
+        if (this.paginator) {
+            this.paginator.pageIndex = 0;
+        }
+        this.loadAssets(
+            1,
+            this.pageSize,
+            this.selectedTypeToggle,
+            this.selectedDepartments,
+            this.selectedBusinessUnits
+        );
     }
 
     onSearch(): void {
@@ -346,7 +342,6 @@ export class ComputersListComponent implements OnInit, AfterViewInit {
         );
     }
 
-    
     onTypeSelected(selectedTypes?: string[]): void {
         if (selectedTypes) {
             this.selectedTypeToggle = selectedTypes;
