@@ -23,8 +23,8 @@
                 </div>             
             </div> -->
 
-            <div class="flex items-start mt-6 mx-6">
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12">
+            <div class="flex items-start mt-6 mx-6 w-full">
+                <div class="flex flex-row gap-12">
                     <!-- Computer Counts -->
                     <div class="flex flex-col">
                         <div class="flex items-center">
@@ -40,6 +40,7 @@
                             </div>
                         </div>
                     </div>
+
                     <!-- Component Counts -->
                     <div class="flex flex-col">
                         <div class="flex items-center">
@@ -68,6 +69,33 @@
                             >
                                 {{ displayedAssetCount }}
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Filter by Year -->
+                    <div class="mt-4 ml-auto">
+                        <div
+                            class="flex flex-row items-center space-x-4 "
+                        >
+                            <label
+                                for="yearFilter"
+                                class="font-medium text-secondary"
+                            >
+                                Filter by Year:
+                            </label>
+                            <select
+                                id="yearFilter"
+                                [(ngModel)]="selectedYear"
+                                (change)="onYearChange($event)"
+                                class="border px-2 py-1 rounded-lg"
+                            >
+                                <option
+                                    *ngFor="let year of availableYears"
+                                    [value]="year"
+                                >
+                                    {{ year }}
+                                </option>
+                            </select>
                         </div>
                     </div>
 

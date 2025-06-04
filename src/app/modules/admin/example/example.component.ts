@@ -35,6 +35,8 @@ export class ExampleComponent implements OnInit {
     dateUnidentified: number = 0;
     showChart: boolean = false; // Flag to control chart visibility
 
+    availableYears: string[] = [];
+    selectedYear: string = 'ALL'; // Default filter
     constructor(
         private computerService: ComputerService,
         private componentService: ComponentsService,
@@ -250,72 +252,128 @@ export class ExampleComponent implements OnInit {
         }
     }
 
-    
+    private hasSelectedDefaultYear = false;
     // Updating the chart data
     updateChart(): void {
         forkJoin({
             computerDateCounts: this.computerService.getCountDate(),
             componentDateCounts: this.componentService.getCountDate(),
-            assetDateCounts: this.assetService.getCountDate()
+            assetDateCounts: this.assetService.getCountDate(),
         }).subscribe(
             (results) => {
                 // Filter and count undefined dates across all data sets
                 const undefinedDates = [
                     ...results.computerDateCounts,
                     ...results.componentDateCounts,
-                    ...results.assetDateCounts
-                ].filter(item => !this.isValidDate(item.date));
-                
+                    ...results.assetDateCounts,
+                ].filter((item) => !this.isValidDate(item.date));
+
                 this.dateUnidentified = undefinedDates.length;
-    
-                // Process valid dates
-                const allDates = [
+
+                // Extract available years after loading data
+                // Extract available years after loading data
+                const dataYears = this.extractYearsFromData([
+                    results.computerDateCounts,
+                    results.componentDateCounts,
+                    results.assetDateCounts,
+                ]);
+                this.availableYears = ['ALL', ...dataYears];
+
+                // --- Default-select year logic, but only once ---
+                if (!this.hasSelectedDefaultYear) {
+                    const currentYear = new Date().getFullYear().toString();
+                    if (dataYears.includes(currentYear)) {
+                        this.selectedYear = currentYear;
+                    } else if (dataYears.length > 0) {
+                        // dataYears is sorted so pick last (latest) year
+                        this.selectedYear = dataYears[dataYears.length - 1];
+                    } else {
+                        this.selectedYear = 'ALL';
+                    }
+                    this.hasSelectedDefaultYear = true;
+                }    
+
+                // Process valid dates and filter by year
+                let allDates = [
                     ...results.computerDateCounts,
                     ...results.componentDateCounts,
-                    ...results.assetDateCounts
-                ].filter(item => this.isValidDate(item.date));
-    
+                    ...results.assetDateCounts,
+                ].filter((item) => this.isValidDate(item.date));
+
+                // Filter by selected year
+                if (this.selectedYear !== 'ALL') {
+                    allDates = allDates.filter((item) => {
+                        const date = new Date(item.date);
+                        return (
+                            date.getFullYear().toString() === this.selectedYear
+                        );
+                    });
+                }
+
                 // Extract unique dates and sort them
-                const uniqueDates = [...new Set(allDates.map(item => item.date))]
-                    .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-    
-                // If no valid dates, hide the chart
+                const uniqueDates = [
+                    ...new Set(allDates.map((item) => item.date)),
+                ].sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+
                 this.showChart = uniqueDates.length > 0;
-    
+
                 if (this.showChart) {
-                    // Create maps for each category
-                    const computerMap = this.createDateMap(results.computerDateCounts);
-                    const componentMap = this.createDateMap(results.componentDateCounts);
-                    const assetMap = this.createDateMap(results.assetDateCounts);
-    
+                    // Create maps for each category, filtered by year too!
+                    const filterByYear = (arr: any[]) =>
+                        this.selectedYear === 'ALL'
+                            ? arr
+                            : arr.filter((item) => {
+                                  const date = new Date(item.date);
+                                  return (
+                                      date.getFullYear().toString() ===
+                                      this.selectedYear
+                                  );
+                              });
+
+                    const computerMap = this.createDateMap(
+                        filterByYear(results.computerDateCounts)
+                    );
+                    const componentMap = this.createDateMap(
+                        filterByYear(results.componentDateCounts)
+                    );
+                    const assetMap = this.createDateMap(
+                        filterByYear(results.assetDateCounts)
+                    );
+
                     // Format dates for display (Taipei timezone)
-                    const formattedDates = uniqueDates.map(date => {
+                    const formattedDates = uniqueDates.map((date) => {
                         const taipeiDate = new Date(date);
                         return taipeiDate.toLocaleDateString('en-US', {
                             timeZone: 'Asia/Taipei',
                             year: 'numeric',
                             month: 'short',
-                            day: 'numeric'
+                            day: 'numeric',
                         });
                     });
-    
+
                     // Prepare series data
-                    const computerData = uniqueDates.map(date => computerMap.get(date) || 0);
-                    const componentData = uniqueDates.map(date => componentMap.get(date) || 0);
-                    const assetData = uniqueDates.map(date => assetMap.get(date) || 0);
-    
+                    const computerData = uniqueDates.map(
+                        (date) => computerMap.get(date) || 0
+                    );
+                    const componentData = uniqueDates.map(
+                        (date) => componentMap.get(date) || 0
+                    );
+                    const assetData = uniqueDates.map(
+                        (date) => assetMap.get(date) || 0
+                    );
+
                     // Update the chart data
                     this.chartData = {
                         ...this.chartData,
                         series: [
                             { name: 'Computers', data: computerData },
                             { name: 'Components', data: componentData },
-                            { name: 'Assets', data: assetData }
+                            { name: 'Assets', data: assetData },
                         ],
                         xaxis: {
                             ...this.chartData.xaxis,
-                            categories: formattedDates
-                        }
+                            categories: formattedDates,
+                        },
                     };
                 }
             },
@@ -326,7 +384,6 @@ export class ExampleComponent implements OnInit {
             }
         );
     }
-    
 
     // Helper method to create a date-to-count map
     private createDateMap(items: any[]): Map<string, number> {
@@ -383,8 +440,8 @@ export class ExampleComponent implements OnInit {
                     // The value comes from the xaxis categories which we've already formatted
                     // in Taipei timezone, so we can just return it
                     return value + ' (Taipei Time)';
-                }
-            }
+                },
+            },
         },
         xaxis: {
             type: 'category',
@@ -398,9 +455,9 @@ export class ExampleComponent implements OnInit {
                 formatter: (value) => {
                     // This formatter is for the x-axis labels
                     return value; // We've already formatted these in updateChart()
-                }
+                },
             },
-            tickPlacement: 'on'
+            tickPlacement: 'on',
         },
         yaxis: {
             title: {
@@ -412,14 +469,37 @@ export class ExampleComponent implements OnInit {
 
     // Add this helper method to validate dates
     private isValidDate(dateStr: string): boolean {
-        if (!dateStr || dateStr === 'undefined' || dateStr === 'null' || dateStr === '0000-00-00T00:00:00') {
+        if (
+            !dateStr ||
+            dateStr === 'undefined' ||
+            dateStr === 'null' ||
+            dateStr === '0000-00-00T00:00:00'
+        ) {
             return false;
         }
-        
+
         // Try parsing the date
         const date = new Date(dateStr);
-        
+
         // Check if the date is valid and not the Unix epoch (Jan 1 1970)
         return !isNaN(date.getTime()) && date.getTime() !== 0;
+    }
+
+    private extractYearsFromData(dataSets: any[][]): string[] {
+        const yearSet = new Set<string>();
+        const flattened = dataSets.reduce((acc, val) => acc.concat(val), []);
+        flattened.forEach((item) => {
+            if (this.isValidDate(item.date)) {
+                const date = new Date(item.date);
+                if (!isNaN(date.getTime())) {
+                    yearSet.add(date.getFullYear().toString());
+                }
+            }
+        });
+        return Array.from(yearSet).sort();
+    }
+
+    onYearChange(event: any): void {
+        this.updateChart();
     }
 }
