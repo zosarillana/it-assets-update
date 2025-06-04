@@ -145,6 +145,7 @@ export class ComputersViewComponent implements OnInit {
         if (this.asset && this.asset.id) {
             this.repairService.getRepairLogsById(this.asset.id).subscribe({
                 next: (data: any) => {
+                    // console.log('Repair logs:', this.dataSourceRepairLogs);
                     this.dataSourceRepairLogs =
                         data.map((log: any) => ({
                             inventory_code: log.inventory_code || '-',
@@ -153,7 +154,7 @@ export class ComputersViewComponent implements OnInit {
                             action: log.action || '-',
                             eaf_no: log.eaf_no || '-',
                             computer_id: log.computer_id || '-',
-                            item_id: log.item_id.id || '-',
+                            item_id: log.item_id?.id || '-',
                             remarks: log.remarks || '-',
                             timestamp: log.timestamp || '-',
                         })) || [];
