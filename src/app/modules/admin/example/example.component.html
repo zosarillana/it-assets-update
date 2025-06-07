@@ -36,7 +36,7 @@
                             <div
                                 class="text-4xl font-bold tracking-tight leading-none"
                             >
-                                {{ totalCount }}
+                                {{ displayedComputerCount }}
                             </div>
                         </div>
                     </div>
@@ -74,9 +74,7 @@
 
                     <!-- Filter by Year -->
                     <div class="mt-4 ml-auto">
-                        <div
-                            class="flex flex-row items-center space-x-4 "
-                        >
+                        <div class="flex flex-row items-center space-x-4">
                             <label
                                 for="yearFilter"
                                 class="font-medium text-secondary"
@@ -150,308 +148,204 @@
             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full mt-8"
         >
             <!-- Computers -->
-            <fuse-card
-                class="flex flex-col w-full filter-article filter-interactive self-start"
-                #expandableCard01="fuseCard"
-            >
-                <div class="m-8 mb-4">
-                    <div class="flex items-start justify-between">
-                        <div class="text-lg font-semibold leading-tight">
-                            Computers Summary
+         <fuse-card
+    class="flex flex-col w-full filter-article filter-interactive self-start"
+    #expandableCardComputers="fuseCard"
+>
+    <div class="m-8 mb-4">
+        <div class="flex items-start justify-between">
+            <div class="text-lg font-semibold leading-tight">
+                Computers Summary
+            </div>
+            <div class="ml-2">
+                <button
+                    class="h-6 min-h-6 px-2 rounded-full bg-hover"
+                    mat-button
+                    [matMenuTriggerFor]="computerTypesMenu"
+                >
+                    <span class="font-medium text-sm text-secondary">
+                        {{ selectedComputerType }}
+                    </span>
+                </button>
+                <mat-menu #computerTypesMenu="matMenu">
+                    <button
+                        mat-menu-item
+                        (click)="selectComputerType('ALL')"
+                    >
+                        ALL ({{ totalComputerCount }})
+                    </button>
+                    <button
+                        mat-menu-item
+                        *ngFor="let computer of computerCounts"
+                        (click)="selectComputerType(computer.type)"
+                    >
+                        {{ computer.type }} ({{ computer.count }})
+                    </button>
+                </mat-menu>
+            </div>
+        </div>
+        <div class="flex flex-row items-center gap-12">
+            <div class="text-7xl font-bold">
+                {{ displayedComputerCount }}
+            </div>
+            <div class="flex-1">
+                <div class="flex gap-12">
+                    <span class="text-sm flex gap-1">
+                        <mat-icon
+                            class="icon-size-4"
+                            svgIcon="heroicons_solid:information-circle"
+                        ></mat-icon>
+                        All Computers
+                    </span>
+                    <span class="text-sm">
+                        {{ totalComputerCount }}
+                    </span>
+                </div>
+                <div class="flex justify-start -ml-2 mt-2">
+                    <button
+                        class="h-6 min-h-6 px-2 rounded-full text-sm"
+                        mat-button
+                        [color]="'primary'"
+                        (click)="expandableCardComputers.expanded = !expandableCardComputers.expanded"
+                    >
+                        <span class="mr-1">Details</span>
+                        <mat-icon
+                            class="icon-size-5 transform transition-transform ease-in-out duration-150 rotate-0"
+                            [ngClass]="{
+                                'rotate-180': expandableCardComputers.expanded
+                            }"
+                            [svgIcon]="'heroicons_solid:chevron-down'"
+                        ></mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-container fuseCardExpansion>
+        <div class="m-8 -mt-0 text-sm">
+            <div class="flex items-baseline">
+                <div class="grid grid-cols-2 gap-12">
+                    <div
+                        class="flex items-baseline mt-1"
+                        *ngFor="let computer of filteredComputerCounts"
+                    >
+                        <div class="mr-2 flex gap-1">
+                            <mat-icon
+                                class="icon-size-4"
+                                [svgIcon]="getIconForAssetType(computer.type)"
+                            ></mat-icon>
+                            {{ computer.type }} Total:
                         </div>
-                        <div class="ml-2">
-                            <button
-                                class="h-6 min-h-6 px-2 rounded-full bg-hover"
-                                mat-button
-                                [matMenuTriggerFor]="computerTypesMenu"
-                            >
-                                <span
-                                    class="font-medium text-sm text-secondary"
-                                >
-                                    {{ selectedType }}
-                                </span>
-                            </button>
-                            <mat-menu #computerTypesMenu="matMenu">
-                                <button
-                                    mat-menu-item
-                                    (click)="selectType('ALL')"
-                                >
-                                    ALL ({{ laptopCount + cpuCount }})
-                                </button>
-                                <button
-                                    mat-menu-item
-                                    (click)="selectType('LAPTOP')"
-                                >
-                                    LAPTOP ({{ laptopCount }})
-                                </button>
-                                <button
-                                    mat-menu-item
-                                    (click)="selectType('CPU')"
-                                >
-                                    CPU ({{ cpuCount }})
-                                </button>
-                            </mat-menu>
-                        </div>
-                    </div>
-                    <div class="flex flex-row items-center gap-12">
-                        <div class="text-7xl font-bold">
-                            {{ displayedCount }}
-                        </div>
-                        <div class="flex-1">
-                            <div class="flex gap-12">
-                                <span class="text-sm flex gap-1">
-                                    <mat-icon
-                                        class="icon-size-4"
-                                        svgIcon="heroicons_solid:information-circle"
-                                    ></mat-icon>
-                                    All Computers
-                                </span>
-                                <span class="text-sm">
-                                    {{ laptopCount + cpuCount }}
-                                </span>
-                            </div>
-                            <div class="flex justify-start -ml-2 mt-2">
-                                <button
-                                    class="h-6 min-h-6 px-2 rounded-full text-sm"
-                                    mat-button
-                                    [color]="'primary'"
-                                    (click)="
-                                        expandableCard01.expanded =
-                                            !expandableCard01.expanded
-                                    "
-                                >
-                                    <span class="mr-1">Details</span>
-                                    <mat-icon
-                                        class="icon-size-5 transform transition-transform ease-in-out duration-150 rotate-0"
-                                        [ngClass]="{
-                                            'rotate-180':
-                                                expandableCard01.expanded
-                                        }"
-                                        [svgIcon]="
-                                            'heroicons_solid:chevron-down'
-                                        "
-                                    ></mat-icon>
-                                </button>
-                            </div>
+                        <div class="text-secondary font-medium">
+                            {{ computer.count }}
                         </div>
                     </div>
                 </div>
-
-                <ng-container fuseCardExpansion>
-                    <div class="m-8 -mt-0 text-sm">
-                        <div class="flex items-baseline">
-                            <div class="grid grid-cols-2 gap-12">
-                                <div class="flex items-baseline mt-1">
-                                    <div class="mr-2 flex gap-1">
-                                        <mat-icon
-                                            class="icon-size-4"
-                                            svgIcon="memory"
-                                        ></mat-icon>
-                                        Desktop Total:
-                                    </div>
-                                    <div class="text-secondary font-medium">
-                                        {{ cpuCount }}
-                                    </div>
-                                </div>
-                                <div class="flex items-baseline mt-1">
-                                    <div class="mr-2 flex gap-1">
-                                        <mat-icon
-                                            class="icon-size-4"
-                                            svgIcon="laptop"
-                                        ></mat-icon>
-                                        Laptop Total:
-                                    </div>
-                                    <div class="text-secondary font-medium">
-                                        {{ laptopCount }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </ng-container>
-            </fuse-card>
+            </div>
+        </div>
+    </ng-container>
+</fuse-card>
 
             <!-- Components -->
-            <fuse-card
-                class="flex flex-col w-full filter-article filter-interactive self-start"
-                #expandableCard02="fuseCard"
-            >
-                <div class="m-8 mb-4">
-                    <div class="flex items-start justify-between">
-                        <div class="text-lg font-semibold leading-tight">
-                            Components Summary
+        <fuse-card
+    class="flex flex-col w-full filter-article filter-interactive self-start"
+    #expandableCardComponents="fuseCard"
+>
+    <div class="m-8 mb-4">
+        <div class="flex items-start justify-between">
+            <div class="text-lg font-semibold leading-tight">
+                Components Summary
+            </div>
+            <div class="ml-2">
+                <button
+                    class="h-6 min-h-6 px-2 rounded-full bg-hover"
+                    mat-button
+                    [matMenuTriggerFor]="componentTypesMenu"
+                >
+                    <span class="font-medium text-sm text-secondary">
+                        {{ selectedComponentType }}
+                    </span>
+                </button>
+                <mat-menu #componentTypesMenu="matMenu">
+                    <button
+                        mat-menu-item
+                        (click)="selectComponentType('ALL')"
+                    >
+                        ALL ({{ totalComponentCount }})
+                    </button>
+                    <button
+                        mat-menu-item
+                        *ngFor="let component of componentCounts"
+                        (click)="selectComponentType(component.type)"
+                    >
+                        {{ component.type }} ({{ component.count }})
+                    </button>
+                </mat-menu>
+            </div>
+        </div>
+        <div class="flex flex-row items-center gap-12">
+            <div class="text-7xl font-bold">
+                {{ displayedComponentCount }}
+            </div>
+            <div class="flex-1">
+                <div class="flex gap-12">
+                    <span class="text-sm flex gap-1">
+                        <mat-icon
+                            class="icon-size-4"
+                            svgIcon="heroicons_solid:information-circle"
+                        ></mat-icon>
+                        All Components
+                    </span>
+                    <span class="text-sm">
+                        {{ displayedComponentCount }}
+                    </span>
+                </div>
+                <div class="flex justify-start mt-2 -ml-2">
+                    <button
+                        class="h-6 min-h-6 px-2 rounded-full text-sm"
+                        mat-button
+                        [color]="'primary'"
+                        (click)="expandableCardComponents.expanded = !expandableCardComponents.expanded"
+                    >
+                        <span class="mr-1">Details</span>
+                        <mat-icon
+                            class="icon-size-5 transform transition-transform ease-in-out duration-150 rotate-0"
+                            [ngClass]="{
+                                'rotate-180': expandableCardComponents.expanded
+                            }"
+                            [svgIcon]="'heroicons_solid:chevron-down'"
+                        ></mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-container fuseCardExpansion>
+        <div class="m-8 -mt-0 text-sm">
+            <div class="flex items-baseline">
+                <div class="grid grid-cols-2">
+                    <div
+                        class="flex items-baseline mt-1"
+                        *ngFor="let component of componentCounts"
+                    >
+                        <div class="mr-2 flex gap-1">
+                            <mat-icon
+                                class="icon-size-4"
+                                [svgIcon]="getIconForAssetType(component.type)"
+                            ></mat-icon>
+                            {{ component.type }} Total:
                         </div>
-                        <div class="ml-2">
-                            <button
-                                class="h-6 min-h-6 px-2 rounded-full bg-hover"
-                                mat-button
-                                [matMenuTriggerFor]="componentTypesMenu"
-                            >
-                                <span
-                                    class="font-medium text-sm text-secondary"
-                                    >{{ selectedComponentType }}</span
-                                >
-                            </button>
-                            <mat-menu #componentTypesMenu="matMenu">
-                                <button
-                                    mat-menu-item
-                                    (click)="selectComponentType('ALL')"
-                                >
-                                    ALL ({{ totalComponentCount }})
-                                </button>
-                                <button
-                                    mat-menu-item
-                                    (click)="selectComponentType('RAM')"
-                                >
-                                    RAM ({{ ramCount }})
-                                </button>
-                                <button
-                                    mat-menu-item
-                                    (click)="selectComponentType('SSD')"
-                                >
-                                    SSD ({{ ssdCount }})
-                                </button>
-                                <button
-                                    mat-menu-item
-                                    (click)="selectComponentType('HDD')"
-                                >
-                                    HDD ({{ hddCount }})
-                                </button>
-                                <button
-                                    mat-menu-item
-                                    (click)="selectComponentType('BOARD')"
-                                >
-                                    BOARD ({{ boardCount }})
-                                </button>
-                                <button
-                                    mat-menu-item
-                                    (click)="selectComponentType('GPU')"
-                                >
-                                    GPU ({{ gpuCount }})
-                                </button>
-                            </mat-menu>
-                        </div>
-                    </div>
-                    <div class="flex flex-row items-center gap-12">
-                        <div class="text-7xl font-bold">
-                            {{ displayedComponentCount }}
-                        </div>
-                        <div class="flex-1">
-                            <div class="flex gap-12">
-                                <span class="text-sm flex gap-1">
-                                    <mat-icon
-                                        class="icon-size-4"
-                                        svgIcon="heroicons_solid:information-circle"
-                                    >
-                                    </mat-icon
-                                    >All Components
-                                </span>
-                                <span class="text-sm">
-                                    {{
-                                        ramCount +
-                                            ssdCount +
-                                            hddCount +
-                                            boardCount +
-                                            gpuCount
-                                    }}
-                                </span>
-                            </div>
-                            <div class="flex justify-start mt-2 -ml-2">
-                                <button
-                                    class="h-6 min-h-6 px-2 rounded-full text-sm"
-                                    mat-button
-                                    [color]="'primary'"
-                                    (click)="
-                                        expandableCard02.expanded =
-                                            !expandableCard02.expanded
-                                    "
-                                >
-                                    <span class="mr-1">Details</span>
-                                    <mat-icon
-                                        class="icon-size-5 transform transition-transform ease-in-out duration-150 rotate-0"
-                                        [ngClass]="{
-                                            'rotate-180':
-                                                expandableCard02.expanded
-                                        }"
-                                        [svgIcon]="
-                                            'heroicons_solid:chevron-down'
-                                        "
-                                    ></mat-icon>
-                                </button>
-                            </div>
+                        <div class="text-secondary font-medium">
+                            {{ component.count }}
                         </div>
                     </div>
                 </div>
-
-                <ng-container fuseCardExpansion>
-                    <div class="m-8 -mt-0 text-sm">
-                        <div class="flex items-baseline">
-                            <div class="grid grid-cols-2">
-                                <div class="flex items-baseline mt-1">
-                                    <div class="mr-2 flex gap-1">
-                                        <mat-icon
-                                            class="icon-size-4"
-                                            svgIcon="memory"
-                                        ></mat-icon>
-                                        RAM Total:
-                                    </div>
-                                    <div class="text-secondary font-medium">
-                                        {{ ramCount }}
-                                    </div>
-                                </div>
-                                <div class="flex items-baseline mt-1">
-                                    <div class="mr-2 flex gap-1">
-                                        <mat-icon
-                                            class="icon-size-4"
-                                            svgIcon="storage"
-                                        ></mat-icon>
-                                        SSD Total:
-                                    </div>
-                                    <div class="text-secondary font-medium">
-                                        {{ ssdCount }}
-                                    </div>
-                                </div>
-                                <div class="flex items-baseline mt-1">
-                                    <div class="mr-2 flex gap-1">
-                                        <mat-icon
-                                            class="icon-size-4"
-                                            svgIcon="device_hub"
-                                        ></mat-icon>
-                                        HDD Total:
-                                    </div>
-                                    <div class="text-secondary font-medium">
-                                        {{ hddCount }}
-                                    </div>
-                                </div>
-                                <div class="flex items-baseline mt-1">
-                                    <div class="mr-2 flex gap-1">
-                                        <mat-icon
-                                            class="icon-size-4"
-                                            svgIcon="developer_board"
-                                        ></mat-icon>
-                                        BOARD Total:
-                                    </div>
-                                    <div class="text-secondary font-medium">
-                                        {{ boardCount }}
-                                    </div>
-                                </div>
-                                <div class="flex items-baseline mt-1">
-                                    <div class="mr-2 flex gap-1">
-                                        <mat-icon
-                                            class="icon-size-4"
-                                            svgIcon="tune"
-                                        ></mat-icon>
-                                        GPU Total:
-                                    </div>
-                                    <div class="text-secondary font-medium">
-                                        {{ gpuCount }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </ng-container>
-            </fuse-card>
+            </div>
+        </div>
+    </ng-container>
+</fuse-card>
 
             <!-- Assets -->
             <fuse-card
@@ -505,7 +399,7 @@
                                     All Assets
                                 </span>
                                 <span class="text-sm">{{
-                                    assetCounts.length
+                                    displayedAssetCount
                                 }}</span>
                             </div>
                             <div class="flex justify-start mt-2 -ml-2">
