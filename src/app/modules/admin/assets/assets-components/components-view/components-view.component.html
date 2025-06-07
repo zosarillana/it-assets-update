@@ -354,6 +354,22 @@
                     </p>
                 </div>
             </div>
+            <mat-divider class="mt-6"></mat-divider>
+            <div class="my-12">
+                <p class="text-md font-medium uppercase">User History</p>
+                <div *ngIf="asset?.user_history?.length">
+                    <div *ngFor="let user of asset.user_history" class="mb-2">
+                        <span class="text-secondary text-medium">
+                            {{ user.name || "-" }} ({{
+                                user.employee_id || "No ID"
+                            }}) - {{ user.department }}
+                        </span>
+                    </div>
+                </div>
+                <div *ngIf="!asset?.user_history?.length">
+                    <span class="text-secondary text-medium">-</span>
+                </div>
+            </div>
         </form>
     </div>
 </div>
