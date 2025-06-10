@@ -189,7 +189,7 @@ export class ViewAccountabilityArchiveComponent implements OnInit {
                             scaledHeight
                         );
 
-                        pdf.save('return-form.pdf');
+                        pdf.save('itam-form.pdf');
                     })
                     .catch((error) => {
                         console.error('Error generating PDF:', error);
