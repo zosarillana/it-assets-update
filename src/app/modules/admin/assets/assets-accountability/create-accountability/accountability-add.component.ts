@@ -117,19 +117,22 @@ export class AccoundabilityAddComponent implements OnInit {
         }
     }
 
-    private loadComputers(): void {
-        this.computerService.getAssets(1, 100, 'asc').subscribe({
+   private loadComputers(
+    departmentFilter?: string[],
+    businessUnitFilter?: string[],
+    typeFilter?: string[], // optional if you're filtering types
+    fetchAll: boolean = true // default true if you want to load all by default
+): void {
+    this.computerService
+        .getAssets(1, 100, 'asc', undefined, typeFilter, departmentFilter, businessUnitFilter, fetchAll)
+        .subscribe({
             next: (response) => {
                 if (response.items && Array.isArray(response.items)) {
                     this.computersData = response.items
                         .filter((computer) => computer.status === 'AVAILABLE')
                         .map((computer) => {
-                            const assetIds = Array.isArray(
-                                computer.assigned_assets
-                            )
-                                ? computer.assigned_assets.map(
-                                      (asset) => asset.id
-                                  )
+                            const assetIds = Array.isArray(computer.assigned_assets)
+                                ? computer.assigned_assets.map((asset) => asset.id)
                                 : [];
 
                             return {
@@ -147,7 +150,7 @@ export class AccoundabilityAddComponent implements OnInit {
                 this.computersData = [];
             },
         });
-    }
+}
 
     private _filterAutocompleteOptions(value: string): Observable<Assets[]> {
         const filterValue = value.toLowerCase();
