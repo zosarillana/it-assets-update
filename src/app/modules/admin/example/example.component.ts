@@ -25,12 +25,17 @@ export class ExampleComponent implements OnInit {
     totalComponentCount: number = 0;
     displayedComponentCount: number = 0;
     selectedComponentType: string = 'ALL'; // Default selection
+    computerCounts: any[] = [];
+    filteredComputerCounts: any[] = [];
+    selectedComputerType: string = 'ALL';
+    totalComputerCount: number = 0;
+    displayedComputerCount: number = 0;
     // New variables for assets
     assetCounts: any[] = []; // Stores the asset counts (e.g., AC Adapter, Monitor, etc.)
     selectedAssetType: string = 'ALL'; // Default selection for assets
     displayedAssetCount: number = 0; // The displayed count for assets
     totalAssetCount: number = 0; // Total count of all assets
-
+    componentCounts: any[] = [];
     //dateUndefined
     dateUnidentified: number = 0;
     showChart: boolean = false; // Flag to control chart visibility
@@ -44,64 +49,36 @@ export class ExampleComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        // Using forkJoin to wait for all API calls to complete
         forkJoin({
             computers: this.computerService.getCount(),
             components: this.componentService.getCount(),
             assets: this.assetService.getCount(),
         }).subscribe(
             (results) => {
-                // Process computer data
-                const laptopData = results.computers.find(
-                    (item: any) => item.type === 'LAPTOP'
+                // --- COMPUTERS ---
+                this.computerCounts = results.computers;
+                this.totalComputerCount = this.computerCounts.reduce(
+                    (total, item) => total + item.count,
+                    0
                 );
-                const cpuData = results.computers.find(
-                    (item: any) => item.type === 'CPU'
-                );
-                this.laptopCount = laptopData ? laptopData.count : 0;
-                this.cpuCount = cpuData ? cpuData.count : 0;
-                this.totalCount = this.laptopCount + this.cpuCount;
-                this.displayedCount = this.totalCount; // Set displayed count to total by default
+                this.updateDisplayedComputerCount();
 
-                // Process component data
-                const ramData = results.components.find(
-                    (item: any) => item.type === 'RAM'
+                // --- COMPONENTS (as before) ---
+                this.componentCounts = results.components;
+                this.totalComponentCount = this.componentCounts.reduce(
+                    (total, item) => total + item.count,
+                    0
                 );
-                const ssdData = results.components.find(
-                    (item: any) => item.type === 'SSD'
-                );
-                const hddData = results.components.find(
-                    (item: any) => item.type === 'HDD'
-                );
-                const gpuData = results.components.find(
-                    (item: any) => item.type === 'GPU'
-                );
-                const boardData = results.components.find(
-                    (item: any) => item.type === 'BOARD'
-                );
+                this.updateDisplayedComponentCount();
 
-                this.ramCount = ramData ? ramData.count : 0;
-                this.ssdCount = ssdData ? ssdData.count : 0;
-                this.hddCount = hddData ? hddData.count : 0;
-                this.gpuCount = gpuData ? gpuData.count : 0;
-                this.boardCount = boardData ? boardData.count : 0;
-                this.totalComponentCount =
-                    this.ramCount +
-                    this.ssdCount +
-                    this.hddCount +
-                    this.gpuCount +
-                    this.boardCount;
-                this.displayedComponentCount = this.totalComponentCount; // Set displayed count to total by default
-
-                // Process asset data
+                // --- ASSETS (as before) ---
                 this.assetCounts = results.assets;
                 this.totalAssetCount = this.assetCounts.reduce(
                     (total, item) => total + item.count,
                     0
                 );
-                this.displayedAssetCount = this.totalAssetCount; // Set displayed count to total by default
+                this.displayedAssetCount = this.totalAssetCount;
 
-                // Now update the chart once all data is available
                 this.updateChart();
             },
             (error) => {
@@ -193,24 +170,37 @@ export class ExampleComponent implements OnInit {
         );
     }
 
+    selectComputerType(type: string): void {
+        this.selectedComputerType = type;
+        this.updateDisplayedComputerCount();
+    }
+
+    updateDisplayedComputerCount(): void {
+        if (this.selectedComputerType === 'ALL') {
+            this.displayedComputerCount = this.totalComputerCount;
+            this.filteredComputerCounts = this.computerCounts;
+        } else {
+            const selected = this.computerCounts.find(
+                (item) => item.type === this.selectedComputerType
+            );
+            this.displayedComputerCount = selected ? selected.count : 0;
+            this.filteredComputerCounts = selected ? [selected] : [];
+        }
+    }
+
     selectComponentType(type: string): void {
         this.selectedComponentType = type;
         this.updateDisplayedComponentCount();
     }
 
     updateDisplayedComponentCount(): void {
-        if (this.selectedComponentType === 'RAM') {
-            this.displayedComponentCount = this.ramCount;
-        } else if (this.selectedComponentType === 'SSD') {
-            this.displayedComponentCount = this.ssdCount;
-        } else if (this.selectedComponentType === 'HDD') {
-            this.displayedComponentCount = this.hddCount;
-        } else if (this.selectedComponentType === 'GPU') {
-            this.displayedComponentCount = this.gpuCount;
-        } else if (this.selectedComponentType === 'BOARD') {
-            this.displayedComponentCount = this.boardCount;
-        } else {
+        if (this.selectedComponentType === 'ALL') {
             this.displayedComponentCount = this.totalComponentCount;
+        } else {
+            const selected = this.componentCounts.find(
+                (item) => item.type === this.selectedComponentType
+            );
+            this.displayedComponentCount = selected ? selected.count : 0;
         }
     }
 
@@ -291,7 +281,7 @@ export class ExampleComponent implements OnInit {
                         this.selectedYear = 'ALL';
                     }
                     this.hasSelectedDefaultYear = true;
-                }    
+                }
 
                 // Process valid dates and filter by year
                 let allDates = [
@@ -501,5 +491,23 @@ export class ExampleComponent implements OnInit {
 
     onYearChange(event: any): void {
         this.updateChart();
+    }
+
+    // Add this method to your component class
+    getIconForAssetType(type: string): string {
+        const iconMap: { [key: string]: string } = {
+            RAM: 'memory',
+            SSD: 'storage',
+            HDD: 'device_hub',
+            GPU: 'tune',
+            BOARD: 'developer_board',
+            'AC ADAPTER': 'power',
+            MONITOR: 'desktop_windows',
+            KEYBOARD: 'keyboard',
+            MOUSE: 'mouse',
+            // Add more mappings as needed for your asset types
+        };
+
+        return iconMap[type] || 'device_hub'; // Default icon if type not found
     }
 }

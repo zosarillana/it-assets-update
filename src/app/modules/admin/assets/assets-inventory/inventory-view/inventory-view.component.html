@@ -1,5 +1,5 @@
 <!-- Add this loader somewhere in your template -->
-<div  *ngIf="loading" class="loader">
+<div *ngIf="loading" class="loader">
     <img
         class="-mb-5"
         style="height: 65px; width: 65px"
@@ -13,7 +13,7 @@
     </div>
 </div>
 
-<div *ngIf="asset" class="flex flex-col flex-auto min-w-0 ">
+<div *ngIf="asset" class="flex flex-col flex-auto min-w-0">
     <!-- Header -->
     <div
         class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent"
@@ -61,46 +61,62 @@
             <div class="mt-4 flex flex-col gap-4">
                 <!-- Image Section -->
                 <div class="flex flex-row gap-4">
-                      <!-- Laptop image (default case you provided) -->
-    <img *ngIf="asset.type === 'MONITOR'" 
-    src="https://upload.wikimedia.org/wikipedia/commons/7/76/MonitorLCDlcd.svg"
-    alt="Laptop Image"
-    class="h-28 w-32">
+                    <!-- Laptop image (default case you provided) -->
+                    <img
+                        *ngIf="asset.type === 'MONITOR'"
+                        src="https://upload.wikimedia.org/wikipedia/commons/7/76/MonitorLCDlcd.svg"
+                        alt="Laptop Image"
+                        class="h-28 w-32"
+                    />
 
-<!-- HDD image -->
-<img *ngIf="asset.type === 'KEYBOARD USB'" 
-    src="https://upload.wikimedia.org/wikipedia/commons/a/a2/LenovoKeyboard.jpg"
-    alt="HDD Image"
-    class="h-28 w-32">
+                    <!-- HDD image -->
+                    <img
+                        *ngIf="asset.type === 'KEYBOARD USB'"
+                        src="https://upload.wikimedia.org/wikipedia/commons/a/a2/LenovoKeyboard.jpg"
+                        alt="HDD Image"
+                        class="h-28 w-32"
+                    />
 
-<!-- GPU image -->
-<img *ngIf="asset.type === 'MOUSE USB'" 
-    src="https://upload.wikimedia.org/wikipedia/commons/2/22/3-Tasten-Maus_Microsoft.jpg"
-    alt="GPU Image"
-    class="h-28 w-32">
+                    <!-- GPU image -->
+                    <img
+                        *ngIf="asset.type === 'MOUSE USB'"
+                        src="https://upload.wikimedia.org/wikipedia/commons/2/22/3-Tasten-Maus_Microsoft.jpg"
+                        alt="GPU Image"
+                        class="h-28 w-32"
+                    />
 
-<!-- SSD image -->
-<img *ngIf="asset.type === 'BAG'" 
-    src="https://www.eshopping.com.ph/cdn/shop/products/c07956174_474x355.png?v=1668488201"
-    alt="SSD Image"
-    class="h-28 w-32">
+                    <!-- SSD image -->
+                    <img
+                        *ngIf="asset.type === 'BAG'"
+                        src="https://www.eshopping.com.ph/cdn/shop/products/c07956174_474x355.png?v=1668488201"
+                        alt="SSD Image"
+                        class="h-28 w-32"
+                    />
 
-<!-- Motherboard image -->
-<img *ngIf="asset.type === 'USB-C ADAPTER'" 
-    src="https://mm.digikey.com/Volume0/opasdata/d220001/derivates/6/002/156/841/MFG_USB31CAADP_primary_web%28640x640%29.jpg"
-    alt="Motherboard Image"
-    class="h-28 w-32">
+                    <!-- Motherboard image -->
+                    <img
+                        *ngIf="asset.type === 'USB-C ADAPTER'"
+                        src="https://mm.digikey.com/Volume0/opasdata/d220001/derivates/6/002/156/841/MFG_USB31CAADP_primary_web%28640x640%29.jpg"
+                        alt="Motherboard Image"
+                        class="h-28 w-32"
+                    />
 
-<!-- Default "No Image Available" for any other type -->
-<img *ngIf="asset.type !== 'MONITOR' && asset.type !== 'USB-C ADAPTER' && asset.type !== 'BAG' && asset.type !== 'MOUSE USB' && asset.type !== 'KEYBOARD USB'" 
-    src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
-    alt="No Image Available"
-    class="h-28 w-32">
+                    <!-- Default "No Image Available" for any other type -->
+                    <img
+                        *ngIf="
+                            asset.type !== 'MONITOR' &&
+                            asset.type !== 'USB-C ADAPTER' &&
+                            asset.type !== 'BAG' &&
+                            asset.type !== 'MOUSE USB' &&
+                            asset.type !== 'KEYBOARD USB'
+                        "
+                        src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
+                        alt="No Image Available"
+                        class="h-28 w-32"
+                    />
                     <div class="flex flex-col gap-2">
                         <p class="font-semibold text-2xl">
-                            {{ asset.model || "-" }} ({{
-                                asset.type || "-"
-                            }})
+                            {{ asset.model || "-" }} ({{ asset.type || "-" }})
                         </p>
                         <p class="text-secondary font-semibold uppercase">
                             Inventory barcode:
@@ -155,92 +171,51 @@
         </div>
     </div>
 
-    <div class="flex flex-col h-full sm:mx-0 md:mx-0 lg:mx-64 lg:my-4 uppercase">
+    <div
+        class="flex flex-col h-full sm:mx-0 md:mx-0 lg:mx-64 lg:my-4 uppercase"
+    >
         <form
             class="flex flex-col flex-grow px-8 pt-10 bg-card shadow-lg rounded w-full overflow-hidden"
         >
-        <div class="flex">
-            <div
-                class="flex flex-row gap-4 w-full"
-            >
-                <div
-                    class="flex gap-4"
-                >
-                    <img
-                        src="assets/images/logo/abfilogo.png"
-                        alt="Logo"
-                        class="-ml-5 -mt-5 h-32 w-32"
-                    />
-                    <div
-                        class="flex flex-col w-64 gap-1"
-                    >
-                        <p
-                            class="font-bold text-sm"
-                        >
-                            Ana's
-                            Breeders
-                            Farm
-                            Inc.
+            <div class="flex">
+                <div class="flex flex-row gap-4 w-full">
+                    <div class="flex gap-4">
+                        <img
+                            src="assets/images/logo/abfilogo.png"
+                            alt="Logo"
+                            class="-ml-5 -mt-5 h-32 w-32"
+                        />
+                        <div class="flex flex-col w-64 gap-1">
+                            <p class="font-bold text-sm">
+                                Ana's Breeders Farm Inc.
+                            </p>
+                            <p class="text-sm w-56">
+                                Sitio Sto. Niño, Pan Philippine Highway Brgy.
+                                Binugao, Toril District Davao City, Davao del
+                                Sur, Philippines.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right-aligned Document Details -->
+                <div class="flex flex-row gap-4 w-full justify-end">
+                    <div class="flex flex-col w-64 gap-1 items-end">
+                        <p class="font-bold text-sm">
+                            Document Number
+                            <span class="font-medium">A-60-FR-009</span>
                         </p>
-                        <p
-                            class="text-sm w-56"
-                        >
-                            Sitio
-                            Sto.
-                            Niño,
-                            Pan
-                            Philippine
-                            Highway
-                            Brgy.
-                            Binugao,
-                            Toril
-                            District
-                            Davao
-                            City,
-                            Davao
-                            del Sur,
-                            Philippines.
+                        <p class="font-bold text-sm">
+                            Effective Date
+                            <span class="font-medium">{{
+                                asset.date_created
+                                    ? (asset.date_created | date : "MMMM d, y")
+                                    : "-"
+                            }}</span>
                         </p>
                     </div>
                 </div>
             </div>
-
-            <!-- Right-aligned Document Details -->
-            <div
-                class="flex flex-row gap-4 w-full justify-end"
-            >
-                <div
-                    class="flex flex-col w-64 gap-1 items-end"
-                >
-                    <p
-                        class="font-bold text-sm"
-                    >
-                        Document
-                        Number
-                        <span
-                            class="font-medium"
-                            >A-60-FR-009</span
-                        >
-                    </p>
-                    <p
-                        class="font-bold text-sm"
-                    >
-                        Effective
-                        Date
-                        <span
-                            class="font-medium"
-                            >{{
-                                asset.date_created
-                                    ? (asset.date_created
-                                      | date
-                                          : "MMMM d, y")
-                                    : "-"
-                            }}</span
-                        >
-                    </p>
-                </div>
-            </div>
-        </div>
             <mat-divider class="my-4"></mat-divider>
             <div class="flex flex-row mt-2 gap-4">
                 <img
@@ -276,7 +251,10 @@
 
             <div class="w-full">
                 <div class="grid grid-cols-3 gap-4 justify-between">
-                    <p *ngif="false" class="flex flex-col font-medium text-medium">
+                    <p
+                        *ngif="false"
+                        class="flex flex-col font-medium text-medium"
+                    >
                         Serial number
                         <span class="text-secondary text-sm">
                             <mat-icon
@@ -305,12 +283,14 @@
                             ></mat-icon>
 
                             {{
-                                asset.date_acquired
-                                    | date : "MMMM d, y" || "-"
+                                asset.date_acquired | date : "MMMM d, y" || "-"
                             }}
                         </span>
                     </p>
-                    <p *nfig="false" class="flex flex-col font-medium text-medium">
+                    <p
+                        *nfig="false"
+                        class="flex flex-col font-medium text-medium"
+                    >
                         Brand
                         <span class="text-secondary text-sm">
                             <mat-icon
@@ -393,16 +373,24 @@
                     </p>
                     <p class="flex flex-col font-medium text-medium">
                         History
-                        <span class="text-secondary text-sm">
+                        <span
+                            class="text-secondary text-sm flex flex-col space-y-1"
+                        >
                             <mat-icon
-                                svgIcon="feather:file-text"
+                                svgIcon="feather:user"
                                 class="icon-size-3"
                             ></mat-icon>
-                            {{
-                                asset.history?.$values?.length
-                                    ? asset.history.$values
-                                    : "-"
-                            }}
+                            <ng-container
+                                *ngIf="
+                                    asset.historyUsers?.length > 0;
+                                    else noHistory
+                                "
+                            >
+                                <span *ngFor="let user of asset.historyUsers">
+                                    {{ user.name }}
+                                </span>
+                            </ng-container>
+                            <ng-template #noHistory>-</ng-template>
                         </span>
                     </p>
                 </div>

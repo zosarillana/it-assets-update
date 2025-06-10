@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    Inject,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { ModalUniversalComponent } from '../../components/modal/modal-universal/modal-universal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,7 +26,7 @@ export class ComponentsEditComponent implements OnInit {
     asset: Assets | null = null;
     eventForm!: FormGroup;
     loading: boolean = false; // Add this line
-    
+    warrantyOptions: { label: string; value: string }[] = [];
     constructor(
         @Inject(DOCUMENT) private _document: Document,
         private _changeDetectorRef: ChangeDetectorRef,
@@ -40,12 +46,14 @@ export class ComponentsEditComponent implements OnInit {
                 this.asset?.serial_no || 'N/A',
                 Validators.required,
             ],
-
+            type: [this.asset?.type || 'N/A', [Validators.required]],
+            date_acquired: [
+                this.asset?.date_acquired
+                    ? new Date(this.asset.date_acquired)
+                    : new Date(),
+            ],
             uid: [this.asset?.uid || '', [Validators.required]],
-            cost: [
-                this.asset?.cost,
-                [ Validators.pattern('^[0-9]*$')],
-            ], // ✅ Ensure cost is a number
+            cost: [this.asset?.cost, [Validators.pattern('^[0-9]*$')]], // ✅ Ensure cost is a number
             description: [
                 this.asset?.description || 'N/A',
                 [Validators.required],
@@ -57,7 +65,7 @@ export class ComponentsEditComponent implements OnInit {
 
     goBack(): void {
         this.location.back();
-      }
+    }
 
     ngOnInit(): void {
         const uid = this.route.snapshot.paramMap.get('uid');
@@ -73,10 +81,28 @@ export class ComponentsEditComponent implements OnInit {
                 error: (err) => {
                     console.error('Error fetching asset', err);
                     this.loading = false; // Hide loader on error
-                },        
+                },
             });
         } else {
             this.initializeForm(); // Initialize with default values if no asset is found
+        }
+
+        const now = new Date();
+        for (let i = 1; i <= 12; i++) {
+            const futureDate = new Date(
+                now.getFullYear(),
+                now.getMonth() + i,
+                now.getDate()
+            );
+            const monthYear = futureDate.toLocaleString('default', {
+                month: 'short',
+                year: 'numeric',
+            });
+
+            this.warrantyOptions.push({
+                label: `${i} month${i > 1 ? 's' : ''} (until ${monthYear})`,
+                value: `${i}`,
+            });
         }
     }
 
@@ -129,20 +155,24 @@ export class ComponentsEditComponent implements OnInit {
 
     updateComponent(): void {
         if (this.eventForm.invalid) {
-            this.alertService.triggerError('Please fill in all required fields.');
+            this.alertService.triggerError(
+                'Please fill in all required fields.'
+            );
             return;
         }
-    
+
         const id = this.route.snapshot.paramMap.get('id');
         if (!id) {
             this.alertService.triggerError('No valid component ID found.');
             return;
         }
-    
+
         this.assetsService.putEvent(id, this.eventForm.value).subscribe({
             next: () => {
-                this.alertService.triggerSuccess("Component updated successfully!");
-    
+                this.alertService.triggerSuccess(
+                    'Component updated successfully!'
+                );
+
                 // Delay reload by 5 seconds (5000ms)
                 setTimeout(() => {
                     window.location.reload();
@@ -154,7 +184,6 @@ export class ComponentsEditComponent implements OnInit {
             },
         });
     }
-    
 
     //ts
 
@@ -193,7 +222,7 @@ export class ComponentsEditComponent implements OnInit {
 
         // Scroll the current step selector from sidenav into view
         this._scrollCurrentStepElementIntoView();
-    }   
+    }
     /**
      * Scrolls the current step element from
      * sidenav into the view. This only happens when
@@ -217,6 +246,4 @@ export class ComponentsEditComponent implements OnInit {
             }
         });
     }
-
-   
 }
