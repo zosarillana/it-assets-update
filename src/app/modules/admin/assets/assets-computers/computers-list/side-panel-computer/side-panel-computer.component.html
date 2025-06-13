@@ -64,52 +64,57 @@
             </div>
 
             <!-- Filter by Department -->
-            <div class="text-lg font-medium uppercase flex text-gray-900 mt-6">
+            <div
+                class="text-lg font-medium uppercase flex items-center gap-2 text-gray-900 mt-6"
+            >
                 <mat-icon
                     svgIcon="feather:briefcase"
                     class="text-gray-900"
                 ></mat-icon>
                 Filter by Department
             </div>
-            <div class="flex flex-col gap-3 w-full mt-4">
+
+            <div class="flex flex-wrap gap-2 w-full mt-4">
                 <button
                     *ngFor="let dept of departments"
-                    class="custom-button rounded-sm"
+                    class="button_with_style_matchips_1"
                     [ngClass]="{ selected: selectedDepartments.includes(dept) }"
                     (click)="toggleDepartment(dept)"
                 >
                     <mat-icon
-                        svgIcon="mat_outline:check"
                         *ngIf="selectedDepartments.includes(dept)"
-                        class="mr-2 icon-size-3 text-white"
+                        svgIcon="mat_outline:check"
+                        class="mr-1 text-white text-sm icon-size-3"
                     ></mat-icon>
                     {{ dept.code }}
                 </button>
             </div>
 
             <!-- Filter by Business Unit -->
-            <div class="text-lg font-medium uppercase flex text-gray-900 mt-6">
-                <mat-icon
-                    svgIcon="mat_outline:corporate_fare"
-                    class="text-gray-900"
-                ></mat-icon>
-                Filter by Business Unit
-            </div>
-            <div class="flex flex-col gap-3 w-full mt-4">
-                <button
-                    *ngFor="let bu of businessUnits"
-                    class="custom-button rounded-sm"
-                    [ngClass]="{ selected: selectedBusinessUnits.includes(bu) }"
-                    (click)="toggleBusinessUnit(bu)"
-                >
-                    <mat-icon
-                        svgIcon="mat_outline:check"
-                        *ngIf="selectedBusinessUnits.includes(bu)"
-                        class="mr-2 icon-size-3 text-white"
-                    ></mat-icon>
-                    {{ bu.code }}
-                </button>
-            </div>
+<div class="text-lg font-medium uppercase flex items-center gap-2 text-gray-900 mt-6">
+  <mat-icon
+    svgIcon="mat_outline:corporate_fare"
+    class="text-gray-900"
+  ></mat-icon>
+  Filter by Business Unit
+</div>
+
+<div class="flex flex-wrap gap-2 w-full mt-4">
+  <button
+    *ngFor="let bu of businessUnits"
+    class="button_with_style_matchips_1"
+    [ngClass]="{ 'selected': selectedBusinessUnits.includes(bu) }"
+    (click)="toggleBusinessUnit(bu)"
+  >
+    <mat-icon
+      svgIcon="mat_outline:check"
+      *ngIf="selectedBusinessUnits.includes(bu)"
+      class="mr-1 text-white text-sm icon-size-3"
+    ></mat-icon>
+    {{ bu.code }}
+  </button>
+</div>
+
         </div>
     </mat-sidenav>
     <mat-sidenav-content>

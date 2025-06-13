@@ -9,7 +9,7 @@
 }
 
 mat-sidenav {
-    width: 25%;
+    width: 30%;
 }
 
 mat-sidenav-content {
@@ -56,4 +56,14 @@ mat-sidenav-content {
 .custom-button.selected {
     background-color:  #111827; /* Blue when selected */
     color: white;
+}
+
+
+.button_with_style_matchips_1 {
+  @apply px-3 py-1 rounded-full border border-gray-300 text-gray-800 bg-white 
+         hover:bg-gray-100 transition-all duration-200 flex items-center text-sm font-medium;
+}
+
+.button_with_style_matchips_1.selected {
+  @apply bg-blue-600 text-white border-blue-600;
 }
